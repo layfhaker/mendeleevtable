@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="сайт.css">
 </head>
 <body>
+  <canvas id="particles-canvas"></canvas>
   <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему">🌙</button>
   <div class="container">
       <!-- Все элементы основной таблицы -->
@@ -459,6 +460,29 @@
           <span class="atomic-number">118</span>
           <span class="symbol">Og</span>
           <span class="name">Оганесон</span>
+
+      </div>
+      <div id="Og" class="element noble-gas" data-symbol="Og">
+          <span class="atomic-number">118</span>
+          <span class="symbol">Og</span>
+          <span class="name">Оганесон</span>
+      </div>
+
+      <div id="calc-panel" class="calc-panel">
+                <div class="calc-header">
+                    <h3>Химический Конструктор</h3>
+                    <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
+                </div>
+
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
+                </div>
+
+                <div id="calc-result">
+                    <div class="mass-value">0 <span class="unit">г/моль</span></div>
+                    <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
+                </div>
+            </div>
       </div>
   </div>
 
@@ -616,12 +640,34 @@
 
             <div id="allotrope-tabs-placeholder"></div>
 
-            <div id="element-info">
-                </div>
+            <div id="element-info"></div>
         </div>
     </div>
 
 <script src="элементы.js"></script>
 <script src="сайт.js"></script>
+<script src="частицы.js"></script>
+<div class="fab-container" id="fab-container">
+    <div class="fab-options">
+      <div class="fab-option" onclick="toggleTheme()">
+          <span class="fab-label">Сменить тему</span>
+          <button class="fab-btn">🌗</button>
+      </div>
+        <div class="fab-option" onclick="toggleParticles()">
+            <span class="fab-label">Анимация фона</span>
+            <button class="fab-btn">✨</button>
+        </div>
+        <div class="fab-option" onclick="toggleCalc()">
+            <span class="fab-label">Калькулятор</span>
+            <button class="fab-btn">🧮</button>
+        </div>
+    </div>
+    <button class="fab-main" onclick="toggleMenu()">
+        <span class="icon-menu">☰</span>
+        <span class="icon-close">✕</span>
+    </button>
+</div>
+
+
 </body>
 </html>

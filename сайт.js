@@ -275,30 +275,38 @@ document.querySelectorAll('.element').forEach(el => {
     el.addEventListener('click', () => {
         lastClickedElement = el;
 
-        // Вычисляем позицию элемента относительно центра экрана
-        const rect = el.getBoundingClientRect();
-        const elementCenterX = rect.left + rect.width / 2;
-        const elementCenterY = rect.top + rect.height / 2;
-        const screenCenterX = window.innerWidth / 2;
-        const screenCenterY = window.innerHeight / 2;
-
-        const offsetX = elementCenterX - screenCenterX;
-        const offsetY = elementCenterY - screenCenterY;
-
-        // Устанавливаем CSS переменные для анимации
-        modal.style.setProperty('--start-x', offsetX + 'px');
-        modal.style.setProperty('--start-y', offsetY + 'px');
-
+        // Данные элемента
         const symbol = el.dataset.symbol;
         const mainData = elementsData[symbol] || {};
-
         elementTitle.innerText = `${mainData.name || symbol} (${symbol})`;
-
-        // Создаём табы аллотропов (включая кнопку "+ Ещё" если нужно)
+        if (window.spawnAtom) {
+            window.spawnAtom(mainData.atomicNumber, mainData.period);
+        }
         createAllotropeTabs(mainData);
 
-        modal.style.display = "flex";
-        setTimeout(scatterElements, 50);
+        // Открываем модалку
+        modal.style.display = "flex"; // Важно: CSS media query переопределит стиль отображения
+        document.body.classList.add('modal-open');
+
+        // Блокируем скролл основной страницы
+        document.body.style.overflow = "hidden";
+
+        // !!! ВАЖНОЕ ИЗМЕНЕНИЕ !!!
+        // Запускаем разлёт элементов ТОЛЬКО если экран широкий (компьютер)
+        if (window.innerWidth > 1024) {
+            // Вычисляем координаты для анимации на ПК
+            const rect = el.getBoundingClientRect();
+            const elementCenterX = rect.left + rect.width / 2;
+            const elementCenterY = rect.top + rect.height / 2;
+            const screenCenterX = window.innerWidth / 2;
+            const screenCenterY = window.innerHeight / 2;
+
+            modal.style.setProperty('--start-x', (elementCenterX - screenCenterX) + 'px');
+            modal.style.setProperty('--start-y', (elementCenterY - screenCenterY) + 'px');
+
+            setTimeout(scatterElements, 50);
+        }
+
         modal.classList.remove('closing');
     });
 });
@@ -307,8 +315,20 @@ document.querySelectorAll('.element').forEach(el => {
 // Закрытие модального окна
 // =========================================
 function closeModal() {
-    returnElements();
+    // Возвращаем элементы только на ПК
+    if (window.clearAtom) {
+        window.clearAtom();
+    }
+    if (window.innerWidth > 1024) {
+        returnElements();
+    }
+
     modal.classList.add('closing');
+    document.body.classList.remove('modal-open');
+
+    // Возвращаем скролл
+    document.body.style.overflow = "";
+
     setTimeout(() => {
         modal.style.display = "none";
         modal.classList.remove('closing');
@@ -353,6 +373,8 @@ function toggleTheme() {
     const btnRect = btn.getBoundingClientRect();
     const originX = btnRect.left + btnRect.width / 2;
     const originY = btnRect.top + btnRect.height / 2;
+
+    if (window.startParticleWave) window.startParticleWave(originX, originY, targetTheme === 'dark');
 
     // Создаём круг — начинает с 0
     const circle = document.createElement('div');
@@ -530,3 +552,193 @@ function toggleTheme() {
         document.querySelector('#theme-toggle').textContent = '☀️';
     }
 })();
+
+// =========================================
+// ЛОГИКА МЕНЮ
+// =========================================
+function toggleMenu() {
+    const fab = document.getElementById('fab-container');
+    fab.classList.toggle('active');
+}
+
+// Управление частицами (добавь эту функцию, если её нет)
+let particlesEnabled = true;
+function toggleParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    particlesEnabled = !particlesEnabled;
+    canvas.style.display = particlesEnabled ? 'block' : 'none';
+}
+
+// =========================================
+// ЛОГИКА DRAG & DROP КАЛЬКУЛЯТОРА
+// =========================================
+const dropZone = document.getElementById('drop-zone');
+let calcAtoms = []; // Здесь храним состав формулы: [{symbol: 'H', count: 2, mass: 1}, ...]
+
+// 1. Делаем элементы таблицы перетаскиваемыми
+document.querySelectorAll('.element').forEach(el => {
+    el.setAttribute('draggable', 'true');
+
+    el.addEventListener('dragstart', (e) => {
+        // Передаем Символ элемента при начале перетаскивания
+        e.dataTransfer.setData('symbol', el.dataset.symbol);
+
+        // Для красоты: полупрозрачность при перетаскивании
+        el.style.opacity = '0.5';
+    });
+
+    el.addEventListener('dragend', () => {
+        el.style.opacity = '1';
+    });
+});
+
+// 2. Настройка зоны сброса
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault(); // Разрешаем сброс
+    dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+
+    const symbol = e.dataTransfer.getData('symbol');
+    if (symbol) {
+        addAtomToCalculator(symbol);
+    }
+});
+
+// 3. Добавление атома в список
+
+function addAtomToCalculator(symbol) {
+    // Получаем массу
+    let mass = 0;
+    if (symbol === 'Cl') {
+        mass = 35.5;
+    } else {
+        // !!! ИСПРАВЛЕНИЕ ЗДЕСЬ !!!
+        // Превращаем в строку перед обработкой, так как в базе данных
+        // у некоторых элементов масса записана числом, а у других строкой.
+        const rawMass = String(elementsData[symbol].atomicMass);
+
+        // Очистка от скобок [294] -> 294 и округление
+        mass = Math.round(parseFloat(rawMass.replace('[', '').replace(']', '')));
+    }
+
+    // Создаем объект
+    const atomObj = {
+        id: Date.now(), // Уникальный ID для удаления
+        symbol: symbol,
+        mass: mass,
+        count: 1
+    };
+    calcAtoms.push(atomObj);
+
+    // Удаляем текст "Перетащите сюда", если это первый элемент
+    const placeholder = dropZone.querySelector('.drop-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
+
+    // Рисуем UI
+    renderAtomUI(atomObj);
+    updateTotalMass();
+}
+
+// 4. Отрисовка UI элемента в калькуляторе
+function renderAtomUI(atomObj) {
+    const atomDiv = document.createElement('div');
+    atomDiv.className = 'calc-atom';
+    atomDiv.dataset.id = atomObj.id;
+
+    // Символ
+    const symbolSpan = document.createElement('span');
+    symbolSpan.className = 'calc-atom-symbol';
+    symbolSpan.innerText = atomObj.symbol;
+
+    // Поле ввода количества (индекс)
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.className = 'calc-atom-count';
+    input.value = 1;
+    input.min = 1;
+
+    // При изменении числа пересчитываем общую массу
+    input.onchange = (e) => {
+        let val = parseInt(e.target.value);
+        if (val < 1) val = 1;
+        atomObj.count = val;
+        updateTotalMass();
+    };
+
+    // Кнопка удаления (крестик)
+    const removeBtn = document.createElement('span');
+    removeBtn.className = 'calc-atom-remove';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.onclick = () => {
+        // Удаляем из массива
+        calcAtoms = calcAtoms.filter(a => a.id !== atomObj.id);
+        // Удаляем из HTML
+        atomDiv.remove();
+        // Возвращаем placeholder, если пусто
+        if (calcAtoms.length === 0) {
+            const placeholder = dropZone.querySelector('.drop-placeholder');
+            if (placeholder) placeholder.style.display = 'block';
+        }
+        updateTotalMass();
+    };
+
+    atomDiv.appendChild(symbolSpan);
+    atomDiv.appendChild(input);
+    atomDiv.appendChild(removeBtn);
+    dropZone.appendChild(atomDiv);
+}
+
+// 5. Подсчет общей массы
+function updateTotalMass() {
+    let total = 0;
+    calcAtoms.forEach(atom => {
+        total += atom.mass * atom.count;
+    });
+
+    // Исправление ошибки плавающей точки (для хлора)
+    total = Math.round(total * 100) / 100;
+
+    const resultEl = document.querySelector('#calc-result .mass-value');
+    resultEl.innerHTML = `${total} <span class="unit">г/моль</span>`;
+}
+
+// 6. Очистка
+function clearCalculator() {
+    calcAtoms = [];
+    // Удаляем все атомы из DOM, кроме placeholder
+    const atoms = dropZone.querySelectorAll('.calc-atom');
+    atoms.forEach(el => el.remove());
+
+    const placeholder = dropZone.querySelector('.drop-placeholder');
+    if (placeholder) placeholder.style.display = 'block';
+
+    updateTotalMass();
+}
+
+// Нужно обновить функцию toggleCalc, чтобы она работала с новым ID
+function toggleCalc() {
+    const calcPanel = document.getElementById('calc-panel');
+    const fab = document.getElementById('fab-container');
+
+    // Закрываем FAB меню
+    if (fab) fab.classList.remove('active');
+
+    if (calcPanel.classList.contains('active')) {
+        calcPanel.classList.remove('active');
+    } else {
+        calcPanel.classList.add('active');
+
+        // Если открыто модальное окно элемента, закрываем его
+        if (typeof modal !== 'undefined' && modal.style.display === 'flex') {
+            closeModal();
+        }
+    }
+}
