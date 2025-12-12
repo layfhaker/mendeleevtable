@@ -576,22 +576,102 @@ const dropZone = document.getElementById('drop-zone');
 let calcAtoms = []; // Здесь храним состав формулы: [{symbol: 'H', count: 2, mass: 1}, ...]
 
 // 1. Делаем элементы таблицы перетаскиваемыми
+// 1. Делаем элементы таблицы перетаскиваемыми (Desktop + Mobile)
 document.querySelectorAll('.element').forEach(el => {
     el.setAttribute('draggable', 'true');
 
+    // Desktop: Drag & Drop
     el.addEventListener('dragstart', (e) => {
-        // Передаем Символ элемента при начале перетаскивания
         e.dataTransfer.setData('symbol', el.dataset.symbol);
-
-        // Для красоты: полупрозрачность при перетаскивании
         el.style.opacity = '0.5';
     });
 
     el.addEventListener('dragend', () => {
         el.style.opacity = '1';
     });
-});
 
+    // Mobile: Touch events
+    let touchData = {
+        symbol: null,
+        startTime: 0,
+        isDragging: false
+    };
+
+    el.addEventListener('touchstart', function(e) {
+        // Проверяем, открыт ли калькулятор
+        const calcPanel = document.getElementById('calc-panel');
+        if (!calcPanel.classList.contains('active')) {
+            return;
+        }
+
+        e.preventDefault(); // Важно! Предотвращает scroll и click
+
+        touchData.symbol = this.dataset.symbol;
+        touchData.startTime = Date.now();
+        touchData.isDragging = false;
+        this.style.opacity = '0.5';
+    });
+
+    el.addEventListener('touchmove', function(e) {
+        const calcPanel = document.getElementById('calc-panel');
+        if (!calcPanel.classList.contains('active') || !touchData.symbol) {
+            return;
+        }
+
+        e.preventDefault();
+        touchData.isDragging = true;
+
+        const touch = e.touches[0];
+        const dropZoneEl = document.getElementById('drop-zone');
+        const dropZoneRect = dropZoneEl.getBoundingClientRect();
+
+        if (
+            touch.clientX >= dropZoneRect.left &&
+            touch.clientX <= dropZoneRect.right &&
+            touch.clientY >= dropZoneRect.top &&
+            touch.clientY <= dropZoneRect.bottom
+        ) {
+            dropZoneEl.classList.add('drag-over');
+        } else {
+            dropZoneEl.classList.remove('drag-over');
+        }
+    });
+
+    el.addEventListener('touchend', function(e) {
+        this.style.opacity = '1';
+
+        const calcPanel = document.getElementById('calc-panel');
+        const dropZoneEl = document.getElementById('drop-zone');
+
+        if (!calcPanel.classList.contains('active') || !touchData.symbol) {
+            touchData.symbol = null;
+            return;
+        }
+
+        e.preventDefault();
+
+        const touch = e.changedTouches[0];
+        const dropZoneRect = dropZoneEl.getBoundingClientRect();
+
+        const isOverDropZone = (
+            touch.clientX >= dropZoneRect.left &&
+            touch.clientX <= dropZoneRect.right &&
+            touch.clientY >= dropZoneRect.top &&
+            touch.clientY <= dropZoneRect.bottom
+        );
+
+        const tapDuration = Date.now() - touchData.startTime;
+
+        // Добавляем по тапу ИЛИ при drop в зону
+        if (isOverDropZone || tapDuration < 400) {
+            addAtomToCalculator(touchData.symbol);
+        }
+
+        touchData.symbol = null;
+        touchData.isDragging = false;
+        dropZoneEl.classList.remove('drag-over');
+    });
+});
 // 2. Настройка зоны сброса
 dropZone.addEventListener('dragover', (e) => {
     e.preventDefault(); // Разрешаем сброс
@@ -733,8 +813,10 @@ function toggleCalc() {
 
     if (calcPanel.classList.contains('active')) {
         calcPanel.classList.remove('active');
+        document.body.classList.remove('calc-active'); // Убираем класс
     } else {
         calcPanel.classList.add('active');
+        document.body.classList.add('calc-active'); // Добавляем класс
 
         // Если открыто модальное окно элемента, закрываем его
         if (typeof modal !== 'undefined' && modal.style.display === 'flex') {

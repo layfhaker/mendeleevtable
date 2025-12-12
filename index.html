@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Интерактивная Таблица Менделеева</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <canvas id="particles-canvas"></canvas>
@@ -468,21 +468,7 @@
           <span class="name">Оганесон</span>
       </div>
 
-      <div id="calc-panel" class="calc-panel">
-                <div class="calc-header">
-                    <h3>Химический Конструктор</h3>
-                    <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
-                </div>
 
-                <div id="drop-zone" class="drop-zone">
-                    <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
-                </div>
-
-                <div id="calc-result">
-                    <div class="mass-value">0 <span class="unit">г/моль</span></div>
-                    <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
-                </div>
-            </div>
       </div>
   </div>
 
@@ -644,15 +630,31 @@
         </div>
     </div>
 
-<script src="elements.js"></script>
-<script src="scrypt.js"></script>
-<script src="particles.js"></script>
+<div id="calc-panel" class="calc-panel">
+    <div class="calc-header">
+        <h3>Химический Конструктор</h3>
+        <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
+    </div>
+
+    <div id="drop-zone" class="drop-zone">
+        <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
+    </div>
+
+    <div id="calc-result">
+        <div class="mass-value">0 <span class="unit">г/моль</span></div>
+        <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
+    </div>
+</div>
+
+<script src="js/elements.js"></script>
+<script src="js/scrypt.js"></script>
+<script src="js/particles.js"></script>
 <div class="fab-container" id="fab-container">
     <div class="fab-options">
-      <div class="fab-option" onclick="toggleTheme()">
-          <span class="fab-label">Сменить тему</span>
-          <button class="fab-btn">🌗</button>
-      </div>
+        <div class="fab-option" onclick="toggleTheme()">
+            <span class="fab-label">Сменить тему</span>
+            <button class="fab-btn">🌗</button>
+        </div>
         <div class="fab-option" onclick="toggleParticles()">
             <span class="fab-label">Анимация фона</span>
             <button class="fab-btn">✨</button>
@@ -671,4 +673,3 @@
 
 </body>
 </html>
-

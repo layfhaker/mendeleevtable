@@ -5,7 +5,7 @@ let particlesArray = [];
 let specificAtomsArray = [];
 
 // Настройки
-let particlesCount = window.innerWidth < 768 ? 30 : 80;
+let particlesCount = window.innerWidth < 768 ? 15 : 80;
 let atomsCount = window.innerWidth < 768 ? 6 : 15;
 let connectionDistance = 120;
 
