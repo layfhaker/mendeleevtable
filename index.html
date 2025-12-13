@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная Таблица Менделеева</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему">
+      <svg class="icon-moon"><use href="#icon-moon"></use></svg>
+      <svg class="icon-sun"><use href="#icon-sun"></use></svg>
+  </button>
+  <div class="container">
+      <!-- Все элементы основной таблицы -->
+      <div id="H" class="element nonmetal" data-symbol="H">
+          <span class="atomic-number">1</span>
+          <span class="symbol">H</span>
+          <span class="name">Водород</span>
+      </div>
+      <div id="He" class="element noble-gas" data-symbol="He">
+          <span class="atomic-number">2</span>
+          <span class="symbol">He</span>
+          <span class="name">Гелий</span>
+      </div>
+      <div id="Li" class="element alkali-metal" data-symbol="Li">
+          <span class="atomic-number">3</span>
+          <span class="symbol">Li</span>
+          <span class="name">Литий</span>
+      </div>
+      <div id="Be" class="element alkaline-earth-metal" data-symbol="Be">
+          <span class="atomic-number">4</span>
+          <span class="symbol">Be</span>
+          <span class="name">Бериллий</span>
+      </div>
+      <div id="B" class="element metalloid" data-symbol="B">
+          <span class="atomic-number">5</span>
+          <span class="symbol">B</span>
+          <span class="name">Бор</span>
+      </div>
+      <div id="C" class="element nonmetal" data-symbol="C">
+          <span class="atomic-number">6</span>
+          <span class="symbol">C</span>
+          <span class="name">Углерод</span>
+      </div>
+      <div id="N" class="element nonmetal" data-symbol="N">
+          <span class="atomic-number">7</span>
+          <span class="symbol">N</span>
+          <span class="name">Азот</span>
+      </div>
+      <div id="O" class="element nonmetal" data-symbol="O">
+          <span class="atomic-number">8</span>
+          <span class="symbol">O</span>
+          <span class="name">Кислород</span>
+      </div>
+      <div id="F" class="element halogen" data-symbol="F">
+          <span class="atomic-number">9</span>
+          <span class="symbol">F</span>
+          <span class="name">Фтор</span>
+      </div>
+      <div id="Ne" class="element noble-gas" data-symbol="Ne">
+          <span class="atomic-number">10</span>
+          <span class="symbol">Ne</span>
+          <span class="name">Неон</span>
+      </div>
+      <div id="Na" class="element alkali-metal" data-symbol="Na">
+          <span class="atomic-number">11</span>
+          <span class="symbol">Na</span>
+          <span class="name">Натрий</span>
+      </div>
+      <div id="Mg" class="element alkaline-earth-metal" data-symbol="Mg">
+          <span class="atomic-number">12</span>
+          <span class="symbol">Mg</span>
+          <span class="name">Магний</span>
+      </div>
+      <div id="Al" class="element post-transition-metal" data-symbol="Al">
+          <span class="atomic-number">13</span>
+          <span class="symbol">Al</span>
+          <span class="name">Алюминий</span>
+      </div>
+      <div id="Si" class="element metalloid" data-symbol="Si">
+          <span class="atomic-number">14</span>
+          <span class="symbol">Si</span>
+          <span class="name">Кремний</span>
+      </div>
+      <div id="P" class="element nonmetal" data-symbol="P">
+          <span class="atomic-number">15</span>
+          <span class="symbol">P</span>
+          <span class="name">Фосфор</span>
+      </div>
+      <div id="S" class="element nonmetal" data-symbol="S">
+          <span class="atomic-number">16</span>
+          <span class="symbol">S</span>
+          <span class="name">Сера</span>
+      </div>
+      <div id="Cl" class="element halogen" data-symbol="Cl">
+          <span class="atomic-number">17</span>
+          <span class="symbol">Cl</span>
+          <span class="name">Хлор</span>
+      </div>
+      <div id="Ar" class="element noble-gas" data-symbol="Ar">
+          <span class="atomic-number">18</span>
+          <span class="symbol">Ar</span>
+          <span class="name">Аргон</span>
+      </div>
+      <div id="K" class="element alkali-metal" data-symbol="K">
+          <span class="atomic-number">19</span>
+          <span class="symbol">K</span>
+          <span class="name">Калий</span>
+      </div>
+      <div id="Ca" class="element alkaline-earth-metal" data-symbol="Ca">
+          <span class="atomic-number">20</span>
+          <span class="symbol">Ca</span>
+          <span class="name">Кальций</span>
+      </div>
+      <div id="Sc" class="element transition-metal" data-symbol="Sc">
+          <span class="atomic-number">21</span>
+          <span class="symbol">Sc</span>
+          <span class="name">Скандий</span>
+      </div>
+      <div id="Ti" class="element transition-metal" data-symbol="Ti">
+          <span class="atomic-number">22</span>
+          <span class="symbol">Ti</span>
+          <span class="name">Титан</span>
+      </div>
+      <div id="V" class="element transition-metal" data-symbol="V">
+          <span class="atomic-number">23</span>
+          <span class="symbol">V</span>
+          <span class="name">Ванадий</span>
+      </div>
+      <div id="Cr" class="element transition-metal" data-symbol="Cr">
+          <span class="atomic-number">24</span>
+          <span class="symbol">Cr</span>
+          <span class="name">Хром</span>
+      </div>
+      <div id="Mn" class="element transition-metal" data-symbol="Mn">
+          <span class="atomic-number">25</span>
+          <span class="symbol">Mn</span>
+          <span class="name">Марганец</span>
+      </div>
+      <div id="Fe" class="element transition-metal" data-symbol="Fe">
+          <span class="atomic-number">26</span>
+          <span class="symbol">Fe</span>
+          <span class="name">Железо</span>
+      </div>
+      <div id="Co" class="element transition-metal" data-symbol="Co">
+          <span class="atomic-number">27</span>
+          <span class="symbol">Co</span>
+          <span class="name">Кобальт</span>
+      </div>
+      <div id="Ni" class="element transition-metal" data-symbol="Ni">
+          <span class="atomic-number">28</span>
+          <span class="symbol">Ni</span>
+          <span class="name">Никель</span>
+      </div>
+      <div id="Cu" class="element transition-metal" data-symbol="Cu">
+          <span class="atomic-number">29</span>
+          <span class="symbol">Cu</span>
+          <span class="name">Медь</span>
+      </div>
+      <div id="Zn" class="element transition-metal" data-symbol="Zn">
+          <span class="atomic-number">30</span>
+          <span class="symbol">Zn</span>
+          <span class="name">Цинк</span>
+      </div>
+      <div id="Ga" class="element post-transition-metal" data-symbol="Ga">
+          <span class="atomic-number">31</span>
+          <span class="symbol">Ga</span>
+          <span class="name">Галлий</span>
+      </div>
+      <div id="Ge" class="element metalloid" data-symbol="Ge">
+          <span class="atomic-number">32</span>
+          <span class="symbol">Ge</span>
+          <span class="name">Германий</span>
+      </div>
+      <div id="As" class="element metalloid" data-symbol="As">
+          <span class="atomic-number">33</span>
+          <span class="symbol">As</span>
+          <span class="name">Мышьяк</span>
+      </div>
+      <div id="Se" class="element nonmetal" data-symbol="Se">
+          <span class="atomic-number">34</span>
+          <span class="symbol">Se</span>
+          <span class="name">Селен</span>
+      </div>
+      <div id="Br" class="element halogen" data-symbol="Br">
+          <span class="atomic-number">35</span>
+          <span class="symbol">Br</span>
+          <span class="name">Бром</span>
+      </div>
+      <div id="Kr" class="element noble-gas" data-symbol="Kr">
+          <span class="atomic-number">36</span>
+          <span class="symbol">Kr</span>
+          <span class="name">Криптон</span>
+      </div>
+      <div id="Rb" class="element alkali-metal" data-symbol="Rb">
+          <span class="atomic-number">37</span>
+          <span class="symbol">Rb</span>
+          <span class="name">Рубидий</span>
+      </div>
+      <div id="Sr" class="element alkaline-earth-metal" data-symbol="Sr">
+          <span class="atomic-number">38</span>
+          <span class="symbol">Sr</span>
+          <span class="name">Стронций</span>
+      </div>
+      <div id="Y" class="element transition-metal" data-symbol="Y">
+          <span class="atomic-number">39</span>
+          <span class="symbol">Y</span>
+          <span class="name">Иттрий</span>
+      </div>
+      <div id="Zr" class="element transition-metal" data-symbol="Zr">
+          <span class="atomic-number">40</span>
+          <span class="symbol">Zr</span>
+          <span class="name">Цирконий</span>
+      </div>
+      <div id="Nb" class="element transition-metal" data-symbol="Nb">
+          <span class="atomic-number">41</span>
+          <span class="symbol">Nb</span>
+          <span class="name">Ниобий</span>
+      </div>
+      <div id="Mo" class="element transition-metal" data-symbol="Mo">
+          <span class="atomic-number">42</span>
+          <span class="symbol">Mo</span>
+          <span class="name">Молибден</span>
+      </div>
+      <div id="Tc" class="element transition-metal" data-symbol="Tc">
+          <span class="atomic-number">43</span>
+          <span class="symbol">Tc</span>
+          <span class="name">Технеций</span>
+      </div>
+      <div id="Ru" class="element transition-metal" data-symbol="Ru">
+          <span class="atomic-number">44</span>
+          <span class="symbol">Ru</span>
+          <span class="name">Руфений</span>
+      </div>
+      <div id="Rh" class="element transition-metal" data-symbol="Rh">
+          <span class="atomic-number">45</span>
+          <span class="symbol">Rh</span>
+          <span class="name">Родий</span>
+      </div>
+      <div id="Pd" class="element transition-metal" data-symbol="Pd">
+          <span class="atomic-number">46</span>
+          <span class="symbol">Pd</span>
+          <span class="name">Палладий</span>
+      </div>
+      <div id="Ag" class="element transition-metal" data-symbol="Ag">
+          <span class="atomic-number">47</span>
+          <span class="symbol">Ag</span>
+          <span class="name">Серебро</span>
+      </div>
+      <div id="Cd" class="element transition-metal" data-symbol="Cd">
+          <span class="atomic-number">48</span>
+          <span class="symbol">Cd</span>
+          <span class="name">Кадмий</span>
+      </div>
+      <div id="In" class="element post-transition-metal" data-symbol="In">
+          <span class="atomic-number">49</span>
+          <span class="symbol">In</span>
+          <span class="name">Индий</span>
+      </div>
+      <div id="Sn" class="element post-transition-metal" data-symbol="Sn">
+          <span class="atomic-number">50</span>
+          <span class="symbol">Sn</span>
+          <span class="name">Олово</span>
+      </div>
+      <div id="Sb" class="element metalloid" data-symbol="Sb">
+          <span class="atomic-number">51</span>
+          <span class="symbol">Sb</span>
+          <span class="name">Сурьма</span>
+      </div>
+      <div id="Te" class="element metalloid" data-symbol="Te">
+          <span class="atomic-number">52</span>
+          <span class="symbol">Te</span>
+          <span class="name">Теллур</span>
+      </div>
+      <div id="I" class="element halogen" data-symbol="I">
+          <span class="atomic-number">53</span>
+          <span class="symbol">I</span>
+          <span class="name">Иод</span>
+      </div>
+      <div id="Xe" class="element noble-gas" data-symbol="Xe">
+          <span class="atomic-number">54</span>
+          <span class="symbol">Xe</span>
+          <span class="name">Ксенон</span>
+      </div>
+      <div id="Cs" class="element alkali-metal" data-symbol="Cs">
+          <span class="atomic-number">55</span>
+          <span class="symbol">Cs</span>
+          <span class="name">Цезий</span>
+      </div>
+      <div id="Ba" class="element alkaline-earth-metal" data-symbol="Ba">
+          <span class="atomic-number">56</span>
+          <span class="symbol">Ba</span>
+          <span class="name">Барий</span>
+      </div>
+      <div id="La" class="element lanthanide" data-symbol="La">
+          <span class="atomic-number">57</span>
+          <span class="symbol">La</span>
+          <span class="name">Лантан</span>
+      </div>
+             <div id="Hf" class="element transition-metal" data-symbol="Hf">
+          <span class="atomic-number">72</span>
+          <span class="symbol">Hf</span>
+          <span class="name">Гафний</span>
+      </div>
+      <div id="Ta" class="element transition-metal" data-symbol="Ta">
+          <span class="atomic-number">73</span>
+          <span class="symbol">Ta</span>
+          <span class="name">Тантал</span>
+      </div>
+      <div id="W" class="element transition-metal" data-symbol="W">
+          <span class="atomic-number">74</span>
+          <span class="symbol">W</span>
+          <span class="name">Вольфрам</span>
+      </div>
+      <div id="Re" class="element transition-metal" data-symbol="Re">
+          <span class="atomic-number">75</span>
+          <span class="symbol">Re</span>
+          <span class="name">Рений</span>
+      </div>
+      <div id="Os" class="element transition-metal" data-symbol="Os">
+          <span class="atomic-number">76</span>
+          <span class="symbol">Os</span>
+          <span class="name">Осмий</span>
+      </div>
+      <div id="Ir" class="element transition-metal" data-symbol="Ir">
+          <span class="atomic-number">77</span>
+          <span class="symbol">Ir</span>
+          <span class="name">Иридий</span>
+      </div>
+      <div id="Pt" class="element transition-metal" data-symbol="Pt">
+          <span class="atomic-number">78</span>
+          <span class="symbol">Pt</span>
+          <span class="name">Платина</span>
+      </div>
+      <div id="Au" class="element transition-metal" data-symbol="Au">
+          <span class="atomic-number">79</span>
+          <span class="symbol">Au</span>
+          <span class="name">Золото</span>
+      </div>
+      <div id="Hg" class="element transition-metal" data-symbol="Hg">
+          <span class="atomic-number">80</span>
+          <span class="symbol">Hg</span>
+          <span class="name">Ртуть</span>
+      </div>
+      <div id="Tl" class="element post-transition-metal" data-symbol="Tl">
+          <span class="atomic-number">81</span>
+          <span class="symbol">Tl</span>
+          <span class="name">Таллий</span>
+      </div>
+      <div id="Pb" class="element post-transition-metal" data-symbol="Pb">
+          <span class="atomic-number">82</span>
+          <span class="symbol">Pb</span>
+          <span class="name">Свинец</span>
+      </div>
+      <div id="Bi" class="element post-transition-metal" data-symbol="Bi">
+          <span class="atomic-number">83</span>
+          <span class="symbol">Bi</span>
+          <span class="name">Висмут</span>
+      </div>
+      <div id="Po" class="element post-transition-metal" data-symbol="Po">
+          <span class="atomic-number">84</span>
+          <span class="symbol">Po</span>
+          <span class="name">Полоний</span>
+      </div>
+      <div id="At" class="element halogen" data-symbol="At">
+          <span class="atomic-number">85</span>
+          <span class="symbol">At</span>
+          <span class="name">Астат</span>
+      </div>
+      <div id="Rn" class="element noble-gas" data-symbol="Rn">
+          <span class="atomic-number">86</span>
+          <span class="symbol">Rn</span>
+          <span class="name">Радон</span>
+      </div>
+      <div id="Fr" class="element alkali-metal" data-symbol="Fr">
+          <span class="atomic-number">87</span>
+          <span class="symbol">Fr</span>
+          <span class="name">Франций</span>
+      </div>
+      <div id="Ra" class="element alkaline-earth-metal" data-symbol="Ra">
+          <span class="atomic-number">88</span>
+          <span class="symbol">Ra</span>
+          <span class="name">Радий</span>
+      </div>
+      <div id="Ac" class="element actinide" data-symbol="Ac">
+          <span class="atomic-number">89</span>
+          <span class="symbol">Ac</span>
+          <span class="name">Актиний</span>
+      </div>
+      <div id="Rf" class="element transition-metal" data-symbol="Rf">
+          <span class="atomic-number">104</span>
+          <span class="symbol">Rf</span>
+          <span class="name">Резерфордий</span>
+      </div>
+      <div id="Db" class="element transition-metal" data-symbol="Db">
+          <span class="atomic-number">105</span>
+          <span class="symbol">Db</span>
+          <span class="name">Дубний</span>
+      </div>
+      <div id="Sg" class="element transition-metal" data-symbol="Sg">
+          <span class="atomic-number">106</span>
+          <span class="symbol">Sg</span>
+          <span class="name">Сиборгий</span>
+      </div>
+      <div id="Bh" class="element transition-metal" data-symbol="Bh">
+          <span class="atomic-number">107</span>
+          <span class="symbol">Bh</span>
+          <span class="name">Борий</span>
+      </div>
+      <div id="Hs" class="element transition-metal" data-symbol="Hs">
+          <span class="atomic-number">108</span>
+          <span class="symbol">Hs</span>
+          <span class="name">Хассий</span>
+      </div>
+      <div id="Mt" class="element transition-metal" data-symbol="Mt">
+          <span class="atomic-number">109</span>
+          <span class="symbol">Mt</span>
+          <span class="name">Мейтнерий</span>
+      </div>
+      <div id="Ds" class="element transition-metal" data-symbol="Ds">
+          <span class="atomic-number">110</span>
+          <span class="symbol">Ds</span>
+          <span class="name">Дармштадтий</span>
+      </div>
+      <div id="Rg" class="element transition-metal" data-symbol="Rg">
+          <span class="atomic-number">111</span>
+          <span class="symbol">Rg</span>
+          <span class="name">Рентгений</span>
+      </div>
+      <div id="Cn" class="element transition-metal" data-symbol="Cn">
+          <span class="atomic-number">112</span>
+          <span class="symbol">Cn</span>
+          <span class="name">Коперниций</span>
+      </div>
+      <div id="Nh" class="element post-transition-metal" data-symbol="Nh">
+          <span class="atomic-number">113</span>
+          <span class="symbol">Nh</span>
+          <span class="name">Нихоний</span>
+      </div>
+      <div id="Fl" class="element post-transition-metal" data-symbol="Fl">
+          <span class="atomic-number">114</span>
+          <span class="symbol">Fl</span>
+          <span class="name">Флеровий</span>
+      </div>
+      <div id="Mc" class="element post-transition-metal" data-symbol="Mc">
+          <span class="atomic-number">115</span>
+          <span class="symbol">Mc</span>
+          <span class="name">Московий</span>
+      </div>
+      <div id="Lv" class="element post-transition-metal" data-symbol="Lv">
+          <span class="atomic-number">116</span>
+          <span class="symbol">Lv</span>
+          <span class="name">Ливерморий</span>
+      </div>
+      <div id="Ts" class="element halogen" data-symbol="Ts">
+          <span class="atomic-number">117</span>
+          <span class="symbol">Ts</span>
+          <span class="name">Теннессин</span>
+      </div>
+      <div id="Og" class="element noble-gas" data-symbol="Og">
+          <span class="atomic-number">118</span>
+          <span class="symbol">Og</span>
+          <span class="name">Оганесон</span>
+
+      </div>
+      <div id="Og" class="element noble-gas" data-symbol="Og">
+          <span class="atomic-number">118</span>
+          <span class="symbol">Og</span>
+          <span class="name">Оганесон</span>
+      </div>
+
+
+      </div>
+  </div>
+
+  <!-- Лантаноиды -->
+  <div class="lanthanides">
+      <div id="Ce" class="element lanthanide" data-symbol="Ce">
+          <span class="atomic-number">58</span>
+          <span class="symbol">Ce</span>
+          <span class="name">Церий</span>
+      </div>
+      <div id="Pr" class="element lanthanide" data-symbol="Pr">
+          <span class="atomic-number">59</span>
+          <span class="symbol">Pr</span>
+          <span class="name">Празеодим</span>
+      </div>
+      <div id="Nd" class="element lanthanide" data-symbol="Nd">
+          <span class="atomic-number">60</span>
+          <span class="symbol">Nd</span>
+          <span class="name">Неодим</span>
+      </div>
+      <div id="Pm" class="element lanthanide" data-symbol="Pm">
+          <span class="atomic-number">61</span>
+          <span class="symbol">Pm</span>
+          <span class="name">Прометий</span>
+      </div>
+      <div id="Sm" class="element lanthanide" data-symbol="Sm">
+          <span class="atomic-number">62</span>
+          <span class="symbol">Sm</span>
+          <span class="name">Самарий</span>
+      </div>
+      <div id="Eu" class="element lanthanide" data-symbol="Eu">
+          <span class="atomic-number">63</span>
+          <span class="symbol">Eu</span>
+          <span class="name">Европий</span>
+      </div>
+      <div id="Gd" class="element lanthanide" data-symbol="Gd">
+          <span class="atomic-number">64</span>
+          <span class="symbol">Gd</span>
+          <span class="name">Гадолиний</span>
+      </div>
+      <div id="Tb" class="element lanthanide" data-symbol="Tb">
+          <span class="atomic-number">65</span>
+          <span class="symbol">Tb</span>
+          <span class="name">Тербий</span>
+      </div>
+      <div id="Dy" class="element lanthanide" data-symbol="Dy">
+          <span class="atomic-number">66</span>
+          <span class="symbol">Dy</span>
+          <span class="name">Диспрозий</span>
+      </div>
+      <div id="Ho" class="element lanthanide" data-symbol="Ho">
+          <span class="atomic-number">67</span>
+          <span class="symbol">Ho</span>
+          <span class="name">Гольмий</span>
+      </div>
+      <div id="Er" class="element lanthanide" data-symbol="Er">
+          <span class="atomic-number">68</span>
+          <span class="symbol">Er</span>
+          <span class="name">Эрбий</span>
+      </div>
+      <div id="Tm" class="element lanthanide" data-symbol="Tm">
+          <span class="atomic-number">69</span>
+          <span class="symbol">Tm</span>
+          <span class="name">Тулий</span>
+      </div>
+      <div id="Yb" class="element lanthanide" data-symbol="Yb">
+          <span class="atomic-number">70</span>
+          <span class="symbol">Yb</span>
+          <span class="name">Иттербий</span>
+      </div>
+      <div id="Lu" class="element lanthanide" data-symbol="Lu">
+          <span class="atomic-number">71</span>
+          <span class="symbol">Lu</span>
+          <span class="name">Лютеций</span>
+      </div>
+  </div>
+  <!-- Актиноиды -->
+  <div class="actinides">
+      <div id="Th" class="element actinide" data-symbol="Th">
+          <span class="atomic-number">90</span>
+          <span class="symbol">Th</span>
+          <span class="name">Торий</span>
+      </div>
+      <div id="Pa" class="element actinide" data-symbol="Pa">
+          <span class="atomic-number">91</span>
+          <span class="symbol">Pa</span>
+          <span class="name">Протактиний</span>
+      </div>
+      <div id="U" class="element actinide" data-symbol="U">
+          <span class="atomic-number">92</span>
+          <span class="symbol">U</span>
+          <span class="name">Уран</span>
+      </div>
+      <div id="Np" class="element actinide" data-symbol="Np">
+          <span class="atomic-number">93</span>
+          <span class="symbol">Np</span>
+          <span class="name">Нептуний</span>
+      </div>
+      <div id="Pu" class="element actinide" data-symbol="Pu">
+          <span class="atomic-number">94</span>
+          <span class="symbol">Pu</span>
+          <span class="name">Плутоний</span>
+      </div>
+      <div id="Am" class="element actinide" data-symbol="Am">
+          <span class="atomic-number">95</span>
+          <span class="symbol">Am</span>
+          <span class="name">Америций</span>
+      </div>
+      <div id="Cm" class="element actinide" data-symbol="Cm">
+          <span class="atomic-number">96</span>
+          <span class="symbol">Cm</span>
+          <span class="name">Кюрий</span>
+      </div>
+      <div id="Bk" class="element actinide" data-symbol="Bk">
+          <span class="atomic-number">97</span>
+          <span class="symbol">Bk</span>
+          <span class="name">Берклий</span>
+      </div>
+      <div id="Cf" class="element actinide" data-symbol="Cf">
+          <span class="atomic-number">98</span>
+          <span class="symbol">Cf</span>
+          <span class="name">Калифорний</span>
+      </div>
+      <div id="Es" class="element actinide" data-symbol="Es">
+          <span class="atomic-number">99</span>
+          <span class="symbol">Es</span>
+          <span class="name">Эйнштейний</span>
+      </div>
+      <div id="Fm" class="element actinide" data-symbol="Fm">
+          <span class="atomic-number">100</span>
+          <span class="symbol">Fm</span>
+          <span class="name">Фермий</span>
+      </div>
+      <div id="Md" class="element actinide" data-symbol="Md">
+          <span class="atomic-number">101</span>
+          <span class="symbol">Md</span>
+          <span class="name">Менделевий</span>
+      </div>
+      <div id="No" class="element actinide" data-symbol="No">
+          <span class="atomic-number">102</span>
+          <span class="symbol">No</span>
+          <span class="name">Нобелий</span>
+      </div>
+      <div id="Lr" class="element actinide" data-symbol="Lr">
+          <span class="atomic-number">103</span>
+          <span class="symbol">Lr</span>
+          <span class="name">Лоуренсий</span>
+      </div>
+  </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="element-title"></h2>
+
+            <div id="allotrope-tabs-placeholder"></div>
+
+            <div id="element-info"></div>
+        </div>
+    </div>
+
+<div id="calc-panel" class="calc-panel">
+    <div class="calc-header">
+        <h3>Калькулятор Массы</h3>
+        <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
+    </div>
+
+    <div id="drop-zone" class="drop-zone">
+        <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
+    </div>
+
+    <div id="calc-result">
+        <div class="mass-value">0 <span class="unit">г/моль</span></div>
+        <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
+    </div>
+</div>
+<script src="js/icons.js"></script>
+<script src="js/elements.js"></script>
+<script src="js/scrypt.js"></script>
+<script src="js/particles.js"></script>
+<div class="fab-container" id="fab-container">
+    <div class="fab-options">
+        <div class="fab-option" onclick="toggleTheme()">
+            <span class="fab-label">Сменить тему</span>
+            <button class="fab-btn fab-theme-btn">
+                <svg class="icon-moon"><use href="#icon-moon"></use></svg>
+                <svg class="icon-sun"><use href="#icon-sun"></use></svg>
+            </button>
+        </div>
+        <div class="fab-option" onclick="toggleParticles()">
+            <span class="fab-label">Анимация фона</span>
+            <button class="fab-btn">
+                <svg><use href="#icon-particles"></use></svg>
+            </button>
+        </div>
+        <div class="fab-option" onclick="toggleCalc()">
+            <span class="fab-label">Калькулятор</span>
+            <button class="fab-btn">
+                <svg><use href="#icon-calc"></use></svg>
+            </button>
+        </div>
+    </div>
+    <button class="fab-main" onclick="toggleMenu()">
+        <span class="icon-menu">
+            <svg><use href="#icon-menu"></use></svg>
+        </span>
+        <span class="icon-close">
+            <svg><use href="#icon-close"></use></svg>
+        </span>
+    </button>
+</div>
+
+
+</body>
+</html>
