@@ -1,0 +1,23 @@
+/* =========================================
+   STYLE.CSS — Главный файл стилей
+   Химический Ассистент v0.4
+   ========================================= */
+
+/*
+   Структура файлов:
+   ├── css/
+   │   ├── base.css        — Базовые стили, body, canvas
+   │   ├── table.css       — Таблица элементов, сетка, категории
+   │   ├── modal.css       — Модальное окно, секции, аллотропы
+   │   ├── theme.css       — Тёмная тема, переключатель, волна
+   │   ├── fab.css         — FAB-меню
+   │   └── calculator.css  — Калькулятор молекулярной массы
+*/
+
+@import url('base.css');
+@import url('table.css');
+@import url('modal.css');
+@import url('theme.css');
+@import url('fab.css');
+@import url('calculator.css');
+@import url('filters.css');

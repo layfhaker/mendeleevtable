@@ -1,0 +1,280 @@
+/* =========================================
+   TABLE.CSS — Периодическая таблица
+   ========================================= */
+
+/* --- Контейнер таблицы --- */
+.container {
+    display: grid;
+    grid-template-columns: repeat(18, minmax(40px, 4vw));
+    grid-template-rows: repeat(7, minmax(40px, 4vw));
+    gap: 2px;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Элемент таблицы --- */
+.element {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: clamp(8px, 0.8vw, 12px);
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.element:hover {
+    background-color: #e0e0e0;
+    z-index: 2;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.atomic-number {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: clamp(7px, 0.65vw, 10px);
+}
+
+.symbol {
+    font-size: clamp(14px, 1.4vw, 22px);
+    font-weight: bold;
+}
+
+.name {
+    font-size: clamp(7px, 0.65vw, 10px);
+}
+
+/* --- Цвета категорий (светлая тема) --- */
+.alkali-metal { background-color: #ff9999; }
+.alkaline-earth-metal { background-color: #ffcc99; }
+.transition-metal { background-color: #ffff99; }
+.post-transition-metal { background-color: #ccff99; }
+.metalloid { background-color: #99ffcc; }
+.nonmetal { background-color: #99ffff; }
+.halogen { background-color: #99ccff; }
+.noble-gas { background-color: #cc99ff; }
+.lanthanide { background-color: #ff99cc; }
+.actinide { background-color: #ff99ff; }
+.unknown { background-color: #cccccc; }
+
+/* --- Сетка позиций элементов --- */
+#H { grid-row: 1; grid-column: 1; }
+#He { grid-row: 1; grid-column: 18; }
+#Li { grid-row: 2; grid-column: 1; }
+#Be { grid-row: 2; grid-column: 2; }
+#B { grid-row: 2; grid-column: 13; }
+#C { grid-row: 2; grid-column: 14; }
+#N { grid-row: 2; grid-column: 15; }
+#O { grid-row: 2; grid-column: 16; }
+#F { grid-row: 2; grid-column: 17; }
+#Ne { grid-row: 2; grid-column: 18; }
+#Na { grid-row: 3; grid-column: 1; }
+#Mg { grid-row: 3; grid-column: 2; }
+#Al { grid-row: 3; grid-column: 13; }
+#Si { grid-row: 3; grid-column: 14; }
+#P { grid-row: 3; grid-column: 15; }
+#S { grid-row: 3; grid-column: 16; }
+#Cl { grid-row: 3; grid-column: 17; }
+#Ar { grid-row: 3; grid-column: 18; }
+#K { grid-row: 4; grid-column: 1; }
+#Ca { grid-row: 4; grid-column: 2; }
+#Sc { grid-row: 4; grid-column: 3; }
+#Ti { grid-row: 4; grid-column: 4; }
+#V { grid-row: 4; grid-column: 5; }
+#Cr { grid-row: 4; grid-column: 6; }
+#Mn { grid-row: 4; grid-column: 7; }
+#Fe { grid-row: 4; grid-column: 8; }
+#Co { grid-row: 4; grid-column: 9; }
+#Ni { grid-row: 4; grid-column: 10; }
+#Cu { grid-row: 4; grid-column: 11; }
+#Zn { grid-row: 4; grid-column: 12; }
+#Ga { grid-row: 4; grid-column: 13; }
+#Ge { grid-row: 4; grid-column: 14; }
+#As { grid-row: 4; grid-column: 15; }
+#Se { grid-row: 4; grid-column: 16; }
+#Br { grid-row: 4; grid-column: 17; }
+#Kr { grid-row: 4; grid-column: 18; }
+#Rb { grid-row: 5; grid-column: 1; }
+#Sr { grid-row: 5; grid-column: 2; }
+#Y { grid-row: 5; grid-column: 3; }
+#Zr { grid-row: 5; grid-column: 4; }
+#Nb { grid-row: 5; grid-column: 5; }
+#Mo { grid-row: 5; grid-column: 6; }
+#Tc { grid-row: 5; grid-column: 7; }
+#Ru { grid-row: 5; grid-column: 8; }
+#Rh { grid-row: 5; grid-column: 9; }
+#Pd { grid-row: 5; grid-column: 10; }
+#Ag { grid-row: 5; grid-column: 11; }
+#Cd { grid-row: 5; grid-column: 12; }
+#In { grid-row: 5; grid-column: 13; }
+#Sn { grid-row: 5; grid-column: 14; }
+#Sb { grid-row: 5; grid-column: 15; }
+#Te { grid-row: 5; grid-column: 16; }
+#I { grid-row: 5; grid-column: 17; }
+#Xe { grid-row: 5; grid-column: 18; }
+#Cs { grid-row: 6; grid-column: 1; }
+#Ba { grid-row: 6; grid-column: 2; }
+#La { grid-row: 6; grid-column: 3; }
+#Hf { grid-row: 6; grid-column: 4; }
+#Ta { grid-row: 6; grid-column: 5; }
+#W { grid-row: 6; grid-column: 6; }
+#Re { grid-row: 6; grid-column: 7; }
+#Os { grid-row: 6; grid-column: 8; }
+#Ir { grid-row: 6; grid-column: 9; }
+#Pt { grid-row: 6; grid-column: 10; }
+#Au { grid-row: 6; grid-column: 11; }
+#Hg { grid-row: 6; grid-column: 12; }
+#Tl { grid-row: 6; grid-column: 13; }
+#Pb { grid-row: 6; grid-column: 14; }
+#Bi { grid-row: 6; grid-column: 15; }
+#Po { grid-row: 6; grid-column: 16; }
+#At { grid-row: 6; grid-column: 17; }
+#Rn { grid-row: 6; grid-column: 18; }
+#Fr { grid-row: 7; grid-column: 1; }
+#Ra { grid-row: 7; grid-column: 2; }
+#Ac { grid-row: 7; grid-column: 3; }
+#Rf { grid-row: 7; grid-column: 4; }
+#Db { grid-row: 7; grid-column: 5; }
+#Sg { grid-row: 7; grid-column: 6; }
+#Bh { grid-row: 7; grid-column: 7; }
+#Hs { grid-row: 7; grid-column: 8; }
+#Mt { grid-row: 7; grid-column: 9; }
+#Ds { grid-row: 7; grid-column: 10; }
+#Rg { grid-row: 7; grid-column: 11; }
+#Cn { grid-row: 7; grid-column: 12; }
+#Nh { grid-row: 7; grid-column: 13; }
+#Fl { grid-row: 7; grid-column: 14; }
+#Mc { grid-row: 7; grid-column: 15; }
+#Lv { grid-row: 7; grid-column: 16; }
+#Ts { grid-row: 7; grid-column: 17; }
+#Og { grid-row: 7; grid-column: 18; }
+
+/* --- Лантаноиды и актиноиды --- */
+.lanthanides, .actinides {
+    display: grid;
+    grid-template-columns: repeat(15, minmax(40px, 4vw));
+    gap: 2px;
+    margin-top: 1.5vw;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+}
+
+/* --- Анимация разлёта элементов --- */
+.element, .lanthanides .element, .actinides .element {
+    transition: transform 0.5s cubic-bezier(0.5, 0.9, 0.5, 1.0);
+}
+
+.elements-scattered .element {
+    transition: transform 0.5s cubic-bezier(0.5, 0.9, 0.5, 1.0);
+}
+
+.elements-returning .element {
+    transition: transform 0.3s cubic-bezier(0.4, 0.05, 0.8, 1.0);
+}
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+@media (max-width: 1024px) {
+    .container {
+        display: grid;
+        grid-template-columns: repeat(18, 55px);
+        grid-template-rows: repeat(7, 55px);
+        gap: 3px;
+        margin: 0 auto 20px auto;
+        position: relative;
+        width: max-content;
+    }
+
+    .element {
+        border-width: 1px;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .element .symbol {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+
+    .element .atomic-number {
+        font-size: 9px;
+        top: 2px;
+        left: 2px;
+    }
+
+    .element .name {
+        font-size: 8px;
+        display: block;
+        line-height: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 95%;
+    }
+
+    .lanthanides, .actinides {
+        grid-template-columns: repeat(15, 55px);
+        gap: 3px;
+        width: max-content;
+        margin: 10px auto 0 auto;
+        padding-left: 116px;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .container {
+        grid-template-columns: repeat(18, 38px);
+        grid-template-rows: repeat(7, 38px);
+        margin: 60px 10px 10px 10px;
+    }
+
+    .element .symbol {
+        font-size: 12px;
+    }
+
+    .element .name {
+        display: none;
+    }
+
+    .element .atomic-number {
+        font-size: 5px;
+    }
+
+    .lanthanides, .actinides {
+        grid-template-columns: repeat(15, 38px);
+        margin: 10px;
+    }
+}
+
+/* Горизонтальная ориентация */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        grid-template-columns: repeat(18, 35px);
+        grid-template-rows: repeat(7, 35px);
+        margin: 50px 10px 10px 10px;
+    }
+
+    .element .symbol {
+        font-size: 11px;
+    }
+
+    .element .name {
+        display: none;
+    }
+
+    .lanthanides, .actinides {
+        grid-template-columns: repeat(15, 35px);
+        margin: 8px 10px;
+    }
+}
