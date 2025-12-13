@@ -1,0 +1,338 @@
+/* =========================================
+   CALCULATOR.CSS — Калькулятор молекулярной массы
+   ========================================= */
+
+/* =========================================
+   ДЕСКТОП ВЕРСИЯ
+   ========================================= */
+@media (min-width: 1025px) {
+  .calc-panel {
+      position: fixed !important;
+      z-index: 60000;
+      display: none;
+      flex-direction: column;
+      padding: 10px;
+      box-sizing: border-box;
+      background: #ffffff;
+      border: 2px solid #2196F3;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .calc-panel.active {
+      display: flex;
+      animation: fadeInCalc 0.2s ease-out;
+  }
+
+     .calc-panel.active {
+         display: flex;
+         animation: slideDownCalc 0.3s;
+     }
+}
+
+@keyframes fadeInCalc {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideDownCalc {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* =========================================
+   ШАПКА КАЛЬКУЛЯТОРА
+   ========================================= */
+.calc-header {
+    flex: 0 0 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.calc-header h3 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.close-calc-panel {
+    font-size: 16px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+}
+
+.close-calc-panel:hover {
+    color: #d32f2f;
+}
+
+/* =========================================
+   ЗОНА ПЕРЕТАСКИВАНИЯ
+   ========================================= */
+.drop-zone {
+    flex: 1;
+    position: relative;
+    background: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 4px;
+    padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.drop-zone::-webkit-scrollbar {
+    width: 4px;
+}
+
+.drop-zone::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+.drop-zone.drag-over {
+    background: #e3f2fd;
+    box-shadow: inset 0 0 0 2px #2196F3;
+}
+
+.drop-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+/* =========================================
+   РЕЗУЛЬТАТ
+   ========================================= */
+#calc-result {
+    flex: 0 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: #e8f5e9;
+    border-top: 1px solid #c8e6c9;
+}
+
+.mass-value {
+    font-size: 15px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.unit {
+    font-size: 10px;
+    font-weight: normal;
+    color: #555;
+}
+
+.clear-btn {
+    padding: 2px 8px;
+    font-size: 10px;
+    background: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.clear-btn:hover {
+    background: #d32f2f;
+}
+
+/* =========================================
+   АТОМЫ В КАЛЬКУЛЯТОРЕ
+   ========================================= */
+.calc-atom {
+    height: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.calc-atom-symbol {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+}
+
+.calc-atom-count {
+    width: 20px;
+    font-size: 11px;
+    border: none;
+    border-bottom: 1px solid #2196F3;
+    text-align: center;
+    background: transparent;
+    color: #333;
+}
+
+.calc-atom-remove {
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.calc-atom-remove:hover {
+    color: #f44336;
+}
+
+/* =========================================
+   ТЁМНАЯ ТЕМА
+   ========================================= */
+body.dark-theme .calc-panel {
+    background: #2d2d44;
+    border-color: #444;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+body.dark-theme .calc-header {
+    background: #252535;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .calc-header h3 {
+    color: #aaa;
+}
+
+body.dark-theme .close-calc-panel {
+    color: #666;
+}
+
+body.dark-theme .close-calc-panel:hover {
+    color: #fff;
+}
+
+body.dark-theme .drop-zone {
+    background: #1f1f2e;
+}
+
+body.dark-theme .drop-zone.drag-over {
+    background: #2a2a3d;
+    box-shadow: inset 0 0 0 2px #2196F3;
+}
+
+body.dark-theme .drop-placeholder {
+    color: #555;
+}
+
+body.dark-theme #calc-result {
+    background: #1b2e1e;
+    border-top-color: #2e4a35;
+}
+
+body.dark-theme .mass-value {
+    color: #66bb6a;
+}
+
+body.dark-theme .unit {
+    color: #888;
+}
+
+body.dark-theme .calc-atom {
+    background: #3d3d5c;
+    border-color: #555;
+}
+
+body.dark-theme .calc-atom-symbol {
+    color: #fff;
+}
+
+body.dark-theme .calc-atom-count {
+    color: #fff;
+}
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+   ========================================= */
+@media (max-width: 1024px) {
+
+   .container,
+   .lanthanides,
+   .actinides {
+       transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+   }
+
+
+   .calc-panel {
+       position: fixed;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       width: 40vw;
+       height: 12vw;
+       min-width: unset;
+       max-width: unset;
+       width: 100% !important;
+       min-height: 180px;
+       max-height: 250px;
+       height: 25vh !important;
+       background: #ffffff;
+       border: 2px solid #2196F3;
+       border-radius: 8px;
+       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+       z-index: 50;
+       display: none;
+       flex-direction: column;
+       padding: 0;
+       overflow: hidden;
+       animation: fadeInCalc 0.2s ease-out;
+   }
+
+   .calc-panel.active {
+       display: flex;
+   }
+
+
+   @keyframes slideUpCalc {
+       from { transform: translateY(100%); }
+       to { transform: translateY(0); }
+   }
+
+   /* Тёмная тема для мобильной версии */
+   body.dark-theme .calc-panel {
+       background: #1a1a2e;
+   }
+   /* Сжатие по вертикали и сдвиг таблицы при открытом калькуляторе */
+   body.calc-active .container {
+       transform: translateY(-12vh) scaleY(0.85);
+       transform-origin: center top;
+       transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+   }
+
+   body.calc-active .lanthanides,
+   body.calc-active .actinides {
+       transform: translateY(-18vh) scaleY(0.85);
+       transform-origin: center top;
+       transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+   }
+   /* Скрыть кнопку темы при открытом калькуляторе */
+   body.calc-active #theme-toggle {
+       opacity: 0;
+       pointer-events: none;
+       transition: opacity 0.2s ease;
+   }
+
+   #theme-toggle {
+       transition: opacity 0.2s ease;
+   }
+}
