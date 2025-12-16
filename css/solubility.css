@@ -20,6 +20,7 @@
 /* Растягиваем почти на весь экран */
 .solubility-content {
     max-width: 98vw; /* Было 95, стало 98% ширины */
+    width: 98vw;
     height: 95vh;    /* Было 90, стало 95% высоты */
     padding: 0;      /* Убрали отступы, чтобы таблица была от края до края */
     display: flex;
@@ -127,18 +128,37 @@
 /* --- АДАПТАЦИЯ ПОД ПК (Уменьшаем масштаб) --- */
 @media (min-width: 1024px) {
     #solubility-table {
-        font-size: 12px; /* Уменьшаем шрифт на ПК */
+        font-size: clamp(12px, 0.9vw, 16px); /* Уменьшаем шрифт на ПК */
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: 4px 6px; /* Делаем ячейки компактнее */
-        min-width: 35px;  /* Минимальная ширина, чтобы не схлопывались */
+        padding: clamp(6px, 0.6vw, 12px); /* Делаем ячейки компактнее */
+        min-width: clamp(40px, 3.5vw, 65px);  /* Минимальная ширина, чтобы не схлопывались */
     }
 
     /* Увеличиваем заголовок модалки на ПК */
     .modal-header h2 {
         font-size: 1.8rem;
+    }
+}
+
+@media (min-width: 1921px){
+    .solubility-content {
+        max-width: 98vw;
+        width: 98vw;
+        height: 95vh
+    }
+    #solubility-table {
+        font-size: 1vw;
+    }
+    #solubility-table th,
+    #solubility-table td{
+        padding: 0.7vw;
+        min-width: 4vw;
+    }
+    .modal-header h2 {
+        font-size: 2.2rem;
     }
 }
 
