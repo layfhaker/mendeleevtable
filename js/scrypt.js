@@ -1580,10 +1580,12 @@ function highlightRow(rIdx) {
 function openSolubility() {
     const modal = document.getElementById('solubility-modal');
     // Генерируем таблицу только если она пустая (оптимизация)
+
     if(document.getElementById('solubility-table').innerHTML === "") {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
+    document.body.classList.add('solubility-open');
 }
 
 function closeSolubility() {
@@ -1591,6 +1593,7 @@ function closeSolubility() {
     // Проверка: существует ли модальное окно?
     if (modal) {
         modal.style.display = 'none';
+        document.body.classList.remove('solubility-open')
     } else {
         console.warn("Элемент 'solubility-modal' не найден в HTML!");
     }

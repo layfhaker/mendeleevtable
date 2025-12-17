@@ -206,3 +206,18 @@
 body.dark-theme .type-r { color: #81c784; background-color: rgba(129, 199, 132, 0.1); }
 body.dark-theme .type-m { color: #ffd54f; background-color: rgba(255, 213, 79, 0.1); }
 body.dark-theme .type-n { color: #e57373; background-color: rgba(229, 115, 115, 0.1); }
+@media (max-width: 1024px) {
+    #solubility-modal.modal[style*="display: flex"] ~ .fab-container,
+    #solubility-modal.modal[style*="display: flex"] ~ #theme-toggle {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+
+    }
+    body.solubility-open .fab-container,
+    body.solubility-open #theme-toggle {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
