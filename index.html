@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Интерактивная Таблица Менделеева</title>
-
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232196F3'/><stop offset='100%25' style='stop-color:%231976D2'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(60 50 50)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(120 50 50)'/><circle cx='50' cy='50' r='6' fill='%23FF4081'/><circle cx='85' cy='50' r='4' fill='%2300E5FF'/><circle cx='15' cy='50' r='4' fill='%2300E5FF'/><circle cx='50' cy='62' r='4' fill='%2300E5FF'/><circle cx='50' cy='38' r='4' fill='%2300E5FF'/></svg>">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2196F3">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -742,7 +743,10 @@
     <div class="modal-content solubility-content">
         <div class="modal-header">
             <h2>Таблица растворимости</h2>
-            <span class="close-solubility" onclick="closeSolubility()">&times;</span>
+            <div class="modal-header-controls">
+                <button id="color-mode-btn" onclick="toggleColorMode()" title="Реальные цвета веществ">🎨</button>
+                <span class="close-solubility" onclick="closeSolubility()">&times;</span>
+            </div>
         </div>
 
         <div class="table-legend">

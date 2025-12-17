@@ -1,4 +1,20 @@
-/* --- МОДАЛЬНОЕ ОКНО --- */
+/* =========================================
+   ПЕРЕМЕННЫЕ ДЛЯ ТАБЛИЦЫ РАСТВОРИМОСТИ
+   ========================================= */
+   /* --- МОДАЛЬНОЕ ОКНО --- */
+
+   /* === CSS Variables for Solubility Table === */
+   :root {
+       --bg-color: #ffffff;
+       --text-color: #333333;
+       --border-color: #e0e0e0;
+   }
+
+   body.dark-theme {
+       --bg-color: #1a1a2e;
+       --text-color: #eeeeee;
+       --border-color: #444444;
+   }
 /* ГЛАВНЫЙ КОНТЕЙНЕР МОДАЛКИ */
 #solubility-modal {
     display: none; /* ВАЖНО: Скрыто по умолчанию! */
@@ -19,13 +35,10 @@
    чтобы переопределить специфичные глюки */
 /* Растягиваем почти на весь экран */
 .solubility-content {
-    max-width: 98vw; /* Было 95, стало 98% ширины */
-    width: 98vw;
-    height: 95vh;    /* Было 90, стало 95% высоты */
-    padding: 0;      /* Убрали отступы, чтобы таблица была от края до края */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Скроллиться будет только таблица внутри */
+    max-width: 98vw;
+    height: 95vh;
+    padding: 0;
+    background-color: var(--sol-bg); /* Добавили фон */
 }
 
 /* --- ШАПКА (Название + Крестик) --- */
@@ -99,66 +112,54 @@
 #solubility-table thead th {
     position: sticky;
     top: 0;
-    z-index: 20; /* Подняли выше */
-    background-color: var(--bg-color); /* Обязательно цвет фона */
+    z-index: 20;
+    background-color: var(--bg-color);
     border-bottom: 2px solid var(--text-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Тень, чтобы отделить от таблицы */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* Добавляем для гарантии непрозрачности */
+    backdrop-filter: none;
 }
 
-/* 2. Левый столбец (Анионы) - ВОТ ТУТ БЫЛА ПРОБЛЕМА */
+/* 2. Левый столбец (Анионы) */
 #solubility-table tbody th {
     position: sticky;
     left: 0;
     z-index: 15;
-    background-color: var(--bg-color); /* Добавили фон! */
+    background-color: var(--bg-color);
     border-right: 2px solid var(--text-color);
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    /* Добавляем для гарантии непрозрачности */
+    backdrop-filter: none;
 }
 
 /* 3. Угловая ячейка (крестик) */
 #solubility-table thead th:first-child {
-    z-index: 30; /* Самый верхний слой */
+    z-index: 30;
+    position: sticky;
     left: 0;
     top: 0;
     background-color: var(--bg-color);
     border-right: 2px solid var(--text-color);
     border-bottom: 2px solid var(--text-color);
+    /* Убираем возможную прозрачность */
+    backdrop-filter: none;
 }
 
 /* --- АДАПТАЦИЯ ПОД ПК (Уменьшаем масштаб) --- */
 @media (min-width: 1024px) {
     #solubility-table {
-        font-size: clamp(12px, 0.9vw, 16px); /* Уменьшаем шрифт на ПК */
+        font-size: 12px; /* Уменьшаем шрифт на ПК */
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: clamp(6px, 0.6vw, 12px); /* Делаем ячейки компактнее */
-        min-width: clamp(40px, 3.5vw, 65px);  /* Минимальная ширина, чтобы не схлопывались */
+        padding: 4px 6px; /* Делаем ячейки компактнее */
+        min-width: 35px;  /* Минимальная ширина, чтобы не схлопывались */
     }
 
     /* Увеличиваем заголовок модалки на ПК */
     .modal-header h2 {
         font-size: 1.8rem;
-    }
-}
-
-@media (min-width: 1921px){
-    .solubility-content {
-        max-width: 98vw;
-        width: 98vw;
-        height: 95vh
-    }
-    #solubility-table {
-        font-size: 1vw;
-    }
-    #solubility-table th,
-    #solubility-table td{
-        padding: 0.7vw;
-        min-width: 4vw;
-    }
-    .modal-header h2 {
-        font-size: 2.2rem;
     }
 }
 
@@ -188,6 +189,23 @@
 .active-col {
     background-color: rgba(33, 150, 243, 0.15) !important; /* Голубая подсветка */
 }
+/* --- ДОПОЛНИТЕЛЬНАЯ ЗАЩИТА ФОНА ЛЕВОГО СТОЛБЦА --- */
+/* Убираем цветные фоны с заголовков анионов */
+#solubility-table tbody th.type-r,
+#solubility-table tbody th.type-m,
+#solubility-table tbody th.type-n,
+#solubility-table tbody th.type-d {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
+
+body.dark-theme #solubility-table tbody th.type-r,
+body.dark-theme #solubility-table tbody th.type-m,
+body.dark-theme #solubility-table tbody th.type-n,
+body.dark-theme #solubility-table tbody th.type-d {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+}
 
 /* Подсветка заголовков, когда выбран их ряд/столбец */
 .active-header {
@@ -206,18 +224,115 @@
 body.dark-theme .type-r { color: #81c784; background-color: rgba(129, 199, 132, 0.1); }
 body.dark-theme .type-m { color: #ffd54f; background-color: rgba(255, 213, 79, 0.1); }
 body.dark-theme .type-n { color: #e57373; background-color: rgba(229, 115, 115, 0.1); }
-@media (max-width: 1024px) {
-    #solubility-modal.modal[style*="display: flex"] ~ .fab-container,
-    #solubility-modal.modal[style*="display: flex"] ~ #theme-toggle {
-        display: none !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
 
-    }
-    body.solubility-open .fab-container,
-    body.solubility-open #theme-toggle {
-        display: none !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
+/* === Dark Theme: Sticky Headers Fix === */
+body.dark-theme #solubility-table thead th,
+body.dark-theme #solubility-table tbody th,
+body.dark-theme #solubility-table thead th:first-child {
+    background-color: #1a1a2e;
+    color: #eeeeee;
+}
+
+body.dark-theme .solubility-content {
+    background-color: #1a1a2e;
+}
+
+body.dark-theme .modal-header,
+body.dark-theme .table-legend {
+    background-color: #1a1a2e;
+    border-color: #444;
+}
+
+body.dark-theme .solubility-wrapper {
+    background-color: #1a1a2e;
+}
+
+/* =========================================
+   КНОПКА РЕЖИМА ЦВЕТОВ
+   ========================================= */
+.modal-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#color-mode-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(33, 150, 243, 0.15);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#color-mode-btn:hover {
+    background: rgba(33, 150, 243, 0.3);
+    transform: scale(1.1);
+}
+
+#color-mode-btn.active {
+    background: #2196F3;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+
+body.dark-theme #color-mode-btn {
+    background: rgba(100, 181, 246, 0.2);
+}
+
+body.dark-theme #color-mode-btn:hover {
+    background: rgba(100, 181, 246, 0.4);
+}
+
+body.dark-theme #color-mode-btn.active {
+    background: #64B5F6;
+}
+
+/* =========================================
+   ЯЧЕЙКИ С РЕАЛЬНЫМИ ЦВЕТАМИ
+   ========================================= */
+.chem-color-cell {
+    text-shadow:
+        1px 1px 1px rgba(0,0,0,0.3),
+        -1px -1px 1px rgba(255,255,255,0.3);
+    font-weight: bold;
+    border: 1px solid rgba(128, 128, 128, 0.4) !important;
+}
+
+.chem-color-cell.dark-bg {
+    color: #ffffff !important;
+    text-shadow:
+        1px 1px 2px rgba(0,0,0,0.8),
+        0 0 5px rgba(0,0,0,0.5);
+}
+
+.chem-color-cell.light-bg {
+    color: #000000 !important;
+    text-shadow:
+        1px 1px 1px rgba(255,255,255,0.8),
+        -1px -1px 1px rgba(255,255,255,0.5);
+}
+/* Белые осадки — с заметной рамкой */
+.chem-color-cell.white-precipitate {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
+    border: 2px solid #999 !important;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Бесцветные растворы — лёгкий голубой оттенок "воды" */
+.chem-color-cell.colorless-solution {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e6f4ff 100%) !important;
+    border: 1px dashed #90caf9 !important;
+}
+
+/* Тёмная тема */
+body.dark-theme .chem-color-cell.white-precipitate {
+    background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%) !important;
+    border-color: #666 !important;
+}
+
+body.dark-theme .chem-color-cell.colorless-solution {
+    background: linear-gradient(135deg, #1a2a3a 0%, #152535 100%) !important;
+    border-color: #4a6a8a !important;
 }

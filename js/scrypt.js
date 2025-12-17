@@ -1329,6 +1329,258 @@ function searchInSolubilityTable(query) {
 // =========================================
 // ПОЛНАЯ ТАБЛИЦА РАСТВОРИМОСТИ
 // =========================================
+// =========================================
+// РЕАЛЬНЫЕ ЦВЕТА ВЕЩЕСТВ
+// =========================================
+let isColorMode = false;
+
+const substanceColors = {
+    // =============================================
+    // БЕЛЫЕ ОСАДКИ (white)
+    // =============================================
+    // Галогениды
+    "Ag+-Cl-": "white",           // AgCl - белый творожистый
+    "Pb2+-Cl-": "white",          // PbCl₂ - белый
+    "Pb2+-Br-": "white",          // PbBr₂ - белый
+    "Hg2+-Cl-": "white",          // Hg₂Cl₂ - белый (каломель)
+
+    // Сульфаты
+    "Ba2+-SO42-": "white",        // BaSO₄ - белый (барит)
+    "Pb2+-SO42-": "white",        // PbSO₄ - белый
+    "Ca2+-SO42-": "white",        // CaSO₄ - белый (гипс)
+    "Sr2+-SO42-": "white",        // SrSO₄ - белый
+    "Ag+-SO42-": "white",         // Ag₂SO₄ - белый
+
+    // Карбонаты
+    "Ca2+-CO32-": "white",        // CaCO₃ - белый (мел, мрамор)
+    "Ba2+-CO32-": "white",        // BaCO₃ - белый
+    "Mg2+-CO32-": "white",        // MgCO₃ - белый
+    "Sr2+-CO32-": "white",        // SrCO₃ - белый
+    "Pb2+-CO32-": "white",        // PbCO₃ - белый
+    "Zn2+-CO32-": "white",        // ZnCO₃ - белый
+
+    // Фосфаты
+    "Ca2+-PO43-": "white",        // Ca₃(PO₄)₂ - белый
+    "Ba2+-PO43-": "white",        // Ba₃(PO₄)₂ - белый
+    "Mg2+-PO43-": "white",        // Mg₃(PO₄)₂ - белый
+    "Zn2+-PO43-": "white",        // Zn₃(PO₄)₂ - белый
+    "Pb2+-PO43-": "white",        // Pb₃(PO₄)₂ - белый
+    "Al3+-PO43-": "white",        // AlPO₄ - белый
+
+    // Силикаты
+    "Ca2+-SiO32-": "white",       // CaSiO₃ - белый
+    "Ba2+-SiO32-": "white",       // BaSiO₃ - белый
+    "Mg2+-SiO32-": "white",       // MgSiO₃ - белый
+    "Zn2+-SiO32-": "white",       // ZnSiO₃ - белый
+
+    // Сульфиты
+    "Ca2+-SO32-": "white",        // CaSO₃ - белый
+    "Ba2+-SO32-": "white",        // BaSO₃ - белый
+    "Pb2+-SO32-": "white",        // PbSO₃ - белый
+
+    // Гидроксиды белые
+    "Al3+-OH-": "white",          // Al(OH)₃ - белый студенистый
+    "Zn2+-OH-": "white",          // Zn(OH)₂ - белый
+    "Mg2+-OH-": "white",          // Mg(OH)₂ - белый
+    "Ca2+-OH-": "white",          // Ca(OH)₂ - белый (известь)
+    "Ba2+-OH-": "white",          // Ba(OH)₂ - белый
+    "Sn2+-OH-": "white",          // Sn(OH)₂ - белый
+
+    // Сульфид цинка
+    "Zn2+-S2-": "white",          // ZnS - белый
+
+    // Фториды
+    "Ca2+-F-": "white",           // CaF₂ - белый (флюорит)
+    "Ba2+-F-": "white",           // BaF₂ - белый
+    "Mg2+-F-": "white",           // MgF₂ - белый
+    "Sr2+-F-": "white",           // SrF₂ - белый
+    "Pb2+-F-": "white",           // PbF₂ - белый
+
+    // =============================================
+    // БЕСЦВЕТНЫЕ РАСТВОРЫ (colorless)
+    // =============================================
+    // Нитраты (все растворимы и бесцветны, кроме окрашенных катионов)
+    "Na+-NO3-": "colorless",
+    "K+-NO3-": "colorless",
+    "Ca2+-NO3-": "colorless",
+    "Ba2+-NO3-": "colorless",
+    "Mg2+-NO3-": "colorless",
+    "Zn2+-NO3-": "colorless",
+    "Pb2+-NO3-": "colorless",
+    "Al3+-NO3-": "colorless",
+    "Ag+-NO3-": "colorless",
+
+    // Хлориды растворимые
+    "Na+-Cl-": "colorless",
+    "K+-Cl-": "colorless",
+    "Ca2+-Cl-": "colorless",
+    "Ba2+-Cl-": "colorless",
+    "Mg2+-Cl-": "colorless",
+    "Zn2+-Cl-": "colorless",
+    "Al3+-Cl-": "colorless",
+
+    // Сульфаты растворимые
+    "Na+-SO42-": "colorless",
+    "K+-SO42-": "colorless",
+    "Mg2+-SO42-": "colorless",
+    "Zn2+-SO42-": "colorless",
+    "Al3+-SO42-": "colorless",
+
+    // Ацетаты
+    "Na+-CH3COO-": "colorless",
+    "K+-CH3COO-": "colorless",
+    "Ca2+-CH3COO-": "colorless",
+    "Ba2+-CH3COO-": "colorless",
+    "Mg2+-CH3COO-": "colorless",
+    "Zn2+-CH3COO-": "colorless",
+    "Pb2+-CH3COO-": "colorless",
+    "Al3+-CH3COO-": "colorless",
+
+    // =============================================
+    // ЖЁЛТЫЕ И ОРАНЖЕВЫЕ
+    // =============================================
+    "Ag+-Br-": "#fffacd",         // AgBr - бледно-жёлтый
+    "Ag+-I-": "#ffd700",          // AgI - жёлтый
+    "Pb2+-I-": "#ffd700",         // PbI₂ - золотисто-жёлтый ("золотой дождь")
+    "Ag+-PO43-": "#ffff00",       // Ag₃PO₄ - жёлтый
+    "Cd2+-S2-": "#ffa500",        // CdS - оранжево-жёлтый
+
+    // Хроматы
+    "Ba2+-CrO42-": "#ffff00",     // BaCrO₄ - жёлтый
+    "Pb2+-CrO42-": "#ffa500",     // PbCrO₄ - оранжево-жёлтый
+    "Sr2+-CrO42-": "#ffff00",     // SrCrO₄ - жёлтый
+    "Ca2+-CrO42-": "#ffff00",     // CaCrO₄ - жёлтый
+    "Ag+-CrO42-": "#8b0000",      // Ag₂CrO₄ - кирпично-красный
+
+    // Соли железа(III)
+    "Fe3+-Cl-": "#daa520",        // FeCl₃ - жёлто-коричневый
+    "Fe3+-SO42-": "#daa520",      // Fe₂(SO₄)₃ - желтоватый
+    "Fe3+-NO3-": "#d2b48c",       // Fe(NO₃)₃ - бледно-жёлтый
+
+    // =============================================
+    // ГОЛУБЫЕ И СИНИЕ
+    // =============================================
+    "Cu2+-OH-": "#87ceeb",        // Cu(OH)₂ - голубой
+    "Cu2+-SO42-": "#87ceeb",      // CuSO₄ - голубой
+    "Cu2+-NO3-": "#87ceeb",       // Cu(NO₃)₂ - голубой
+    "Cu2+-Cl-": "#48d1cc",        // CuCl₂ - сине-зелёный
+    "Cu2+-CO32-": "#40e0d0",      // CuCO₃ - бирюзовый (малахит)
+
+    // =============================================
+    // ЗЕЛЁНЫЕ
+    // =============================================
+    "Fe2+-OH-": "#90ee90",        // Fe(OH)₂ - зеленовато-белый
+    "Ni2+-OH-": "#90ee90",        // Ni(OH)₂ - светло-зелёный
+    "Ni2+-SO42-": "#90ee90",      // NiSO₄ - зелёный
+    "Ni2+-Cl-": "#90ee90",        // NiCl₂ - зелёный
+    "Ni2+-NO3-": "#90ee90",       // Ni(NO₃)₂ - зелёный
+    "Cr3+-OH-": "#7fffd4",        // Cr(OH)₃ - серо-зелёный
+    "Cr3+-Cl-": "#9370db",        // CrCl₃ - фиолетово-зелёный
+
+    // =============================================
+    // БУРЫЕ И КОРИЧНЕВЫЕ
+    // =============================================
+    "Fe3+-OH-": "#8b4513",        // Fe(OH)₃ - бурый
+    "Sn2+-S2-": "#8b4513",        // SnS - коричневый
+
+    // =============================================
+    // РОЗОВЫЕ
+    // =============================================
+    "Co2+-OH-": "#ff69b4",        // Co(OH)₂ - розовый
+    "Co2+-Cl-": "#ff69b4",        // CoCl₂ - розовый
+    "Co2+-NO3-": "#ff69b4",       // Co(NO₃)₂ - розовый
+    "Co2+-SO42-": "#ff69b4",      // CoSO₄ - розовый
+    "Mn2+-OH-": "#ffe4e1",        // Mn(OH)₂ - бледно-розовый
+    "Mn2+-SO42-": "#ffb6c1",      // MnSO₄ - бледно-розовый
+
+    // =============================================
+    // ФИОЛЕТОВЫЕ
+    // =============================================
+    "K+-MnO4-": "#8b008b",        // KMnO₄ - тёмно-фиолетовый
+    "Na+-MnO4-": "#8b008b",       // NaMnO₄ - тёмно-фиолетовый
+    "Cr3+-SO42-": "#9370db",      // Cr₂(SO₄)₃ - фиолетовый
+
+    // =============================================
+    // ЧЁРНЫЕ
+    // =============================================
+    "Ag+-S2-": "#000000",         // Ag₂S - чёрный
+    "Pb2+-S2-": "#000000",        // PbS - чёрный (галенит)
+    "Cu2+-S2-": "#000000",        // CuS - чёрный
+    "Fe2+-S2-": "#000000",        // FeS - чёрный
+    "Ni2+-S2-": "#000000",        // NiS - чёрный
+    "Co2+-S2-": "#000000",        // CoS - чёрный
+    "Hg2+-S2-": "#000000",        // HgS - чёрный (или красный киноварь)
+
+    // =============================================
+    // ДОПОЛНИТЕЛЬНЫЕ ЦВЕТНЫЕ СОЛИ
+    // =============================================
+    // Медь — голубые
+    "Cu2+-CH3COO-": "#87ceeb",    // Cu(CH₃COO)₂ - голубой
+    "Cu2+-PO43-": "#87ceeb",      // Cu₃(PO₄)₂ - голубой
+
+    // Никель — зелёные
+    "Ni2+-CO32-": "#90ee90",      // NiCO₃ - зелёный
+    "Ni2+-PO43-": "#90ee90",      // Ni₃(PO₄)₂ - зелёный
+    "Ni2+-CH3COO-": "#90ee90",    // Ni(CH₃COO)₂ - зелёный
+
+    // Кобальт — розовые
+    "Co2+-CO32-": "#ff69b4",      // CoCO₃ - розовый
+    "Co2+-PO43-": "#ff69b4",      // Co₃(PO₄)₂ - розовый
+    "Co2+-CH3COO-": "#ff69b4",    // Co(CH₃COO)₂ - розовый
+
+    // Хром — зелёные/фиолетовые
+    "Cr3+-NO3-": "#9370db",       // Cr(NO₃)₃ - фиолетовый
+    "Cr3+-CH3COO-": "#7fffd4",    // Cr(CH₃COO)₃ - зелёный
+
+    // Железо(II) — бледно-зелёные
+    "Fe2+-SO42-": "#98fb98",      // FeSO₄ - бледно-зелёный
+    "Fe2+-Cl-": "#98fb98",        // FeCl₂ - бледно-зелёный
+    "Fe2+-NO3-": "#98fb98",       // Fe(NO₃)₂ - бледно-зелёный
+
+    // Марганец — бледно-розовые (только растворимые!)
+    "Mn2+-Cl-": "#ffb6c1",        // MnCl₂ - бледно-розовый
+    "Mn2+-NO3-": "#ffb6c1",       // Mn(NO₃)₂ - бледно-розовый
+    "Mn2+-CH3COO-": "#ffb6c1",    // Mn(CH₃COO)₂ - бледно-розовый
+};
+
+// Нормализация формулы: "Ag⁺" → "Ag+", "SO₄²⁻" → "SO42-"
+function normalizeFormula(formula) {
+    return formula
+        .replace(/⁺/g, '+')
+        .replace(/⁻/g, '-')
+        .replace(/²/g, '2')
+        .replace(/³/g, '3')
+        .replace(/⁴/g, '4')
+        .replace(/₂/g, '2')
+        .replace(/₃/g, '3')
+        .replace(/₄/g, '4')
+        .replace(/₅/g, '5');
+}
+
+// Определяем, тёмный ли цвет (для выбора цвета текста)
+function isColorDark(hexColor) {
+    if (!hexColor || hexColor.length < 7) return false;
+
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+
+    // Формула относительной яркости (luminance)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return luminance < 0.5;
+}
+
+// Переключение режима цветов
+function toggleColorMode() {
+    isColorMode = !isColorMode;
+
+    const btn = document.getElementById('color-mode-btn');
+    btn.classList.toggle('active', isColorMode);
+
+    // Перерисовываем таблицу
+    renderSolubilityTable();
+}
 
 const solubilityData = {
     // 24 Катиона (Полный набор)
@@ -1420,13 +1672,11 @@ function renderSolubilityTable() {
     corner.title = "Сбросить выделение";
     headerRow.appendChild(corner);
 
-    // Цикл по катионам
-    // Цикл по катионам (ОБНОВЛЕННЫЙ)
+    // Цикл по катионам (ЗАГОЛОВКИ)
     solubilityData.cations.forEach((cat, colIndex) => {
         const th = document.createElement('th');
-        // Теперь берем формулу из свойства .f
-        th.innerHTML = cat.f; // Можно добавить <br><small>${cat.n}</small> если хочешь подписи
-        th.title = cat.n;     // Подсказка при наведении
+        th.innerHTML = cat.f;
+        th.title = cat.n;
         th.dataset.col = colIndex;
         th.onclick = () => highlightColumn(colIndex);
         headerRow.appendChild(th);
@@ -1453,7 +1703,7 @@ function renderSolubilityTable() {
 
         solubilityData.cations.forEach((cat, colIndex) => {
             const td = document.createElement('td');
-            const char = dataString[colIndex] || "?"; // Символ растворимости
+            const char = dataString[colIndex] || "?";
 
             // Расшифровка символа
             let text = char;
@@ -1463,22 +1713,63 @@ function renderSolubilityTable() {
                 case 'R': text = 'Р'; className = 'type-r'; break;
                 case 'N': text = 'Н'; className = 'type-n'; break;
                 case 'M': text = 'М'; className = 'type-m'; break;
-                case 'D': text = '-'; className = 'type-d'; break; // Разлагается
-                case 'O': text = ''; className = 'type-d'; break;  // Не существует
-                case 'Z': text = 'М'; className = 'type-m'; break; // Спец.случай для ацетата серебра
+                case 'D': text = '-'; className = 'type-d'; break;
+                case 'O': text = ''; className = 'type-d'; break;
+                case 'Z': text = 'М'; className = 'type-m'; break;
                 default: text = '?';
             }
 
             td.innerText = text;
             td.className = className;
 
-            // Сохраняем координаты для JS
+            // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
+            // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
+            // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
+            if (isColorMode) {
+                const catKey = normalizeFormula(cat.f);
+                const anionKey = normalizeFormula(anion.f);
+                const colorKey = `${catKey}-${anionKey}`;
+
+                const chemColor = substanceColors[colorKey];
+
+                // Пропускаем разлагающиеся вещества (D, -, ?)
+                if (char === 'D' || char === 'O' || char === '-') {
+                    // Не красим — оставляем серым
+                }
+                else if (chemColor) {
+                    // Есть конкретный цвет в базе
+                    td.classList.add('chem-color-cell');
+
+                    if (chemColor === "white") {
+                        td.classList.add('white-precipitate', 'light-bg');
+                    } else if (chemColor === "colorless") {
+                        td.classList.add('colorless-solution', 'light-bg');
+                    } else {
+                        td.style.backgroundColor = chemColor;
+                        if (isColorDark(chemColor)) {
+                            td.classList.add('dark-bg');
+                        } else {
+                            td.classList.add('light-bg');
+                        }
+                    }
+                }
+                else if (char === 'R') {
+                    // Растворимо, но нет в базе → бесцветный раствор
+                    td.classList.add('chem-color-cell', 'colorless-solution', 'light-bg');
+                }
+                else if (char === 'N' || char === 'M') {
+                    // Нерастворимо/малорастворимо, но нет в базе → белый осадок
+                    td.classList.add('chem-color-cell', 'white-precipitate', 'light-bg');
+                }
+            }
+
+            // === КОНЕЦ РЕЖИМА ЦВЕТОВ ===
+
             td.dataset.r = rowIndex;
             td.dataset.c = colIndex;
 
-            // Клик по ячейке -> КРЕСТОВИНА
             td.onclick = (e) => {
-                e.stopPropagation(); // Чтобы не кликалось сквозь
+                e.stopPropagation();
                 highlightCrosshair(rowIndex, colIndex);
             };
 
@@ -1580,12 +1871,10 @@ function highlightRow(rIdx) {
 function openSolubility() {
     const modal = document.getElementById('solubility-modal');
     // Генерируем таблицу только если она пустая (оптимизация)
-
     if(document.getElementById('solubility-table').innerHTML === "") {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
-    document.body.classList.add('solubility-open');
 }
 
 function closeSolubility() {
@@ -1593,7 +1882,6 @@ function closeSolubility() {
     // Проверка: существует ли модальное окно?
     if (modal) {
         modal.style.display = 'none';
-        document.body.classList.remove('solubility-open')
     } else {
         console.warn("Элемент 'solubility-modal' не найден в HTML!");
     }

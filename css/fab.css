@@ -83,13 +83,19 @@
     opacity: 0;
     transform: translateY(-20px) scale(0.8);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
+    /* === FIX: Сжимаем контейнер до размера контента === */
+    width: fit-content;
+    margin-left: auto; /* Прижимаем к правому краю */
+    pointer-events: none; /* Контейнер не ловит клики */
 }
 
 .fab-container.active .fab-option {
     opacity: 1;
     transform: translateY(0) scale(1);
+    pointer-events: auto; /* Включаем только когда меню открыто */
 }
+
+
 
 /* Задержка для эффекта лесенки */
 .fab-container.active .fab-option:nth-child(1) { transition-delay: 0.05s; }
@@ -99,6 +105,7 @@
 
 /* --- Кнопка опции --- */
 .fab-btn {
+    position: relative;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -127,14 +134,21 @@
     font-size: 14px;
     white-space: nowrap;
     opacity: 0;
-    transform: translateX(20px);
-    transition: all 0.2s ease;
-    pointer-events: none;
+    transform: translateX(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none; /* Лейбл не мешает кликам */
+    /* === FIX: Абсолютное позиционирование === */
+    position: absolute;
+    right: 60px; /* Справа от кнопки */
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
 }
 
+/* Лейбл появляется при наведении на КНОПКУ */
+.fab-btn:hover + .fab-label,
 .fab-option:hover .fab-label {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(-50%) translateX(0);
 }
 
 /* Тёмная тема для FAB */
@@ -207,10 +221,11 @@ body.dark-theme .fab-theme-btn .icon-sun {
        align-items: center;
        gap: 12px;
    }
-
    .fab-option {
        flex-direction: column;
        transform: translateX(-20px) scale(0.8);
+       width: fit-content;
+       margin-left: 0; /* На мобильных не нужно */
    }
 
    .fab-container.active .fab-option {
@@ -218,7 +233,7 @@ body.dark-theme .fab-theme-btn .icon-sun {
    }
 
    .fab-label {
-       display: none;
+       display: none; /* На мобильных скрываем лейблы */
    }
 
    .fab-main {

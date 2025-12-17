@@ -15,8 +15,8 @@ const ASSETS_TO_CACHE = [
   './js/elements.js',
   './js/particles.js',
   './js/icons.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './img/png1.png',
+  './img/png2.png'
 ];
 
 // Установка: кэшируем файлы

@@ -21,7 +21,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: clamp(8px, 0.8vw, 14px);
+    font-size: clamp(8px, 0.8vw, 12px);
     position: relative;
     -webkit-user-select: none;
     user-select: none;
@@ -39,16 +39,16 @@
     position: absolute;
     top: 2px;
     left: 2px;
-    font-size: clamp(7px, 0.65vw, 11px);
+    font-size: clamp(7px, 0.65vw, 10px);
 }
 
 .symbol {
-    font-size: clamp(14px, 1.4vw, 26px);
+    font-size: clamp(14px, 1.4vw, 22px);
     font-weight: bold;
 }
 
 .name {
-    font-size: clamp(7px, 0.65vw, 12px);
+    font-size: clamp(7px, 0.65vw, 10px);
 }
 
 /* --- Цвета категорий (светлая тема) --- */
@@ -278,5 +278,3 @@
         margin: 8px 10px;
     }
 }
-
-
