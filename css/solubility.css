@@ -36,6 +36,7 @@
 /* Растягиваем почти на весь экран */
 .solubility-content {
     max-width: 98vw;
+    width: 98vw; 
     height: 95vh;
     padding: 0;
     background-color: var(--sol-bg); /* Добавили фон */
@@ -335,4 +336,51 @@ body.dark-theme .chem-color-cell.white-precipitate {
 body.dark-theme .chem-color-cell.colorless-solution {
     background: linear-gradient(135deg, #1a2a3a 0%, #152535 100%) !important;
     border-color: #4a6a8a !important;
+}
+
+
+/* НОВЫЙ БЛОК: Для средних экранов (ноутбуки, мониторы 1920x1080) */
+@media (min-width: 1025px) and (max-width: 1920px) {
+    .solubility-content {
+        max-width: 98vw !important;
+        width: 98vw !important;
+        height: 95vh !important;
+    }
+
+    #solubility-table {
+        font-size: clamp(11px, 0.85vw, 15px);
+    }
+
+    #solubility-table th,
+    #solubility-table td {
+        padding: clamp(5px, 0.55vw, 10px);
+        min-width: clamp(38px, 3.2vw, 60px);
+    }
+
+    .modal-header h2 {
+        font-size: 1.6rem;
+    }
+}
+
+/* Для больших экранов (4K и выше) */
+@media (min-width: 1921px) {
+    .solubility-content {
+        max-width: 98vw !important;
+        width: 98vw !important;
+        height: 95vh !important;
+    }
+
+    #solubility-table {
+        font-size: 1vw;
+    }
+
+    #solubility-table th,
+    #solubility-table td {
+        padding: 0.7vw;
+        min-width: 4vw;
+    }
+
+    .modal-header h2 {
+        font-size: 2.2rem;
+    }
 }

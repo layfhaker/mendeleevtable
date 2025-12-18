@@ -1255,72 +1255,145 @@ function resetFabPosition() {
     }
 }
 
-// Поиск внутри таблицы растворимости
+// Парсинг полной химической формулы для поиска в таблице растворимости
+function parseChemicalFormula(query) {
+    query = query.toLowerCase().trim();
+
+    // Словарь катионов (формула без заряда → индекс в массиве)
+    const cationMap = {
+        'h': 0, 'nh4': 1, 'li': 2, 'k': 3, 'na': 4, 'rb': 5, 'cs': 6,
+        'ag': 7, 'mg': 8, 'ca': 9, 'sr': 10, 'ba': 11, 'zn': 12,
+        'hg': 13, 'pb': 14, 'cu': 15, 'fe': 16, 'al': 18, 'cr': 19,
+        'mn': 20, 'ni': 21, 'co': 22, 'sn': 23
+    };
+
+    // Словарь анионов (формула без заряда → индекс в массиве)
+    const anionMap = {
+        'oh': 0, 'f': 1, 'cl': 2, 'br': 3, 'i': 4, 's': 5, 'hs': 6,
+        'so3': 7, 'so4': 8, 'no3': 9, 'po4': 10, 'co3': 11, 'sio3': 12,
+        'cro4': 13, 'ch3coo': 14, 'mno4': 15,
+        // Альтернативные написания
+        'acetate': 14, 'ac': 14
+    };
+
+    let foundCatIndex = -1;
+    let foundAnIndex = -1;
+
+    // Паттерны для распознавания формул
+    // Пробуем найти известные катионы в начале формулы
+    const cationKeys = Object.keys(cationMap).sort((a, b) => b.length - a.length); // Сначала длинные
+    const anionKeys = Object.keys(anionMap).sort((a, b) => b.length - a.length);
+
+    // Нормализуем запрос: убираем цифры-индексы и скобки
+    const normalized = query.replace(/[₂₃₄₅²³⁺⁻\(\)\[\]]/g, '').replace(/[0-9]/g, '');
+
+    // Ищем катион в начале
+    for (const cat of cationKeys) {
+        if (normalized.startsWith(cat)) {
+            foundCatIndex = cationMap[cat];
+            // Пробуем найти анион в оставшейся части
+            const remainder = normalized.slice(cat.length);
+            for (const an of anionKeys) {
+                if (remainder === an || remainder.startsWith(an)) {
+                    foundAnIndex = anionMap[an];
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    // Если не нашли как полную формулу, ищем анион отдельно
+    if (foundAnIndex === -1) {
+        for (const an of anionKeys) {
+            if (normalized.includes(an) || query.includes(an)) {
+                foundAnIndex = anionMap[an];
+                break;
+            }
+        }
+    }
+
+    return { cationIndex: foundCatIndex, anionIndex: foundAnIndex };
+}
+
+// Поиск внутри таблицы растворимости (улучшенная версия)
 function searchInSolubilityTable(query) {
     query = query.toLowerCase().trim();
 
-    // 1. Ищем АНИОН (строку)
-    // Проверяем русское название (хлорид) или формулу (Cl)
-    let foundRowIndex = -1;
-    let foundAnionName = "";
+    // Сначала пробуем распарсить как полную формулу (NaCl, BaSO4 и т.д.)
+    const parsed = parseChemicalFormula(query);
+    let foundRowIndex = parsed.anionIndex;
+    let foundColIndex = parsed.cationIndex;
 
-    for (let i = 0; i < solubilityData.anions.length; i++) {
-        const a = solubilityData.anions[i];
-        const name = a.n.toLowerCase();
-        const formula = a.f.toLowerCase().replace('-', '').replace('2', '').replace('3', ''); // упрощаем формулу для поиска
+    // Если парсинг формулы не дал результата, ищем по названиям
+    if (foundRowIndex === -1) {
+        // 1. Ищем АНИОН (строку) по названию
+        for (let i = 0; i < solubilityData.anions.length; i++) {
+            const a = solubilityData.anions[i];
+            const name = a.n.toLowerCase();
+            const formula = a.f.toLowerCase().replace('-', '').replace('2', '').replace('3', '').replace('⁻', '').replace('₂', '').replace('₃', '');
 
-        if (query.includes(name.slice(0, 4)) || query.includes(formula)) {
-            foundRowIndex = i;
-            foundAnionName = a.n;
-            break;
+            if (query.includes(name) || query.includes(formula)) {
+                foundRowIndex = i;
+                break;
+            }
         }
     }
 
-    // 2. Ищем КАТИОН (столбец)
-    let foundColIndex = -1;
-    let foundCationName = "";
+    if (foundColIndex === -1) {
+        // 2. Ищем КАТИОН (столбец) по названию
+        for (let i = 0; i < solubilityData.cations.length; i++) {
+            const c = solubilityData.cations[i];
+            const name = c.n.toLowerCase();
+            const formula = c.f.toLowerCase().replace('+', '').replace('2', '').replace('3', '').replace('⁺', '').replace('²', '').replace('₂', '');
 
-    for (let i = 0; i < solubilityData.cations.length; i++) {
-        const c = solubilityData.cations[i];
-        const name = c.n.toLowerCase();
-        // Убираем плюсы и цифры для поиска (Na+ -> na)
-        const formula = c.f.toLowerCase().replace('+', '').replace('2', '').replace('3', '');
-
-        // Тут хитрость: если ищем "Хлорид натрия", то query содержит "натрия".
-        // Простой includes сработает для "Натрий".
-        // Для точного поиска можно использовать стемминг, но пока хватит includes
-        if (query.includes(name) || query.includes(name.slice(0, -1)) || query.includes(formula)) { // slice(0,4) чтобы "натрия" нашло "натрий"
-            foundColIndex = i;
-            foundCationName = c.n;
-            break;
+            // Ищем вхождение имени катиона (или корня) в запрос
+            if (query.includes(name) || query.includes(name.slice(0, -1)) || query.includes(formula)) {
+                foundColIndex = i;
+                break;
+            }
         }
     }
 
-    // 3. Если нашли ОБОИХ — бинго!
-    if (foundRowIndex !== -1 && foundColIndex !== -1) {
-        // Если таблица закрыта — открываем
+    // 3. Открываем таблицу, если нашли хоть что-то
+    if (foundRowIndex !== -1 || foundColIndex !== -1) {
+        // Открываем модалку (если закрыта)
         const modal = document.getElementById('solubility-modal');
         if (modal.style.display !== 'flex') {
             openSolubility();
         }
 
+        // Закрываем панель фильтров
         const filtersPanel = document.getElementById('filters-panel');
         if (filtersPanel && filtersPanel.classList.contains('active')) {
             filtersPanel.classList.remove('active');
         }
 
-        // Выделяем ячейку
+        // Выделяем найденное
         setTimeout(() => {
-            highlightCrosshair(foundRowIndex, foundColIndex);
+            if (foundRowIndex !== -1 && foundColIndex !== -1) {
+                // Нашли И катион, И анион → крестовина
+                highlightCrosshair(foundRowIndex, foundColIndex);
 
-            // Скроллим к ячейке
-            const table = document.getElementById('solubility-table');
-            const cell = table.rows[foundRowIndex + 1].cells[foundColIndex + 1];
-            cell.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                const table = document.getElementById('solubility-table');
+                const cell = table.rows[foundRowIndex + 1].cells[foundColIndex + 1];
+                cell.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            } else if (foundColIndex !== -1) {
+                // Нашли ТОЛЬКО катион → подсвечиваем столбец
+                highlightColumn(foundColIndex);
 
-            // Можно вывести сообщение (опционально)
-            // alert(`Найдено: ${foundAnionName} ${foundCationName}`);
-        }, 300); // Небольшая задержка для отрисовки
+                const table = document.getElementById('solubility-table');
+                const header = table.rows[0].cells[foundColIndex + 1];
+                header.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+            } else if (foundRowIndex !== -1) {
+                // Нашли ТОЛЬКО анион → подсвечиваем строку
+                highlightRow(foundRowIndex);
+
+                const table = document.getElementById('solubility-table');
+                const header = table.rows[foundRowIndex + 1].cells[0];
+                header.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+            }
+        }, 300);
 
         return true; // Успех
     }
