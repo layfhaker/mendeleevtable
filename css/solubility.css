@@ -35,11 +35,11 @@
    чтобы переопределить специфичные глюки */
 /* Растягиваем почти на весь экран, но с отступом справа для FAB кнопок */
 .solubility-content {
-    max-width: calc(100vw - 80px);
-    width: calc(100vw - 80px);
+    max-width: calc(100vw - 160px);
+    width: calc(100vw - 160px);
     height: 95vh;
     padding: 0;
-    margin-right: 70px; /* Отступ от правого края для FAB кнопок */
+    margin-right: 80px; /* Отступ от правого края для FAB кнопок */
     background-color: var(--sol-bg); /* Добавили фон */
 }
 
@@ -343,8 +343,8 @@ body.dark-theme .chem-color-cell.colorless-solution {
 /* НОВЫЙ БЛОК: Для средних экранов (ноутбуки, мониторы 1920x1080) */
 @media (min-width: 1025px) and (max-width: 1920px) {
     .solubility-content {
-        max-width: calc(100vw - 80px) !important;
-        width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 160px) !important;
+        width: calc(100vw - 160px) !important;
         height: 95vh !important;
     }
 
@@ -366,8 +366,8 @@ body.dark-theme .chem-color-cell.colorless-solution {
 /* Для больших экранов (4K и выше) */
 @media (min-width: 1921px) {
     .solubility-content {
-        max-width: calc(100vw - 80px) !important;
-        width: calc(100vw - 80px) !important;
+        max-width: calc(100vw - 160px) !important;
+        width: calc(100vw - 160px) !important;
         height: 95vh !important;
     }
 
