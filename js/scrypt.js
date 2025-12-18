@@ -1269,7 +1269,7 @@ function searchInSolubilityTable(query) {
         const name = a.n.toLowerCase();
         const formula = a.f.toLowerCase().replace('-', '').replace('2', '').replace('3', ''); // упрощаем формулу для поиска
 
-        if (query.includes(name) || query.includes(formula)) {
+        if (query.includes(name.slice(0, 4)) || query.includes(formula)) {
             foundRowIndex = i;
             foundAnionName = a.n;
             break;
@@ -1289,7 +1289,7 @@ function searchInSolubilityTable(query) {
         // Тут хитрость: если ищем "Хлорид натрия", то query содержит "натрия".
         // Простой includes сработает для "Натрий".
         // Для точного поиска можно использовать стемминг, но пока хватит includes
-        if (query.includes(name.slice(0, 4)) || query.includes(formula)) { // slice(0,4) чтобы "натрия" нашло "натрий"
+        if (query.includes(name) || query.includes(name.slice(0, -1)) || query.includes(formula)) { // slice(0,4) чтобы "натрия" нашло "натрий"
             foundColIndex = i;
             foundCationName = c.n;
             break;
@@ -1304,8 +1304,10 @@ function searchInSolubilityTable(query) {
             openSolubility();
         }
 
-        // Закрываем фильтры, чтобы видеть таблицу
-        toggleFilters();
+        const filtersPanel = document.getElementById('filters-panel');
+        if (filtersPanel && filtersPanel.classList.contains('active')) {
+            filtersPanel.classList.remove('active');
+        }
 
         // Выделяем ячейку
         setTimeout(() => {
