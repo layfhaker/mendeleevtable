@@ -1268,6 +1268,7 @@ function parseChemicalFormula(query) {
     };
 
     // Словарь анионов (формула без заряда → индекс в массиве)
+    // Важно: многоатомные анионы с цифрами должны быть включены
     const anionMap = {
         'oh': 0, 'f': 1, 'cl': 2, 'br': 3, 'i': 4, 's': 5, 'hs': 6,
         'so3': 7, 'so4': 8, 'no3': 9, 'po4': 10, 'co3': 11, 'sio3': 12,
@@ -1284,15 +1285,20 @@ function parseChemicalFormula(query) {
     const cationKeys = Object.keys(cationMap).sort((a, b) => b.length - a.length); // Сначала длинные
     const anionKeys = Object.keys(anionMap).sort((a, b) => b.length - a.length);
 
-    // Нормализуем запрос: убираем цифры-индексы и скобки
-    const normalized = query.replace(/[₂₃₄₅²³⁺⁻\(\)\[\]]/g, '').replace(/[0-9]/g, '');
+    // Нормализуем запрос: убираем только скобки и символы зарядов, НО оставляем цифры
+    const normalizedWithNumbers = query.replace(/[₂₃₄₅²³⁺⁻\(\)\[\]]/g, '');
+    // Версия без цифр - для поиска катионов
+    const normalizedNoCatNumbers = query.replace(/[₂₃₄₅²³⁺⁻\(\)\[\]]/g, '');
 
     // Ищем катион в начале
     for (const cat of cationKeys) {
-        if (normalized.startsWith(cat)) {
+        if (normalizedWithNumbers.startsWith(cat)) {
             foundCatIndex = cationMap[cat];
-            // Пробуем найти анион в оставшейся части
-            const remainder = normalized.slice(cat.length);
+            // Пробуем найти анион в оставшейся части (с цифрами!)
+            let remainder = normalizedWithNumbers.slice(cat.length);
+            // Убираем возможную цифру после катиона (например, Ba3 в Ba3(PO4)2)
+            remainder = remainder.replace(/^[0-9]+/, '');
+
             for (const an of anionKeys) {
                 if (remainder === an || remainder.startsWith(an)) {
                     foundAnIndex = anionMap[an];
@@ -1303,10 +1309,10 @@ function parseChemicalFormula(query) {
         }
     }
 
-    // Если не нашли как полную формулу, ищем анион отдельно
+    // Если не нашли анион, ищем отдельно (с цифрами в названии)
     if (foundAnIndex === -1) {
         for (const an of anionKeys) {
-            if (normalized.includes(an) || query.includes(an)) {
+            if (normalizedWithNumbers.includes(an)) {
                 foundAnIndex = anionMap[an];
                 break;
             }
