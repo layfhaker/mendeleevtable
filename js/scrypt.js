@@ -1523,6 +1523,7 @@ const substanceColors = {
     "Ag+-Br-": "#fffacd",         // AgBr - бледно-жёлтый
     "Ag+-I-": "#ffd700",          // AgI - жёлтый
     "Pb2+-I-": "#ffd700",         // PbI₂ - золотисто-жёлтый ("золотой дождь")
+    "Hg2+-I-": "#ff4500",         // HgI₂ - красный (алый)
     "Ag+-PO43-": "#ffff00",       // Ag₃PO₄ - жёлтый
     "Cd2+-S2-": "#ffa500",        // CdS - оранжево-жёлтый
 
@@ -1550,7 +1551,7 @@ const substanceColors = {
     // =============================================
     // ЗЕЛЁНЫЕ
     // =============================================
-    "Fe2+-OH-": "#90ee90",        // Fe(OH)₂ - зеленовато-белый
+    "Fe2+-OH-": "#e8f5e9",        // Fe(OH)₂ - белый с зеленоватым оттенком
     "Ni2+-OH-": "#90ee90",        // Ni(OH)₂ - светло-зелёный
     "Ni2+-SO42-": "#90ee90",      // NiSO₄ - зелёный
     "Ni2+-Cl-": "#90ee90",        // NiCl₂ - зелёный
@@ -1571,7 +1572,7 @@ const substanceColors = {
     "Co2+-Cl-": "#ff69b4",        // CoCl₂ - розовый
     "Co2+-NO3-": "#ff69b4",       // Co(NO₃)₂ - розовый
     "Co2+-SO42-": "#ff69b4",      // CoSO₄ - розовый
-    "Mn2+-OH-": "#ffe4e1",        // Mn(OH)₂ - бледно-розовый
+    "Mn2+-OH-": "#ffffff",        // Mn(OH)₂ - белый (темнеет на воздухе)
     "Mn2+-SO42-": "#ffb6c1",      // MnSO₄ - бледно-розовый
 
     // =============================================
@@ -1715,22 +1716,23 @@ const solubilityData = {
 
     // ДАННЫЕ (Строка = один Анион для всех Катионов по порядку)
     // R=Раств, N=Нераств, M=Мало, D=Разлагается, O=Нет
+    // Катионы: H, NH4, Li, K, Na, Rb, Cs, Ag, Mg, Ca, Sr, Ba, Zn, Hg, Pb, Cu, Fe2+, Fe3+, Al, Cr, Mn, Ni, Co, Sn
     rows: [
-        "ORRRRRR-MMMRNN-NNNNNNNNN", // OH
-        "RRRRMMRRMMNNR-RNNRNRRNRR", // F
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Cl
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Br
-        "RRRRRRRNRRRRRRNN-R-RRRRR", // I
-        "RRRRRRRNRRRDNNNNNN-DDNNN", // S
-        "RRRRRRR-RRRRRN-NNN-DDNNN", // HS (примерно как S, но кислые соли часто раств.)
-        "RRRRRRRNRMNNMNNNNN-DDNNN", // SO3
-        "RRRRRRRMNNNNRRNRRRRRRRRR", // SO4
+        "ORRRRRR-MMMRNNNNNNNDNNNN", // OH - Fe(OH)3, Al(OH)3, Cr(OH)3 нерастворимы
+        "RRRRRRRMNNMMN-NNNRNRRNRR", // F - MgF2, CaF2 нерастворимы, SrF2, BaF2 малорастворимы
+        "RRRRRRRNRRRRRRMMRRRRRRRR", // Cl - PbCl2 малораств
+        "RRRRRRRNRRRRRRMMRRRRRRRR", // Br - PbBr2 малораств
+        "RRRRRRRNRRRRRRNN-RRRRRR-", // I - HgI2 нераств, PbI2 нераств, SnI4 разлаг
+        "RRRRRRRNRRRDNNNNNNDDDNNN", // S - сульфиды Zn белый, Cu,Fe,Ni,Co,Sn черные нераств, Al,Cr гидролиз
+        "RRRRRRR-RRRRRN-NNN-DDNNN", // HS
+        "RRRRRRRNRMMNMNNNNN-DDNNN", // SO3 - CaSO3 малораств, SrSO3 малораств
+        "RRRRRRRMNMMMRRNRRRRRRRRM", // SO4 - Ag2SO4 малораств, CaSO4 малораств, SrSO4 малораств, BaSO4 нераств, PbSO4 нераств
         "RRRRRRRRRRRRRRRRRRRRRRRR", // NO3 (Все растворимы!)
         "RRRRRRRNNNNNNNNNNNNNNNNN", // PO4
         "RRRRRRRNNNNNNN-NNN-DDNNN", // CO3
         "NRRRRRRNNNNNNN-NNN-DDNNN", // SiO3
         "RRRRRRRNNNMNRN-NNN-N-NNN", // CrO4
-        "RRRRRRRMZRMRRRRRRRRRRRRR", // CH3COO (Z - это серебро малораств)
+        "RRRRRRRMRRMRRRRRRRRRRRRR", // CH3COO - Ag(7), Sr(10) малораств
         "RRRRRRRMRRRRRRRRRRRRRRRR"  // MnO4
     ]
 };
