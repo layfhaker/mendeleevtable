@@ -1950,6 +1950,13 @@ function openSolubility() {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
+
+    // Добавляем класс для скрытия FAB и кнопки темы на мобильных
+    document.body.classList.add('solubility-open');
+
+    // Закрываем FAB меню если открыто
+    const fab = document.getElementById('fab-container');
+    if (fab) fab.classList.remove('active');
 }
 
 function closeSolubility() {
@@ -1961,8 +1968,101 @@ function closeSolubility() {
         console.warn("Элемент 'solubility-modal' не найден в HTML!");
     }
 
+    // Убираем класс для показа FAB и кнопки темы на мобильных
+    document.body.classList.remove('solubility-open');
+
+    // Закрываем панель поиска если открыта
+    const searchPanel = document.getElementById('solubility-search-panel');
+    if (searchPanel) searchPanel.classList.remove('active');
+    const searchBtn = document.getElementById('solubility-search-btn');
+    if (searchBtn) searchBtn.classList.remove('active');
+
     // Если есть функция очистки выделения
     if (typeof clearTableSelection === 'function') {
         clearTableSelection();
     }
 }
+
+// =========================================
+// ЛОГИКА ПОИСКА В ТАБЛИЦЕ РАСТВОРИМОСТИ (мобильная)
+// =========================================
+function toggleSolubilitySearch() {
+    const panel = document.getElementById('solubility-search-panel');
+    const btn = document.getElementById('solubility-search-btn');
+
+    if (panel) {
+        panel.classList.toggle('active');
+        if (btn) btn.classList.toggle('active');
+
+        // Фокус на поле ввода при открытии
+        if (panel.classList.contains('active')) {
+            const input = document.getElementById('solubility-search-input');
+            if (input) {
+                setTimeout(() => input.focus(), 100);
+            }
+        }
+    }
+}
+
+function clearSolubilitySearch() {
+    const input = document.getElementById('solubility-search-input');
+    const clearBtn = document.querySelector('.solubility-search-clear');
+
+    if (input) input.value = '';
+    if (clearBtn) clearBtn.classList.remove('visible');
+
+    // Сбрасываем выделение в таблице
+    clearTableSelection();
+}
+
+function performSolubilitySearch() {
+    const input = document.getElementById('solubility-search-input');
+    if (!input) return;
+
+    const query = input.value.trim();
+    if (query.length < 2) {
+        return;
+    }
+
+    // Используем уже существующую функцию поиска
+    const found = searchInSolubilityTable(query);
+
+    if (found) {
+        // Закрываем панель поиска после успешного поиска
+        toggleSolubilitySearch();
+    }
+}
+
+// Инициализация обработчиков для поиска в таблице растворимости
+(function initSolubilitySearch() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupSolubilitySearch);
+    } else {
+        setupSolubilitySearch();
+    }
+
+    function setupSolubilitySearch() {
+        const searchInput = document.getElementById('solubility-search-input');
+        const clearBtn = document.querySelector('.solubility-search-clear');
+
+        if (!searchInput) return;
+
+        // Показываем/скрываем кнопку очистки при вводе
+        searchInput.addEventListener('input', (e) => {
+            if (clearBtn) {
+                if (e.target.value.length > 0) {
+                    clearBtn.classList.add('visible');
+                } else {
+                    clearBtn.classList.remove('visible');
+                }
+            }
+        });
+
+        // Enter для поиска
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                performSolubilitySearch();
+            }
+        });
+    }
+})();

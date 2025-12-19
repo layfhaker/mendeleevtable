@@ -745,6 +745,12 @@
             <h2>Таблица растворимости</h2>
             <div class="modal-header-controls">
                 <button id="color-mode-btn" onclick="toggleColorMode()" title="Реальные цвета веществ">🎨</button>
+                <button id="solubility-search-btn" onclick="toggleSolubilitySearch()" title="Поиск">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
                 <span class="close-solubility" onclick="closeSolubility()">&times;</span>
             </div>
         </div>
@@ -763,6 +769,25 @@
 
 </div>
 
+<!-- Мобильное окно поиска для таблицы растворимости -->
+<div id="solubility-search-panel" class="solubility-search-panel">
+    <div class="solubility-search-header">
+        <h4>Поиск вещества</h4>
+        <span class="close-solubility-search" onclick="toggleSolubilitySearch()">✕</span>
+    </div>
+    <div class="solubility-search-content">
+        <div class="search-wrapper">
+            <input type="text" id="solubility-search-input" placeholder="Введите формулу (NaCl, BaSO4...)">
+            <button class="solubility-search-clear" onclick="clearSolubilitySearch()">✕</button>
+            <button class="search-btn" onclick="performSolubilitySearch()" aria-label="Найти">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
 
 <script src="js/icons.js"></script>
 <script src="js/elements.js"></script>

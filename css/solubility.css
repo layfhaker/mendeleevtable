@@ -395,3 +395,243 @@ body.dark-theme .chem-color-cell.colorless-solution {
         margin-right: 0 !important;
     }
 }
+
+/* =========================================
+   КНОПКА ПОИСКА В ШАПКЕ (только мобильные)
+   ========================================= */
+#solubility-search-btn {
+    display: none; /* По умолчанию скрыта на ПК */
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(33, 150, 243, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+#solubility-search-btn svg {
+    width: 22px;
+    height: 22px;
+    color: #2196F3;
+}
+
+#solubility-search-btn:hover {
+    background: rgba(33, 150, 243, 0.3);
+    transform: scale(1.1);
+}
+
+#solubility-search-btn.active {
+    background: #2196F3;
+}
+
+#solubility-search-btn.active svg {
+    color: white;
+}
+
+body.dark-theme #solubility-search-btn {
+    background: rgba(100, 181, 246, 0.2);
+}
+
+body.dark-theme #solubility-search-btn svg {
+    color: #64B5F6;
+}
+
+body.dark-theme #solubility-search-btn:hover {
+    background: rgba(100, 181, 246, 0.4);
+}
+
+body.dark-theme #solubility-search-btn.active {
+    background: #64B5F6;
+}
+
+body.dark-theme #solubility-search-btn.active svg {
+    color: #1a1a2e;
+}
+
+/* Показываем кнопку только на мобильных */
+@media (max-width: 1024px) {
+    #solubility-search-btn {
+        display: flex;
+    }
+}
+
+/* =========================================
+   ПАНЕЛЬ ПОИСКА (только мобильные)
+   ========================================= */
+.solubility-search-panel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 40px);
+    max-width: 400px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    z-index: 2100;
+    animation: searchPanelSlideIn 0.3s ease-out;
+}
+
+.solubility-search-panel.active {
+    display: block;
+}
+
+@keyframes searchPanelSlideIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.solubility-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 12px 12px 0 0;
+}
+
+.solubility-search-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.close-solubility-search {
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 5px;
+}
+
+.close-solubility-search:hover {
+    color: #333;
+}
+
+.solubility-search-content {
+    padding: 15px;
+}
+
+.solubility-search-content .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.solubility-search-content #solubility-search-input {
+    width: 100%;
+    padding: 12px 80px 12px 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.solubility-search-content #solubility-search-input:focus {
+    border-color: #2196F3;
+}
+
+.solubility-search-clear {
+    position: absolute;
+    right: 45px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    display: none;
+}
+
+.solubility-search-clear.visible {
+    display: block;
+}
+
+.solubility-search-clear:hover {
+    color: #333;
+}
+
+.solubility-search-content .search-btn {
+    position: absolute;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: #2196F3;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.solubility-search-content .search-btn:hover {
+    background: #1976D2;
+}
+
+.solubility-search-content .search-btn svg {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+}
+
+/* Тёмная тема для панели поиска */
+body.dark-theme .solubility-search-panel {
+    background: #2d2d44;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+body.dark-theme .solubility-search-header {
+    background: #252535;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .solubility-search-header h4 {
+    color: #eee;
+}
+
+body.dark-theme .close-solubility-search {
+    color: #666;
+}
+
+body.dark-theme .close-solubility-search:hover {
+    color: #fff;
+}
+
+body.dark-theme .solubility-search-content #solubility-search-input {
+    background: #1f1f2e;
+    border-color: #444;
+    color: #eee;
+}
+
+body.dark-theme .solubility-search-content #solubility-search-input:focus {
+    border-color: #64B5F6;
+}
+
+body.dark-theme .solubility-search-content #solubility-search-input::placeholder {
+    color: #666;
+}
+
+body.dark-theme .solubility-search-clear {
+    color: #666;
+}
+
+body.dark-theme .solubility-search-clear:hover {
+    color: #fff;
+}
+
+body.dark-theme .solubility-search-content .search-btn {
+    background: #64B5F6;
+}
+
+body.dark-theme .solubility-search-content .search-btn:hover {
+    background: #90CAF9;
+}

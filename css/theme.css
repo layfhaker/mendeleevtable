@@ -280,3 +280,11 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
         font-size: 18px;
     }
 }
+
+/* Скрываем кнопку темы на мобильных при открытой таблице растворимости */
+@media (max-width: 1024px) {
+    body.solubility-open #theme-toggle {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
