@@ -1717,22 +1717,22 @@ const solubilityData = {
     // R=Раств, N=Нераств, M=Мало, D=Разлагается, O=Нет
     // Катионы: H, NH4, Li, K, Na, Rb, Cs, Ag, Mg, Ca, Sr, Ba, Zn, Hg, Pb, Cu, Fe2+, Fe3+, Al, Cr, Mn, Ni, Co, Sn
     rows: [
-        "ORRRRRR-MMMRNNNNNNNDNNNN", // OH - Fe(OH)3, Al(OH)3, Cr(OH)3 нерастворимы
-        "RRRRRRRMNNMMN-NNNRNRRNRR", // F - MgF2, CaF2 нерастворимы, SrF2, BaF2 малорастворимы
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Cl - PbCl2 малораств
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Br - PbBr2 малораств
-        "RRRRRRRNRRRRRRNN-RRRRRR-", // I - HgI2 нераств, PbI2 нераств, SnI4 разлаг
-        "RRRRRRRNRRRDNNNNNNDDDNNN", // S - сульфиды Zn белый, Cu,Fe,Ni,Co,Sn черные нераств, Al,Cr гидролиз
-        "RRRRRRR-RRRRRN-NNN-DDNNN", // HS
-        "RRRRRRRNRMMNMNNNNN-DDNNN", // SO3 - CaSO3 малораств, SrSO3 малораств
-        "RRRRRRRMNMMMRRNRRRRRRRRM", // SO4 - Ag2SO4 малораств, CaSO4 малораств, SrSO4 малораств, BaSO4 нераств, PbSO4 нераств
+        "ORRRRRRDDNNNRRRNNNNNNNDNN", // OH - AgOH разлагается, Mg(OH)2 нерастворим, Fe(OH)3, Al(OH)3, Cr(OH)3 нерастворимы
+        "RRRRRRRMNNMMNRNNNRNRRNRR", // F - MgF2, CaF2 нерастворимы, SrF2, BaF2 малорастворимы, HgF2 растворим
+        "RRRRRRRNRRRRRRMMRRRRRRRR", // Cl - AgCl нераств, PbCl2 малораств
+        "RRRRRRRNRRRRRRMMRRRRRRRR", // Br - AgBr нераств, PbBr2 малораств
+        "RRRRRRRNRRRRRRNNDRRRRRRR", // I - AgI нераств, HgI2 нераств, PbI2 нераств, CuI2 разлагается
+        "RRRRRRRNRRRDNNNNNNDDDNNN", // S - Ag2S нераств, сульфиды Zn белый, Cu,Fe,Ni,Co,Sn черные нераств, Al,Cr,Fe3+ гидролиз
+        "RRRRRRRNRRRRRRDNNNDDDDNNN", // HS - AgHS разлагается, Al,Cr,Fe3+ гидролиз
+        "RRRRRRRNNMMNNNNNNNDDDNNN", // SO3 - MgSO3 нераств, CaSO3 малораств, SrSO3 малораств, BaSO3 нераств, Al,Cr,Fe3+ гидролиз
+        "RRRRRRRRMRMMNRNNRRRRRRRRR", // SO4 - Ag2SO4 малораств, CaSO4 малораств, SrSO4 малораств, BaSO4 нераств, PbSO4 нераств
         "RRRRRRRRRRRRRRRRRRRRRRRR", // NO3 (Все растворимы!)
-        "RRRRRRRNNNNNNNNNNNNNNNNN", // PO4
-        "RRRRRRRNNNNNNN-NNN-DDNNN", // CO3
-        "NRRRRRRNNNNNNN-NNN-DDNNN", // SiO3
-        "RRRRRRRNNNMNRN-NNN-N-NNN", // CrO4
+        "RRRRRRRNNNNNNNNNNNNNNNNN", // PO4 - Только NH4+, щелочные металлы растворимы
+        "RRRRRRRNNNNNNNNNNNDDDNNN", // CO3 - Ag2CO3 нераств, Al,Cr,Fe3+ гидролиз
+        "NRRRRRRNNNNNNNNNNNDDDNNN", // SiO3 - H2SiO3 нераств, Ag2SiO3 нераств, Al,Cr,Fe3+ гидролиз
+        "RRRRRRRNNNMMNNDNNNNDDDNNN", // CrO4 - Ag2CrO4 нераств, CaCrO4 малораств, SrCrO4 малораств, BaCrO4 нераств, PbCrO4 нераств, Al,Cr,Fe3+,Sn гидролиз
         "RRRRRRRMRRMRRRRRRRRRRRRR", // CH3COO - Ag(7), Sr(10) малораств
-        "RRRRRRRMRRRRRRRRRRRRRRRR"  // MnO4
+        "RRRRRRRMRRRRRRRRRRRRRRRR"  // MnO4 - Ag малораств
     ]
 };
 
