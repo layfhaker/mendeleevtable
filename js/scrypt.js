@@ -1663,9 +1663,11 @@ function toggleColorMode() {
     renderSolubilityTable();
 }
 
+// =========================================
+// СИСТЕМА РАСТВОРИМОСТИ (по Лурье)
+// =========================================
 const solubilityData = {
     // 24 Катиона (Полный набор)
-    // Обновленные данные катионов с именами для поиска
     cations: [
         { f: "H⁺", n: "Водород" },
         { f: "NH₄⁺", n: "Аммоний" },
@@ -1693,7 +1695,7 @@ const solubilityData = {
         { f: "Sn²⁺", n: "Олово" }
     ],
 
-    // 17 Анионов
+    // 16 Анионов
     anions: [
         { f: "OH⁻", n: "Гидроксид" },
         { f: "F⁻",  n: "Фторид" },
@@ -1701,40 +1703,186 @@ const solubilityData = {
         { f: "Br⁻", n: "Бромид" },
         { f: "I⁻",  n: "Иодид" },
         { f: "S²⁻", n: "Сульфид" },
-        { f: "HS⁻", n: "Гидросульфид" }, // Редкость!
+        { f: "HS⁻", n: "Гидросульфид" },
         { f: "SO₃²⁻", n: "Сульфит" },
         { f: "SO₄²⁻", n: "Сульфат" },
         { f: "NO₃⁻", n: "Нитрат" },
         { f: "PO₄³⁻", n: "Фосфат" },
         { f: "CO₃²⁻", n: "Карбонат" },
         { f: "SiO₃²⁻", n: "Силикат" },
-        { f: "CrO₄²⁻", n: "Хромат" }, // Красивые желтые
-        { f: "CH₃COO⁻", n: "Ацетат" }, // Органика
-        { f: "MnO₄⁻", n: "Перманганат" } // Фиолетовый
+        { f: "CrO₄²⁻", n: "Хромат" },
+        { f: "CH₃COO⁻", n: "Ацетат" },
+        { f: "MnO₄⁻", n: "Перманганат" }
     ],
 
-    // ДАННЫЕ (Строка = один Анион для всех Катионов по порядку)
-    // R=Раств, N=Нераств, M=Мало, D=Разлагается, O=Нет
-    // Катионы: H, NH4, Li, K, Na, Rb, Cs, Ag, Mg, Ca, Sr, Ba, Zn, Hg, Pb, Cu, Fe2+, Fe3+, Al, Cr, Mn, Ni, Co, Sn
-    rows: [
-        "ORRRRRRDDNNNRRRNNNNNNNDNN", // OH - AgOH разлагается, Mg(OH)2 нерастворим, Fe(OH)3, Al(OH)3, Cr(OH)3 нерастворимы
-        "RRRRRRRMNNMMNRNNNRNRRNRR", // F - MgF2, CaF2 нерастворимы, SrF2, BaF2 малорастворимы, HgF2 растворим
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Cl - AgCl нераств, PbCl2 малораств
-        "RRRRRRRNRRRRRRMMRRRRRRRR", // Br - AgBr нераств, PbBr2 малораств
-        "RRRRRRRNRRRRRRNNDRRRRRRR", // I - AgI нераств, HgI2 нераств, PbI2 нераств, CuI2 разлагается
-        "RRRRRRRNRRRDNNNNNNDDDNNN", // S - Ag2S нераств, сульфиды Zn белый, Cu,Fe,Ni,Co,Sn черные нераств, Al,Cr,Fe3+ гидролиз
-        "RRRRRRRNRRRRRRDNNNDDDDNNN", // HS - AgHS разлагается, Al,Cr,Fe3+ гидролиз
-        "RRRRRRRNNMMNNNNNNNDDDNNN", // SO3 - MgSO3 нераств, CaSO3 малораств, SrSO3 малораств, BaSO3 нераств, Al,Cr,Fe3+ гидролиз
-        "RRRRRRRRMRMMNRNNRRRRRRRRR", // SO4 - Ag2SO4 малораств, CaSO4 малораств, SrSO4 малораств, BaSO4 нераств, PbSO4 нераств
-        "RRRRRRRRRRRRRRRRRRRRRRRR", // NO3 (Все растворимы!)
-        "RRRRRRRNNNNNNNNNNNNNNNNN", // PO4 - Только NH4+, щелочные металлы растворимы
-        "RRRRRRRNNNNNNNNNNNDDDNNN", // CO3 - Ag2CO3 нераств, Al,Cr,Fe3+ гидролиз
-        "NRRRRRRNNNNNNNNNNNDDDNNN", // SiO3 - H2SiO3 нераств, Ag2SiO3 нераств, Al,Cr,Fe3+ гидролиз
-        "RRRRRRRNNNMMNNDNNNNDDDNNN", // CrO4 - Ag2CrO4 нераств, CaCrO4 малораств, SrCrO4 малораств, BaCrO4 нераств, PbCrO4 нераств, Al,Cr,Fe3+,Sn гидролиз
-        "RRRRRRRMRRMRRRRRRRRRRRRR", // CH3COO - Ag(7), Sr(10) малораств
-        "RRRRRRRMRRRRRRRRRRRRRRRR"  // MnO4 - Ag малораств
-    ]
+    // ПРАВИЛА ПО УМОЛЧАНИЮ (по Лурье)
+    defaults: {
+        "OH-": "N",     // Гидроксиды нерастворимы
+        "F-": "R",      // Фториды растворимы
+        "Cl-": "R",     // Хлориды растворимы
+        "Br-": "R",     // Бромиды растворимы
+        "I-": "R",      // Йодиды растворимы
+        "S2-": "N",     // Сульфиды нерастворимы
+        "HS-": "R",     // Гидросульфиды растворимы
+        "SO32-": "R",   // Сульфиты растворимы
+        "SO42-": "R",   // Сульфаты растворимы
+        "NO3-": "R",    // Нитраты все растворимы
+        "PO43-": "N",   // Фосфаты нерастворимы
+        "CO32-": "N",   // Карбонаты нерастворимы
+        "SiO32-": "N",  // Силикаты нерастворимы
+        "CrO42-": "R",  // Хроматы растворимы
+        "CH3COO-": "R", // Ацетаты растворимы
+        "MnO4-": "R"    // Перманганаты растворимы
+    },
+
+    // ИСКЛЮЧЕНИЯ (только отклонения от правил по умолчанию)
+    // Источник: Лурье Ю.Ю. "Справочник по аналитической химии"
+    exceptions: {
+        // === ГИДРОКСИДЫ (по умолчанию N) ===
+        "H+-OH-": "O",         // Не существует (вода)
+        "NH4+-OH-": "R",       // Растворим
+        "Li+-OH-": "R",        // Растворим
+        "K+-OH-": "R",         // Растворим
+        "Na+-OH-": "R",        // Растворим
+        "Rb+-OH-": "R",        // Растворим
+        "Cs+-OH-": "R",        // Растворим
+        "Ca2+-OH-": "M",       // Малорастворим (известковая вода)
+        "Sr2+-OH-": "M",       // Малорастворим
+        "Ba2+-OH-": "R",       // РАСТВОРИМ (важно!)
+        "Ag+-OH-": "D",        // Разлагается → Ag2O
+
+        // === ФТОРИДЫ (по умолчанию R) ===
+        "Mg2+-F-": "N",        // Нерастворим
+        "Ca2+-F-": "N",        // Нерастворим (флюорит)
+        "Sr2+-F-": "M",        // Малорастворим
+        "Ba2+-F-": "M",        // Малорастворим
+        "Pb2+-F-": "N",        // Нерастворим
+        "Ag+-F-": "M",         // Малорастворим
+
+        // === ХЛОРИДЫ (по умолчанию R) ===
+        "Ag+-Cl-": "N",        // Нерастворим
+        "Pb2+-Cl-": "M",       // Малорастворим
+        "Hg2+-Cl-": "N",       // Hg2Cl2 нерастворим
+
+        // === БРОМИДЫ (по умолчанию R) ===
+        "Ag+-Br-": "N",        // Нерастворим
+        "Pb2+-Br-": "M",       // Малорастворим
+        "Hg2+-Br-": "N",       // Нерастворим
+
+        // === ЙОДИДЫ (по умолчанию R) ===
+        "Ag+-I-": "N",         // Нерастворим
+        "Pb2+-I-": "N",        // Нерастворим (золотой дождь)
+        "Hg2+-I-": "N",        // Нерастворим (красный HgI2)
+        "Cu2+-I-": "D",        // Разлагается: 2Cu2+ + 4I- → 2CuI↓ + I2
+
+        // === СУЛЬФИДЫ (по умолчанию N) ===
+        "H+-S2-": "R",         // H2S растворим
+        "NH4+-S2-": "R",       // Растворим
+        "Li+-S2-": "R",        // Растворим
+        "K+-S2-": "R",         // Растворим
+        "Na+-S2-": "R",        // Растворим
+        "Rb+-S2-": "R",        // Растворим
+        "Cs+-S2-": "R",        // Растворим
+        "Mg2+-S2-": "D",       // Гидролиз
+        "Ca2+-S2-": "D",       // Гидролиз
+        "Sr2+-S2-": "D",       // Гидролиз
+        "Ba2+-S2-": "D",       // Гидролиз
+        "Al3+-S2-": "D",       // Гидролиз
+        "Cr3+-S2-": "D",       // Гидролиз
+        "Fe3+-S2-": "D",       // Гидролиз
+
+        // === ГИДРОСУЛЬФИДЫ (по умолчанию R) ===
+        "Ag+-HS-": "N",        // Нерастворим
+        "Hg2+-HS-": "N",       // Нерастворим
+        "Pb2+-HS-": "N",       // Нерастворим
+        "Cu2+-HS-": "N",       // Нерастворим
+        "Fe3+-HS-": "D",       // Гидролиз
+        "Al3+-HS-": "D",       // Гидролиз
+        "Cr3+-HS-": "D",       // Гидролиз
+        "Sn2+-HS-": "D",       // Гидролиз
+
+        // === СУЛЬФИТЫ (по умолчанию R) ===
+        "Ag+-SO32-": "M",      // Малорастворим
+        "Mg2+-SO32-": "M",     // Малорастворим
+        "Ca2+-SO32-": "M",     // Малорастворим
+        "Sr2+-SO32-": "N",     // Нерастворим
+        "Ba2+-SO32-": "N",     // Нерастворим
+        "Pb2+-SO32-": "N",     // Нерастворим
+        "Al3+-SO32-": "D",     // Гидролиз
+        "Cr3+-SO32-": "D",     // Гидролиз
+        "Fe3+-SO32-": "D",     // Гидролиз
+
+        // === СУЛЬФАТЫ (по умолчанию R) ===
+        "Ca2+-SO42-": "M",     // Малорастворим (гипс)
+        "Sr2+-SO42-": "N",     // Нерастворим
+        "Ba2+-SO42-": "N",     // Нерастворим (барит)
+        "Pb2+-SO42-": "N",     // Нерастворим
+        "Ag+-SO42-": "M",      // Малорастворим
+        "Hg2+-SO42-": "M",     // Малорастворим
+
+        // === ФОСФАТЫ (по умолчанию N) ===
+        "H+-PO43-": "R",       // Растворим
+        "NH4+-PO43-": "R",     // Растворим
+        "Li+-PO43-": "R",      // Растворим
+        "K+-PO43-": "R",       // Растворим
+        "Na+-PO43-": "R",      // Растворим
+        "Rb+-PO43-": "R",      // Растворим
+        "Cs+-PO43-": "R",      // Растворим
+
+        // === КАРБОНАТЫ (по умолчанию N) ===
+        "H+-CO32-": "D",       // Разлагается (H2CO3 → CO2 + H2O)
+        "NH4+-CO32-": "R",     // Растворим
+        "Li+-CO32-": "R",      // Растворим
+        "K+-CO32-": "R",       // Растворим
+        "Na+-CO32-": "R",      // Растворим
+        "Rb+-CO32-": "R",      // Растворим
+        "Cs+-CO32-": "R",      // Растворим
+        "Al3+-CO32-": "D",     // Гидролиз
+        "Cr3+-CO32-": "D",     // Гидролиз
+        "Fe3+-CO32-": "D",     // Гидролиз
+
+        // === СИЛИКАТЫ (по умолчанию N) ===
+        "H+-SiO32-": "N",      // H2SiO3 нерастворим (гель кремниевой кислоты)
+        "NH4+-SiO32-": "R",    // Растворим
+        "Li+-SiO32-": "R",     // Растворим
+        "K+-SiO32-": "R",      // Растворим (жидкое стекло)
+        "Na+-SiO32-": "R",     // Растворим (жидкое стекло)
+        "Rb+-SiO32-": "R",     // Растворим
+        "Cs+-SiO32-": "R",     // Растворим
+        "Al3+-SiO32-": "D",    // Гидролиз
+        "Cr3+-SiO32-": "D",    // Гидролиз
+        "Fe3+-SiO32-": "D",    // Гидролиз
+
+        // === ХРОМАТЫ (по умолчанию R) ===
+        "Ag+-CrO42-": "N",     // Нерастворим (кирпично-красный)
+        "Pb2+-CrO42-": "N",    // Нерастворим (оранжево-жёлтый)
+        "Ba2+-CrO42-": "N",    // Нерастворим (жёлтый)
+        "Sr2+-CrO42-": "M",    // Малорастворим
+        "Ca2+-CrO42-": "M",    // Малорастворим
+        "Hg2+-CrO42-": "N",    // Нерастворим
+
+        // === АЦЕТАТЫ (по умолчанию R) ===
+        "Ag+-CH3COO-": "M",    // Малорастворим
+
+        // === ПЕРМАНГАНАТЫ (все растворимы, исключений нет) ===
+    }
 };
+
+// Функция получения растворимости
+function getSolubility(cationFormula, anionFormula) {
+    // Нормализуем формулы для ключа
+    const cationKey = normalizeFormula(cationFormula);
+    const anionKey = normalizeFormula(anionFormula);
+    const exceptionKey = `${cationKey}-${anionKey}`;
+
+    // Сначала проверяем исключения
+    if (solubilityData.exceptions[exceptionKey] !== undefined) {
+        return solubilityData.exceptions[exceptionKey];
+    }
+
+    // Иначе возвращаем правило по умолчанию
+    return solubilityData.defaults[anionKey] || "R";
+}
 
 // Функция отрисовки (Вызывать 1 раз при старте или открытии)
 function renderSolubilityTable() {
@@ -1780,32 +1928,29 @@ function renderSolubilityTable() {
         th.onclick = () => highlightRow(rowIndex);
         tr.appendChild(th);
 
-        // Данные строки (из строки символов)
-        const dataString = solubilityData.rows[rowIndex] || ""; // Защита если строка короче
-
+        // Данные строки (НОВАЯ СИСТЕМА - используем getSolubility)
         solubilityData.cations.forEach((cat, colIndex) => {
             const td = document.createElement('td');
-            const char = dataString[colIndex] || "?";
+
+            // Получаем растворимость через новую функцию
+            const solubility = getSolubility(cat.f, anion.f);
 
             // Расшифровка символа
-            let text = char;
+            let text = '';
             let className = '';
 
-            switch(char) {
+            switch(solubility) {
                 case 'R': text = 'Р'; className = 'type-r'; break;
                 case 'N': text = 'Н'; className = 'type-n'; break;
                 case 'M': text = 'М'; className = 'type-m'; break;
                 case 'D': text = '-'; className = 'type-d'; break;
                 case 'O': text = ''; className = 'type-d'; break;
-                case 'Z': text = 'М'; className = 'type-m'; break;
-                default: text = '?';
+                default: text = '?'; className = '';
             }
 
             td.innerText = text;
             td.className = className;
 
-            // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
-            // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
             // === РЕЖИМ РЕАЛЬНЫХ ЦВЕТОВ ===
             if (isColorMode) {
                 const catKey = normalizeFormula(cat.f);
@@ -1814,8 +1959,8 @@ function renderSolubilityTable() {
 
                 const chemColor = substanceColors[colorKey];
 
-                // Пропускаем разлагающиеся вещества (D, -, ?)
-                if (char === 'D' || char === 'O' || char === '-') {
+                // Пропускаем разлагающиеся вещества (D, O)
+                if (solubility === 'D' || solubility === 'O') {
                     // Не красим — оставляем серым
                 }
                 else if (chemColor) {
@@ -1835,11 +1980,11 @@ function renderSolubilityTable() {
                         }
                     }
                 }
-                else if (char === 'R') {
+                else if (solubility === 'R') {
                     // Растворимо, но нет в базе → бесцветный раствор
                     td.classList.add('chem-color-cell', 'colorless-solution', 'light-bg');
                 }
-                else if (char === 'N' || char === 'M') {
+                else if (solubility === 'N' || solubility === 'M') {
                     // Нерастворимо/малорастворимо, но нет в базе → белый осадок
                     td.classList.add('chem-color-cell', 'white-precipitate', 'light-bg');
                 }
