@@ -682,9 +682,9 @@
                 <svg><use href="#icon-filter"></use></svg>
             </button>
         </div>
-        <div class="fab-option" onclick="openSolubility()">
+        <div class="fab-option" onclick="toggleSolubility()">
             <span class="fab-label">Растворимость</span>
-            <button class="fab-btn" aria-label="Открыть таблицу растворимости">
+            <button class="fab-btn" aria-label="Открыть/закрыть таблицу растворимости">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
                 </svg>
@@ -717,7 +717,7 @@
         </div>
         <div id="search-results" class="search-results"></div>
     </div>
-    <div class="filters-section">
+    <div class="filters-section" id="categories-section">
         <h4>Категории</h4>
         <div class="filter-buttons">
             <button class="filter-btn" data-filter="alkali-metal">Щелочные</button>
