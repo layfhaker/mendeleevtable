@@ -21,10 +21,11 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh; /* Используем min-height */
     margin: 0;
     padding: 20px;
-    overflow: hidden;
+    /* УБРАЛИ overflow: hidden, поставили auto */
+    overflow: auto;
     box-sizing: border-box;
 }
 

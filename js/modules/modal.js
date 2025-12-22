@@ -277,6 +277,9 @@ function returnElements() {
 // =========================================
 document.querySelectorAll('.element').forEach(el => {
     el.addEventListener('click', () => {
+        if (document.body.classList.contains('calc-active')) {
+            return;
+        }
         lastClickedElement = el;
 
         // Данные элемента

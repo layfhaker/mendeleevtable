@@ -1158,29 +1158,28 @@ function searchInSolubilityTable(query) {
 
 let originalCategoriesHTML = ''; // Сохраняем оригинальные категории
 
+// =========================================
+// ЗАМЕНА ФИЛЬТРОВ (Обновленная версия)
+// =========================================
+
 function updateFiltersForSolubility() {
     const categoriesSection = document.getElementById('categories-section');
     if (!categoriesSection) return;
 
-    // Сохраняем оригинальные категории при первом вызове
     if (!originalCategoriesHTML) {
         originalCategoriesHTML = categoriesSection.innerHTML;
     }
 
-    // Проверяем режим цветов
     if (isColorMode) {
-        // Получаем уникальные цвета из таблицы
         const uniqueColors = getUniqueColorsFromTable();
-
-        // Генерируем кнопки для каждого цвета
         let buttonsHTML = '';
+
         uniqueColors.forEach(colorObj => {
-            // Сохраняем originalColors как JSON в data-атрибуте
-            const originalColorsJSON = JSON.stringify(colorObj.originalColors);
-            buttonsHTML += `<button class="filter-btn" data-color-name="${colorObj.name}" data-original-colors='${originalColorsJSON}'>${colorObj.name}</button>`;
+            // Кодируем массив цветов в URI-компонент, чтобы не ломать HTML-кавычки
+            const safeColors = encodeURIComponent(JSON.stringify(colorObj.originalColors));
+            buttonsHTML += `<button class="filter-btn" data-color-name="${colorObj.name}" data-encoded-colors="${safeColors}">${colorObj.name}</button>`;
         });
 
-        // Фильтры по цветам
         categoriesSection.innerHTML = `
             <h4>Цвета веществ</h4>
             <div class="filter-buttons">
@@ -1188,11 +1187,10 @@ function updateFiltersForSolubility() {
             </div>
         `;
 
-        // Добавляем обработчики для фильтров цветов
         document.querySelectorAll('#categories-section .filter-btn[data-color-name]').forEach(btn => {
             btn.addEventListener('click', () => {
-                const colorName = btn.dataset.colorName;
-                const originalColors = JSON.parse(btn.dataset.originalColors);
+                // Декодируем обратно
+                const originalColors = JSON.parse(decodeURIComponent(btn.dataset.encoded-colors));
 
                 if (btn.classList.contains('active')) {
                     btn.classList.remove('active');
@@ -1206,7 +1204,7 @@ function updateFiltersForSolubility() {
             });
         });
     } else {
-        // Фильтры по растворимости
+        // (Код для обычных фильтров растворимости Р/М/Н остаётся тем же, можно скопировать из старого файла или оставить как есть, если заменяешь только блок if (isColorMode))
         categoriesSection.innerHTML = `
             <h4>Растворимость</h4>
             <div class="filter-buttons">
@@ -1217,23 +1215,57 @@ function updateFiltersForSolubility() {
             </div>
         `;
 
-        // Добавляем обработчики для фильтров растворимости
         document.querySelectorAll('#categories-section .filter-btn[data-solubility]').forEach(btn => {
             btn.addEventListener('click', () => {
                 const solubility = btn.dataset.solubility;
-
                 if (btn.classList.contains('active')) {
                     btn.classList.remove('active');
                     resetSolubilityTableDisplay();
                     return;
                 }
-
                 document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 filterBySolubility(solubility);
             });
         });
     }
+}
+
+// Фильтрация по цвету (исправленная)
+function filterByColor(targetColors) {
+    const table = document.getElementById('solubility-table');
+    if (!table) return;
+
+    // Приводим искомые цвета к нижнему регистру для надежности
+    const targetColorsLower = targetColors.map(c => c.toLowerCase().trim());
+    const rows = table.querySelectorAll('tr');
+
+    rows.forEach((row, rowIndex) => {
+        if (rowIndex === 0) return;
+
+        const cells = row.querySelectorAll('td');
+        cells.forEach((cell, cellIndex) => {
+            if (cellIndex === 0) return;
+            // H+ (индекс 1) оставляем видимым
+            if (cellIndex === 1) {
+                cell.style.opacity = '1';
+                cell.style.filter = 'none';
+                return;
+            }
+
+            const substanceKey = getCellSubstanceKey(rowIndex - 1, cellIndex - 1);
+            const substanceColor = substanceColors[substanceKey];
+
+            // Сравнение: цвет есть и он совпадает с одним из выбранных
+            if (substanceColor && targetColorsLower.includes(substanceColor.toLowerCase().trim())) {
+                cell.style.opacity = '1';
+                cell.style.filter = 'none';
+            } else {
+                cell.style.opacity = '0.1';
+                cell.style.filter = 'grayscale(100%)';
+            }
+        });
+    });
 }
 
 function restoreElementFilters() {
@@ -1262,6 +1294,7 @@ function restoreElementFilters() {
 }
 
 // Фильтрация ячеек таблицы по растворимости
+
 function filterBySolubility(solubility) {
     const table = document.getElementById('solubility-table');
     if (!table) return;
@@ -1269,17 +1302,14 @@ function filterBySolubility(solubility) {
     const rows = table.querySelectorAll('tr');
 
     rows.forEach((row, rowIndex) => {
-        if (rowIndex === 0) return; // Пропускаем заголовок
+        if (rowIndex === 0) return; // Пропускаем шапку таблицы (катионы)
 
         const cells = row.querySelectorAll('td');
-        cells.forEach((cell, cellIndex) => {
-            if (cellIndex === 0) return; // Пропускаем первый столбец (заголовки)
+        cells.forEach((cell) => {
+            // Убрали проверки if (cellIndex === 0) и if (cellIndex === 1)
+            // Теперь проверяем содержимое ВСЕХ ячеек
 
-            // Первый столбец катиона (H⁺) всегда виден (cellIndex === 1)
-            if (cellIndex === 1) {
-                cell.style.opacity = '1';
-                cell.style.filter = 'none';
-            } else if (cell.textContent.trim() === solubility) {
+            if (cell.textContent.trim() === solubility) {
                 cell.style.opacity = '1';
                 cell.style.filter = 'none';
             } else {
@@ -1438,41 +1468,6 @@ function getUniqueColorsFromTable() {
     return result;
 }
 
-// Фильтрация ячеек таблицы по цвету
-function filterByColor(originalColors) {
-    const table = document.getElementById('solubility-table');
-    if (!table) return;
-
-    const rows = table.querySelectorAll('tr');
-
-    rows.forEach((row, rowIndex) => {
-        if (rowIndex === 0) return; // Пропускаем заголовок
-
-        const cells = row.querySelectorAll('td');
-        cells.forEach((cell, cellIndex) => {
-            if (cellIndex === 0) return; // Пропускаем первый столбец (заголовки анионов)
-
-            // Первый столбец катиона (H⁺) всегда виден
-            if (cellIndex === 1) {
-                cell.style.opacity = '1';
-                cell.style.filter = 'none';
-                return;
-            }
-
-            const substanceKey = getCellSubstanceKey(rowIndex - 1, cellIndex - 1);
-            const substanceColor = substanceColors[substanceKey];
-
-            // Проверяем, входит ли цвет вещества в список выбранных цветов
-            if (substanceColor && originalColors.includes(substanceColor)) {
-                cell.style.opacity = '1';
-                cell.style.filter = 'none';
-            } else {
-                cell.style.opacity = '0.1';
-                cell.style.filter = 'grayscale(100%)';
-            }
-        });
-    });
-}
 
 // Сброс фильтрации таблицы растворимости
 function resetSolubilityTableDisplay() {
