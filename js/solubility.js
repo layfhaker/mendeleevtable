@@ -838,12 +838,16 @@ function toggleSolubility() {
 
 // Вызов функции открытия (не забудь добавить в FAB)
 function openSolubility() {
+    renderActivitySeries()
     const modal = document.getElementById('solubility-modal');
     // Генерируем таблицу только если она пустая (оптимизация)
     if(document.getElementById('solubility-table').innerHTML === "") {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
+    if (window.initSolubilityDrag) {
+        window.initSolubilityDrag();
+    }
 
     // Добавляем класс для скрытия FAB и кнопки темы на мобильных
     document.body.classList.add('solubility-open');
@@ -1159,13 +1163,14 @@ function searchInSolubilityTable(query) {
 let originalCategoriesHTML = ''; // Сохраняем оригинальные категории
 
 // =========================================
-// ЗАМЕНА ФИЛЬТРОВ (Обновленная версия)
+// ИСПРАВЛЕННЫЕ ФИЛЬТРЫ (V2)
 // =========================================
 
 function updateFiltersForSolubility() {
     const categoriesSection = document.getElementById('categories-section');
     if (!categoriesSection) return;
 
+    // Сохраняем оригинал, если еще не сохранен
     if (!originalCategoriesHTML) {
         originalCategoriesHTML = categoriesSection.innerHTML;
     }
@@ -1175,8 +1180,9 @@ function updateFiltersForSolubility() {
         let buttonsHTML = '';
 
         uniqueColors.forEach(colorObj => {
-            // Кодируем массив цветов в URI-компонент, чтобы не ломать HTML-кавычки
+            // Кодируем массив в строку, безопасную для HTML
             const safeColors = encodeURIComponent(JSON.stringify(colorObj.originalColors));
+            // Внимание: атрибут data-encoded-colors
             buttonsHTML += `<button class="filter-btn" data-color-name="${colorObj.name}" data-encoded-colors="${safeColors}">${colorObj.name}</button>`;
         });
 
@@ -1187,10 +1193,11 @@ function updateFiltersForSolubility() {
             </div>
         `;
 
+        // Навешиваем обработчики
         document.querySelectorAll('#categories-section .filter-btn[data-color-name]').forEach(btn => {
             btn.addEventListener('click', () => {
-                // Декодируем обратно
-                const originalColors = JSON.parse(decodeURIComponent(btn.dataset.encoded-colors));
+                // ИСПРАВЛЕНИЕ ЗДЕСЬ: используем encodedColors (camelCase), а не encoded-colors
+                const originalColors = JSON.parse(decodeURIComponent(btn.dataset.encodedColors));
 
                 if (btn.classList.contains('active')) {
                     btn.classList.remove('active');
@@ -1204,7 +1211,7 @@ function updateFiltersForSolubility() {
             });
         });
     } else {
-        // (Код для обычных фильтров растворимости Р/М/Н остаётся тем же, можно скопировать из старого файла или оставить как есть, если заменяешь только блок if (isColorMode))
+        // Стандартные фильтры растворимости
         categoriesSection.innerHTML = `
             <h4>Растворимость</h4>
             <div class="filter-buttons">
@@ -1230,44 +1237,92 @@ function updateFiltersForSolubility() {
         });
     }
 }
-
-// Фильтрация по цвету (исправленная)
+// Фильтрация по цвету (ИСПРАВЛЕННАЯ ВЕРСИЯ)
 function filterByColor(targetColors) {
     const table = document.getElementById('solubility-table');
     if (!table) return;
 
-    // Приводим искомые цвета к нижнему регистру для надежности
+    // Приводим целевые цвета к нижнему регистру для сравнения
     const targetColorsLower = targetColors.map(c => c.toLowerCase().trim());
     const rows = table.querySelectorAll('tr');
 
     rows.forEach((row, rowIndex) => {
-        if (rowIndex === 0) return;
+        if (rowIndex === 0) return; // Пропускаем шапку таблицы
 
-        const cells = row.querySelectorAll('td');
-        cells.forEach((cell, cellIndex) => {
-            if (cellIndex === 0) return;
-            // H+ (индекс 1) оставляем видимым
-            if (cellIndex === 1) {
-                cell.style.opacity = '1';
-                cell.style.filter = 'none';
-                return;
+        // ВАЖНО: Используем .children, чтобы учитывать и <th> (заголовок ряда), и <td>
+        // Это сохранит правильную нумерацию индексов (0 - заголовок, 1 - H+, 2 - NH4+ и т.д.)
+        const cells = row.children;
+
+        // Начинаем с i = 1, так как i = 0 это заголовок ряда (Анион)
+        for (let i = 1; i < cells.length; i++) {
+            const cell = cells[i];
+
+            // Индекс катиона в массиве данных
+            // i=1 (это H+) соответствует cations[0]
+            const cationIndex = i - 1;
+
+            // Индекс аниона
+            // rowIndex=1 (первый ряд) соответствует anions[0]
+            const anionIndex = rowIndex - 1;
+
+            // 1. Определяем свойства вещества
+            const anion = solubilityData.anions[anionIndex];
+            const cation = solubilityData.cations[cationIndex];
+
+            // Защита от ошибок индексации
+            if (!anion || !cation) continue;
+
+            const solubility = getSolubility(cation.f, anion.f);
+
+            // Ключ для поиска цвета в базе
+            const substanceKey = `${normalizeFormula(cation.f)}-${normalizeFormula(anion.f)}`;
+            const dbColor = substanceColors[substanceKey];
+
+            // 2. Определяем ЭФФЕКТИВНЫЙ цвет (тот, что видит глаз)
+            let effectiveColor = null;
+
+            if (dbColor) {
+                effectiveColor = dbColor;
+            } else {
+                // Логика по умолчанию
+                if (solubility === 'R') {
+                    effectiveColor = 'colorless'; // Растворимые -> Бесцветные
+                } else if (solubility === 'M' || solubility === 'N') {
+                    effectiveColor = 'white';     // Осадки -> Белые
+                }
+                // D/O пропускаем (оставляем null)
             }
 
-            const substanceKey = getCellSubstanceKey(rowIndex - 1, cellIndex - 1);
-            const substanceColor = substanceColors[substanceKey];
+            // 3. Проверка совпадения
+            let isMatch = false;
 
-            // Сравнение: цвет есть и он совпадает с одним из выбранных
-            if (substanceColor && targetColorsLower.includes(substanceColor.toLowerCase().trim())) {
+            if (effectiveColor) {
+                const effLower = effectiveColor.toLowerCase().trim();
+
+                // Проверяем точное совпадение
+                if (targetColorsLower.includes(effLower)) {
+                    isMatch = true;
+                }
+                // Доп. проверка для HEX (на всякий случай)
+                else if (effLower.startsWith('#')) {
+                    // Если в фильтре выбран цвет (например, '#ffffff'), а effectiveColor тоже hex
+                    if (targetColorsLower.some(tc => tc === effLower)) {
+                        isMatch = true;
+                    }
+                }
+            }
+
+            // 4. Применяем стиль
+            if (isMatch) {
                 cell.style.opacity = '1';
                 cell.style.filter = 'none';
             } else {
-                cell.style.opacity = '0.1';
+                cell.style.opacity = '0.05';
                 cell.style.filter = 'grayscale(100%)';
             }
-        });
+        }
     });
 }
-
 function restoreElementFilters() {
     const categoriesSection = document.getElementById('categories-section');
     if (!categoriesSection || !originalCategoriesHTML) return;
@@ -1539,3 +1594,91 @@ function enableDragScroll(element) {
         element.scrollTop = scrollTop - walkY;
     });
 }
+
+// =========================================
+// РЯД АКТИВНОСТИ
+// =========================================
+const activityData = {
+    metals: ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"],
+    nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
+};
+
+let isMetalsView = true;
+
+function renderActivitySeries() {
+    // Ищем контейнер, если его нет - создаем динамически внутри solubility-modal
+    let container = document.getElementById('activity-series-container');
+
+    if (!container) {
+        const modalContent = document.querySelector('#solubility-modal .solubility-content');
+        if (!modalContent) return;
+
+        // Создаем контейнер перед таблицей (или после заголовка)
+        container = document.createElement('div');
+        container.id = 'activity-series-container';
+        container.className = 'activity-series-wrapper';
+
+        // Вставляем после header
+        const header = modalContent.querySelector('.modal-header');
+        if (header) {
+            header.after(container);
+        } else {
+            modalContent.prepend(container);
+        }
+    }
+
+    container.innerHTML = `
+        <div class="activity-header">
+            <h3 id="activity-title" style="margin:0; font-size:1.1rem;">${isMetalsView ? "Ряд активности металлов" : "Ряд активности неметаллов"}</h3>
+            <button id="toggle-activity-btn" style="padding:5px 10px; cursor:pointer;">
+                ${isMetalsView ? "К неметаллам ⟷" : "К металлам ⟷"}
+            </button>
+        </div>
+        <div class="activity-scroll-area" style="overflow-x:auto; padding:10px 0;">
+            <div id="activity-list" class="activity-list" style="display:flex; gap:5px; white-space:nowrap; align-items:center;">
+                </div>
+        </div>
+    `;
+
+    // Логика кнопки
+    container.querySelector('#toggle-activity-btn').onclick = () => {
+        isMetalsView = !isMetalsView;
+        renderActivitySeries();
+    };
+
+    // Рендер списка
+    const list = container.querySelector('#activity-list');
+    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
+
+    data.forEach((symbol, index) => {
+        const item = document.createElement('div');
+        item.style.cssText = "display:flex; align-items:center; font-weight:bold;";
+
+        let bg = "#f5f5f5";
+        let color = "#333";
+        // Выделение водорода
+        if (symbol === 'H' && isMetalsView) {
+            bg = "#ffeb3b";
+            color = "#000";
+        }
+
+        const span = document.createElement('span');
+        span.innerText = symbol;
+        span.style.cssText = `padding:4px 8px; border-radius:4px; background:${bg}; color:${color}; border:1px solid #ddd;`;
+
+        item.appendChild(span);
+
+        if (index < data.length - 1) {
+            const arrow = document.createElement('span');
+            arrow.innerText = "→";
+            arrow.style.margin = "0 5px";
+            arrow.style.color = "#999";
+            item.appendChild(arrow);
+        }
+
+        list.appendChild(item);
+    });
+}
+
+// Добавляем вызов в функцию открытия модалки
+// Найди функцию openSolubility и добавь туда renderActivitySeries();

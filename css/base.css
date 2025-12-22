@@ -1,5 +1,5 @@
 /* =========================================
-   BASE.CSS — Базовые стили страницы
+   BASE.CSS — Базовые стили страницы (ИСПРАВЛЕНО)
    ========================================= */
 
 /* --- Canvas для частиц --- */
@@ -21,11 +21,13 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 100vh; /* Используем min-height */
+    /* ИСПРАВЛЕНИЕ СКРОЛЛА: */
+    min-height: 100vh;      /* Было height: 100vh */
+    height: auto;           /* Разрешаем рост по высоте */
     margin: 0;
     padding: 20px;
-    /* УБРАЛИ overflow: hidden, поставили auto */
-    overflow: auto;
+    overflow-y: auto;       /* Разрешаем вертикальный скролл */
+    overflow-x: hidden;     /* Горизонтальный скрываем, если не нужен */
     box-sizing: border-box;
 }
 
@@ -35,24 +37,52 @@ body {
  @media (max-width: 1024px) {
      html, body {
          width: 100%;
-         height: 100%;
+         min-height: 100%; /* Меняем height на min-height */
          margin: 0;
          padding: 0;
-         overflow: hidden;
+         /* Убираем overflow: hidden */
+         overflow-x: hidden;
+         overflow-y: auto; /* Включаем скролл на мобильных */
      }
 
      body {
          display: flex;
          flex-direction: column;
-         justify-content: center;
-         align-items: flex-start;
-         overflow-x: auto;
-         overflow-y: hidden;
+         justify-content: flex-start; /* Меняем center на flex-start, чтобы верх не обрезался */
+         align-items: center;
          background-color: #f0f0f0;
-         /* Увеличиваем отступ снизу, чтобы контент прокручивался ВЫШЕ кнопки меню */
          padding: 10px 10px 140px 10px !important;
          box-sizing: border-box;
-         min-height: 100vh;
          -webkit-overflow-scrolling: touch;
      }
  }
+
+ html, body {
+    user-select: none; /* Запрет выделения текста */
+    -webkit-user-select: none;
+    cursor: grab; /* Показываем, что можно тянуть */
+}
+
+body.grabbing {
+    cursor: grabbing; /* Курсор при перетаскивании */
+}
+
+/* Разрешаем выделение ТОЛЬКО в текстовых блоках */
+#element-info,
+#element-title,
+.group-content,
+.search-results {
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: auto;
+}
+
+/* Скролл-контейнеры должны явно менять курсор */
+.solubility-wrapper {
+    cursor: grab;
+    overflow: auto;
+}
+
+.solubility-wrapper:active {
+    cursor: grabbing;
+}
