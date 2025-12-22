@@ -133,10 +133,10 @@ const substanceColors = {
     "Ag+-Cr2O72-": "#dc143c",     // Ag₂Cr₂O₇ - малорастворимый красный
     "Pb2+-Cr2O72-": "#ff4500",    // PbCr₂O₇ - малорастворимый оранжево-красный
 
-    // Соли железа(III)
-    "Fe3+-Cl-": "#daa520",        // FeCl₃ - жёлто-коричневый
-    "Fe3+-SO42-": "#daa520",      // Fe₂(SO₄)₃ - желтоватый
-    "Fe3+-NO3-": "#d2b48c",       // Fe(NO₃)₃ - бледно-жёлтый
+    // Соли железа(III) - желто-бурые из-за гидролиза
+    "Fe3+-Cl-": "#cd853f",        // FeCl₃ - жёлто-бурый (гидролиз)
+    "Fe3+-SO42-": "#cd853f",      // Fe₂(SO₄)₃ - жёлто-бурый (гидролиз)
+    "Fe3+-NO3-": "#cd853f",       // Fe(NO₃)₃ - жёлто-бурый (гидролиз)
 
     // =============================================
     // ГОЛУБЫЕ И СИНИЕ
@@ -172,6 +172,7 @@ const substanceColors = {
     "Co2+-NO3-": "#ff69b4",       // Co(NO₃)₂ - розовый
     "Co2+-SO42-": "#ff69b4",      // CoSO₄ - розовый
     "Mn2+-SO42-": "#ffb6c1",      // MnSO₄ - бледно-розовый
+    "Mn2+-S2-": "#ffb6c1",        // MnS - розовый
 
     // =============================================
     // ФИОЛЕТОВЫЕ
@@ -380,11 +381,11 @@ const solubilityData = {
         "Sr2+-F-": "M",        // Малорастворим
         "Ba2+-F-": "M",        // Малорастворим
         "Pb2+-F-": "N",        // Нерастворим
-        "Ag+-F-": "M",         // Малорастворим
+        "Ag+-F-": "R",         // Растворим (исключение из правила для солей Ag⁺)
 
         // === ХЛОРИДЫ (по умолчанию R) ===
         "Ag+-Cl-": "N",        // Нерастворим
-        "Pb2+-Cl-": "M",       // Малорастворим
+        "Pb2+-Cl-": "M",       // Малорастворим (растворимость сильно зависит от температуры)
         "Hg2+-Cl-": "N",       // Hg2Cl2 нерастворим
 
         // === БРОМИДЫ (по умолчанию R) ===
@@ -866,6 +867,17 @@ function openSolubility() {
         enableDragScroll(wrapper);
         wrapper.dataset.dragScrollEnabled = 'true';
     }
+
+    // Включаем Ctrl+колесико для горизонтального скролла
+    if (wrapper && !wrapper.dataset.ctrlScrollEnabled) {
+        wrapper.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                wrapper.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+        wrapper.dataset.ctrlScrollEnabled = 'true';
+    }
 }
 
 function closeSolubility() {
@@ -1086,8 +1098,8 @@ function searchInSolubilityTable(query) {
             const name = c.n.toLowerCase();
             const formula = c.f.toLowerCase().replace('+', '').replace('2', '').replace('3', '').replace('⁺', '').replace('²', '').replace('₂', '');
 
-            // Ищем вхождение имени катиона (или корня) в запрос
-            if (query.includes(name) || query.includes(name.slice(0, -1)) || query.includes(formula)) {
+            // Ищем вхождение запроса в имя/формулу катиона (а не наоборот!)
+            if (name.includes(query) || formula.includes(query)) {
                 foundColIndex = i;
                 break;
             }
