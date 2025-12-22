@@ -121,34 +121,24 @@ dropZone.addEventListener('drop', (e) => {
 });
 
 // Добавление атома в список
+// Добавление атома
 function addAtomToCalculator(symbol) {
     let mass = 0;
     if (symbol === 'Cl') {
         mass = 35.5;
     } else {
-        // Берем массу из elementsData
         const rawMass = String(elementsData[symbol].atomicMass);
-        // Парсим массу (теперь точнее для дробных)
+        // Используем parseFloat для точности
         mass = parseFloat(rawMass.replace('[', '').replace(']', ''));
-        // Округляем до сотых, если нужно, или оставляем как есть
         if (isNaN(mass)) mass = 0;
     }
 
-    // Проверяем, есть ли уже такой атом в списке
     const existingAtom = calcAtoms.find(a => a.symbol === symbol);
 
     if (existingAtom) {
-        // Если есть — увеличиваем количество
-        existingAtom.count = parseFloat((existingAtom.count + 1).toFixed(2));
-        // Обновляем UI существующего элемента
-        const atomDiv = document.querySelector(`.calc-atom[data-id="${existingAtom.id}"]`);
-        if (atomDiv) {
-            const input = atomDiv.querySelector('input');
-            input.value = existingAtom.count;
-        }
-        updateTotalMass();
+        // Увеличиваем на 1
+        changeQuantity(existingAtom, 1);
     } else {
-        // Если нет — создаем новый
         const atomObj = {
             id: Date.now(),
             symbol: symbol,
@@ -157,7 +147,7 @@ function addAtomToCalculator(symbol) {
         };
         calcAtoms.push(atomObj);
 
-        const placeholder = document.querySelector('#drop-zone .drop-placeholder');
+        const placeholder = document.querySelector('.drop-placeholder');
         if (placeholder) placeholder.style.display = 'none';
 
         renderAtomUI(atomObj);
@@ -165,82 +155,92 @@ function addAtomToCalculator(symbol) {
     }
 }
 
-// Отрисовка UI элемента в калькуляторе
+// Отрисовка с НОВЫМ дизайном
 function renderAtomUI(atomObj) {
     const dropZone = document.getElementById('drop-zone');
     const atomDiv = document.createElement('div');
     atomDiv.className = 'calc-atom';
     atomDiv.dataset.id = atomObj.id;
 
-    // HTML структура: Иконка | Инфо+Контролы | Удалить
+    // Генерируем HTML структуру, соответствующую CSS
     atomDiv.innerHTML = `
         <div class="calc-atom-visual">${atomObj.symbol}</div>
         <div class="calc-info">
-            <span class="calc-symbol">${atomObj.symbol}</span>
+            <span class="calc-symbol">${elementsData[atomObj.symbol] ? elementsData[atomObj.symbol].name : atomObj.symbol}</span>
             <div class="calc-controls">
                 <button class="calc-btn-minus" type="button">−</button>
                 <input type="number" class="calc-atom-count" value="${atomObj.count}" min="0.1" step="0.1">
                 <button class="calc-btn-plus" type="button">+</button>
             </div>
         </div>
-        <span class="calc-atom-remove">&times;</span>
+        <div class="calc-atom-remove">&times;</div>
     `;
 
-    // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
+    dropZone.appendChild(atomDiv);
 
-    // 1. Input (ручной ввод)
+    // --- НАВЕШИВАЕМ ОБРАБОТЧИКИ ---
+
     const input = atomDiv.querySelector('input');
+
+    // Ручной ввод
     input.onchange = (e) => {
         let val = parseFloat(e.target.value);
         if (isNaN(val) || val < 0.1) val = 0.1;
-        // Округляем до 2 знаков
-        val = parseFloat(val.toFixed(2));
-
         atomObj.count = val;
-        input.value = val;
         updateTotalMass();
     };
 
-    // 2. Кнопка Минус
-    const btnMinus = atomDiv.querySelector('.calc-btn-minus');
-    btnMinus.onclick = () => {
+    // Кнопка Минус
+    atomDiv.querySelector('.calc-btn-minus').onclick = () => {
         changeQuantity(atomObj, -1, input);
     };
 
-    // 3. Кнопка Плюс
-    const btnPlus = atomDiv.querySelector('.calc-btn-plus');
-    btnPlus.onclick = () => {
+    // Кнопка Плюс
+    atomDiv.querySelector('.calc-btn-plus').onclick = () => {
         changeQuantity(atomObj, 1, input);
     };
 
-    // 4. Кнопка Удалить
-    const btnRemove = atomDiv.querySelector('.calc-atom-remove');
-    btnRemove.onclick = () => {
+    // Удаление
+    atomDiv.querySelector('.calc-atom-remove').onclick = () => {
         calcAtoms = calcAtoms.filter(a => a.id !== atomObj.id);
         atomDiv.remove();
         if (calcAtoms.length === 0) {
-            const placeholder = document.querySelector('#drop-zone .drop-placeholder');
-            if (placeholder) placeholder.style.display = 'block';
+            const placeholder = document.querySelector('.drop-placeholder');
+            if (placeholder) placeholder.style.display = 'flex';
         }
         updateTotalMass();
     };
-
-    dropZone.appendChild(atomDiv);
 }
 
-// Подсчет общей массы
+// Логика изменения количества (+/-)
+function changeQuantity(atomObj, change, inputEl) {
+    let newVal = parseFloat((atomObj.count + change).toFixed(2));
+    if (newVal < 0.1) newVal = 0.1;
+
+    atomObj.count = newVal;
+
+    // Если inputEl не передан, ищем его в DOM
+    if (!inputEl) {
+        const atomDiv = document.querySelector(`.calc-atom[data-id="${atomObj.id}"]`);
+        if (atomDiv) inputEl = atomDiv.querySelector('input');
+    }
+
+    if (inputEl) inputEl.value = newVal;
+    updateTotalMass();
+}
+
 function updateTotalMass() {
     let total = 0;
     calcAtoms.forEach(atom => {
         total += atom.mass * atom.count;
     });
 
-    // Округляем итог до сотых
-    total = parseFloat(total.toFixed(2));
+    // Округляем красиво
+    const formattedTotal = parseFloat(total.toFixed(3));
 
-    const resultEl = document.querySelector('#calc-result .mass-value');
+    const resultEl = document.querySelector('.mass-value');
     if (resultEl) {
-        resultEl.innerHTML = `${total} <span class="unit">г/моль</span>`;
+        resultEl.innerHTML = `${formattedTotal} <span class="unit">г/моль</span>`;
     }
 }
 
@@ -334,20 +334,3 @@ window.addEventListener('resize', () => {
         resetFabPosition();
     }
 });
-
-function changeQuantity(atomObj, change, inputEl) {
-    let current = atomObj.count;
-
-    // Если число целое -> шаг 1, если дробное -> шаг 1 (но можно настроить 0.1)
-    // Сейчас делаем шаг 1
-    let newVal = current + change;
-
-    if (newVal < 0.1) newVal = 0.1;
-
-    // Округляем
-    newVal = parseFloat(newVal.toFixed(2));
-
-    atomObj.count = newVal;
-    inputEl.value = newVal;
-    updateTotalMass();
-}

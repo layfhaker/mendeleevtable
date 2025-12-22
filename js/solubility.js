@@ -838,13 +838,14 @@ function toggleSolubility() {
 
 // Вызов функции открытия (не забудь добавить в FAB)
 function openSolubility() {
-    renderActivitySeries()
+
     const modal = document.getElementById('solubility-modal');
     // Генерируем таблицу только если она пустая (оптимизация)
     if(document.getElementById('solubility-table').innerHTML === "") {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
+    renderActivitySeries()
     if (window.initSolubilityDrag) {
         window.initSolubilityDrag();
     }
@@ -1596,8 +1597,9 @@ function enableDragScroll(element) {
 }
 
 // =========================================
-// РЯД АКТИВНОСТИ
+// РЯД АКТИВНОСТИ (МЕТАЛЛЫ И НЕМЕТАЛЛЫ)
 // =========================================
+
 const activityData = {
     metals: ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"],
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
@@ -1605,79 +1607,58 @@ const activityData = {
 
 let isMetalsView = true;
 
+// Эту функцию надо вызывать внутри openSolubility()
 function renderActivitySeries() {
-    // Ищем контейнер, если его нет - создаем динамически внутри solubility-modal
     let container = document.getElementById('activity-series-container');
 
+    // Если контейнера нет — создаем его
     if (!container) {
-        const modalContent = document.querySelector('#solubility-modal .solubility-content');
+        const modalContent = document.querySelector('.solubility-content');
         if (!modalContent) return;
 
-        // Создаем контейнер перед таблицей (или после заголовка)
         container = document.createElement('div');
         container.id = 'activity-series-container';
-        container.className = 'activity-series-wrapper';
+        container.style.cssText = "padding: 10px 20px; background: var(--bg-color); border-bottom: 1px solid var(--border-color);";
 
-        // Вставляем после header
+        // Вставляем после шапки (modal-header)
         const header = modalContent.querySelector('.modal-header');
-        if (header) {
-            header.after(container);
-        } else {
-            modalContent.prepend(container);
-        }
+        header.after(container);
     }
 
+    // Генерируем HTML
+    const titleText = isMetalsView ? "Ряд активности металлов (Электрохимический)" : "Ряд активности неметаллов (Электроотрицательность)";
+    const btnText = isMetalsView ? "Показать неметаллы ⟷" : "Показать металлы ⟷";
+    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
+
+    let listHTML = '';
+    data.forEach((symbol, idx) => {
+        let style = "padding: 4px 8px; border-radius: 4px; background: #f0f0f0; border: 1px solid #ddd; font-weight: bold; color: #333;";
+        // Выделяем Водород
+        if (isMetalsView && symbol === 'H') {
+            style = "padding: 4px 8px; border-radius: 4px; background: #ffeb3b; border: 1px solid #fbc02d; font-weight: bold; color: #000;";
+        }
+
+        listHTML += `<span style="${style}">${symbol}</span>`;
+        if (idx < data.length - 1) {
+            listHTML += `<span style="margin: 0 5px; color: #999;">→</span>`;
+        }
+    });
+
     container.innerHTML = `
-        <div class="activity-header">
-            <h3 id="activity-title" style="margin:0; font-size:1.1rem;">${isMetalsView ? "Ряд активности металлов" : "Ряд активности неметаллов"}</h3>
-            <button id="toggle-activity-btn" style="padding:5px 10px; cursor:pointer;">
-                ${isMetalsView ? "К неметаллам ⟷" : "К металлам ⟷"}
-            </button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin:0; font-size: 14px; color: var(--text-color);">${titleText}</h3>
+            <button id="act-toggle-btn" style="padding: 4px 10px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 12px;">${btnText}</button>
         </div>
-        <div class="activity-scroll-area" style="overflow-x:auto; padding:10px 0;">
-            <div id="activity-list" class="activity-list" style="display:flex; gap:5px; white-space:nowrap; align-items:center;">
-                </div>
+        <div style="overflow-x: auto; white-space: nowrap; padding-bottom: 5px;">
+            <div style="display: inline-flex; align-items: center;">${listHTML}</div>
         </div>
     `;
 
-    // Логика кнопки
-    container.querySelector('#toggle-activity-btn').onclick = () => {
+    // Вешаем обработчик
+    document.getElementById('act-toggle-btn').onclick = () => {
         isMetalsView = !isMetalsView;
         renderActivitySeries();
     };
-
-    // Рендер списка
-    const list = container.querySelector('#activity-list');
-    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
-
-    data.forEach((symbol, index) => {
-        const item = document.createElement('div');
-        item.style.cssText = "display:flex; align-items:center; font-weight:bold;";
-
-        let bg = "#f5f5f5";
-        let color = "#333";
-        // Выделение водорода
-        if (symbol === 'H' && isMetalsView) {
-            bg = "#ffeb3b";
-            color = "#000";
-        }
-
-        const span = document.createElement('span');
-        span.innerText = symbol;
-        span.style.cssText = `padding:4px 8px; border-radius:4px; background:${bg}; color:${color}; border:1px solid #ddd;`;
-
-        item.appendChild(span);
-
-        if (index < data.length - 1) {
-            const arrow = document.createElement('span');
-            arrow.innerText = "→";
-            arrow.style.margin = "0 5px";
-            arrow.style.color = "#999";
-            item.appendChild(arrow);
-        }
-
-        list.appendChild(item);
-    });
 }
 
 // Добавляем вызов в функцию открытия модалки
