@@ -81,8 +81,44 @@
     border-bottom: 1px solid var(--border-color);
     display: flex;
     gap: 15px;
+    align-items: center;
     flex-shrink: 0;
     font-size: 0.9em;
+}
+
+/* Кнопка рядов активности */
+#activity-series-btn {
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 193, 7, 0.15);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#activity-series-btn:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: scale(1.1);
+}
+
+#activity-series-btn.active {
+    background: #FFC107;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+body.dark-theme #activity-series-btn {
+    background: rgba(255, 213, 79, 0.2);
+}
+
+body.dark-theme #activity-series-btn:hover {
+    background: rgba(255, 213, 79, 0.4);
+}
+
+body.dark-theme #activity-series-btn.active {
+    background: #FFD54F;
 }
 
 /* --- ОБЛАСТЬ СКРОЛЛА --- */
@@ -91,6 +127,11 @@
     flex-grow: 1;   /* Занимает всё оставшееся место */
     position: relative;
     background-color: var(--bg-color);
+    cursor: grab; /* Курсор для drag-to-scroll */
+}
+
+.solubility-wrapper:active {
+    cursor: grabbing;
 }
 
 /* --- ТАБЛИЦА --- */
@@ -188,9 +229,11 @@
 }
 
 /* Подсветка всего столбца и строки (Крестовина) */
+/* Используем box-shadow вместо background, чтобы не скрывать реальные цвета */
 .active-row,
 .active-col {
-    background-color: rgba(33, 150, 243, 0.15) !important; /* Голубая подсветка */
+    box-shadow: inset 0 0 0 2px rgba(33, 150, 243, 0.6) !important;
+    position: relative;
 }
 /* --- ДОПОЛНИТЕЛЬНАЯ ЗАЩИТА ФОНА ЛЕВОГО СТОЛБЦА --- */
 /* Убираем цветные фоны с заголовков анионов */
@@ -392,7 +435,39 @@ body.dark-theme .chem-color-cell.colorless-solution {
     .solubility-content {
         max-width: 100vw !important;
         width: 100vw !important;
-        margin-right: 0 !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0;
+    }
+
+    #solubility-table tbody th {
+        min-width: 60px;
+        max-width: 80px;
+        font-size: 0.75em;
+        padding: 4px;
+    }
+
+    /* Скрываем полное название аниона, оставляем только формулу */
+    #solubility-table tbody th span {
+        display: none;
+    }
+
+    .modal-header {
+        padding: 12px 15px;
+    }
+
+    .table-legend {
+        padding: 8px 15px;
+        font-size: 0.8em;
+        flex-wrap: wrap;
+    }
+
+    /* Адаптация кнопки рядов активности */
+    #activity-series-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
     }
 }
 
@@ -634,4 +709,86 @@ body.dark-theme .solubility-search-content .search-btn {
 
 body.dark-theme .solubility-search-content .search-btn:hover {
     background: #90CAF9;
+}
+
+/* =========================================
+   ПАНЕЛЬ РЯДОВ АКТИВНОСТИ
+   ========================================= */
+.activity-series-panel {
+    display: none;
+    padding: 20px;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.activity-series-panel.active {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 300px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+.activity-series-content h4 {
+    margin: 15px 0 8px 0;
+    font-size: 1.1em;
+    color: var(--text-color);
+}
+
+.activity-series-content h4:first-child {
+    margin-top: 0;
+}
+
+.activity-series-row {
+    padding: 12px 15px;
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #FFC107;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1em;
+    overflow-x: auto;
+    white-space: nowrap;
+    color: var(--text-color);
+}
+
+.activity-note {
+    margin: 5px 0 0 15px;
+    font-size: 0.85em;
+    color: #999;
+    font-style: italic;
+}
+
+body.dark-theme .activity-series-row {
+    background: rgba(255, 213, 79, 0.15);
+    border-left-color: #FFD54F;
+}
+
+body.dark-theme .activity-series-panel {
+    background-color: #1a1a2e;
+    border-bottom-color: #444;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .activity-series-row {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .activity-series-content h4 {
+        font-size: 1em;
+    }
 }

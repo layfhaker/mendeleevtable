@@ -760,6 +760,24 @@
             <span class="legend-item type-m">М — мало</span>
             <span class="legend-item type-n">Н — нет</span>
             <span class="legend-item type-d">? — разлагается</span>
+            <button id="activity-series-btn" onclick="toggleActivitySeries()" title="Ряды активности">⚡</button>
+        </div>
+
+        <!-- Панель рядов активности -->
+        <div id="activity-series-panel" class="activity-series-panel">
+            <div class="activity-series-content">
+                <h4>Ряд активности металлов</h4>
+                <div class="activity-series-row">
+                    Li → K → Ba → Ca → Na → Mg → Al → Zn → Fe → Ni → Sn → Pb → H₂ → Cu → Hg → Ag → Pt → Au
+                </div>
+                <p class="activity-note">Слева направо — уменьшение активности</p>
+
+                <h4>Ряд электроотрицательности неметаллов</h4>
+                <div class="activity-series-row">
+                    F → O → N → Cl → Br → I → S → C → H
+                </div>
+                <p class="activity-note">Слева направо — уменьшение электроотрицательности</p>
+            </div>
         </div>
 
         <div class="solubility-wrapper">

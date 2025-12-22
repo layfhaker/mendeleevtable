@@ -318,12 +318,13 @@
         width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: 90vh;
+        max-height: 95vh; /* Увеличено с 90vh */
         background: rgba(255, 255, 255, 0.75);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         border-radius: 20px 20px 0 0;
         padding: 0;
+        padding-bottom: env(safe-area-inset-bottom, 20px); /* Для iPhone с чёлкой */
         position: relative;
         display: flex;
         flex-direction: column;
@@ -380,8 +381,10 @@
     #element-info {
         padding: 0 20px 20px 20px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         flex: 1;
         display: block;
+        padding-bottom: 30px; /* Дополнительный запас для прокрутки */
     }
 
     .groups-container {
@@ -389,6 +392,7 @@
         flex-direction: column !important;
         gap: 10px;
         height: auto !important;
+        padding-bottom: 20px; /* Запас для прокрутки */
     }
 
     .info-group {

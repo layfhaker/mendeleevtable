@@ -279,7 +279,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 function applyCategoryFilter(categoryClass) {
-    const allElements = document.querySelectorAll('.element');
+    // Ограничиваем селектор только основной таблицей элементов
+    const allElements = document.querySelectorAll('.container .element, .lanthanides .element, .actinides .element');
 
     allElements.forEach(el => {
         if (el.classList.contains(categoryClass)) {
@@ -297,7 +298,8 @@ function applyCategoryFilter(categoryClass) {
 }
 
 function resetTableDisplay() {
-    const allElements = document.querySelectorAll('.element');
+    // Ограничиваем селектор только основной таблицей элементов
+    const allElements = document.querySelectorAll('.container .element, .lanthanides .element, .actinides .element');
     allElements.forEach(el => {
         el.style.opacity = '';
         el.style.filter = '';
