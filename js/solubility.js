@@ -1605,61 +1605,75 @@ const activityData = {
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
 };
 
-let isMetalsView = true;
+let isActivitySectionVisible = false;
+let isMetalView = true;
 
-// Эту функцию надо вызывать внутри openSolubility()
-function renderActivitySeries() {
-    let container = document.getElementById('activity-series-container');
+function initActivitySeriesUI() {
+    const modalContent = document.querySelector('.solubility-content');
+    if (!modalContent) return;
+    let header = modalContent.querySelector('.modal-header');
+    let mainToggleBtn = document.getElementById('main-activity-toggle');
+    
+    if(!mainToggleBtn) {
+        mainToggleBtn = document.createElement('button');
+        mainToggleBtn.id = 'main-activity-toggle';
+        mainToggleBtn.innerText = "Ряд активности ▼";
+        mainToggleBtn.style.cssText = `
+            margin-left:15px;
+            padding: 6px 12px;
+            background: #2197F3;
+            color:white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+        `;
+        const title = header.querySelector('h2');
+        if (title) {
+            title.style.display = 'inline-block';
+            title.after(mainToggleBtn);
+        } else {
+            header.appendChild(mainToggleBtn);
+        }
 
-    // Если контейнера нет — создаем его
-    if (!container) {
-        const modalContent = document.querySelector('.solubility-content');
-        if (!modalContent) return;
-
-        container = document.createElement('div');
-        container.id = 'activity-series-container';
-        container.style.cssText = "padding: 10px 20px; background: var(--bg-color); border-bottom: 1px solid var(--border-color);";
-
-        // Вставляем после шапки (modal-header)
-        const header = modalContent.querySelector('.modal-header');
-        header.after(container);
+        mainToggleBtn.onclick = () => {
+            isActivitySectionVisible = !isActivitySectionVisible;
+            toggleActivityContainerDisplay();
+            mainToggleBtn.innerText = isActivitySectionVisible
+                ? "Ряд активности ▼"
+                : "Ряд активности ▼";
+        };
     }
+    let container = document.getElementById('activity-series-container');
+    if (!container){
+        container = document.createElement('div');
+        conteiner.id = 'activity-series-container';
+        container.style.cssText = `
+            display:none;
+            padding: 15px 20px;
+            background: var(--bg-color)
+            border-bottom: 1px solid var(--border-color);
+            animation: slideDown 0.3s ease-out;
+        `;
+        header.after(container);
 
-    // Генерируем HTML
-    const titleText = isMetalsView ? "Ряд активности металлов (Электрохимический)" : "Ряд активности неметаллов (Электроотрицательность)";
-    const btnText = isMetalsView ? "Показать неметаллы ⟷" : "Показать металлы ⟷";
-    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
-
-    let listHTML = '';
-    data.forEach((symbol, idx) => {
-        let style = "padding: 4px 8px; border-radius: 4px; background: #f0f0f0; border: 1px solid #ddd; font-weight: bold; color: #333;";
-        // Выделяем Водород
-        if (isMetalsView && symbol === 'H') {
-            style = "padding: 4px 8px; border-radius: 4px; background: #ffeb3b; border: 1px solid #fbc02d; font-weight: bold; color: #000;";
-        }
-
-        listHTML += `<span style="${style}">${symbol}</span>`;
-        if (idx < data.length - 1) {
-            listHTML += `<span style="margin: 0 5px; color: #999;">→</span>`;
-        }
-    });
-
-    container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <h3 style="margin:0; font-size: 14px; color: var(--text-color);">${titleText}</h3>
-            <button id="act-toggle-btn" style="padding: 4px 10px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 12px;">${btnText}</button>
-        </div>
-        <div style="overflow-x: auto; white-space: nowrap; padding-bottom: 5px;">
-            <div style="display: inline-flex; align-items: center;">${listHTML}</div>
-        </div>
-    `;
-
-    // Вешаем обработчик
-    document.getElementById('act-toggle-btn').onclick = () => {
-        isMetalsView = !isMetalsView;
-        renderActivitySeries();
-    };
+    }
+    isActivitySectionVisible = false;
+    if (mainToggleBtn) mainToggleBtn.innerText = "Ряд активности ▼";
+    container.style.display = 'none';
 }
 
-// Добавляем вызов в функцию открытия модалки
-// Найди функцию openSolubility и добавь туда renderActivitySeries();
+function toggleActivityContainerDisplay() {
+    const container = document.getElementById('activity-series-container');
+    if (!container) return;
+
+    if (isActivitySectionVisible) {
+        container.style.display = 'block';
+        isMetalsView = true;
+        renderActivityContent();
+    } else {
+        container.style.display = 'none';
+    }
+}
