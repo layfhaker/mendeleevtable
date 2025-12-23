@@ -845,7 +845,7 @@ function openSolubility() {
         renderSolubilityTable();
     }
     modal.style.display = 'flex';
-    renderActivitySeries()
+    initActivitySeriesUI();
     if (window.initSolubilityDrag) {
         window.initSolubilityDrag();
     }
@@ -1600,66 +1600,150 @@ function enableDragScroll(element) {
 // РЯД АКТИВНОСТИ (МЕТАЛЛЫ И НЕМЕТАЛЛЫ)
 // =========================================
 
+// =========================================
+// РЯД АКТИВНОСТИ (С КНОПКОЙ ПОКАЗАТЬ/СКРЫТЬ)
+// =========================================
+
 const activityData = {
     metals: ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"],
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
 };
 
-let isMetalsView = true;
+// Состояние
+let isActivitySectionVisible = false; // Виден ли вообще блок ряда?
+let isMetalsView = true;              // Металлы или неметаллы?
 
-// Эту функцию надо вызывать внутри openSolubility()
-function renderActivitySeries() {
-    let container = document.getElementById('activity-series-container');
+// Главная функция инициализации (вызывать при открытии модалки)
+function initActivitySeriesUI() {
+    const modalContent = document.querySelector('.solubility-content');
+    if (!modalContent) return;
 
-    // Если контейнера нет — создаем его
-    if (!container) {
-        const modalContent = document.querySelector('.solubility-content');
-        if (!modalContent) return;
+    // 1. Создаем (или ищем) ГЛАВНУЮ КНОПКУ в шапке
+    let header = modalContent.querySelector('.modal-header');
+    let mainToggleBtn = document.getElementById('main-activity-toggle');
 
-        container = document.createElement('div');
-        container.id = 'activity-series-container';
-        container.style.cssText = "padding: 10px 20px; background: var(--bg-color); border-bottom: 1px solid var(--border-color);";
+    if (!mainToggleBtn) {
+        // Создаем кнопку, если её нет
+        mainToggleBtn = document.createElement('button');
+        mainToggleBtn.id = 'main-activity-toggle';
+        mainToggleBtn.innerText = "Ряд активности ▼";
+        // Стили для главной кнопки
+        mainToggleBtn.style.cssText = `
+            margin-left: 15px;
+            padding: 6px 12px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+        `;
 
-        // Вставляем после шапки (modal-header)
-        const header = modalContent.querySelector('.modal-header');
-        header.after(container);
+        // Вставляем кнопку в заголовок (после h2)
+        const title = header.querySelector('h2');
+        if (title) {
+            title.style.display = 'inline-block'; // Чтобы кнопка встала рядом
+            title.after(mainToggleBtn);
+        } else {
+            header.appendChild(mainToggleBtn);
+        }
+
+        // Обработчик ГЛАВНОЙ кнопки
+        mainToggleBtn.onclick = () => {
+            isActivitySectionVisible = !isActivitySectionVisible;
+            toggleActivityContainerDisplay();
+
+            // Меняем стрелочку
+            mainToggleBtn.innerText = isActivitySectionVisible
+                ? "Ряд активности ▲"
+                : "Ряд активности ▼";
+        };
     }
 
-    // Генерируем HTML
-    const titleText = isMetalsView ? "Ряд активности металлов (Электрохимический)" : "Ряд активности неметаллов (Электроотрицательность)";
-    const btnText = isMetalsView ? "Показать неметаллы ⟷" : "Показать металлы ⟷";
+    // 2. Создаем (или ищем) КОНТЕЙНЕР для самого ряда
+    let container = document.getElementById('activity-series-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'activity-series-container';
+        // Скрыт по умолчанию (display: none)
+        container.style.cssText = `
+            display: none;
+            padding: 15px 20px;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            animation: slideDown 0.3s ease-out;
+        `;
+        header.after(container); // Вставляем ПОД шапкой
+    }
+
+    // Сбрасываем состояние при открытии модалки (всегда скрыто)
+    // Если хочешь, чтобы запоминало состояние - убери эти 3 строки
+    isActivitySectionVisible = false;
+    if (mainToggleBtn) mainToggleBtn.innerText = "Ряд активности ▼";
+    container.style.display = 'none';
+}
+
+// Функция показа/скрытия контейнера
+function toggleActivityContainerDisplay() {
+    const container = document.getElementById('activity-series-container');
+    if (!container) return;
+
+    if (isActivitySectionVisible) {
+        container.style.display = 'block';
+        // При открытии всегда сбрасываем на металлы (по желанию)
+        isMetalsView = true;
+        renderActivityContent();
+    } else {
+        container.style.display = 'none';
+    }
+}
+
+// Рендер содержимого (Металлы <-> Неметаллы)
+function renderActivityContent() {
+    const container = document.getElementById('activity-series-container');
+    if (!container) return;
+
+    const titleText = isMetalsView ? "Электрохимический ряд напряжений металлов" : "Ряд электроотрицательности неметаллов";
+    const switchBtnText = isMetalsView ? "Переключить на неметаллы ⟷" : "Переключить на металлы ⟷";
     const data = isMetalsView ? activityData.metals : activityData.nonMetals;
 
+    // Генерируем цепочку элементов
     let listHTML = '';
     data.forEach((symbol, idx) => {
-        let style = "padding: 4px 8px; border-radius: 4px; background: #f0f0f0; border: 1px solid #ddd; font-weight: bold; color: #333;";
-        // Выделяем Водород
+        let style = "padding: 5px 10px; border-radius: 6px; background: #f0f0f0; border: 1px solid #ddd; font-weight: bold; color: #333; font-size: 1.1em;";
+
+        // Особый стиль для Водорода в ряду металлов
         if (isMetalsView && symbol === 'H') {
-            style = "padding: 4px 8px; border-radius: 4px; background: #ffeb3b; border: 1px solid #fbc02d; font-weight: bold; color: #000;";
+            style = "padding: 5px 10px; border-radius: 6px; background: #ffeb3b; border: 1px solid #fbc02d; font-weight: bold; color: #000; font-size: 1.1em; box-shadow: 0 0 5px rgba(255, 235, 59, 0.5);";
         }
 
         listHTML += `<span style="${style}">${symbol}</span>`;
         if (idx < data.length - 1) {
-            listHTML += `<span style="margin: 0 5px; color: #999;">→</span>`;
+            listHTML += `<span style="margin: 0 6px; color: #999;">→</span>`;
         }
     });
 
+    // Вставляем HTML внутрь контейнера
     container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <h3 style="margin:0; font-size: 14px; color: var(--text-color);">${titleText}</h3>
-            <button id="act-toggle-btn" style="padding: 4px 10px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 12px;">${btnText}</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="margin:0; font-size: 16px; color: var(--text-color);">${titleText}</h3>
+            <button id="activity-switch-btn" style="padding: 6px 12px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 13px;">
+                ${switchBtnText}
+            </button>
         </div>
-        <div style="overflow-x: auto; white-space: nowrap; padding-bottom: 5px;">
+        <div style="overflow-x: auto; white-space: nowrap; padding-bottom: 5px; -webkit-overflow-scrolling: touch;">
             <div style="display: inline-flex; align-items: center;">${listHTML}</div>
         </div>
     `;
 
-    // Вешаем обработчик
-    document.getElementById('act-toggle-btn').onclick = () => {
-        isMetalsView = !isMetalsView;
-        renderActivitySeries();
-    };
+    // Вешаем обработчик на ВНУТРЕННЮЮ кнопку переключения
+    const switchBtn = document.getElementById('activity-switch-btn');
+    if (switchBtn) {
+        switchBtn.onclick = () => {
+            isMetalsView = !isMetalsView;
+            renderActivityContent();
+        };
+    }
 }
-
-// Добавляем вызов в функцию открытия модалки
-// Найди функцию openSolubility и добавь туда renderActivitySeries();
