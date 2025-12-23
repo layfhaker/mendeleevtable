@@ -1605,7 +1605,8 @@ const activityData = {
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
 };
 
-let isMetalsView = true;
+let isActivitySectionVisible = false;
+let isMetalView = true;
 
 // Инициализация UI (вызывать внутри openSolubility)
 function initActivitySeriesUI() {
@@ -1634,72 +1635,34 @@ function initActivitySeriesUI() {
         const header = modalContent.querySelector('.modal-header');
         header.after(container);
     }
+    let container = document.getElementById('activity-series-container');
+    if (!container){
+        container = document.createElement('div');
+        conteiner.id = 'activity-series-container';
+        container.style.cssText = `
+            display:none;
+            padding: 15px 20px;
+            background: var(--bg-color)
+            border-bottom: 1px solid var(--border-color);
+            animation: slideDown 0.3s ease-out;
+        `;
+        header.after(container);
 
-    // Скрываем при открытии таблицы (сбрасываем состояние)
-    if (container) container.style.display = 'none';
-    if (newBtn) newBtn.classList.remove('active');
+    }
+    isActivitySectionVisible = false;
+    if (mainToggleBtn) mainToggleBtn.innerText = "Ряд активности ▼";
+    container.style.display = 'none';
 }
 
-// Показать/Скрыть
-function toggleActivityContainerDisplay(isVisible) {
+function toggleActivityContainerDisplay() {
     const container = document.getElementById('activity-series-container');
     if (!container) return;
 
-    if (isVisible) {
+    if (isActivitySectionVisible) {
         container.style.display = 'block';
-        isMetalsView = true; // Сброс на металлы при открытии
+        isMetalsView = true;
         renderActivityContent();
     } else {
         container.style.display = 'none';
-    }
-}
-
-// Рендер содержимого
-function renderActivityContent() {
-    const container = document.getElementById('activity-series-container');
-    if (!container) return;
-
-    const titleText = isMetalsView ? "Ряд активности металлов" : "Ряд неметаллов";
-    const switchBtnText = isMetalsView ? "К неметаллам →" : "← К металлам";
-    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
-
-    // Генерируем элементы
-    let itemsHTML = '';
-    data.forEach((symbol, idx) => {
-        const isHydrogen = (symbol === 'H' && isMetalsView);
-        const className = isHydrogen ? 'act-item hydrogen' : 'act-item';
-
-        itemsHTML += `<div class="${className}">${symbol}</div>`;
-
-        // Стрелочка между элементами
-        if (idx < data.length - 1) {
-            itemsHTML += `<div class="act-arrow">→</div>`;
-        }
-    });
-
-    container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin:0; font-size: 16px; color: var(--text-color);">${titleText}</h3>
-            <button id="activity-switch-btn" style="padding: 6px 12px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 13px;">
-                ${switchBtnText}
-            </button>
-        </div>
-
-        <div class="activity-list-container">
-            ${itemsHTML}
-        </div>
-
-        <div style="margin-top: 10px; font-size: 12px; color: #888; text-align: center;">
-            ${isMetalsView ? "← Активные (восстановители) . . . Пассивные (окислители) →" : "← Сильные окислители . . . Слабые окислители →"}
-        </div>
-    `;
-
-    // Кнопка переключения типа ряда
-    const switchBtn = document.getElementById('activity-switch-btn');
-    if (switchBtn) {
-        switchBtn.onclick = () => {
-            isMetalsView = !isMetalsView;
-            renderActivityContent();
-        };
     }
 }
