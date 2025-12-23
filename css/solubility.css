@@ -791,3 +791,99 @@ body.dark-theme .activity-series-panel {
         font-size: 1em;
     }
 }
+
+/* Стили для кнопки Ряда Активности (Желтая) */
+#activity-mode-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 193, 7, 0.15); /* Желтоватый фон */
+    color: #FFC107; /* Желтая молния */
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#activity-mode-btn:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: scale(1.1);
+}
+
+#activity-mode-btn.active {
+    background: #FFC107;
+    color: #fff; /* Белая молния при активе */
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+/* Темная тема для кнопки */
+body.dark-theme #activity-mode-btn {
+    background: rgba(255, 213, 79, 0.2);
+    color: #FFD54F;
+}
+body.dark-theme #activity-mode-btn:hover {
+    background: rgba(255, 213, 79, 0.4);
+}
+body.dark-theme #activity-mode-btn.active {
+    background: #FFD54F;
+    color: #333;
+}
+
+/* --- КОНТЕЙНЕР РЯДА АКТИВНОСТИ --- */
+#activity-series-container {
+    display: none;
+    padding: 15px 20px;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Исправление отображения списка (Убираем скролл, добавляем перенос) */
+.activity-list-container {
+    display: flex;
+    flex-wrap: wrap; /* РАЗРЕШАЕМ ПЕРЕНОС */
+    gap: 8px; /* Отступы между элементами */
+    align-items: center;
+    justify-content: center; /* Центрируем */
+}
+
+/* Элементы ряда */
+.act-item {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.act-arrow {
+    color: #999;
+    font-size: 12px;
+    user-select: none;
+}
+
+/* Водород */
+.act-item.hydrogen {
+    background: #fff9c4;
+    border-color: #fbc02d;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Темная тема элементов */
+body.dark-theme .act-item {
+    background: #2d2d44;
+    border-color: #444;
+    color: #eee;
+}
+body.dark-theme .act-item.hydrogen {
+    background: #fbc02d;
+    color: #000;
+}

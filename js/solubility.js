@@ -1597,11 +1597,7 @@ function enableDragScroll(element) {
 }
 
 // =========================================
-// РЯД АКТИВНОСТИ (МЕТАЛЛЫ И НЕМЕТАЛЛЫ)
-// =========================================
-
-// =========================================
-// РЯД АКТИВНОСТИ (С КНОПКОЙ ПОКАЗАТЬ/СКРЫТЬ)
+// РЯД АКТИВНОСТИ (ФИНАЛЬНАЯ ВЕРСИЯ)
 // =========================================
 
 const activityData = {
@@ -1609,136 +1605,96 @@ const activityData = {
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
 };
 
-// Состояние
-let isActivitySectionVisible = false; // Виден ли вообще блок ряда?
-let isMetalsView = true;              // Металлы или неметаллы?
+let isMetalsView = true;
 
-// Главная функция инициализации (вызывать при открытии модалки)
+// Инициализация UI (вызывать внутри openSolubility)
 function initActivitySeriesUI() {
+    // 1. Находим существующую желтую кнопку в HTML
+    const toggleBtn = document.getElementById('activity-mode-btn');
+    if (!toggleBtn) return;
+
+    // Сбрасываем старые обработчики (клон элемента)
+    const newBtn = toggleBtn.cloneNode(true);
+    toggleBtn.parentNode.replaceChild(newBtn, toggleBtn);
+
+    // Вешаем новый клик
+    newBtn.onclick = () => {
+        newBtn.classList.toggle('active');
+        toggleActivityContainerDisplay(newBtn.classList.contains('active'));
+    };
+
+    // 2. Создаем контейнер, если его нет
     const modalContent = document.querySelector('.solubility-content');
-    if (!modalContent) return;
-
-    // 1. Создаем (или ищем) ГЛАВНУЮ КНОПКУ в шапке
-    let header = modalContent.querySelector('.modal-header');
-    let mainToggleBtn = document.getElementById('main-activity-toggle');
-
-    if (!mainToggleBtn) {
-        // Создаем кнопку, если её нет
-        mainToggleBtn = document.createElement('button');
-        mainToggleBtn.id = 'main-activity-toggle';
-        mainToggleBtn.innerText = "Ряд активности ▼";
-        // Стили для главной кнопки
-        mainToggleBtn.style.cssText = `
-            margin-left: 15px;
-            padding: 6px 12px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-        `;
-
-        // Вставляем кнопку в заголовок (после h2)
-        const title = header.querySelector('h2');
-        if (title) {
-            title.style.display = 'inline-block'; // Чтобы кнопка встала рядом
-            title.after(mainToggleBtn);
-        } else {
-            header.appendChild(mainToggleBtn);
-        }
-
-        // Обработчик ГЛАВНОЙ кнопки
-        mainToggleBtn.onclick = () => {
-            isActivitySectionVisible = !isActivitySectionVisible;
-            toggleActivityContainerDisplay();
-
-            // Меняем стрелочку
-            mainToggleBtn.innerText = isActivitySectionVisible
-                ? "Ряд активности ▲"
-                : "Ряд активности ▼";
-        };
-    }
-
-    // 2. Создаем (или ищем) КОНТЕЙНЕР для самого ряда
     let container = document.getElementById('activity-series-container');
-    if (!container) {
+
+    if (!container && modalContent) {
         container = document.createElement('div');
         container.id = 'activity-series-container';
-        // Скрыт по умолчанию (display: none)
-        container.style.cssText = `
-            display: none;
-            padding: 15px 20px;
-            background: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-            animation: slideDown 0.3s ease-out;
-        `;
-        header.after(container); // Вставляем ПОД шапкой
+        // Вставляем сразу после шапки
+        const header = modalContent.querySelector('.modal-header');
+        header.after(container);
     }
 
-    // Сбрасываем состояние при открытии модалки (всегда скрыто)
-    // Если хочешь, чтобы запоминало состояние - убери эти 3 строки
-    isActivitySectionVisible = false;
-    if (mainToggleBtn) mainToggleBtn.innerText = "Ряд активности ▼";
-    container.style.display = 'none';
+    // Скрываем при открытии таблицы (сбрасываем состояние)
+    if (container) container.style.display = 'none';
+    if (newBtn) newBtn.classList.remove('active');
 }
 
-// Функция показа/скрытия контейнера
-function toggleActivityContainerDisplay() {
+// Показать/Скрыть
+function toggleActivityContainerDisplay(isVisible) {
     const container = document.getElementById('activity-series-container');
     if (!container) return;
 
-    if (isActivitySectionVisible) {
+    if (isVisible) {
         container.style.display = 'block';
-        // При открытии всегда сбрасываем на металлы (по желанию)
-        isMetalsView = true;
+        isMetalsView = true; // Сброс на металлы при открытии
         renderActivityContent();
     } else {
         container.style.display = 'none';
     }
 }
 
-// Рендер содержимого (Металлы <-> Неметаллы)
+// Рендер содержимого
 function renderActivityContent() {
     const container = document.getElementById('activity-series-container');
     if (!container) return;
 
-    const titleText = isMetalsView ? "Электрохимический ряд напряжений металлов" : "Ряд электроотрицательности неметаллов";
-    const switchBtnText = isMetalsView ? "Переключить на неметаллы ⟷" : "Переключить на металлы ⟷";
+    const titleText = isMetalsView ? "Ряд активности металлов" : "Ряд неметаллов";
+    const switchBtnText = isMetalsView ? "К неметаллам →" : "← К металлам";
     const data = isMetalsView ? activityData.metals : activityData.nonMetals;
 
-    // Генерируем цепочку элементов
-    let listHTML = '';
+    // Генерируем элементы
+    let itemsHTML = '';
     data.forEach((symbol, idx) => {
-        let style = "padding: 5px 10px; border-radius: 6px; background: #f0f0f0; border: 1px solid #ddd; font-weight: bold; color: #333; font-size: 1.1em;";
+        const isHydrogen = (symbol === 'H' && isMetalsView);
+        const className = isHydrogen ? 'act-item hydrogen' : 'act-item';
 
-        // Особый стиль для Водорода в ряду металлов
-        if (isMetalsView && symbol === 'H') {
-            style = "padding: 5px 10px; border-radius: 6px; background: #ffeb3b; border: 1px solid #fbc02d; font-weight: bold; color: #000; font-size: 1.1em; box-shadow: 0 0 5px rgba(255, 235, 59, 0.5);";
-        }
+        itemsHTML += `<div class="${className}">${symbol}</div>`;
 
-        listHTML += `<span style="${style}">${symbol}</span>`;
+        // Стрелочка между элементами
         if (idx < data.length - 1) {
-            listHTML += `<span style="margin: 0 6px; color: #999;">→</span>`;
+            itemsHTML += `<div class="act-arrow">→</div>`;
         }
     });
 
-    // Вставляем HTML внутрь контейнера
     container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3 style="margin:0; font-size: 16px; color: var(--text-color);">${titleText}</h3>
             <button id="activity-switch-btn" style="padding: 6px 12px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 13px;">
                 ${switchBtnText}
             </button>
         </div>
-        <div style="overflow-x: auto; white-space: nowrap; padding-bottom: 5px; -webkit-overflow-scrolling: touch;">
-            <div style="display: inline-flex; align-items: center;">${listHTML}</div>
+
+        <div class="activity-list-container">
+            ${itemsHTML}
+        </div>
+
+        <div style="margin-top: 10px; font-size: 12px; color: #888; text-align: center;">
+            ${isMetalsView ? "← Активные (восстановители) . . . Пассивные (окислители) →" : "← Сильные окислители . . . Слабые окислители →"}
         </div>
     `;
 
-    // Вешаем обработчик на ВНУТРЕННЮЮ кнопку переключения
+    // Кнопка переключения типа ряда
     const switchBtn = document.getElementById('activity-switch-btn');
     if (switchBtn) {
         switchBtn.onclick = () => {
