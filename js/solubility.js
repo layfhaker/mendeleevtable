@@ -278,6 +278,31 @@ function toggleActivitySeries() {
     }
 }
 
+// Переключение между металлами и неметаллами
+function toggleNonmetalsSeries() {
+    const metalsContainer = document.getElementById('metals-series');
+    const nonmetalsContainer = document.getElementById('nonmetals-series');
+    const title = document.getElementById('activity-title');
+    const toggleBtn = document.getElementById('toggle-nonmetals-btn');
+
+    if (!metalsContainer || !nonmetalsContainer || !title || !toggleBtn) return;
+
+    // Переключаем активный контейнер
+    if (metalsContainer.classList.contains('active')) {
+        // Переход к неметаллам
+        metalsContainer.classList.remove('active');
+        nonmetalsContainer.classList.add('active');
+        title.textContent = 'Ряд активности неметаллов';
+        toggleBtn.textContent = 'Переключить на металлы';
+    } else {
+        // Переход к металлам
+        nonmetalsContainer.classList.remove('active');
+        metalsContainer.classList.add('active');
+        title.textContent = 'Ряд активности металлов (электрохимический)';
+        toggleBtn.textContent = 'Переключить на неметаллы';
+    }
+}
+
 const solubilityData = {
     // 24 Катиона (Полный набор)
     cations: [
@@ -1360,10 +1385,12 @@ function filterBySolubility(solubility) {
     rows.forEach((row, rowIndex) => {
         if (rowIndex === 0) return; // Пропускаем шапку таблицы (катионы)
 
-        const cells = row.querySelectorAll('td');
-        cells.forEach((cell) => {
-            // Убрали проверки if (cellIndex === 0) и if (cellIndex === 1)
-            // Теперь проверяем содержимое ВСЕХ ячеек
+        // Используем row.children чтобы получить ВСЕ ячейки (включая <th> заголовков)
+        const cells = row.children;
+
+        // Начинаем с i = 1, чтобы пропустить заголовок строки (i = 0 это <th> с названием аниона)
+        for (let i = 1; i < cells.length; i++) {
+            const cell = cells[i];
 
             if (cell.textContent.trim() === solubility) {
                 cell.style.opacity = '1';
@@ -1372,7 +1399,7 @@ function filterBySolubility(solubility) {
                 cell.style.opacity = '0.1';
                 cell.style.filter = 'grayscale(100%)';
             }
-        });
+        }
     });
 }
 

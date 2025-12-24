@@ -124,15 +124,14 @@ dropZone.addEventListener('drop', (e) => {
 function addAtomToCalculator(symbol) {
     let mass = 0;
 
-    // 1. ЛОГИКА ОКРУГЛЕНИЯ (Старая, правильная)
+    // 1. ОКРУГЛЕНИЕ МАСС (кроме хлора)
     if (symbol === 'Cl') {
-        mass = 35.5; // Исключение для хлора
+        mass = 35.5;
     } else {
         const element = elementsData[symbol];
-        // Если данных нет, масса 0
         if (element && element.atomicMass) {
             const rawMass = String(element.atomicMass);
-            // Убираем квадратные скобки и ОКРУГЛЯЕМ
+            // Убираем скобки и округляем до целого
             mass = Math.round(parseFloat(rawMass.replace('[', '').replace(']', '')));
         }
     }
@@ -140,7 +139,7 @@ function addAtomToCalculator(symbol) {
     const existingAtom = calcAtoms.find(a => a.symbol === symbol);
 
     if (existingAtom) {
-        // Если уже есть, добавляем +1 (целое число)
+        // Если атом есть, увеличиваем на 1 (целое число)
         changeQuantity(existingAtom, 1);
     } else {
         const atomObj = {
@@ -159,14 +158,14 @@ function addAtomToCalculator(symbol) {
     }
 }
 
-// Отрисовка элемента (Компактный стиль)
+// Отрисовка UI элемента в калькуляторе
 function renderAtomUI(atomObj) {
     const dropZone = document.getElementById('drop-zone');
     const atomDiv = document.createElement('div');
     atomDiv.className = 'calc-atom';
     atomDiv.dataset.id = atomObj.id;
 
-    // Структура: Символ | Кнопки и Инпут | Удалить
+    // Упрощенная верстка: Символ | Кнопка-Инпут-Кнопка | Крестик
     atomDiv.innerHTML = `
         <span class="calc-atom-symbol">${atomObj.symbol}</span>
         <div class="calc-controls">
@@ -179,28 +178,58 @@ function renderAtomUI(atomObj) {
 
     dropZone.appendChild(atomDiv);
 
-    // --- Обработчики ---
+    // --- ОБРАБОТЧИКИ ---
 
     const input = atomDiv.querySelector('input');
 
-    // 1. Ручной ввод (Разрешаем дробные)
+    // 1. Ручной ввод (разрешаем дробные, минимум 0.1)
     input.onchange = (e) => {
         let val = parseFloat(e.target.value);
-        if (isNaN(val) || val < 0.001) val = 1;
+        // Если ввели некорректное значение или < 0.1, сбрасываем на 1
+        if (isNaN(val) || val < 0.1) val = 1;
 
-        // Тут НЕ округляем до целого, оставляем как ввел пользователь
         atomObj.count = val;
+        input.value = val;
         updateTotalMass();
     };
 
-    // 2. Кнопка Минус (Только целые шаги)
+    // 2. Кнопка Минус (СТРОГО ЦЕЛЫЕ, МИНИМУМ 1)
     atomDiv.querySelector('.calc-btn-minus').onclick = () => {
-        changeQuantity(atomObj, -1, input);
+        let current = atomObj.count;
+        let newVal;
+
+        // Если текущее число дробное, округляем вниз
+        // Если целое — отнимаем 1
+        if (Math.floor(current) === current) {
+            newVal = current - 1;
+        } else {
+            newVal = Math.floor(current);
+        }
+
+        // Минимум 1
+        if (newVal < 1) newVal = 1;
+
+        atomObj.count = newVal;
+        input.value = newVal;
+        updateTotalMass();
     };
 
-    // 3. Кнопка Плюс (Только целые шаги)
+    // 3. Кнопка Плюс (СТРОГО ЦЕЛЫЕ)
     atomDiv.querySelector('.calc-btn-plus').onclick = () => {
-        changeQuantity(atomObj, 1, input);
+        let current = atomObj.count;
+        let newVal;
+
+        // Если дробное, округляем вверх
+        // Если целое — прибавляем 1
+        if (Math.floor(current) === current) {
+            newVal = current + 1;
+        } else {
+            newVal = Math.ceil(current);
+        }
+
+        atomObj.count = newVal;
+        input.value = newVal;
+        updateTotalMass();
     };
 
     // 4. Удаление
@@ -215,40 +244,33 @@ function renderAtomUI(atomObj) {
     };
 }
 
-// Изменение количества (Для кнопок - целые числа)
-function changeQuantity(atomObj, change, inputEl) {
-    // Получаем текущее значение
-    let current = atomObj.count;
-
-    // Новое значение = текущее + шаг (1 или -1)
-    let newVal = current + change;
-
-    // Минимум
-    if (newVal < 0.1) newVal = 0.1;
-
-    // Округляем до сотых, чтобы убрать мусор типа 1.000000002
-    newVal = parseFloat(newVal.toFixed(2));
+// Вспомогательная функция для обновления массы при добавлении дубликата
+function changeQuantity(atomObj, change) {
+    // Тут просто +1 к существующему (целые числа)
+    let newVal = atomObj.count + change;
+    // На всякий случай проверка минимума
+    if (newVal < 1) newVal = 1;
 
     atomObj.count = newVal;
 
-    // Если inputEl не передан (вызов из addAtomToCalculator), ищем его
-    if (!inputEl) {
-        const atomDiv = document.querySelector(`.calc-atom[data-id="${atomObj.id}"]`);
-        if (atomDiv) inputEl = atomDiv.querySelector('input');
+    // Обновляем инпут в DOM
+    const atomDiv = document.querySelector(`.calc-atom[data-id="${atomObj.id}"]`);
+    if (atomDiv) {
+        const input = atomDiv.querySelector('input');
+        input.value = newVal;
     }
 
-    if (inputEl) inputEl.value = newVal;
     updateTotalMass();
 }
 
-// Подсчет (Дробные коэф * Округленная масса)
+// Подсчет общей массы
 function updateTotalMass() {
     let total = 0;
     calcAtoms.forEach(atom => {
         total += atom.mass * atom.count;
     });
 
-    // Результат округляем до сотых (на всякий случай)
+    // Округляем итог до сотых (на случай дробных коэффициентов)
     total = parseFloat(total.toFixed(2));
 
     const resultEl = document.querySelector('.mass-value');

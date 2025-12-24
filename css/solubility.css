@@ -741,14 +741,64 @@ body.dark-theme .solubility-search-content .search-btn:hover {
     }
 }
 
-.activity-series-content h4 {
-    margin: 15px 0 8px 0;
+/* Заголовок с кнопкой переключения */
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.activity-header h4 {
+    margin: 0;
     font-size: 1.1em;
     color: var(--text-color);
 }
 
-.activity-series-content h4:first-child {
-    margin-top: 0;
+.toggle-series-btn {
+    padding: 6px 12px;
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    border-radius: 4px;
+    color: #2196F3;
+    font-size: 0.85em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.toggle-series-btn:hover {
+    background: rgba(33, 150, 243, 0.2);
+    border-color: rgba(33, 150, 243, 0.5);
+}
+
+/* Контейнеры серий */
+.series-container {
+    display: none;
+}
+
+.series-container.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Маркер водорода */
+.hydrogen-marker {
+    color: #ff5722;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.activity-series-content h4 {
+    margin: 15px 0 8px 0;
+    font-size: 1.1em;
+    color: var(--text-color);
 }
 
 .activity-series-row {

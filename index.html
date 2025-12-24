@@ -762,17 +762,26 @@
         <!-- Панель рядов активности -->
         <div id="activity-series-panel" class="activity-series-panel">
             <div class="activity-series-content">
-                <h4>Ряд активности металлов</h4>
-                <div class="activity-series-row">
-                    Li → K → Ba → Ca → Na → Mg → Al → Zn → Fe → Ni → Sn → Pb → H₂ → Cu → Hg → Ag → Pt → Au
+                <div class="activity-header">
+                    <h4 id="activity-title">Ряд активности металлов (электрохимический)</h4>
+                    <button id="toggle-nonmetals-btn" class="toggle-series-btn" onclick="toggleNonmetalsSeries()">
+                        Переключить на неметаллы
+                    </button>
                 </div>
-                <p class="activity-note">Слева направо — уменьшение активности</p>
 
-                <h4>Ряд электроотрицательности неметаллов</h4>
-                <div class="activity-series-row">
-                    F → O → N → Cl → Br → I → S → C → H
+                <div id="metals-series" class="series-container active">
+                    <div class="activity-series-row">
+                        Li → Rb → K → Ba → Sr → Ca → Na → Mg → Al → Mn → Zn → Cr → Fe → Cd → Co → Ni → Sn → Pb → <span class="hydrogen-marker">(H)</span> → Sb → Bi → Cu → Hg → Ag → Pt → Au
+                    </div>
+                    <p class="activity-note">Слева направо — уменьшение восстановительных свойств (активности) металлов</p>
                 </div>
-                <p class="activity-note">Слева направо — уменьшение электроотрицательности</p>
+
+                <div id="nonmetals-series" class="series-container">
+                    <div class="activity-series-row">
+                        F → O → Cl → N → Br → I → S → C → P → Si
+                    </div>
+                    <p class="activity-note">Слева направо — уменьшение окислительных свойств (электроотрицательности) неметаллов</p>
+                </div>
             </div>
         </div>
 
