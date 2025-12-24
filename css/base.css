@@ -57,14 +57,26 @@ body {
      }
  }
 
- html, body {
-    user-select: none; /* Запрет выделения текста */
-    -webkit-user-select: none;
-    cursor: grab; /* Показываем, что можно тянуть */
+/* Запрет выделения и grab курсор только на ДЕСКТОПЕ */
+@media (min-width: 1025px) {
+    html, body {
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: grab;
+    }
+
+    body.grabbing {
+        cursor: grabbing;
+    }
 }
 
-body.grabbing {
-    cursor: grabbing; /* Курсор при перетаскивании */
+/* На мобильных РАЗРЕШАЕМ нативный скролл */
+@media (max-width: 1024px) {
+    html, body {
+        touch-action: pan-y pan-x; /* Разрешаем свайпы */
+        -webkit-overflow-scrolling: touch; /* Плавный скролл iOS */
+        cursor: auto; /* Обычный курсор */
+    }
 }
 
 /* Разрешаем выделение ТОЛЬКО в текстовых блоках */

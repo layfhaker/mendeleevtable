@@ -192,6 +192,9 @@
         margin: 0 auto 20px auto;
         position: relative;
         width: max-content;
+        /* РАЗРЕШАЕМ СКРОЛЛ НА МОБИЛЬНЫХ */
+        touch-action: pan-y pan-x;
+        -webkit-overflow-scrolling: touch;
     }
 
     .element {
@@ -228,6 +231,9 @@
         width: max-content;
         margin: 10px auto 0 auto;
         padding-left: 116px;
+        /* РАЗРЕШАЕМ СКРОЛЛ НА МОБИЛЬНЫХ */
+        touch-action: pan-y pan-x;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
