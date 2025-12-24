@@ -1,101 +1,79 @@
 /* =========================================
-   CALCULATOR.CSS — Исправленный и красивый
+   CALCULATOR.CSS — "Старый" стиль + кнопки
    ========================================= */
 
-/* --- Панель (Десктоп) --- */
+/* --- Панель калькулятора (общие стили) --- */
+.calc-panel {
+    position: fixed;
+    z-index: 10001; /* Поверх всего */
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    /* Анимация */
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.calc-panel.active {
+    display: flex;
+}
+
+/* --- Десктоп --- */
 @media (min-width: 1025px) {
     .calc-panel {
-        position: fixed !important;
-        z-index: 60000;
-        display: none;
-        flex-direction: column;
-        padding: 0; /* Убираем паддинг, он будет у детей */
-        background: #ffffff;
-        border: none;
-        border-radius: 16px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-        min-width: 320px;
-        overflow: hidden; /* Чтобы скругления не ломались */
-    }
-
-    .calc-panel.active {
-        display: flex;
-        animation: slideDownCalc 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        /* Позиционируется JS-ом, но зададим базу */
+        border-radius: 8px;
+        width: 300px;
+        min-height: 200px;
+        max-height: 500px;
     }
 }
 
-@keyframes slideDownCalc {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Панель (Мобильные) --- */
+/* --- Мобильные --- */
 @media (max-width: 1024px) {
     .calc-panel {
-        position: fixed;
         bottom: 0;
         left: 0;
-        right: 0;
-        width: 100% !important;
-        height: 35vh !important; /* Чуть выше для удобства */
-        max-height: 300px;
-        background: #ffffff;
+        width: 100%;
+        height: 40vh; /* Удобная высота */
         border-radius: 20px 20px 0 0;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
-        z-index: 60000;
-        display: none;
-        flex-direction: column;
-        animation: slideUpCalc 0.3s ease-out;
+        transform: translateY(100%);
     }
-
     .calc-panel.active {
-        display: flex;
+        transform: translateY(0);
     }
-}
-
-@keyframes slideUpCalc {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
 }
 
 /* --- Шапка --- */
 .calc-header {
-    padding: 15px 20px;
+    padding: 10px 15px;
     background: #f5f5f5;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 8px 8px 0 0;
 }
 
 .calc-header h3 {
     margin: 0;
     font-size: 16px;
-    font-weight: 700;
     color: #333;
 }
 
 .close-calc-panel {
-    font-size: 24px;
-    color: #999;
     cursor: pointer;
-    line-height: 1;
+    font-size: 20px;
+    color: #888;
     padding: 5px;
 }
 
-.close-calc-panel:hover {
-    color: #333;
-}
-
-/* --- Зона списка атомов --- */
+/* --- Зона списка --- */
 .drop-zone {
     flex: 1;
-    padding: 15px;
+    padding: 10px;
     overflow-y: auto;
     background: #fff;
-    display: flex;
-    flex-direction: column; /* Элементы в столбик */
-    gap: 10px;
 }
 
 .drop-placeholder {
@@ -103,149 +81,113 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #aaa;
+    color: #999;
     font-size: 14px;
+    text-align: center;
     pointer-events: none;
 }
 
-/* --- Элемент списка (Атом) - НОВЫЙ ДИЗАЙН --- */
+/* --- Элемент списка (Атом) --- */
 .calc-atom {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background: #f9f9f9;
-    padding: 10px 15px;
-    border-radius: 12px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
     border: 1px solid #eee;
-    transition: transform 0.2s;
 }
 
-/* Кружок с символом */
-.calc-atom-visual {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #2196F3;
-    color: white;
+.calc-atom-symbol {
     font-weight: bold;
     font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
-}
-
-/* Блок информации */
-.calc-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.calc-symbol {
-    font-weight: bold;
-    font-size: 14px;
+    width: 40px; /* Фикс ширина для ровности */
     color: #333;
 }
 
-/* Кнопки управления (+/-) */
+/* Контейнер управления (кнопки и инпут) */
 .calc-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
 }
 
-.calc-btn-minus, .calc-btn-plus {
-    width: 28px;
-    height: 28px;
-    border: none;
-    border-radius: 6px;
-    background: #e0e0e0;
-    color: #333;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    line-height: 1;
-}
-
-.calc-btn-minus:active, .calc-btn-plus:active {
-    background: #d0d0d0;
-    transform: scale(0.95);
-}
-
+/* Инпут */
 .calc-atom-count {
     width: 50px;
     text-align: center;
     font-size: 16px;
-    font-weight: bold;
-    border: none;
-    background: transparent;
-    color: #333;
-    padding: 0;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     -moz-appearance: textfield;
 }
 .calc-atom-count::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-/* Кнопка удалить (крестик) */
-.calc-atom-remove {
-    font-size: 24px;
-    color: #ccc;
+/* Кнопки +/- */
+.calc-btn-minus, .calc-btn-plus {
+    width: 28px;
+    height: 28px;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 2px; /* Центровка символа */
+}
+.calc-btn-minus:hover, .calc-btn-plus:hover { background: #d0d0d0; }
+.calc-btn-minus:active, .calc-btn-plus:active { background: #bbb; }
+
+/* Кнопка удалить */
+.calc-atom-remove {
+    cursor: pointer;
+    color: #aaa;
+    font-size: 24px;
     margin-left: 10px;
-    padding: 5px;
+    line-height: 1;
 }
+.calc-atom-remove:hover { color: #f44336; }
 
-.calc-atom-remove:hover {
-    color: #f44336;
-}
-
-/* --- Итоговый результат --- */
+/* --- Итого --- */
 #calc-result {
-    padding: 15px 20px;
-    background: #e8f5e9;
-    border-top: 1px solid #c8e6c9;
+    padding: 10px 15px;
+    background: #f0f0f0;
+    border-top: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .mass-value {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #2e7d32;
 }
 
-.unit {
-    font-size: 14px;
-    font-weight: normal;
-    color: #666;
-    margin-left: 5px;
-}
-
 .clear-btn {
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: #ff5252;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(255, 82, 82, 0.3);
+    font-size: 14px;
 }
+.clear-btn:hover { background: #ff1744; }
 
-/* --- Тёмная тема --- */
-body.dark-theme .calc-panel { background: #2d2d44; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-body.dark-theme .calc-header { background: #252535; border-bottom-color: #444; }
-body.dark-theme .calc-header h3 { color: #eee; }
-body.dark-theme .drop-zone { background: #1f1f2e; }
-body.dark-theme .calc-atom { background: #2a2a3d; border-color: #444; }
-body.dark-theme .calc-symbol, body.dark-theme .calc-atom-count { color: #eee; }
-body.dark-theme .calc-btn-minus, body.dark-theme .calc-btn-plus { background: #444; color: #fff; }
-body.dark-theme #calc-result { background: #1b2e1e; border-top-color: #2e4a35; }
+/* Тёмная тема */
+body.dark-theme .calc-panel,
+body.dark-theme .drop-zone { background: #333; color: #fff; }
+body.dark-theme .calc-header,
+body.dark-theme #calc-result { background: #222; border-color: #444; }
+body.dark-theme .calc-header h3 { color: #fff; }
+body.dark-theme .calc-atom { background: #444; border-color: #555; }
+body.dark-theme .calc-atom-symbol { color: #fff; }
+body.dark-theme .calc-atom-count { background: #555; color: #fff; border-color: #666; }
+body.dark-theme .calc-btn-minus, body.dark-theme .calc-btn-plus { background: #555; color: #fff; }
 body.dark-theme .mass-value { color: #81c784; }
-body.dark-theme .unit { color: #aaa; }
