@@ -19,7 +19,14 @@ function loadScript(src) {
         // Загружаем базовые модули
         await loadScript('js/icons.js');
         await loadScript('js/elements.js');
-        await loadScript('js/solubility.js');
+
+        // Загружаем модули таблицы растворимости
+        await loadScript('js/solubility/solubility-data.js');
+        await loadScript('js/solubility/solubility-colors.js');
+        await loadScript('js/solubility/solubility-table.js');
+        await loadScript('js/solubility/solubility-filters.js');
+        await loadScript('js/solubility/solubility-search.js');
+        await loadScript('js/solubility/solubility-modal.js');
 
         // Загружаем модули функционала
         await loadScript('js/modules/modal.js');

@@ -3,7 +3,9 @@
     "allow": [
       "Bash(node -e:*)",
       "Bash(start index.html)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(if not exist \"js\\solubility\" mkdir \"js\\solubility\")",
+      "Bash(wc:*)"
     ]
   }
 }
