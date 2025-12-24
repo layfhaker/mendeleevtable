@@ -752,10 +752,42 @@ function renderSolubilityTable() {
             td.dataset.r = rowIndex;
             td.dataset.c = colIndex;
 
+            // Одинарный клик - подсветка
             td.onclick = (e) => {
                 e.stopPropagation();
                 highlightCrosshair(rowIndex, colIndex);
             };
+
+            // Двойной клик - продвинутый режим
+            td.ondblclick = (e) => {
+                e.stopPropagation();
+                const cation = solubilityData.cations[colIndex];
+                const anion = solubilityData.anions[rowIndex];
+                if (cation && anion && typeof openAdvancedModal !== 'undefined') {
+                    openAdvancedModal(cation.f, anion.f);
+                }
+            };
+
+            // Для мобильных: долгое нажатие (500мс)
+            let touchTimer;
+            td.addEventListener('touchstart', (e) => {
+                touchTimer = setTimeout(() => {
+                    const cation = solubilityData.cations[colIndex];
+                    const anion = solubilityData.anions[rowIndex];
+                    if (cation && anion && typeof openAdvancedModal !== 'undefined') {
+                        e.preventDefault();
+                        openAdvancedModal(cation.f, anion.f);
+                    }
+                }, 500);
+            });
+
+            td.addEventListener('touchend', () => {
+                clearTimeout(touchTimer);
+            });
+
+            td.addEventListener('touchmove', () => {
+                clearTimeout(touchTimer);
+            });
 
             tr.appendChild(td);
         });

@@ -1,0 +1,468 @@
+/* =========================================
+   ADVANCED-MODAL.CSS — Стили продвинутого режима
+   ========================================= */
+
+/* Модальное окно */
+#advanced-substance-modal {
+    display: none;
+    position: fixed;
+    z-index: 70000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Кнопка закрытия */
+.close-advanced-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+}
+
+.close-advanced-modal:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Контент модального окна */
+.advanced-modal-content {
+    background: var(--bg-color, #fff);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 90%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideInModal 0.3s ease-out;
+}
+
+@keyframes slideInModal {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок */
+.advanced-header {
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.advanced-title-group h2 {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.substance-name {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.compound-type {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.copy-formula-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.copy-formula-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Вкладки */
+.advanced-tabs {
+    display: flex;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    overflow-x: auto;
+    flex-shrink: 0;
+}
+
+.tab-btn {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.tab-btn.active {
+    color: #667eea;
+    background: var(--bg-color, #fff);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #667eea;
+}
+
+/* Контент вкладок */
+.advanced-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeInTab 0.3s ease;
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tab-content h3 {
+    margin: 0 0 15px 0;
+    color: #667eea;
+    font-size: 20px;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 8px;
+}
+
+.tab-content h4 {
+    margin: 20px 0 10px 0;
+    color: #555;
+    font-size: 16px;
+}
+
+/* Сетка информации */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-item .label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.info-item .value {
+    font-size: 15px;
+    color: var(--text-color, #333);
+    font-weight: 500;
+}
+
+/* Степени окисления */
+.oxidation-states {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.oxidation-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Статус растворимости */
+.solubility-status {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.solubility-status.R {
+    background: #4caf50;
+    color: white;
+}
+
+.solubility-status.N {
+    background: #f44336;
+    color: white;
+}
+
+.solubility-status.M {
+    background: #ff9800;
+    color: white;
+}
+
+.solubility-status.D {
+    background: #9e9e9e;
+    color: white;
+}
+
+/* Таблица растворимости */
+.solubility-table-data {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.solubility-table-data th,
+.solubility-table-data td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.solubility-table-data th {
+    background: #f5f5f5;
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* Списки */
+.reactions-list,
+.applications-list,
+.facts-list {
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.reactions-list li,
+.applications-list li,
+.facts-list li {
+    margin-bottom: 10px;
+    color: var(--text-color, #333);
+}
+
+/* Блоки с примечаниями */
+.temp-dependence,
+.real-life-example,
+.analytical-use {
+    background: #f0f7ff;
+    padding: 12px 15px;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+/* Безопасность */
+.safety-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fff3e0;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ff9800;
+}
+
+.safety-item {
+    display: flex;
+    gap: 10px;
+}
+
+.safety-item .label {
+    font-weight: bold;
+    color: #e65100;
+    min-width: 180px;
+}
+
+/* Источники */
+.sources {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 13px;
+    color: #666;
+}
+
+.sources ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.sources li {
+    margin-bottom: 5px;
+}
+
+/* Заглушка отсутствия данных */
+.no-data-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.no-data-placeholder h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.no-data-placeholder .help-text {
+    color: #888;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+/* Тёмная тема */
+body.dark-theme .advanced-modal-content {
+    background: #2d2d44;
+}
+
+body.dark-theme .advanced-tabs {
+    background: #252535;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .tab-btn {
+    color: #aaa;
+}
+
+body.dark-theme .tab-btn:hover {
+    color: #88a4f7;
+    background: rgba(136, 164, 247, 0.1);
+}
+
+body.dark-theme .tab-btn.active {
+    color: #88a4f7;
+    background: #2d2d44;
+}
+
+body.dark-theme .info-item .value,
+body.dark-theme .reactions-list li,
+body.dark-theme .applications-list li,
+body.dark-theme .facts-list li {
+    color: #ddd;
+}
+
+body.dark-theme .solubility-table-data th {
+    background: #252535;
+}
+
+body.dark-theme .solubility-table-data td {
+    border-bottom-color: #444;
+}
+
+body.dark-theme .temp-dependence,
+body.dark-theme .real-life-example,
+body.dark-theme .analytical-use {
+    background: rgba(102, 126, 234, 0.15);
+}
+
+body.dark-theme .safety-info {
+    background: rgba(255, 152, 0, 0.15);
+}
+
+body.dark-theme .sources {
+    border-top-color: #444;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .advanced-modal-content {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .advanced-header {
+        padding: 15px 20px;
+    }
+
+    .advanced-title-group h2 {
+        font-size: 22px;
+    }
+
+    .advanced-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .advanced-content {
+        padding: 20px 15px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .safety-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .safety-item .label {
+        min-width: unset;
+    }
+}

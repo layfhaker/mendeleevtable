@@ -11,6 +11,7 @@
     <meta name="theme-color" content="#2196F3">
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/advanced-modal.css">
 </head>
 <body>
   <canvas id="particles-canvas"></canvas>
@@ -746,7 +747,9 @@
             <div class="modal-header-controls">
                 <button id="color-mode-btn" onclick="toggleColorMode()" title="Реальные цвета веществ">🎨</button>
 
-                <button id="activity-mode-btn" title="Ряд активности металлов">⚡</button>
+                <button id="activity-mode-btn" title="Ряд активности металлов" onclick="toggleActivitySeries()">⚡</button>
+
+                <button id="advanced-mode-info-btn" title="💡 Двойной клик = подробная информация о веществе&#10;(или долгое нажатие на мобильных)">ℹ️</button>
 
                 <button id="solubility-search-btn" onclick="toggleSolubilitySearch()" title="Поиск">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -812,7 +815,22 @@
     </div>
 </div>
 
+<!-- Модальное окно продвинутого режима -->
+<div id="advanced-substance-modal" class="modal">
+    <div class="advanced-modal-content">
+        <div id="advanced-substance-content">
+            <!-- Содержимое генерируется динамически через advanced-modal.js -->
+        </div>
+        <button class="close-advanced-modal" onclick="closeAdvancedModal()" aria-label="Закрыть">
+            &times;
+        </button>
+    </div>
+</div>
+
 <script src="js/scrypt.js"></script>
+<!-- Подключаем модули продвинутого режима -->
+<script src="js/modules/solubility/substances-data.js"></script>
+<script src="js/modules/solubility/advanced-modal.js"></script>
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
