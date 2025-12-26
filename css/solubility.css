@@ -882,6 +882,42 @@ body.dark-theme #activity-mode-btn.active {
     color: #333;
 }
 
+/* Стили для кнопки продвинутого режима информации */
+#advanced-mode-info-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(103, 58, 183, 0.15);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#advanced-mode-info-btn:hover {
+    background: rgba(103, 58, 183, 0.3);
+    transform: scale(1.1);
+}
+
+#advanced-mode-info-btn.active {
+    background: var(--accent-color, #646cff);
+    color: white;
+    box-shadow: 0 0 12px var(--accent-color, #646cff);
+}
+
+body.dark-theme #advanced-mode-info-btn {
+    background: rgba(149, 117, 205, 0.2);
+}
+
+body.dark-theme #advanced-mode-info-btn:hover {
+    background: rgba(149, 117, 205, 0.4);
+}
+
+body.dark-theme #advanced-mode-info-btn.active {
+    background: #9575cd;
+    box-shadow: 0 0 12px #9575cd;
+}
+
 /* --- КОНТЕЙНЕР РЯДА АКТИВНОСТИ --- */
 #activity-series-container {
     display: none;

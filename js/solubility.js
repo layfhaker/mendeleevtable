@@ -940,6 +940,11 @@ function openSolubility() {
         }, { passive: false });
         wrapper.dataset.ctrlScrollEnabled = 'true';
     }
+
+    // Инициализация кнопки продвинутого режима
+    if (typeof initAdvancedModeButton !== 'undefined') {
+        initAdvancedModeButton();
+    }
 }
 
 function closeSolubility() {

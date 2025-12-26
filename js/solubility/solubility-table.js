@@ -113,9 +113,21 @@ function renderSolubilityTable() {
             td.dataset.r = rowIndex;
             td.dataset.c = colIndex;
 
-            // Одинарный клик - подсветка
+            // Одинарный клик - подсветка ИЛИ продвинутый режим
             td.onclick = (e) => {
                 e.stopPropagation();
+
+                // Если включён продвинутый режим — открываем модалку
+                if (typeof isAdvancedClickMode !== 'undefined' && isAdvancedClickMode) {
+                    const cation = solubilityData.cations[colIndex];
+                    const anion = solubilityData.anions[rowIndex];
+                    if (cation && anion && typeof openAdvancedModal !== 'undefined') {
+                        openAdvancedModal(cation.f, anion.f);
+                    }
+                    return;
+                }
+
+                // Иначе — обычная подсветка крестовиной
                 highlightCrosshair(rowIndex, colIndex);
             };
 

@@ -3,6 +3,25 @@
 // Показывает детальную информацию о веществе
 // =========================================
 
+// Режим продвинутого просмотра (одинарный клик = модалка)
+let isAdvancedClickMode = false;
+
+// Инициализация кнопки переключения режима
+function initAdvancedModeButton() {
+    const btn = document.getElementById('advanced-mode-info-btn');
+    if (!btn) return;
+
+    btn.onclick = () => {
+        isAdvancedClickMode = !isAdvancedClickMode;
+        btn.classList.toggle('active', isAdvancedClickMode);
+
+        // Визуальная подсказка
+        btn.title = isAdvancedClickMode
+            ? '✅ Режим включён — кликните на ячейку для информации'
+            : '💡 Включить режим просмотра информации';
+    };
+}
+
 // Глобальные переменные
 const advancedModal = document.getElementById('advanced-substance-modal');
 const advancedModalContent = document.getElementById('advanced-substance-content');
