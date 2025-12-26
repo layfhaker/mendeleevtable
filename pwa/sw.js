@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mendeleev-v2';
+const CACHE_NAME = 'mendeleev-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
