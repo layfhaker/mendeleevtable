@@ -4,7 +4,8 @@
 // =========================================
 
 // Режим продвинутого просмотра (одинарный клик = модалка)
-let isAdvancedClickMode = false;
+// ДЕЛАЕМ ПЕРЕМЕННУЮ ГЛОБАЛЬНОЙ (через window)
+window.isAdvancedClickMode = false;
 
 // Инициализация кнопки переключения режима
 function initAdvancedModeButton() {
@@ -12,15 +13,20 @@ function initAdvancedModeButton() {
     if (!btn) return;
 
     btn.onclick = () => {
-        isAdvancedClickMode = !isAdvancedClickMode;
-        btn.classList.toggle('active', isAdvancedClickMode);
+        // Меняем глобальную переменную
+        window.isAdvancedClickMode = !window.isAdvancedClickMode;
+
+        // Используем её для стиля
+        btn.classList.toggle('active', window.isAdvancedClickMode);
 
         // Визуальная подсказка
-        btn.title = isAdvancedClickMode
+        btn.title = window.isAdvancedClickMode
             ? '✅ Режим включён — кликните на ячейку для информации'
             : '💡 Включить режим просмотра информации';
     };
 }
+
+// ... остальной код (функции openAdvancedModal и так глобальны, их трогать не обязательно, но можно тоже добавить window.)
 
 // Глобальные переменные
 const advancedModal = document.getElementById('advanced-substance-modal');
