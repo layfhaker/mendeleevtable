@@ -4,19 +4,23 @@
 
 let isColorMode = false;
 
-// Нормализация формулы: "Ag⁺" → "Ag+", "SO₄²⁻" → "SO42-"
+// Добавить в глобальную область видимости (например, в начало advanced-modal.js)
 function normalizeFormula(formula) {
     return formula
         .replace(/⁺/g, '+')
         .replace(/⁻/g, '-')
+        .replace(/⁰/g, '0')
+        .replace(/¹/g, '1')
         .replace(/²/g, '2')
         .replace(/³/g, '3')
         .replace(/⁴/g, '4')
-        .replace(/₂/g, '2')
-        .replace(/₃/g, '3')
-        .replace(/₄/g, '4')
-        .replace(/₅/g, '5');
+        .replace(/₅/g, '5')
+        .replace(/₆/g, '6')
+        .replace(/₇/g, '7')
+        .replace(/₈/g, '8')
+        .replace(/₉/g, '9');
 }
+window.normalizeFormula = normalizeFormula; // Делаем доступной везде
 
 // Определяем, тёмный ли цвет (для выбора цвета текста)
 function isColorDark(hexColor) {
