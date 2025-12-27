@@ -15,13 +15,14 @@
     backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
+    overscroll-behavior: contain; /* Блокируем скролл страницы под модалкой */
 }
 
 /* Кнопка закрытия */
 .close-advanced-modal {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
     background: rgba(255, 255, 255, 0.3);
     border: none;
     width: 35px;
@@ -34,46 +35,58 @@
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
-    z-index: 10;
+    z-index: 20; /* Поверх всего */
 }
 
 .close-advanced-modal:hover {
     background: rgba(255, 255, 255, 0.5);
 }
 
-/* Контент модального окна */
+/* Контент модального окна (Внешняя оболочка) */
 .advanced-modal-content {
     background: var(--bg-color, #fff);
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
+
     width: 90%;
+    max-width: 800px;
+    /* Ограничиваем высоту, чтобы работала прокрутка внутри */
     max-height: 85vh;
+    height: auto;
+
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    position: relative;
+    overflow: hidden; /* Обрезаем скругления */
+
     animation: slideInModal 0.3s ease-out;
 }
 
+/* 🔥 ГЛАВНОЕ ИСПРАВЛЕНИЕ: Контейнер для динамического контента 🔥 */
+#advanced-substance-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0; /* Разрешаем сжиматься, чтобы появился скролл */
+    overflow: hidden; /* Скрываем внешний скролл */
+}
+
 @keyframes slideInModal {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Заголовок */
 .advanced-header {
     padding: 20px 25px;
+    padding-right: 60px; /* Отступ под кнопку закрытия */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-shrink: 0; /* Не сжимать заголовок */
 }
 
 .advanced-title-group h2 {
@@ -117,7 +130,12 @@
     background: #f5f5f5;
     border-bottom: 1px solid #ddd;
     overflow-x: auto;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Не сжимать вкладки */
+    scrollbar-width: none; /* Скрыть скроллбар (Firefox) */
+}
+
+.advanced-tabs::-webkit-scrollbar {
+    display: none; /* Скрыть скроллбар (Chrome/Safari) */
 }
 
 .tab-btn {
@@ -153,15 +171,30 @@
     background: #667eea;
 }
 
-/* Контент вкладок */
+/* Контент вкладок (ОСНОВНОЙ СКРОЛЛ) */
 .advanced-content {
-    flex: 1;
-    overflow-y: auto;
+    flex: 1; /* Занимает все оставшееся место */
+    overflow-y: auto; /* Включает вертикальную прокрутку */
     padding: 25px;
+    min-height: 0; /* Важно для работы скролла во flex */
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+}
+
+/* Стилизация скроллбара */
+.advanced-content::-webkit-scrollbar {
+    width: 6px;
+}
+.advanced-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.advanced-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3px;
 }
 
 .tab-content {
     display: none;
+    padding-bottom: 20px; /* Отступ снизу для удобства чтения */
 }
 
 .tab-content.active {
@@ -245,25 +278,10 @@
     margin-bottom: 20px;
 }
 
-.solubility-status.R {
-    background: #4caf50;
-    color: white;
-}
-
-.solubility-status.N {
-    background: #f44336;
-    color: white;
-}
-
-.solubility-status.M {
-    background: #ff9800;
-    color: white;
-}
-
-.solubility-status.D {
-    background: #9e9e9e;
-    color: white;
-}
+.solubility-status.R { background: #4caf50; color: white; }
+.solubility-status.N { background: #f44336; color: white; }
+.solubility-status.M { background: #ff9800; color: white; }
+.solubility-status.D { background: #9e9e9e; color: white; }
 
 /* Таблица растворимости */
 .solubility-table-data {
@@ -286,24 +304,18 @@
 }
 
 /* Списки */
-.reactions-list,
-.applications-list,
-.facts-list {
+.reactions-list, .applications-list, .facts-list {
     padding-left: 20px;
     line-height: 1.8;
 }
 
-.reactions-list li,
-.applications-list li,
-.facts-list li {
+.reactions-list li, .applications-list li, .facts-list li {
     margin-bottom: 10px;
     color: var(--text-color, #333);
 }
 
 /* Блоки с примечаниями */
-.temp-dependence,
-.real-life-example,
-.analytical-use {
+.temp-dependence, .real-life-example, .analytical-use {
     background: #f0f7ff;
     padding: 12px 15px;
     border-left: 4px solid #667eea;
@@ -358,111 +370,53 @@
     padding: 60px 20px;
 }
 
-.no-data-placeholder h2 {
-    color: #667eea;
-    margin-bottom: 15px;
-}
-
-.no-data-placeholder .help-text {
-    color: #888;
-    font-size: 14px;
-    margin-top: 20px;
-}
+.no-data-placeholder h2 { color: #667eea; margin-bottom: 15px; }
+.no-data-placeholder .help-text { color: #888; font-size: 14px; margin-top: 20px; }
 
 /* Тёмная тема */
-body.dark-theme .advanced-modal-content {
-    background: #2d2d44;
-}
-
-body.dark-theme .advanced-tabs {
-    background: #252535;
-    border-bottom-color: #444;
-}
-
-body.dark-theme .tab-btn {
-    color: #aaa;
-}
-
-body.dark-theme .tab-btn:hover {
-    color: #88a4f7;
-    background: rgba(136, 164, 247, 0.1);
-}
-
-body.dark-theme .tab-btn.active {
-    color: #88a4f7;
-    background: #2d2d44;
-}
-
+body.dark-theme .advanced-modal-content { background: #2d2d44; }
+body.dark-theme .advanced-tabs { background: #252535; border-bottom-color: #444; }
+body.dark-theme .tab-btn { color: #aaa; }
+body.dark-theme .tab-btn:hover { color: #88a4f7; background: rgba(136, 164, 247, 0.1); }
+body.dark-theme .tab-btn.active { color: #88a4f7; background: #2d2d44; }
 body.dark-theme .info-item .value,
 body.dark-theme .reactions-list li,
 body.dark-theme .applications-list li,
-body.dark-theme .facts-list li {
-    color: #ddd;
-}
-
-body.dark-theme .solubility-table-data th {
-    background: #252535;
-}
-
-body.dark-theme .solubility-table-data td {
-    border-bottom-color: #444;
-}
-
+body.dark-theme .facts-list li { color: #ddd; }
+body.dark-theme .solubility-table-data th { background: #252535; }
+body.dark-theme .solubility-table-data td { border-bottom-color: #444; }
 body.dark-theme .temp-dependence,
 body.dark-theme .real-life-example,
-body.dark-theme .analytical-use {
-    background: rgba(102, 126, 234, 0.15);
-}
-
-body.dark-theme .safety-info {
-    background: rgba(255, 152, 0, 0.15);
-}
-
-body.dark-theme .sources {
-    border-top-color: #444;
-}
+body.dark-theme .analytical-use { background: rgba(102, 126, 234, 0.15); }
+body.dark-theme .safety-info { background: rgba(255, 152, 0, 0.15); }
+body.dark-theme .sources { border-top-color: #444; }
 
 /* Мобильная адаптация */
 @media (max-width: 768px) {
     .advanced-modal-content {
         width: 100%;
         max-width: 100%;
-        max-height: 100vh;
+
+        /* 🔥 ИСПРАВЛЕНИЕ: Занимаем всю высоту экрана на мобильных */
+        height: 100%;
+        max-height: 100%;
+
         border-radius: 0;
     }
 
     .advanced-header {
         padding: 15px 20px;
+        padding-right: 50px;
     }
 
-    .advanced-title-group h2 {
-        font-size: 22px;
-    }
+    .advanced-title-group h2 { font-size: 22px; }
 
-    .advanced-tabs {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+    .tab-btn { padding: 10px 15px; font-size: 13px; }
 
-    .tab-btn {
-        padding: 10px 15px;
-        font-size: 13px;
-    }
+    .advanced-content { padding: 20px 15px; }
 
-    .advanced-content {
-        padding: 20px 15px;
-    }
+    .info-grid { grid-template-columns: 1fr; }
 
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .safety-item {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .safety-item .label {
-        min-width: unset;
-    }
+    .safety-item { flex-direction: column; gap: 5px; }
+    .safety-item .label { min-width: unset; }
 }
