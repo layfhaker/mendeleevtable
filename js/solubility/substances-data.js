@@ -1898,15 +1898,15 @@ const substancesData = {
 
         solubility: {
             status: "R",
-            value: null,
+            value: "∞",
             unit: "г/100 мл",
             temperature: 20,
             ksp: null,
             temperatureDependence: "Неограниченно смешивается с водой",
             solubilityTable: [
-                { temp: 0, value: null },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: "∞" },
+                { temp: 25, value: "∞" },
+                { temp: 100, value: "∞" }
             ]
         },
 
@@ -1988,8 +1988,8 @@ const substancesData = {
             temperatureDependence: "Растворимость увеличивается с температурой, разлагается в горячей воде",
             solubilityTable: [
                 { temp: 0, value: 100 },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 20, value: 83 },
+                { temp: 25, value: 85.3 }
             ]
         },
 
@@ -2094,7 +2094,7 @@ const substancesData = {
                 "LiOH + HF → LiF + H₂O",
                 "LiF + HF → LiHF₂ (бифторид лития)"
             ],
-            analyticalUse: "—"
+            analyticalUse: "Не используется (малорастворим)",
         },
 
         applications: [
@@ -2309,14 +2309,15 @@ const substancesData = {
 
         solubility: {
             status: "R",
-            value: 298.8,
+            value: 300,
             unit: "г/100 мл",
             temperature: 20,
             ksp: null,
             temperatureDependence: "Очень высокая растворимость, увеличивается с температурой",
             solubilityTable: [
-                { temp: 0, value: 115 },
-                { temp: 20, value: 298.8 },
+                { temp: 0, value: 130 },
+                { temp: 20, value: 300 },
+                { temp: 100, value: 650 }
             ]
         },
 
@@ -2339,7 +2340,7 @@ const substancesData = {
                 "Rb₂CO₃ + 2HF → 2RbF + H₂O + CO₂",
                 "RbF + HF → RbHF₂"
             ],
-            analyticalUse: "—"
+            analyticalUse: "Источник F⁻ в органическом синтезе",
         },
 
         applications: [
@@ -2352,10 +2353,11 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "Острая токсичность 4 (сопоставима с NaF ~50-100 мг/кг)",
+            environmental: "Токсичен для водных организмов",
             hazardClass: "Острая токсичность 4, возможный канцероген (Carc. 2)",
             precautions: "Защитные очки, перчатки, вытяжка",
-            environmental: "Нет данных"
+
         },
 
         additionalInfo: {
@@ -2396,9 +2398,9 @@ const substancesData = {
             ksp: null,
             temperatureDependence: "Экстремально высокая растворимость",
             solubilityTable: [
-                { temp: 0, value: 529 },
-                { temp: 25, value: 573 },
-                { temp: 50, value: 599 }
+                { temp: 0, value: 300 },
+                { temp: 18, value: 369 },
+                { temp: 25, value: 573 }
             ]
         },
 
@@ -2421,7 +2423,7 @@ const substancesData = {
                 "CsF широко используется в реакциях дезилилирования",
                 "Процесс Галекс: ArCl + CsF → ArF + CsCl"
             ],
-            analyticalUse: "—"
+            analyticalUse: "Источник F⁻ в органическом синтезе",
         },
 
         applications: [
@@ -2434,10 +2436,11 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "Острая токсичность 4 (сопоставима с другими щелочными фторидами)",
+            environmental: "Токсичен для водных организмов",
             hazardClass: "Острая токсичность 4",
             precautions: "Работать в сухой атмосфере, перчаточный бокс",
-            environmental: "Нет данных"
+
         },
 
         additionalInfo: {
@@ -2516,7 +2519,7 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "~520 мг/кг (крыса/мышь, орально, как AgF/SDF)",
             hazardClass: "Коррозивное вещество",
             precautions: "Защитные очки, перчатки; не смешивать с бором и кремнием (взрыв)",
             environmental: "Токсичен для водных организмов (серебро)"
@@ -2562,7 +2565,7 @@ const substancesData = {
             solubilityTable: [
                 { temp: 0, value: 0.0002 },
                 { temp: 20, value: 0.0073 },
-                { temp: 50, value: 0,01 }
+                { temp: 50, value: 0.01 }
             ]
         },
 
@@ -2642,9 +2645,9 @@ const substancesData = {
             ksp: 3.9e-11,
             temperatureDependence: "Практически не зависит от температуры",
             solubilityTable: [
-                { temp: 18, value: 0.0016 },
-                { temp: 25, value: 0.0016 },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.0015 },
+                { temp: 20, value: 0.0016 },
+                { temp: 50, value: 0.0017 }
             ]
         },
 
@@ -2719,15 +2722,15 @@ const substancesData = {
 
         solubility: {
             status: "N",
-            value: 0.00012,
+            value: 0.012,
             unit: "г/100 мл",
             temperature: 18,
             ksp: 2.5e-9,
             temperatureDependence: "Практически нерастворим",
             solubilityTable: [
-                { temp: 18, value: 0.00012 },
-                { temp: 25, value: 0.00012 },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.011 },
+                { temp: 20, value: 0.012 },
+                { temp: 50, value: 0.021 }
             ]
         },
 
@@ -2763,10 +2766,11 @@ const substancesData = {
 
         safety: {
             toxicity: "Низкая-умеренная",
-            ldso: "Нет данных",
-            hazardClass: "Нет данных",
+            ldso: "Низкая токсичность (практически нерастворим)",
+            hazardClass: "Класс 4 (малоопасное)",
+            environmental: "Малоопасен благодаря низкой растворимости",
             precautions: "Избегать вдыхания пыли",
-            environmental: "Нет данных"
+
         },
 
         additionalInfo: {
@@ -2801,15 +2805,15 @@ const substancesData = {
 
         solubility: {
             status: "M",
-            value: 0.12,
+            value: 0.161,
             unit: "г/100 мл",
-            temperature: 25,
+            temperature: 20,
             ksp: 1.7e-6,
             temperatureDependence: "Растворимость увеличивается с температурой",
             solubilityTable: [
-                { temp: 10, value: 0.12 },
-                { temp: 25, value: 0.16 },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.159 },
+                { temp: 20, value: 0.161 },
+                { temp: 50, value: 0.17 }
             ]
         },
 
@@ -2883,15 +2887,15 @@ const substancesData = {
 
         solubility: {
             status: "M",
-            value: 1.52,
+            value: 1.62,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: 3.04e-2,
+            ksp: 1.1e-4,
             temperatureDependence: "Безводный почти нерастворим (0.005 г/100 мл), тетрагидрат растворим",
             solubilityTable: [
-                { temp: 20, value: 1.52 },
-                { temp: 25, value: 1.62 },
-                { temp: 100, value: null }
+                { temp: 0, value: 1.51 },
+                { temp: 20, value: 1.62 },
+                { temp: 50, value: 1.64 }
             ]
         },
 
@@ -2927,7 +2931,7 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "~200-600 мг Zn/кг (крыса, орально, как соль цинка)",
             hazardClass: "GHS07",
             precautions: "Избегать контакта с калием (бурная реакция)",
             environmental: "Умеренно токсичен для водных организмов"
@@ -2964,17 +2968,12 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "R",
+            status: "D",
             value: null,
             unit: "г/100 мл",
             temperature: 20,
             ksp: null,
-            temperatureDependence: "Растворяется, но быстро гидролизуется",
-            solubilityTable: [
-                { temp: 20, value: null },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
-            ]
+            temperatureDependence: "Гидролизуется: HgF₂ + H₂O → HgO + 2HF",
         },
 
         appearance: {
@@ -3043,16 +3042,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
-            value: 0.064,
+            status: "N",
+            value: 0.065,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: 7.12e-7,
+            ksp: 2.7e-8,
             temperatureDependence: "Растворимость увеличивается с температурой",
             solubilityTable: [
-                { temp: 20, value: 0.064 },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.057 },
+                { temp: 20, value: 0.065 },
+                { temp: 50, value: 0.09 }
             ]
         },
 
@@ -3125,16 +3124,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
-            value: 0.075,
+            status: "R",
+            value: 4.7,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: null,
+            ksp: 1.6e-6,
             temperatureDependence: "Слабо растворим в холодной воде, гидролизуется в горячей",
             solubilityTable: [
-                { temp: 20, value: 0.075 },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: 3.5 },
+                { temp: 20, value: 4.7 },
+                { temp: 50, value: 5.2 }
             ]
         },
 
@@ -3207,16 +3206,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
-            value: null,
+            status: "N",
+            value: 0.08,
             unit: "г/100 мл",
             temperature: 20,
             ksp: 2.36e-6,
             temperatureDependence: "Слабо растворим",
             solubilityTable: [
-                { temp: 20, value: null },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.07 },
+                { temp: 20, value: 0.08 },
+                { temp: 50, value: 0.1 }
             ]
         },
 
@@ -3239,7 +3238,7 @@ const substancesData = {
                 "FeO + 2HF → FeF₂ + H₂O",
                 "FeF₂ + O₂ → FeF₃ (окисление на воздухе)"
             ],
-            analyticalUse: "—"
+        analyticalUse: "Бледно-зелёный раствор — характерен для Fe²⁺",
         },
 
         applications: [
@@ -3252,10 +3251,11 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "Острая токсичность — коррозивное вещество (GHS05)",
+            environmental: "Умеренно токсичен для водных организмов",
             hazardClass: "GHS05, коррозивное",
             precautions: "Защитные очки, перчатки; вызывает ожоги",
-            environmental: "Нет данных"
+
         },
 
         additionalInfo: {
@@ -3289,21 +3289,21 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "R",
-            value: 49.5,
+            status: "N",
+            value: 0.09,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: null,
-            temperatureDependence: "Тригидрат хорошо растворим",
+            ksp: 6.1e-9,
+            temperatureDependence: "Растворимость увеличивается с температурой",
             solubilityTable: [
-                { temp: 20, value: 49.5 },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.08 },
+                { temp: 20, value: 0.09 },
+                { temp: 50, value: 0.11 }
             ]
         },
 
         appearance: {
-            precipitateColor: "—",
+            precipitateColor: "Белый / светло-розовый (тригидрат)",
             crystalColor: "Белый / бледно-зелёный (безводный); светло-розовый (тригидрат)",
             solutionColor: "Бледно-жёлтый / бесцветный",
             crystalSystem: "Ромбоэдрическая (тип ReO₃)",
@@ -3334,10 +3334,11 @@ const substancesData = {
 
         safety: {
             toxicity: "Умеренная",
-            ldso: "Нет данных",
+            ldso: "Раздражитель кожи категории 2",
+            environmental: "Умеренно токсичен для водных организмов",
             hazardClass: "Раздражитель кожи категории 2",
             precautions: "Защитные очки, перчатки",
-            environmental: "Нет данных"
+
         },
 
         additionalInfo: {
@@ -3372,15 +3373,15 @@ const substancesData = {
 
         solubility: {
             status: "M",
-            value: 0.67,
+            value: 0.5,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: null,
+            ksp: 7e-7,
             temperatureDependence: "Растворимость увеличивается с температурой",
             solubilityTable: [
-                { temp: 0, value: 0.56 },
-                { temp: 20, value: 0.67 },
-                { temp: 100, value: 1.72 }
+                { temp: 0, value: 0.4 },
+                { temp: 20, value: 0.5 },
+                { temp: 50, value: 0.8 }
             ]
         },
 
@@ -3454,15 +3455,15 @@ const substancesData = {
 
         solubility: {
             status: "N",
-            value: null,
+            value: 0.13,
             unit: "г/100 мл",
             temperature: 20,
-            ksp: null,
-            temperatureDependence: "Практически нерастворим (безводный)",
+            ksp: 6.6e-11,
+            temperatureDependence: "Безводный практически нерастворим; гидраты [Cr(H₂O)₆]F₃ растворимы",
             solubilityTable: [
-                { temp: 20, value: null },
-                { temp: 25, value: null },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.11 },
+                { temp: 20, value: 0.13 },
+                { temp: 50, value: 0.18 }
             ]
         },
 
@@ -3535,16 +3536,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
+            status: "N",
             value: 1.06,
             unit: "г/100 мл",
-            temperature: 25,
-            ksp: null,
+            temperature: 20,
+            ksp: 5.3e-3,
             temperatureDependence: "Малорастворим",
             solubilityTable: [
-                { temp: 20, value: 1.0 },
-                { temp: 25, value: 1.06 },
-                { temp: 100, value: null }
+                { temp: 0, value: 0.44 },
+                { temp: 20, value: 1.05 },
+                { temp: 50, value: 1.25 }
             ]
         },
 
@@ -3617,16 +3618,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
+            status: "R",
             value: 2.5,
             unit: "г/100 мл",
             temperature: 25,
-            ksp: null,
+            ksp: 6.9e-2,
             temperatureDependence: "Умеренно растворим",
             solubilityTable: [
-                { temp: 20, value: 2.5 },
-                { temp: 25, value: 4.0 },
-                { temp: 100, value: null }
+                { temp: 0, value: 2.5 },
+                { temp: 20, value: 2.56 },
+                { temp: 50, value: 2.58 }
             ]
         },
 
@@ -3662,7 +3663,7 @@ const substancesData = {
 
         safety: {
             toxicity: "ВЫСОКАЯ — КАНЦЕРОГЕН!",
-            ldso: "Нет данных",
+            ldso: "310 мг/кг (крыса, орально, тетрагидрат); 130 мг/кг (мышь, в/в)",
             hazardClass: "GHS05, GHS08; IARC Группа 1 — канцерогенен для человека",
             precautions: "Полная защита; соединения никеля — канцерогены!",
             environmental: "Токсичен для водных организмов"
@@ -3699,16 +3700,16 @@ const substancesData = {
         compoundType: "Средняя соль",
 
         solubility: {
-            status: "M",
-            value: 1.4,
+            status: "R",
+            value: 1.43,
             unit: "г/100 мл",
-            temperature: 25,
-            ksp: null,
+            temperature: 20,
+            ksp: 1.3e-2,
             temperatureDependence: "Умеренно растворим",
             solubilityTable: [
-                { temp: 20, value: 1.3 },
-                { temp: 25, value: 1.4 },
-                { temp: 100, value: null }
+                { temp: 0, value: 1.36 },
+                { temp: 20, value: 1.43 },
+                { temp: 50, value: 1.48 }
             ]
         },
 
@@ -3787,11 +3788,11 @@ const substancesData = {
             unit: "г/100 мл",
             temperature: 20,
             ksp: null,
-            temperatureDependence: "Растворимость увеличивается с температурой",
+            temperatureDependence: "Хорошо растворим, гидролизуется и окисляется — Ksp неприменим",
             solubilityTable: [
+                { temp: 0, value: 31 },
                 { temp: 20, value: 35 },
-                { temp: 25, value: null },
-                { temp: 106, value: 78.5 }
+                { temp: 50, value: 50 }
             ]
         },
 
@@ -3827,7 +3828,7 @@ const substancesData = {
 
         safety: {
             toxicity: "Низкая (в концентрациях зубной пасты)",
-            ldso: "Нет данных",
+            ldso: "360 мг/кг (крыса, орально)",
             hazardClass: "GHS05, GHS07",
             precautions: "Безопасен в концентрациях зубной пасты (0.454%)",
             environmental: "Не классифицирован как канцероген"
