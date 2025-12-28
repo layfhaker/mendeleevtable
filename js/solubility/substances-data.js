@@ -1886,6 +1886,1977 @@ const substancesData = {
         },
 
 
+    "H+-F-": {
+        name: "Фтороводород",
+        formula: "HF",
+        molarMass: 20.01,
+        oxidationStates: {
+            "H": +1,
+            "F": -1
+        },
+        compoundType: "Слабая кислота",
+
+        solubility: {
+            status: "R",
+            value: null,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Неограниченно смешивается с водой",
+            solubilityTable: [
+                { temp: 0, value: null },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Бесцветный",
+            solutionColor: "Бесцветный",
+            crystalSystem: "—",
+            opticalProperties: "Дымит на воздухе",
+            realLifeExample: "Травление стекла, производство фторполимеров"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен",
+            airSensitivity: "Дымит во влажном воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "SiO₂ + 4HF → SiF₄ + 2H₂O (травление стекла)",
+                "CaF₂ + H₂SO₄ → 2HF + CaSO₄ (получение HF)",
+                "HF ⇌ H⁺ + F⁻ (pKa = 3.17, слабая кислота)"
+            ],
+            analyticalUse: "Травление стекла — качественная реакция на HF"
+        },
+
+        applications: [
+            "Травление стекла и кремния",
+            "Производство фторполимеров (тефлон)",
+            "Синтез фторорганических соединений",
+            "Полупроводниковая промышленность",
+            "Нефтепереработка (алкилирование)"
+        ],
+
+        safety: {
+            toxicity: "Крайне высокая",
+            ldso: "LC50 1276 ppm (крысы, ингаляционно, 1 час)",
+            hazardClass: "Класс 8 (коррозивное), Класс 6.1 (токсичное)",
+            precautions: "Работать только в вытяжном шкафу, защитная одежда, кальциевый гель при ожогах",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Впервые получен Карлом Шееле в 1771 году",
+                "Название фтора от греч. phthoros — разрушение"
+            ],
+            interestingFacts: [
+                "Единственный галогеноводород — слабая кислота в разбавленном растворе",
+                "Вызывает гипокальциемию — связывает Ca²⁺ в организме",
+                "Хранят в тефлоновых или полиэтиленовых ёмкостях, не в стекле"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 14917"
+        ]
+    },
+
+    "NH4+-F-": {
+        name: "Фторид аммония",
+        formula: "NH₄F",
+        molarMass: 37.04,
+        oxidationStates: {
+            "N": -3,
+            "H": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 100,
+            unit: "г/100 мл",
+            temperature: 0,
+            ksp: null,
+            temperatureDependence: "Растворимость увеличивается с температурой, разлагается в горячей воде",
+            solubilityTable: [
+                { temp: 0, value: 100 },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белые бесцветные призмы",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Гексагональная (тип вюрцита)",
+            opticalProperties: "Прозрачные кристаллы",
+            realLifeExample: "Травление оксидов в микроэлектронике"
+        },
+
+        stability: {
+            decomposition: true,
+            decompositionConditions: "Разлагается при ~100°C: NH₄F → NH₃ + HF",
+            airSensitivity: "Гигроскопичен",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "NH₄F ⇌ NH₃ + HF (сублимация)",
+                "NH₄F + HF → NH₄HF₂ (образование бифторида)",
+                "NH₄F + NaOH → NaF + NH₃↑ + H₂O"
+            ],
+            analyticalUse: "Источник фторид-ионов в аналитической химии"
+        },
+
+        applications: [
+            "Травление оксидов в микроэлектронике",
+            "Консервация древесины",
+            "Текстильная промышленность",
+            "Производство стекла",
+            "Антисептик"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Класс 6.1 (токсичное вещество)",
+            precautions: "Избегать контакта с кожей, защитные очки",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Известен с XIX века",
+                "Применялся как антисептик"
+            ],
+            interestingFacts: [
+                "Единственное соединение, образующее смешанные кристаллы со льдом",
+                "Разъедает стекло",
+                "Структура подобна льду (вюрцит)"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 25516"
+        ]
+    },
+
+    "Li+-F-": {
+        name: "Фторид лития",
+        formula: "LiF",
+        molarMass: 25.94,
+        oxidationStates: {
+            "Li": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 0.134,
+            unit: "г/100 мл",
+            temperature: 25,
+            ksp: 1.84e-3,
+            temperatureDependence: "Аномально низкая растворимость для щелочного фторида",
+            solubilityTable: [
+                { temp: 0, value: 0.12 },
+                { temp: 25, value: 0.134 },
+                { temp: 100, value: 0.14 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый мелкокристаллический",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Прозрачен в УФ-диапазоне до 104 нм",
+            realLifeExample: "УФ-оптика, окна спектрометров"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до высоких температур",
+            airSensitivity: "Не гигроскопичен (уникально для щелочных фторидов)",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "2Li + F₂ → 2LiF (сильно экзотермическая)",
+                "LiOH + HF → LiF + H₂O",
+                "LiF + HF → LiHF₂ (бифторид лития)"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "УФ-оптика (окна, линзы, призмы)",
+            "Ядерные реакторы (компонент FLiBe)",
+            "Термолюминесцентные дозиметры",
+            "Электролит для расплавных солей",
+            "OLED-дисплеи"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "~200 мг/кг (кролик, орально)",
+            hazardClass: "Класс 6.1",
+            precautions: "Избегать вдыхания пыли",
+            environmental: "Малоопасен благодаря низкой растворимости"
+        },
+
+        additionalInfo: {
+            mineralName: "Грисеит (Griceite) — крайне редкий",
+            historicalFacts: [
+                "Один из первых фторидов, изученных кристаллографически",
+                "Использовался в ядерных исследованиях с 1940-х"
+            ],
+            interestingFacts: [
+                "Аномально низкая растворимость из-за высокой энергии решётки",
+                "Образование из элементов выделяет одну из самых высоких энергий на единицу массы",
+                "Единственный негигроскопичный щелочной фторид"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 224478"
+        ]
+    },
+
+    "K+-F-": {
+        name: "Фторид калия",
+        formula: "KF",
+        molarMass: 58.10,
+        oxidationStates: {
+            "K": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 94.9,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Растворимость сильно увеличивается с температурой",
+            solubilityTable: [
+                { temp: 0, value: 44.7 },
+                { temp: 20, value: 94.9 },
+                { temp: 100, value: 175 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Гигроскопичен, расплывается на воздухе",
+            realLifeExample: "Реактив в органическом синтезе"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен",
+            airSensitivity: "Очень гигроскопичен, расплывается",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "KOH + HF → KF + H₂O",
+                "KF + HF → KHF₂ (бифторид калия)",
+                "RCl + KF → RF + KCl (реакция Финкельштейна)"
+            ],
+            analyticalUse: "Источник F⁻ в реакциях нуклеофильного замещения"
+        },
+
+        applications: [
+            "Органический синтез (реакции Финкельштейна, Галекс)",
+            "Катализатор KF/Al₂O₃",
+            "Фторирование пищевой соли",
+            "Производство фторопластов",
+            "Консервация древесины"
+        ],
+
+        safety: {
+            toxicity: "Высокая",
+            ldso: "245 мг/кг (крыса, орально)",
+            hazardClass: "Класс 6.1 (токсичное), острая токсичность 3",
+            precautions: "Защитные очки, перчатки, вытяжка",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "Карроббиит (Carobbiite) — редкий",
+            historicalFacts: [
+                "Один из первых синтезированных фторидов",
+                "Применяется в органической химии с середины XX века"
+            ],
+            interestingFacts: [
+                "Разъедает стекло",
+                "Один из самых реакционноспособных источников F⁻",
+                "KF·2H₂O — частая форма в лаборатории"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 522689"
+        ]
+    },
+
+    "Na+-F-": {
+        name: "Фторид натрия",
+        formula: "NaF",
+        molarMass: 41.99,
+        oxidationStates: {
+            "Na": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 4.13,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Растворимость слабо увеличивается с температурой",
+            solubilityTable: [
+                { temp: 0, value: 3.66 },
+                { temp: 25, value: 4.13 },
+                { temp: 100, value: 5.08 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Прозрачные кристаллы",
+            realLifeExample: "Зубные пасты, фторирование воды"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 993°C (плавление)",
+            airSensitivity: "Слабо гигроскопичен",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "NaOH + HF → NaF + H₂O",
+                "NaF + HF ⇌ NaHF₂",
+                "CaF₂ + Na₂CO₃ → 2NaF + CaCO₃ (обменная реакция)"
+            ],
+            analyticalUse: "Стандартный источник F⁻ в аналитической химии"
+        },
+
+        applications: [
+            "Зубные пасты (профилактика кариеса)",
+            "Фторирование питьевой воды",
+            "ПЭТ-трассеры (¹⁸F-NaF)",
+            "Металлургия (флюс)",
+            "Консервация древесины"
+        ],
+
+        safety: {
+            toxicity: "Умеренная-высокая",
+            ldso: "52 мг/кг (крыса, орально)",
+            hazardClass: "Класс 6.1, острая токсичность 3",
+            precautions: "Избегать проглатывания больших доз, защитные очки",
+            environmental: "Токсичен для водных организмов в высоких концентрациях"
+        },
+
+        additionalInfo: {
+            mineralName: "Виллиумит (Villiaumite)",
+            historicalFacts: [
+                "Фторирование воды началось в 1945 году в США",
+                "Используется в стоматологии с 1940-х годов"
+            ],
+            interestingFacts: [
+                "264-й по частоте назначаемый препарат в США (2023)",
+                "Летальная доза для человека (70 кг): 5-10 г",
+                "Содержание в зубных пастах: 0.1-0.15%"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 5235"
+        ]
+    },
+
+    "Rb+-F-": {
+        name: "Фторид рубидия",
+        formula: "RbF",
+        molarMass: 104.47,
+        oxidationStates: {
+            "Rb": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 298.8,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Очень высокая растворимость, увеличивается с температурой",
+            solubilityTable: [
+                { temp: 0, value: 115 },
+                { temp: 20, value: 298.8 },
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Очень гигроскопичен",
+            realLifeExample: "Специальные химические реагенты"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до плавления (775°C)",
+            airSensitivity: "Очень гигроскопичен",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "RbOH + HF → RbF + H₂O",
+                "Rb₂CO₃ + 2HF → 2RbF + H₂O + CO₂",
+                "RbF + HF → RbHF₂"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Специальные зубные пасты",
+            "Синтез солей рубидия",
+            "Оптоэлектроника",
+            "Исследования квантовых вычислений",
+            "Катализатор в органическом синтезе"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Острая токсичность 4, возможный канцероген (Carc. 2)",
+            precautions: "Защитные очки, перчатки, вытяжка",
+            environmental: "Нет данных"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Рубидий открыт Бунзеном и Кирхгофом в 1861 году",
+                "Фторид получен вскоре после открытия элемента"
+            ],
+            interestingFacts: [
+                "Один из самых растворимых щелочных фторидов",
+                "Используется в исследованиях холодных атомов",
+                "Дорогой реактив из-за редкости рубидия"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "Sigma-Aldrich Product Specification",
+            "WebElements"
+        ]
+    },
+
+    "Cs+-F-": {
+        name: "Фторид цезия",
+        formula: "CsF",
+        molarMass: 151.90,
+        oxidationStates: {
+            "Cs": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 369,
+            unit: "г/100 мл",
+            temperature: 18,
+            ksp: null,
+            temperatureDependence: "Экстремально высокая растворимость",
+            solubilityTable: [
+                { temp: 0, value: 529 },
+                { temp: 25, value: 573 },
+                { temp: 50, value: 599 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Экстремально гигроскопичен",
+            realLifeExample: "Реагент в органическом синтезе"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до плавления (682°C)",
+            airSensitivity: "Чрезвычайно гигроскопичен, расплывается мгновенно",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "CsOH + HF → CsF + H₂O",
+                "CsF широко используется в реакциях дезилилирования",
+                "Процесс Галекс: ArCl + CsF → ArF + CsCl"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Органический синтез (самый реакционноспособный источник F⁻)",
+            "Реакции дезилилирования",
+            "Процесс Галекс",
+            "Реакции кросс-сочетания (Сузуки, Стилле)",
+            "Производство фторароматических соединений"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Острая токсичность 4",
+            precautions: "Работать в сухой атмосфере, перчаточный бокс",
+            environmental: "Нет данных"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Цезий открыт Бунзеном и Кирхгофом в 1860 году",
+                "CsF стал важным реагентом в органической химии с 1970-х"
+            ],
+            interestingFacts: [
+                "Cs — самый электроположительный стабильный элемент, F — самый электроотрицательный",
+                "Рекордная растворимость среди щелочных фторидов",
+                "Растворим даже в некоторых органических растворителях"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 25953"
+        ]
+    },
+
+    "Ag+-F-": {
+        name: "Фторид серебра",
+        formula: "AgF",
+        molarMass: 126.87,
+        oxidationStates: {
+            "Ag": +1,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 172,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Высокая растворимость (АНОМАЛИЯ! Другие галогениды Ag нерастворимы)",
+            solubilityTable: [
+                { temp: 0, value: 85.8 },
+                { temp: 20, value: 172 },
+                { temp: 500, value: 213 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Жёлто-коричневый (безводный); бесцветный (дигидрат)",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип NaCl)",
+            opticalProperties: "Темнеет на свету",
+            realLifeExample: "Лечение кариеса (40% раствор)"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Стабилен до плавления (435°C)",
+            airSensitivity: "Гигроскопичен, чувствителен к влаге",
+            lightSensitivity: "Темнеет на свету (медленнее, чем AgCl/AgBr)",
+            characteristicReactions: [
+                "Ag₂O + 2HF → 2AgF + H₂O",
+                "AgNO₃ + HF → AgF + HNO₃",
+                "AgF + R₃SiH → AgH + R₃SiF (дезилилирование)"
+            ],
+            analyticalUse: "В отличие от AgCl, AgBr, AgI — растворим! Качественная реакция на фторид"
+        },
+
+        applications: [
+            "Фторирующий агент в органическом синтезе",
+            "Лечение кариеса (SDF — серебряный диаминофторид)",
+            "Дезилилирование",
+            "Антибактериальные покрытия",
+            "Каталитическое фторирование"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Коррозивное вещество",
+            precautions: "Защитные очки, перчатки; не смешивать с бором и кремнием (взрыв)",
+            environmental: "Токсичен для водных организмов (серебро)"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Аномальная растворимость объяснена теорией ЖМКО (HSAB)",
+                "Используется в стоматологии с 1970-х"
+            ],
+            interestingFacts: [
+                "АНОМАЛИЯ: AgCl, AgBr, AgI — нерастворимы, а AgF — хорошо растворим!",
+                "Объяснение: F⁻ — жёсткое основание, плохо связывается с мягкой кислотой Ag⁺",
+                "Реагирует взрывоопасно с бором и кремнием"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 62652"
+        ]
+    },
+
+    "Mg2+-F-": {
+        name: "Фторид магния",
+        formula: "MgF₂",
+        molarMass: 62.30,
+        oxidationStates: {
+            "Mg": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "N",
+            value: 0.0073,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: 6.4e-9,
+            temperatureDependence: "Практически не зависит от температуры",
+            solubilityTable: [
+                { temp: 0, value: 0.0002 },
+                { temp: 20, value: 0.0073 },
+                { temp: 50, value: 0,01 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый мелкокристаллический",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "—",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Прозрачен в УФ до 121 нм, n = 1.39",
+            realLifeExample: "Антибликовые покрытия линз и очков"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1263°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "MgO + 2HF → MgF₂ + H₂O",
+                "Mg(OH)₂ + 2HF → MgF₂ + 2H₂O",
+                "Mg²⁺ + 2F⁻ → MgF₂↓ (осаждение)"
+            ],
+            analyticalUse: "Осаждение белого осадка при добавлении F⁻ к растворам Mg²⁺"
+        },
+
+        applications: [
+            "Антибликовые покрытия в оптике",
+            "УФ/ИК-прозрачные окна",
+            "Космические телескопы",
+            "Флюс в производстве алюминия",
+            "Керамика"
+        ],
+
+        safety: {
+            toxicity: "Низкая (нерастворим)",
+            ldso: "97-4000 мг/кг (крыса, орально)",
+            hazardClass: "4 класс (малоопасное)",
+            precautions: "Избегать вдыхания пыли",
+            environmental: "Малоопасен благодаря низкой растворимости"
+        },
+
+        additionalInfo: {
+            mineralName: "Селлаит (Sellaite) — редкий",
+            historicalFacts: [
+                "Впервые описан в 1868 году",
+                "Широко используется в оптике с середины XX века"
+            ],
+            interestingFacts: [
+                "Один из лучших материалов для антибликовых покрытий",
+                "Прозрачен в вакуумном УФ (до 121 нм)",
+                "Используется в телескопе Хаббл"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 24546"
+        ]
+    },
+
+    "Ca2+-F-": {
+        name: "Фторид кальция",
+        formula: "CaF₂",
+        molarMass: 78.07,
+        oxidationStates: {
+            "Ca": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "N",
+            value: 0.0016,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: 3.9e-11,
+            temperatureDependence: "Практически не зависит от температуры",
+            solubilityTable: [
+                { temp: 18, value: 0.0016 },
+                { temp: 25, value: 0.0016 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый студенистый",
+            crystalColor: "Бесцветный (чистый); часто окрашен примесями",
+            solutionColor: "—",
+            crystalSystem: "Кубическая (изометрическая) — структура флюорита",
+            opticalProperties: "Прозрачен в широком диапазоне, флуоресцирует",
+            realLifeExample: "Минерал флюорит, плавиковый шпат"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1418°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Некоторые образцы флуоресцируют в УФ",
+            characteristicReactions: [
+                "CaF₂ + H₂SO₄ → CaSO₄ + 2HF↑ (производство HF)",
+                "Ca(NO₃)₂ + 2NaF → CaF₂↓ + 2NaNO₃",
+                "Ca²⁺ + 2F⁻ → CaF₂↓ (осаждение)"
+            ],
+            analyticalUse: "Белый осадок CaF₂ — качественная реакция на F⁻ (с Ca²⁺)"
+        },
+
+        applications: [
+            "Главный источник HF и фтора",
+            "Флюс в металлургии стали и алюминия",
+            "Оптика (УФ-ИК окна, линзы)",
+            "Термолюминесцентные дозиметры",
+            "Ювелирный камень (флюорит)"
+        ],
+
+        safety: {
+            toxicity: "Низкая (нерастворим)",
+            ldso: "4250 мг/кг (крыса, орально)",
+            hazardClass: "4 класс (малоопасное)",
+            precautions: "Избегать вдыхания пыли",
+            environmental: "Малоопасен"
+        },
+
+        additionalInfo: {
+            mineralName: "ФЛЮОРИТ (плавиковый шпат)",
+            historicalFacts: [
+                "Используется как флюс с древности (fluere = течь)",
+                "Явление флуоресценции названо по этому минералу",
+                "Определяет 4-ю точку шкалы твёрдости Мооса"
+            ],
+            interestingFacts: [
+                "Определяет структурный тип флюорита в кристаллографии",
+                "Флюорит может быть разных цветов из-за примесей",
+                "Некоторые образцы флуоресцируют синим цветом в УФ"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 84512"
+        ]
+    },
+
+    "Sr2+-F-": {
+        name: "Фторид стронция",
+        formula: "SrF₂",
+        molarMass: 125.62,
+        oxidationStates: {
+            "Sr": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "N",
+            value: 0.00012,
+            unit: "г/100 мл",
+            temperature: 18,
+            ksp: 2.5e-9,
+            temperatureDependence: "Практически нерастворим",
+            solubilityTable: [
+                { temp: 18, value: 0.00012 },
+                { temp: 25, value: 0.00012 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "—",
+            crystalSystem: "Кубическая (тип флюорита)",
+            opticalProperties: "Прозрачен 150 нм — 11 мкм",
+            realLifeExample: "Оптические покрытия"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1477°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "SrCO₃ + 2HF → SrF₂ + H₂O + CO₂",
+                "Sr(NO₃)₂ + 2NaF → SrF₂↓ + 2NaNO₃",
+                "Sr²⁺ + 2F⁻ → SrF₂↓"
+            ],
+            analyticalUse: "Осаждение белого осадка SrF₂"
+        },
+
+        applications: [
+            "Оптические покрытия",
+            "Термолюминесцентные дозиметры",
+            "Носитель ⁹⁰Sr в термоэлектрических генераторах",
+            "Лазерные кристаллы",
+            "Специальное оптическое стекло"
+        ],
+
+        safety: {
+            toxicity: "Низкая-умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Нет данных",
+            precautions: "Избегать вдыхания пыли",
+            environmental: "Нет данных"
+        },
+
+        additionalInfo: {
+            mineralName: "Стронтиофлюорит — очень редкий",
+            historicalFacts: [
+                "Стронций открыт в 1790 году",
+                "SrF₂ изучен в XIX веке"
+            ],
+            interestingFacts: [
+                "Молекула SrF₂ в газовой фазе нелинейна (~120°) — противоречит VSEPR",
+                "Используется в атомных часах на ⁸⁷Sr",
+                "Один из немногих нелинейных триатомных молекул"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "ChemicalBook"
+        ]
+    },
+
+    "Ba2+-F-": {
+        name: "Фторид бария",
+        formula: "BaF₂",
+        molarMass: 175.32,
+        oxidationStates: {
+            "Ba": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 0.12,
+            unit: "г/100 мл",
+            temperature: 25,
+            ksp: 1.7e-6,
+            temperatureDependence: "Растворимость увеличивается с температурой",
+            solubilityTable: [
+                { temp: 10, value: 0.12 },
+                { temp: 25, value: 0.16 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Кубическая (тип флюорита)",
+            opticalProperties: "Прозрачен 150-200 нм до 11-11.5 мкм",
+            realLifeExample: "Сцинтилляционные детекторы"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1368°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "BaCO₃ + 2HF → BaF₂ + H₂O + CO₂",
+                "Ba(NO₃)₂ + 2NaF → BaF₂↓ + 2NaNO₃",
+                "Ba²⁺ + 2F⁻ → BaF₂↓"
+            ],
+            analyticalUse: "Осаждение белого осадка BaF₂"
+        },
+
+        applications: [
+            "Сцинтилляционные детекторы (один из самых быстрых)",
+            "ПЭТ-визуализация",
+            "ИК-спектроскопия (окна, призмы)",
+            "Эмали",
+            "Сварочные флюсы"
+        ],
+
+        safety: {
+            toxicity: "УМЕРЕННАЯ (барий токсичен!)",
+            ldso: "250 мг/кг (крыса, орально)",
+            hazardClass: "WHMIS D-1B, острая токсичность",
+            precautions: "Защитные очки, перчатки, вытяжка; барий — мышечный яд!",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "Франкдиксонит (Frankdicksonite) — очень редкий",
+            historicalFacts: [
+                "Барий открыт Дэви в 1808 году",
+                "BaF₂ как сцинтиллятор используется с 1960-х"
+            ],
+            interestingFacts: [
+                "Один из самых быстрых сцинтилляторов (0.8 нс)",
+                "Барий — мышечный яд, вызывает паралич",
+                "Малорастворимый BaF₂ менее опасен, чем растворимые соли Ba"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "PubChem CID 62670"
+        ]
+    },
+
+    "Zn2+-F-": {
+        name: "Фторид цинка",
+        formula: "ZnF₂",
+        molarMass: 103.39,
+        oxidationStates: {
+            "Zn": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 1.52,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: 3.04e-2,
+            temperatureDependence: "Безводный почти нерастворим (0.005 г/100 мл), тетрагидрат растворим",
+            solubilityTable: [
+                { temp: 20, value: 1.52 },
+                { temp: 25, value: 1.62 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый",
+            crystalColor: "Белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Белый порошок",
+            realLifeExample: "Зубные цементы, керамические глазури"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 872°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "ZnO + 2HF → ZnF₂ + H₂O",
+                "Zn(OH)₂ + 2HF → ZnF₂ + 2H₂O",
+                "Zn + F₂ → ZnF₂ (при нагревании)"
+            ],
+            analyticalUse: "Осаждение белого осадка ZnF₂"
+        },
+
+        applications: [
+            "Фторирование органических соединений",
+            "Люминофоры для ламп",
+            "Консервация древесины",
+            "Цинкование стали",
+            "Керамические глазури"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "GHS07",
+            precautions: "Избегать контакта с калием (бурная реакция)",
+            environmental: "Умеренно токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Цинк известен с древности",
+                "ZnF₂ применяется в промышленности с XX века"
+            ],
+            interestingFacts: [
+                "Безводный ZnF₂ почти нерастворим, а тетрагидрат растворим",
+                "Бурно реагирует с калием",
+                "Используется как кислота Льюиса"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "ChemicalBook"
+        ]
+    },
+
+    "Hg2+-F-": {
+        name: "Фторид ртути(II)",
+        formula: "HgF₂",
+        molarMass: 238.59,
+        oxidationStates: {
+            "Hg": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: null,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Растворяется, но быстро гидролизуется",
+            solubilityTable: [
+                { temp: 20, value: null },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белый (может быть жёлтым или розовым)",
+            solutionColor: "Гидролизуется",
+            crystalSystem: "Кубическая (тип флюорита)",
+            opticalProperties: "Чувствителен к влаге",
+            realLifeExample: "Специальный фторирующий агент"
+        },
+
+        stability: {
+            decomposition: true,
+            decompositionConditions: "Гидролизуется во влажном воздухе; разлагается при ~640°C",
+            airSensitivity: "Быстро гидролизуется во влажном воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "HgO + 2HF → HgF₂ + H₂O (синтез)",
+                "HgF₂ + H₂O → HgO + 2HF (гидролиз)",
+                "HgF₂ — селективный фторирующий агент"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Селективный фторирующий агент в органическом синтезе",
+            "Ограниченное применение из-за токсичности"
+        ],
+
+        safety: {
+            toxicity: "КРАЙНЕ ВЫСОКАЯ",
+            ldso: "Нет данных (высокотоксичен)",
+            hazardClass: "Высокая острая токсичность, опасен для окружающей среды",
+            precautions: "Работать только в вытяжке, полная защита, избегать любого контакта",
+            environmental: "Крайне опасен — ртуть накапливается в пищевых цепях"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Ртуть известна с древности",
+                "HgF₂ изучен в XX веке"
+            ],
+            interestingFacts: [
+                "Гидролизуется быстрее других фторидов ртути",
+                "Крайне токсичен — соединения ртути вызывают тяжёлые отравления",
+                "Ограниченное применение из-за опасности"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "WebElements",
+            "ChemicalBook"
+        ]
+    },
+
+    "Pb2+-F-": {
+        name: "Фторид свинца(II)",
+        formula: "PbF₂",
+        molarMass: 245.20,
+        oxidationStates: {
+            "Pb": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 0.064,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: 7.12e-7,
+            temperatureDependence: "Растворимость увеличивается с температурой",
+            solubilityTable: [
+                { temp: 20, value: 0.064 },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый",
+            crystalColor: "Белый / бесцветный",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Орторомбическая (→ кубическая при ~316°C)",
+            opticalProperties: "Прозрачен в ИК",
+            realLifeExample: "ИК-оптика, сцинтилляторы"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 824°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "PbO + 2HF → PbF₂ + H₂O",
+                "Pb(NO₃)₂ + 2NaF → PbF₂↓ + 2NaNO₃",
+                "Pb²⁺ + 2F⁻ → PbF₂↓"
+            ],
+            analyticalUse: "Осаждение белого осадка PbF₂"
+        },
+
+        applications: [
+            "ИК-отражающие покрытия",
+            "Сцинтилляционные кристаллы",
+            "Низкоплавкие стёкла",
+            "Катализатор",
+            "Электродные материалы"
+        ],
+
+        safety: {
+            toxicity: "ВЫСОКАЯ (свинец!)",
+            ldso: "~3000 мг/кг (крыса, орально)",
+            hazardClass: "GHS07, GHS08, GHS09; H360Df",
+            precautions: "Полная защита; свинец накапливается в костях",
+            environmental: "Очень токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "Флюорокронит — редкий",
+            historicalFacts: [
+                "Свинец известен с древности",
+                "PbF₂ изучен в XIX веке"
+            ],
+            interestingFacts: [
+                "Используется в эксперименте g-2 по измерению аномального магнитного момента мюона",
+                "Свинец накапливается в костях (90%)",
+                "Может нанести вред фертильности или плоду"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Sigma-Aldrich"
+        ]
+    },
+
+    "Cu2+-F-": {
+        name: "Фторид меди(II)",
+        formula: "CuF₂",
+        molarMass: 101.54,
+        oxidationStates: {
+            "Cu": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 0.075,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Слабо растворим в холодной воде, гидролизуется в горячей",
+            solubilityTable: [
+                { temp: 20, value: 0.075 },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый (безводный) / голубой (гидрат)",
+            crystalColor: "Белый (безводный); голубой (дигидрат)",
+            solutionColor: "Голубой (разбавленный)",
+            crystalSystem: "Моноклинная (искажённый рутил)",
+            opticalProperties: "Синеет во влажном воздухе (образует гидрат)",
+            realLifeExample: "Фторирующий агент"
+        },
+
+        stability: {
+            decomposition: true,
+            decompositionConditions: "Разлагается выше 950°C: 2CuF₂ → 2CuF + F₂",
+            airSensitivity: "Поглощает влагу, образуя голубой дигидрат",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "Cu + F₂ → CuF₂ (400°C)",
+                "CuO + 2HF → CuF₂ + H₂O",
+                "2CuF₂ → 2CuF + F₂ (выше 950°C)"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Высокотемпературное фторирование ароматических соединений",
+            "Катализатор разложения NOx",
+            "Катодный материал для батарей",
+            "Керамика",
+            "Оптические покрытия"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "GHS07",
+            precautions: "Образует HF при контакте с кислотами; защитные очки, перчатки",
+            environmental: "Умеренно токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Медь известна с древности",
+                "CuF₂ получен в XIX веке"
+            ],
+            interestingFacts: [
+                "Безводный CuF₂ белый, но синеет во влажном воздухе",
+                "Дигидрат имеет характерный голубой цвет Cu²⁺",
+                "При высокой температуре разлагается с выделением F₂"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "ChemicalBook"
+        ]
+    },
+
+    "Fe2+-F-": {
+        name: "Фторид железа(II)",
+        formula: "FeF₂",
+        molarMass: 93.84,
+        oxidationStates: {
+            "Fe": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: null,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: 2.36e-6,
+            temperatureDependence: "Слабо растворим",
+            solubilityTable: [
+                { temp: 20, value: null },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый / зеленоватый",
+            crystalColor: "Белый (может быть зеленоватым)",
+            solutionColor: "Бледно-зелёный",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Может окисляться на воздухе",
+            realLifeExample: "Катализатор, батареи"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до ~1100°C",
+            airSensitivity: "Окисляется на влажном воздухе до FeF₃",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "Fe + 2HF → FeF₂ + H₂↑ (при нагревании)",
+                "FeO + 2HF → FeF₂ + H₂O",
+                "FeF₂ + O₂ → FeF₃ (окисление на воздухе)"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Катализатор органических реакций",
+            "Катодный материал для литий-ионных батарей",
+            "Керамика",
+            "Оптические покрытия",
+            "Магнитные материалы"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "GHS05, коррозивное",
+            precautions: "Защитные очки, перчатки; вызывает ожоги",
+            environmental: "Нет данных"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Железо известно с древности",
+                "FeF₂ изучен в XIX веке"
+            ],
+            interestingFacts: [
+                "Легко окисляется до FeF₃ на влажном воздухе",
+                "Раствор бледно-зелёный (характерен для Fe²⁺)",
+                "Антиферромагнетик при низких температурах"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Fe3+-F-": {
+        name: "Фторид железа(III)",
+        formula: "FeF₃",
+        molarMass: 112.84,
+        oxidationStates: {
+            "Fe": +3,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 49.5,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Тригидрат хорошо растворим",
+            solubilityTable: [
+                { temp: 20, value: 49.5 },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белый / бледно-зелёный (безводный); светло-розовый (тригидрат)",
+            solutionColor: "Бледно-жёлтый / бесцветный",
+            crystalSystem: "Ромбоэдрическая (тип ReO₃)",
+            opticalProperties: "Белый порошок",
+            realLifeExample: "Керамика, катализатор"
+        },
+
+        stability: {
+            decomposition: true,
+            decompositionConditions: "Сублимирует при ~1000°C",
+            airSensitivity: "Гигроскопичен",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "Fe₂O₃ + 6HF → 2FeF₃ + 3H₂O",
+                "Fe + 3/2 F₂ → FeF₃",
+                "FeF₃ — кислота Льюиса в органическом синтезе"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "Производство керамики (основное применение)",
+            "Катализатор кросс-сочетания",
+            "Катодный материал для Li-ion батарей",
+            "Очистка воды",
+            "Синтез циангидринов"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "Нет данных",
+            hazardClass: "Раздражитель кожи категории 2",
+            precautions: "Защитные очки, перчатки",
+            environmental: "Нет данных"
+        },
+
+        additionalInfo: {
+            mineralName: "Топсёит (Topsøeite) — редкий фумарольный минерал (тригидрат)",
+            historicalFacts: [
+                "Изучен в XIX веке",
+                "Применяется в керамике с XX века"
+            ],
+            interestingFacts: [
+                "Тригидрат имеет светло-розовый цвет",
+                "Безводный FeF₃ сублимирует при ~1000°C",
+                "Хороший катализатор благодаря кислоте Льюиса"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Al3+-F-": {
+        name: "Фторид алюминия",
+        formula: "AlF₃",
+        molarMass: 83.98,
+        oxidationStates: {
+            "Al": +3,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 0.67,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Растворимость увеличивается с температурой",
+            solubilityTable: [
+                { temp: 0, value: 0.56 },
+                { temp: 20, value: 0.67 },
+                { temp: 100, value: 1.72 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Белый",
+            crystalColor: "Бесцветный / белый",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Ромбоэдрическая (тип ReO₃)",
+            opticalProperties: "Белый порошок",
+            realLifeExample: "Производство алюминия (процесс Холла-Эру)"
+        },
+
+        stability: {
+            decomposition: true,
+            decompositionConditions: "Сублимирует при ~1272°C",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "Al₂O₃ + 6HF → 2AlF₃ + 3H₂O (700°C)",
+                "2Al + 3F₂ → 2AlF₃ (сильно экзотермическая)",
+                "AlF₃ снижает температуру плавления криолита"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "КРИТИЧЕСКИ ВАЖЕН для производства алюминия (процесс Холла-Эру)",
+            "Снижает температуру плавления электролита на 40-60°C",
+            "Флюс в керамических глазурях",
+            "Катализатор",
+            "УФ-прозрачные оптические плёнки"
+        ],
+
+        safety: {
+            toxicity: "Умеренная-высокая",
+            ldso: "100 мг/кг",
+            hazardClass: "Острая токсичность 4",
+            precautions: "Избегать вдыхания; может вызвать астму и флюороз костей",
+            environmental: "Умеренно токсичен"
+        },
+
+        additionalInfo: {
+            mineralName: "Оскарссонит (безводный, очень редкий); Розенбергит (тригидрат)",
+            historicalFacts: [
+                "Процесс Холла-Эру изобретён в 1886 году",
+                "AlF₃ — критическая добавка в электролит"
+            ],
+            interestingFacts: [
+                "Чистый глинозём плавится при 2054°C; с криолитом + AlF₃ — при ~960°C",
+                "AlF-комплексы имитируют фосфат, влияя на АТФ-гидролазы",
+                "Без AlF₃ производство алюминия было бы экономически невыгодно"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Cr3+-F-": {
+        name: "Фторид хрома(III)",
+        formula: "CrF₃",
+        molarMass: 109.00,
+        oxidationStates: {
+            "Cr": +3,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "N",
+            value: null,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Практически нерастворим (безводный)",
+            solubilityTable: [
+                { temp: 20, value: null },
+                { temp: 25, value: null },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Зелёный",
+            crystalColor: "ЗЕЛЁНЫЙ (характерен для Cr³⁺, d³)",
+            solutionColor: "Фиолетовый (гексагидрат)",
+            crystalSystem: "Тригональная (ромбоэдрическая)",
+            opticalProperties: "Интенсивно окрашен",
+            realLifeExample: "Протрава в текстиле, катализатор"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Сублимирует при >1100°C",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "Cr₂O₃ + 6HF + 9H₂O → 2[Cr(H₂O)₆]F₃",
+                "CrCl₃ + 3HF → CrF₃ + 3HCl",
+                "[NH₄]₃[CrF₆] → CrF₃ + 3NH₃ + 3HF (термолиз)"
+            ],
+            analyticalUse: "Зелёный цвет — характерная реакция на Cr³⁺"
+        },
+
+        applications: [
+            "Протрава в текстильной промышленности",
+            "Средство от моли",
+            "Катализатор галогенирования",
+            "Фторирование хлоруглеродов",
+            "Ингибитор коррозии"
+        ],
+
+        safety: {
+            toxicity: "Умеренная",
+            ldso: "~253 мг/кг",
+            hazardClass: "GHS05, GHS07; коррозивный, вредный",
+            precautions: "Защитные очки, перчатки; Cr³⁺ менее токсичен, чем Cr⁶⁺",
+            environmental: "IARC Группа 3 (не классифицирован как канцероген)"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Хром открыт в 1797 году",
+                "CrF₃ изучен в XIX веке"
+            ],
+            interestingFacts: [
+                "Зелёный цвет характерен для d³-конфигурации Cr³⁺",
+                "Гексагидрат имеет фиолетовый цвет",
+                "Cr³⁺ значительно менее токсичен, чем Cr⁶⁺"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Mn2+-F-": {
+        name: "Фторид марганца(II)",
+        formula: "MnF₂",
+        molarMass: 92.93,
+        oxidationStates: {
+            "Mn": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 1.06,
+            unit: "г/100 мл",
+            temperature: 25,
+            ksp: null,
+            temperatureDependence: "Малорастворим",
+            solubilityTable: [
+                { temp: 20, value: 1.0 },
+                { temp: 25, value: 1.06 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Светло-розовый",
+            crystalColor: "СВЕТЛО-РОЗОВЫЙ (характерен для Mn²⁺, d⁵)",
+            solutionColor: "Бледно-розовый",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Слабо окрашен (слабое поглощение)",
+            realLifeExample: "Лазерные материалы, оптика"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 856°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "MnCO₃ + 2HF → MnF₂ + H₂O + CO₂",
+                "MnO + 2HF → MnF₂ + H₂O",
+                "Mn + F₂ → MnF₂"
+            ],
+            analyticalUse: "Светло-розовый цвет — характерен для Mn²⁺"
+        },
+
+        applications: [
+            "Специальное оптическое стекло",
+            "Лазерные материалы (канонический антиферромагнетик)",
+            "Керамика",
+            "Сварочные материалы для цветных металлов",
+            "Катодные материалы"
+        ],
+
+        safety: {
+            toxicity: "Умеренная-высокая",
+            ldso: "Нет данных",
+            hazardClass: "GHS06, GHS07; токсичен",
+            precautions: "Защитные очки, перчатки; при нагревании выделяет токсичные F⁻ пары",
+            environmental: "Умеренно токсичен"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Марганец выделен в 1774 году",
+                "MnF₂ изучен в XIX веке"
+            ],
+            interestingFacts: [
+                "Светло-розовый цвет из-за d⁵-конфигурации (слабое поглощение)",
+                "Канонический антиферромагнетик — используется в исследованиях магнетизма",
+                "UN3288 — токсичное твёрдое вещество"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Ni2+-F-": {
+        name: "Фторид никеля(II)",
+        formula: "NiF₂",
+        molarMass: 96.69,
+        oxidationStates: {
+            "Ni": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 2.5,
+            unit: "г/100 мл",
+            temperature: 25,
+            ksp: null,
+            temperatureDependence: "Умеренно растворим",
+            solubilityTable: [
+                { temp: 20, value: 2.5 },
+                { temp: 25, value: 4.0 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Жёлто-зелёный",
+            crystalColor: "ЖЁЛТО-ЗЕЛЁНЫЙ (характерен для Ni²⁺, d⁸)",
+            solutionColor: "Зелёный",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Интенсивно окрашен",
+            realLifeExample: "Фторирующий агент, гальванотехника"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1380°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "NiCl₂ + F₂ → NiF₂ + Cl₂ (350°C)",
+                "NiCO₃ + 2HF → NiF₂ + H₂O + CO₂",
+                "NiF₂ + 2NaOH → Ni(OH)₂ + 2NaF"
+            ],
+            analyticalUse: "Жёлто-зелёный цвет — характерен для Ni²⁺"
+        },
+
+        applications: [
+            "Фторирующий агент в органическом синтезе",
+            "Катализатор синтеза ClF₅",
+            "Пассивирующее покрытие для контейнеров F₂/HF",
+            "Гальванотехника",
+            "Аккумуляторы"
+        ],
+
+        safety: {
+            toxicity: "ВЫСОКАЯ — КАНЦЕРОГЕН!",
+            ldso: "Нет данных",
+            hazardClass: "GHS05, GHS08; IARC Группа 1 — канцерогенен для человека",
+            precautions: "Полная защита; соединения никеля — канцерогены!",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Никель открыт в 1751 году",
+                "Канцерогенность соединений никеля установлена в XX веке"
+            ],
+            interestingFacts: [
+                "Жёлто-зелёный цвет из-за d⁸-конфигурации Ni²⁺",
+                "IARC Группа 1: соединения никеля канцерогенны для человека",
+                "Используется для пассивации контейнеров под F₂ и HF"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Co2+-F-": {
+        name: "Фторид кобальта(II)",
+        formula: "CoF₂",
+        molarMass: 96.93,
+        oxidationStates: {
+            "Co": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "M",
+            value: 1.4,
+            unit: "г/100 мл",
+            temperature: 25,
+            ksp: null,
+            temperatureDependence: "Умеренно растворим",
+            solubilityTable: [
+                { temp: 20, value: 1.3 },
+                { temp: 25, value: 1.4 },
+                { temp: 100, value: null }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "Розовый / розово-красный",
+            crystalColor: "РОЗОВЫЙ / РОЗОВО-КРАСНЫЙ (характерен для Co²⁺, d⁷)",
+            solutionColor: "Розовый",
+            crystalSystem: "Тетрагональная (тип рутила)",
+            opticalProperties: "Интенсивно окрашен",
+            realLifeExample: "Катализатор, керамика"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 1127°C (плавление)",
+            airSensitivity: "Стабилен на воздухе",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "CoCl₂ + 2HF → CoF₂ + 2HCl",
+                "CoO + 2HF → CoF₂ + H₂O",
+                "Co + F₂ → CoF₂ + CoF₃ (500°C, смесь)"
+            ],
+            analyticalUse: "Розовый цвет — характерен для Co²⁺"
+        },
+
+        applications: [
+            "Катализатор легирования металлов",
+            "Оптическое осаждение",
+            "Керамика",
+            "Литий-ионные аккумуляторы",
+            "Магнитные материалы"
+        ],
+
+        safety: {
+            toxicity: "ВЫСОКАЯ — ВОЗМОЖНЫЙ КАНЦЕРОГЕН!",
+            ldso: "150 мг/кг (крыса, орально)",
+            hazardClass: "GHS05, GHS06, GHS08; H350 — может вызвать рак",
+            precautions: "Полная защита; соединения кобальта — возможные канцерогены!",
+            environmental: "Токсичен для водных организмов"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Кобальт открыт в 1735 году",
+                "Канцерогенность соединений кобальта изучается"
+            ],
+            interestingFacts: [
+                "Розовый цвет из-за d⁷-конфигурации Co²⁺",
+                "Канцероген категории 1B",
+                "Тетрагидрат — красные орторомбические кристаллы",
+                "Смертельно при проглатывании (H300)"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia"
+        ]
+    },
+
+    "Sn2+-F-": {
+        name: "Фторид олова(II)",
+        formula: "SnF₂",
+        molarMass: 156.71,
+        oxidationStates: {
+            "Sn": +2,
+            "F": -1
+        },
+        compoundType: "Средняя соль",
+
+        solubility: {
+            status: "R",
+            value: 35,
+            unit: "г/100 мл",
+            temperature: 20,
+            ksp: null,
+            temperatureDependence: "Растворимость увеличивается с температурой",
+            solubilityTable: [
+                { temp: 20, value: 35 },
+                { temp: 25, value: null },
+                { temp: 106, value: 78.5 }
+            ]
+        },
+
+        appearance: {
+            precipitateColor: "—",
+            crystalColor: "Белый / бесцветный",
+            solutionColor: "Бесцветный",
+            crystalSystem: "Моноклинная (тетрамеры Sn₄F₈)",
+            opticalProperties: "Белый порошок",
+            realLifeExample: "Зубные пасты (станнатфторид)"
+        },
+
+        stability: {
+            decomposition: false,
+            decompositionConditions: "Термически стабилен до 213°C (плавление)",
+            airSensitivity: "Окисляется на воздухе до Sn(IV)",
+            lightSensitivity: "Не чувствителен",
+            characteristicReactions: [
+                "SnO + 2HF → SnF₂ + H₂O",
+                "Sn + 2HF → SnF₂ + H₂↑",
+                "SnF₂ + F⁻ → SnF₃⁻ (комплексообразование)"
+            ],
+            analyticalUse: "—"
+        },
+
+        applications: [
+            "ЗУБНЫЕ ПАСТЫ (станнатфторид) — основное применение",
+            "Профилактика кариеса",
+            "Антимикробный эффект",
+            "Лечение гиперчувствительности дентина",
+            "Предотвращение гингивита"
+        ],
+
+        safety: {
+            toxicity: "Низкая (в концентрациях зубной пасты)",
+            ldso: "Нет данных",
+            hazardClass: "GHS05, GHS07",
+            precautions: "Безопасен в концентрациях зубной пасты (0.454%)",
+            environmental: "Не классифицирован как канцероген"
+        },
+
+        additionalInfo: {
+            mineralName: "—",
+            historicalFacts: [
+                "Впервые коммерциализирован в 1956 году (паста Crest Fluoristan®)",
+                "Открыт Джозефом Мулером и Уильямом Небергаллом (Зал славы изобретателей)"
+            ],
+            interestingFacts: [
+                "Преобразует гидроксиапатит в более кислотоустойчивый фторапатит",
+                "Обладает антибактериальными свойствами (в отличие от NaF)",
+                "Может вызывать временное окрашивание зубов",
+                "Современные бренды: Crest Pro-Health, Oral-B Pro-Expert"
+            ]
+        },
+
+        sources: [
+            "CRC Handbook of Chemistry and Physics",
+            "NIST Chemistry WebBook",
+            "Wikipedia",
+            "PubChem"
+        ]
+    },
+
+
+
     // Пример второго вещества (для демонстрации)
       "Ag+-Cl-": {
           name: "Хлорид серебра",
