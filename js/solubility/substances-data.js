@@ -60,7 +60,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Нетоксична в обычных условиях",
-                ldso: "—",
+                ldso: ">90000 мг/кг (крысы, перорально)",
                 hazardClass: "—",
                 precautions: "Опасность утопления, ожоги паром при T > 100°C",
                 environmental: "Основа всех экосистем"
@@ -466,7 +466,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Коррозионно опасен",
-                ldso: "нет данных",
+                ldso: "586 мг/кг (крысы, перорально)",
                 hazardClass: "8 (коррозионное вещество)",
                 precautions: "Защита кожи и глаз",
                 environmental: "Ион Rb⁺ обрабатывается организмом как K⁺"
@@ -620,7 +620,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Низкая токсичность",
-                ldso: "нет данных",
+                ldso: "2820 мг/кг (крысы, перорально, Ag₂O)",
                 hazardClass: "—",
                 precautions: "Избегать попадания в глаза",
                 environmental: "Серебро токсично для микроорганизмов"
@@ -662,7 +662,7 @@ const substancesData = {
                 value: 0.00122,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 5.61e-12,
+                ksp: 1.5e-11,
                 temperatureDependence: "Растворимость слабо увеличивается с температурой",
                 solubilityTable: [
                     { temp: 18, value: 0.0009 },
@@ -865,7 +865,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Умеренно токсичен",
-                ldso: "нет данных",
+                ldso: ">2000 мг/кг (крысы, перорально)",
                 hazardClass: "8 (коррозионное вещество)",
                 precautions: "Защита кожи и глаз",
                 environmental: "Умеренно опасен для водных организмов"
@@ -984,7 +984,7 @@ const substancesData = {
                 value: 0.0001,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 3.0e-17,
+                ksp: 4.5e-17,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1020,7 +1020,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Низкая токсичность",
-                ldso: "нет данных",
+                ldso: ">5000 мг/кг (крысы, перорально, по аналогии с ZnO)",
                 hazardClass: "—",
                 precautions: "Избегать вдыхания пыли",
                 environmental: "Умеренно токсичен для водных организмов"
@@ -1136,7 +1136,7 @@ const substancesData = {
                 value: 0.0155,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 1.43e-20,
+                ksp: 2.8e-16,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1170,7 +1170,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "ТОКСИЧЕН! Кумулятивный яд",
-                ldso: "нет данных",
+                ldso: "~450 мг/кг (оценка по аналогии с ацетатом свинца)",
                 hazardClass: "6.1 (токсичное вещество)",
                 precautions: "Избегать контакта и вдыхания! Поражает нервную систему",
                 environmental: "Персистентный загрязнитель, не разлагается"
@@ -1212,7 +1212,7 @@ const substancesData = {
                 value: 0.00003,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 2.2e-20,
+                ksp: 1.6e-19,
                 temperatureDependence: "Практически не растворим, разлагается при нагревании",
                 solubilityTable: []
             },
@@ -1289,7 +1289,7 @@ const substancesData = {
                 value: 0.00052,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 4.87e-17,
+                ksp: 7.9e-15,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1324,14 +1324,14 @@ const substancesData = {
 
             safety: {
                 toxicity: "Низкая токсичность",
-                ldso: "нет данных",
+                ldso: ">10000 мг/кг (крысы, перорально, по аналогии с FeOOH)",
                 hazardClass: "—",
                 precautions: "Работать в инертной атмосфере для получения чистого осадка",
                 environmental: "Малоопасен для окружающей среды"
             },
 
             additionalInfo: {
-                mineralName: "Амакинит (редкий минерал)",
+                mineralName: "Амакинит (amakinite) — редкий минерал",
                 historicalFacts: [
                     "Реакция Шикорра открыта в 1929 году"
                 ],
@@ -1365,7 +1365,7 @@ const substancesData = {
                 value: 0.0000005,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 2.79e-39,
+                ksp: 6.3e-38,
                 temperatureDependence: "Практически не растворим",
                 solubilityTable: []
             },
@@ -1374,7 +1374,7 @@ const substancesData = {
                 precipitateColor: "Бурый (ржаво-коричневый) студенистый",
                 crystalColor: "Красно-коричневый",
                 solutionColor: "—",
-                crystalSystem: "—",
+                crystalSystem: "Аморфный (обычно); оксигидроксиды — орторомбическая (гётит α-FeOOH)",
                 opticalProperties: "Характерный ржавый цвет",
                 realLifeExample: "Основной компонент ржавчины"
             },
@@ -1442,7 +1442,7 @@ const substancesData = {
                 value: 0.0001,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 1.9e-33,
+                ksp: 1.3e-33,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1528,7 +1528,7 @@ const substancesData = {
                 precipitateColor: "Серо-зелёный студенистый",
                 crystalColor: "Серо-зелёный",
                 solutionColor: "—",
-                crystalSystem: "—",
+                crystalSystem: "Гексагональная или аморфный",
                 opticalProperties: "Характерный серо-зелёный цвет",
                 realLifeExample: "Дубление кожи (хромовое дубление)"
             },
@@ -1596,7 +1596,7 @@ const substancesData = {
                 value: 0.0002,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 1.9e-13,
+                ksp: 4.6e-14,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1671,7 +1671,7 @@ const substancesData = {
                 value: 0.00013,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 5.47e-16,
+                ksp: 2.8e-16,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1706,14 +1706,14 @@ const substancesData = {
 
             safety: {
                 toxicity: "Токсичен, канцероген",
-                ldso: "нет данных",
+                ldso: "5000 мг/кг (крысы, перорально)",
                 hazardClass: "—",
                 precautions: "Никелевые соединения — канцерогены! Вызывают контактную аллергию",
                 environmental: "Токсичен для водных организмов"
             },
 
             additionalInfo: {
-                mineralName: "Теофрастит (theophrastite)",
+                mineralName: "Теофрастит (theophrastite) — никелевый аналог брусита",
                 historicalFacts: [
                     "NiMH аккумуляторы изобретены в 1967 году",
                     "Широко используются в гибридных автомобилях (Toyota Prius)"
@@ -1748,7 +1748,7 @@ const substancesData = {
                 value: 0.00032,
                 unit: "г/100 мл",
                 temperature: 20,
-                ksp: 1.0e-15,
+                ksp: 2.5e-16,
                 temperatureDependence: "Практически не растворим в воде",
                 solubilityTable: []
             },
@@ -1784,7 +1784,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Умеренно токсичен",
-                ldso: "нет данных",
+                ldso: "1060 мг/кг (крысы, перорально)",
                 hazardClass: "—",
                 precautions: "Кобальт необходим (витамин B₁₂), но избыток токсичен",
                 environmental: "Токсичен для водных организмов"
@@ -1834,7 +1834,7 @@ const substancesData = {
                 precipitateColor: "Белый аморфный",
                 crystalColor: "Белый",
                 solutionColor: "—",
-                crystalSystem: "—",
+                crystalSystem: "Не определена (образует кластеры Sn₆O₄(OH)₄)",
                 opticalProperties: "Аморфный осадок",
                 realLifeExample: "Лужение металлических изделий"
             },
@@ -1860,7 +1860,7 @@ const substancesData = {
 
             safety: {
                 toxicity: "Низкая токсичность",
-                ldso: "нет данных",
+                ldso: ">10000 мг/кг (оценка по аналогии с SnO)",
                 hazardClass: "—",
                 precautions: "Относительно безопасен",
                 environmental: "Малоопасен для окружающей среды"
