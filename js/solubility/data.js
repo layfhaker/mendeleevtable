@@ -558,6 +558,190 @@ const activityData = {
     nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
 };
 
+// =========================================
+// РЕАКЦИИ РАЗЛОЖЕНИЯ НЕУСТОЙЧИВЫХ ВЕЩЕСТВ
+// =========================================
+const decompositionReactions = {
+    // Гидроксиды
+    "NH4+-OH-": {
+        equation: "NH₄OH → NH₃↑ + H₂O",
+        description: "Гидроксид аммония неустойчив, разлагается на аммиак и воду"
+    },
+    "Fe3+-OH-": {
+        equation: "2Fe(OH)₃ →(t°) Fe₂O₃ + 3H₂O",
+        description: "При нагревании теряет воду"
+    },
+    "Al3+-OH-": {
+        equation: "2Al(OH)₃ →(t°) Al₂O₃ + 3H₂O",
+        description: "Разлагается при прокаливании"
+    },
+    "Ag+-OH-": {
+        equation: "2AgOH → Ag₂O + H₂O",
+        description: "Неустойчив, мгновенно превращается в оксид серебра"
+    },
+    "Hg2+-OH-": {
+        equation: "Hg(OH)₂ → HgO + H₂O",
+        description: "Неустойчив, разлагается до оксида ртути"
+    },
+
+    // Карбонаты
+    "H+-CO32-": {
+        equation: "H₂CO₃ → H₂O + CO₂↑",
+        description: "Угольная кислота неустойчива"
+    },
+    "NH4+-CO32-": {
+        equation: "(NH₄)₂CO₃ →(t°) 2NH₃↑ + H₂O + CO₂↑",
+        description: "Разлагается при нагревании"
+    },
+    "Al3+-CO32-": {
+        equation: "Al₂(CO₃)₃ + 3H₂O → 2Al(OH)₃↓ + 3CO₂↑",
+        description: "Гидролизуется водой"
+    },
+    "Cr3+-CO32-": {
+        equation: "Cr₂(CO₃)₃ + 3H₂O → 2Cr(OH)₃↓ + 3CO₂↑",
+        description: "Гидролизуется водой"
+    },
+    "Fe3+-CO32-": {
+        equation: "Fe₂(CO₃)₃ + 3H₂O → 2Fe(OH)₃↓ + 3CO₂↑",
+        description: "Гидролизуется водой"
+    },
+
+    // Сульфиты
+    "Al3+-SO32-": {
+        equation: "Al₂(SO₃)₃ + 3H₂O → 2Al(OH)₃↓ + 3SO₂↑",
+        description: "Гидролизуется водой"
+    },
+    "Cr3+-SO32-": {
+        equation: "Cr₂(SO₃)₃ + 3H₂O → 2Cr(OH)₃↓ + 3SO₂↑",
+        description: "Гидролизуется водой"
+    },
+    "Fe3+-SO32-": {
+        equation: "Fe₂(SO₃)₃ + 3H₂O → 2Fe(OH)₃↓ + 3SO₂↑",
+        description: "Гидролизуется водой"
+    },
+
+    // Сульфиды (гидролизуемые)
+    "Al3+-S2-": {
+        equation: "Al₂S₃ + 6H₂O → 2Al(OH)₃↓ + 3H₂S↑",
+        description: "Полностью гидролизуется водой"
+    },
+    "Cr3+-S2-": {
+        equation: "Cr₂S₃ + 6H₂O → 2Cr(OH)₃↓ + 3H₂S↑",
+        description: "Полностью гидролизуется водой"
+    },
+    "Fe3+-S2-": {
+        equation: "Fe₂S₃ + 6H₂O → 2Fe(OH)₃↓ + 3H₂S↑",
+        description: "Полностью гидролизуется водой"
+    },
+    "Mg2+-S2-": {
+        equation: "MgS + 2H₂O → Mg(OH)₂↓ + H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Ca2+-S2-": {
+        equation: "CaS + 2H₂O → Ca(OH)₂ + H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Sr2+-S2-": {
+        equation: "SrS + 2H₂O → Sr(OH)₂ + H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Ba2+-S2-": {
+        equation: "BaS + 2H₂O → Ba(OH)₂ + H₂S↑",
+        description: "Гидролизуется водой"
+    },
+
+    // Гидросульфиды
+    "Fe3+-HS-": {
+        equation: "Fe(HS)₃ + 3H₂O → Fe(OH)₃↓ + 3H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Al3+-HS-": {
+        equation: "Al(HS)₃ + 3H₂O → Al(OH)₃↓ + 3H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Cr3+-HS-": {
+        equation: "Cr(HS)₃ + 3H₂O → Cr(OH)₃↓ + 3H₂S↑",
+        description: "Гидролизуется водой"
+    },
+    "Sn2+-HS-": {
+        equation: "Sn(HS)₂ + 2H₂O → Sn(OH)₂↓ + 2H₂S↑",
+        description: "Гидролизуется водой"
+    },
+
+    // Силикаты
+    "Al3+-SiO32-": {
+        equation: "Al₂(SiO₃)₃ + 6H₂O → 2Al(OH)₃↓ + 3H₂SiO₃↓",
+        description: "Гидролизуется водой"
+    },
+    "Cr3+-SiO32-": {
+        equation: "Cr₂(SiO₃)₃ + 6H₂O → 2Cr(OH)₃↓ + 3H₂SiO₃↓",
+        description: "Гидролизуется водой"
+    },
+    "Fe3+-SiO32-": {
+        equation: "Fe₂(SiO₃)₃ + 6H₂O → 2Fe(OH)₃↓ + 3H₂SiO₃↓",
+        description: "Гидролизуется водой"
+    },
+
+    // Алюминаты, цинкаты и др. (разложение водой)
+    "H+-AlO2-": {
+        equation: "HAlO₂ + H₂O → Al(OH)₃↓",
+        description: "Гидролизуется с образованием гидроксида"
+    },
+    "H+-ZnO22-": {
+        equation: "H₂ZnO₂ + H₂O → Zn(OH)₂↓",
+        description: "Гидролизуется с образованием гидроксида"
+    },
+    "H+-PbO22-": {
+        equation: "H₂PbO₂ → PbO₂ + H₂O",
+        description: "Разлагается до оксида"
+    },
+    "H+-CrO2-": {
+        equation: "HCrO₂ + H₂O → Cr(OH)₃↓",
+        description: "Гидролизуется с образованием гидроксида"
+    },
+    "H+-SnO32-": {
+        equation: "H₂SnO₃ + H₂O → Sn(OH)₄↓",
+        description: "Гидролизуется с образованием гидроксида"
+    },
+
+    // Несуществующие соединения
+    "Al3+-AlO2-": {
+        equation: "—",
+        description: "Соединение не может существовать (один и тот же элемент)"
+    },
+    "Zn2+-ZnO22-": {
+        equation: "—",
+        description: "Соединение не может существовать (один и тот же элемент)"
+    },
+    "Pb2+-PbO22-": {
+        equation: "—",
+        description: "Соединение не может существовать (один и тот же элемент)"
+    },
+    "Cr3+-CrO2-": {
+        equation: "—",
+        description: "Соединение не может существовать (один и тот же элемент)"
+    },
+    "Sn2+-SnO32-": {
+        equation: "—",
+        description: "Соединение не может существовать (один и тот же элемент)"
+    },
+
+    // Йодид меди (окислительно-восстановительная реакция)
+    "Cu2+-I-": {
+        equation: "2CuI₂ → 2CuI↓ + I₂",
+        description: "Окислительно-восстановительная реакция"
+    },
+
+    // Фторид ртути
+    "Hg2+-F-": {
+        equation: "HgF₂ + H₂O → HgO + 2HF",
+        description: "Гидролизуется с образованием оксида"
+    }
+};
+
+// Делаем глобально доступным
+window.decompositionReactions = decompositionReactions;
+
 // Функция получения растворимости
 function getSolubility(cationFormula, anionFormula) {
     // Нормализуем формулы для ключа

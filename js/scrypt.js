@@ -22,7 +22,6 @@ function loadScript(src) {
 
         // Загружаем модули таблицы растворимости
         await loadScript('js/solubility/data.js');
-        await loadScript('js/solubility/substances-data.js'); // Ваши данные
         await loadScript('js/solubility/advanced-modal.js');  // Логика окна
         await loadScript('js/solubility/colors.js');
         await loadScript('js/solubility/solubility-table.js');
