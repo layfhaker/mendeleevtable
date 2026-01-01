@@ -127,6 +127,8 @@ body.dark-theme #activity-series-btn.active {
     position: relative;
     background-color: var(--bg-color);
     cursor: grab; /* Курсор для drag-to-scroll */
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    touch-action: pan-x pan-y; /* Разрешаем скролл в обе стороны на touch-устройствах */
 }
 
 .solubility-wrapper:active {

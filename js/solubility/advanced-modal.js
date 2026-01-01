@@ -226,110 +226,177 @@ function lightenColor(hex, percent) {
     if (!hex || hex === 'colorless') return 'rgb(255,255,255)';
     if (hex === 'white') return 'rgb(255,255,255)';
 
+    // Поддержка rgb() формата
+    if (hex.startsWith('rgb')) {
+        const match = hex.match(/(\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+            const R = Math.min(255, parseInt(match[1]) + Math.round(2.55 * percent));
+            const G = Math.min(255, parseInt(match[2]) + Math.round(2.55 * percent));
+            const B = Math.min(255, parseInt(match[3]) + Math.round(2.55 * percent));
+            return `rgb(${R},${G},${B})`;
+        }
+    }
+
+    // HEX формат
     const num = parseInt(hex.replace('#', ''), 16);
     const amt = Math.round(2.55 * percent);
     const R = Math.min(255, (num >> 16) + amt);
     const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
     const B = Math.min(255, (num & 0x0000FF) + amt);
-    return `rgb(${R},${G},${B})`;
+    return `#${((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1)}`;
 }
 
 function darkenColor(hex, percent) {
     if (!hex || hex === 'colorless') return 'rgb(200,200,200)';
     if (hex === 'white') return 'rgb(220,220,220)';
 
+    // Поддержка rgb() формата
+    if (hex.startsWith('rgb')) {
+        const match = hex.match(/(\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+            const R = Math.max(0, parseInt(match[1]) - Math.round(2.55 * percent));
+            const G = Math.max(0, parseInt(match[2]) - Math.round(2.55 * percent));
+            const B = Math.max(0, parseInt(match[3]) - Math.round(2.55 * percent));
+            return `rgb(${R},${G},${B})`;
+        }
+    }
+
+    // HEX формат
     const num = parseInt(hex.replace('#', ''), 16);
     const amt = Math.round(2.55 * percent);
     const R = Math.max(0, (num >> 16) - amt);
     const G = Math.max(0, ((num >> 8) & 0x00FF) - amt);
     const B = Math.max(0, (num & 0x0000FF) - amt);
-    return `rgb(${R},${G},${B})`;
+    return `#${((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1)}`;
 }
 
 function generateCrystalSVG(color, size = 120) {
+    // Цвет слитка
     const fillColor = color || '#ffffff';
-    const strokeColor = darkenColor(fillColor, 30);
+
+    // Вычисляем оттенки для 3D-эффекта
+    const topColor = lightenColor(fillColor, 25);      // Верхняя грань (светлая)
+    const frontColor = fillColor;                       // Передняя грань (основной)
+    const rightColor = darkenColor(fillColor, 20);     // Правая грань (тёмная)
+    const strokeColor = darkenColor(fillColor, 40);    // Обводка
 
     return `
     <svg width="${size}" height="${size}" viewBox="0 0 100 100">
         <defs>
-            <linearGradient id="crystalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:${lightenColor(fillColor, 20)}" />
-                <stop offset="50%" style="stop-color:${fillColor}" />
-                <stop offset="100%" style="stop-color:${strokeColor}" />
+            <!-- Градиент для верхней грани -->
+            <linearGradient id="topGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:${lightenColor(topColor, 10)}" />
+                <stop offset="100%" style="stop-color:${topColor}" />
+            </linearGradient>
+            <!-- Градиент для передней грани -->
+            <linearGradient id="frontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:${lightenColor(frontColor, 5)}" />
+                <stop offset="100%" style="stop-color:${darkenColor(frontColor, 10)}" />
             </linearGradient>
         </defs>
-        <!-- Кристаллическая форма (октаэдр сбоку) -->
+
+        <!-- MINECRAFT-STYLE INGOT (слиток) -->
+
+        <!-- Верхняя грань (трапеция) -->
         <polygon
-            points="50,5 90,35 90,65 50,95 10,65 10,35"
-            fill="url(#crystalGrad)"
+            points="20,30 45,20 80,30 55,40"
+            fill="url(#topGrad)"
             stroke="${strokeColor}"
-            stroke-width="2"
+            stroke-width="1.5"
         />
-        <!-- Грани для объёма -->
-        <line x1="50" y1="5" x2="50" y2="95" stroke="${strokeColor}" stroke-width="1" opacity="0.5"/>
-        <line x1="10" y1="35" x2="90" y2="65" stroke="${strokeColor}" stroke-width="1" opacity="0.3"/>
-        <line x1="10" y1="65" x2="90" y2="35" stroke="${strokeColor}" stroke-width="1" opacity="0.3"/>
-        <!-- Блик -->
-        <ellipse cx="35" cy="30" rx="10" ry="5" fill="white" opacity="0.4"/>
+
+        <!-- Передняя грань (параллелограмм) -->
+        <polygon
+            points="20,30 55,40 55,75 20,65"
+            fill="url(#frontGrad)"
+            stroke="${strokeColor}"
+            stroke-width="1.5"
+        />
+
+        <!-- Правая грань (параллелограмм) -->
+        <polygon
+            points="55,40 80,30 80,65 55,75"
+            fill="${rightColor}"
+            stroke="${strokeColor}"
+            stroke-width="1.5"
+        />
+
+        <!-- Блик на верхней грани -->
+        <polygon
+            points="25,31 42,23 52,28 35,36"
+            fill="white"
+            opacity="0.3"
+        />
+
+        <!-- Блик на передней грани -->
+        <rect x="24" y="35" width="8" height="20" rx="2" fill="white" opacity="0.15"/>
     </svg>`;
 }
 
 function generateFlaskSVG(color, solubility, size = 120) {
-    const fillColor = color || '#87CEEB';
+    // Определяем цвет раствора
+    let solutionColor;
+    let solutionOpacity;
 
-    const opacity = solubility === 'Р' || solubility === 'R' ? 0.6 : 0.3;
-    const hasParticles = solubility === 'М' || solubility === 'M';
-
-    let particles = '';
-    if (hasParticles) {
-        particles = `
-            <circle cx="35" cy="80" r="2" fill="${fillColor}" opacity="0.8"/>
-            <circle cx="50" cy="85" r="1.5" fill="${fillColor}" opacity="0.9"/>
-            <circle cx="60" cy="82" r="2" fill="${fillColor}" opacity="0.7"/>
-            <circle cx="45" cy="88" r="1" fill="${fillColor}" opacity="0.8"/>
-        `;
+    if (!color || color === '#ffffff' || color === '#FFFFFF' || color === 'white' || color === 'colorless') {
+        // Бесцветный раствор — очень светло-голубой (как вода)
+        solutionColor = '#e0f4ff';
+        solutionOpacity = 0.3;
+    } else {
+        // Цветной раствор — используем цвет вещества
+        solutionColor = color;
+        solutionOpacity = 0.5;
     }
+
+    // Для малорастворимых — добавляем муть
+    if (solubility === 'М' || solubility === 'M') {
+        solutionOpacity = 0.25; // Более прозрачный, но с осадком внизу
+    }
+
+    // Частицы осадка для малорастворимых
+    const particles = (solubility === 'М' || solubility === 'M') ? `
+        <circle cx="35" cy="82" r="3" fill="${color || '#888'}" opacity="0.7"/>
+        <circle cx="50" cy="85" r="2" fill="${color || '#888'}" opacity="0.8"/>
+        <circle cx="62" cy="83" r="2.5" fill="${color || '#888'}" opacity="0.6"/>
+        <circle cx="42" cy="86" r="1.5" fill="${color || '#888'}" opacity="0.9"/>
+    ` : '';
 
     return `
     <svg width="${size}" height="${size}" viewBox="0 0 100 100">
-        <defs>
-            <clipPath id="flaskClip">
-                <path d="M35,35 L35,15 L40,10 L60,10 L65,15 L65,35 L80,70 Q85,90 50,95 Q15,90 20,70 Z"/>
-            </clipPath>
-        </defs>
-
         <!-- Колба (контур) -->
         <path
-            d="M35,35 L35,15 L40,10 L60,10 L65,15 L65,35 L80,70 Q85,90 50,95 Q15,90 20,70 Z"
-            fill="none"
+            d="M38,32 L38,12 L42,8 L58,8 L62,12 L62,32 L78,68 Q82,88 50,92 Q18,88 22,68 Z"
+            fill="rgba(240,248,255,0.3)"
             stroke="#666"
             stroke-width="2"
         />
 
-        <!-- Раствор -->
+        <!-- Раствор (жидкость) -->
         <path
-            d="M36,50 L36,35 L64,35 L64,50 L78,70 Q83,88 50,93 Q17,88 22,70 Z"
-            fill="${fillColor}"
-            opacity="${opacity}"
-            clip-path="url(#flaskClip)"
+            d="M39,45 L39,32 L61,32 L61,45 L76,68 Q80,86 50,90 Q20,86 24,68 Z"
+            fill="${solutionColor}"
+            opacity="${solutionOpacity}"
         />
 
-        <!-- Блик на колбе -->
+        <!-- Блик на стекле -->
         <path
-            d="M25,60 Q20,50 30,40"
+            d="M26,55 Q22,45 32,38"
             fill="none"
             stroke="white"
             stroke-width="3"
-            opacity="0.5"
+            opacity="0.6"
             stroke-linecap="round"
         />
+
+        <!-- Уровень жидкости (мениск) -->
+        <ellipse cx="50" cy="45" rx="22" ry="3" fill="${solutionColor}" opacity="${solutionOpacity + 0.1}"/>
 
         <!-- Частицы осадка (для малорастворимых) -->
         ${particles}
 
         <!-- Пробка -->
-        <rect x="38" y="5" width="24" height="8" rx="2" fill="#8B4513"/>
+        <rect x="40" y="3" width="20" height="8" rx="2" fill="#CD853F"/>
+        <rect x="40" y="3" width="20" height="3" rx="1" fill="#DEB887"/>
     </svg>`;
 }
 

@@ -40,8 +40,8 @@ body {
          min-height: 100%; /* Меняем height на min-height */
          margin: 0;
          padding: 0;
-         /* Убираем overflow: hidden */
-         overflow-x: hidden;
+         /* РАЗРЕШАЕМ ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ НА МОБИЛЬНЫХ */
+         overflow-x: auto;
          overflow-y: auto; /* Включаем скролл на мобильных */
      }
 
