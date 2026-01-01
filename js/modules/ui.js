@@ -124,3 +124,26 @@ document.addEventListener('DOMContentLoaded', () => {
 window.initSolubilityDrag = function() {
     initDragScroll('.solubility-wrapper');
 };
+
+// === ОПТИМИЗАЦИЯ: Обёртки для ленивой загрузки ===
+
+// Оригинальная функция toggleCalc будет в calculator.js
+// Эта обёртка сначала загружает модуль, затем вызывает toggleCalc
+const originalToggleCalc = window.toggleCalc;
+window.toggleCalc = async function() {
+    // Загружаем калькулятор если ещё не загружен
+    if (window.loadCalculator) {
+        await window.loadCalculator();
+    }
+
+    // Вызываем оригинальную функцию если она есть
+    if (typeof toggleCalc === 'function' && toggleCalc !== window.toggleCalc) {
+        toggleCalc();
+    }
+};
+
+function initUI() {
+    // Дополнительная инициализация UI если нужна
+}
+
+window.initUI = initUI;

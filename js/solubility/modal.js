@@ -3,21 +3,28 @@
 // =========================================
 
 // Переключение таблицы растворимости (toggle)
-function toggleSolubility() {
+async function toggleSolubility() {
     const modal = document.getElementById('solubility-modal');
     if (modal.style.display === 'flex') {
         closeSolubility();
     } else {
-        openSolubility();
+        await openSolubility();
     }
 }
 
-function openSolubility() {
+async function openSolubility() {
+    // Загружаем модуль растворимости если ещё не загружен
+    if (window.loadSolubility) {
+        await window.loadSolubility();
+    }
+
     const modal = document.getElementById('solubility-modal');
 
     // Генерируем таблицу только если она пустая
     if(document.getElementById('solubility-table').innerHTML === "") {
-        renderSolubilityTable();
+        if (typeof renderSolubilityTable === 'function') {
+            renderSolubilityTable();
+        }
     }
 
     modal.style.display = 'flex';

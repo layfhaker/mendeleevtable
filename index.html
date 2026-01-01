@@ -10,10 +10,143 @@
     <link rel="manifest" href="pwa/manifest.json">
     <meta name="theme-color" content="#2196F3">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/advanced-modal.css">
+    <!-- Critical CSS inline для быстрой первой отрисовки -->
+    <style>
+        /* Минимальные критические стили для FCP */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(18, minmax(40px, 4vw));
+            grid-template-rows: repeat(7, minmax(40px, 4vw));
+            gap: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .element {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: clamp(8px, 0.8vw, 12px);
+            position: relative;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+
+        .symbol { font-size: clamp(14px, 1.4vw, 22px); font-weight: bold; }
+        .atomic-number { position: absolute; top: 2px; left: 2px; font-size: clamp(7px, 0.65vw, 10px); }
+        .name { font-size: clamp(7px, 0.65vw, 10px); }
+
+        /* Цвета категорий */
+        .alkali-metal { background-color: #ff9999; }
+        .alkaline-earth-metal { background-color: #ffcc99; }
+        .transition-metal { background-color: #ffff99; }
+        .post-transition-metal { background-color: #ccff99; }
+        .metalloid { background-color: #99ffcc; }
+        .nonmetal { background-color: #99ffff; }
+        .halogen { background-color: #99ccff; }
+        .noble-gas { background-color: #cc99ff; }
+        .lanthanide { background-color: #ff99cc; }
+        .actinide { background-color: #ff99ff; }
+
+        /* Позиции элементов (сокращённо - только первая строка) */
+        #H { grid-row: 1; grid-column: 1; }
+        #He { grid-row: 1; grid-column: 18; }
+
+        /* Лантаноиды и актиноиды */
+        .lanthanides, .actinides {
+            display: grid;
+            grid-template-columns: repeat(15, minmax(40px, 4vw));
+            gap: 2px;
+            margin-top: 1.5vw;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 1;
+        }
+
+        /* Спиннер загрузки (опционально) */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Прогресс-бар */
+        #loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(0,0,0,0.1);
+            z-index: 99999;
+        }
+
+        #loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0;
+            transition: width 0.3s;
+        }
+    </style>
+
+    <!-- Полные стили загружаем отложенно -->
+    <link rel="preload" href="css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+
+    <!-- Некритичные стили загружаем ещё позже -->
+    <link rel="preload" href="css/advanced-modal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/advanced-modal.css"></noscript>
 </head>
 <body>
+  <!-- Прогресс-бар загрузки -->
+  <div id="loading-bar">
+    <div id="loading-progress"></div>
+  </div>
+
   <canvas id="particles-canvas"></canvas>
   <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему" aria-label="Переключить тему">
         <svg class="icon-moon"><use href="#icon-moon"></use></svg>
