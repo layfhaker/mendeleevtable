@@ -140,6 +140,10 @@
     <!-- Некритичные стили загружаем ещё позже -->
     <link rel="preload" href="css/advanced-modal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/advanced-modal.css"></noscript>
+
+    <!-- NodeMap styles -->
+    <link rel="preload" href="css/nodemap.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/nodemap.css"></noscript>
 </head>
 <body>
   <!-- Прогресс-бар загрузки -->
@@ -956,6 +960,13 @@
 </div>
 
 <script src="js/scrypt.js"></script>
+
+<!-- NodeMap scripts -->
+<script src="js/nodemap/nodemap-parser.js"></script>
+<script src="js/nodemap/nodemap-layout.js"></script>
+<script src="js/nodemap/nodemap-canvas.js"></script>
+<script src="js/nodemap/nodemap-modal.js"></script>
+<script src="js/nodemap/nodemap-init.js"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
