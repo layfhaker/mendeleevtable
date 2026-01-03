@@ -1,6 +1,6 @@
 // =========================================
 // ГЛАВНЫЙ ФАЙЛ - ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА
-// v2.0 - Ленивая загрузка модулей
+// v2.1 - Исправлена интеграция Nodemap и обертки
 // =========================================
 
 // === КРИТИЧЕСКИЕ СКРИПТЫ (загружаются сразу) ===
@@ -11,11 +11,18 @@ const criticalScripts = [
 ];
 
 // === ОСНОВНЫЕ СКРИПТЫ (после DOMContentLoaded) ===
+// Сюда переносим nodemap, чтобы они грузились строго после ядра
 const coreScripts = [
     'js/modules/modal.js',
     'js/modules/theme.js',
     'js/modules/search-filters.js',
-    'js/modules/ui.js'
+    'js/modules/ui.js',
+    // Интегрируем Nodemap в общий поток:
+    'js/nodemap/nodemap-parser.js',
+    'js/nodemap/nodemap-layout.js',
+    'js/nodemap/nodemap-canvas.js',
+    'js/nodemap/nodemap-modal.js',
+    'js/nodemap/nodemap-init.js'
 ];
 
 // === ОТЛОЖЕННЫЕ МОДУЛИ (загружаются по требованию) ===
@@ -85,57 +92,47 @@ async function loadScripts(scripts) {
 // === ИНИЦИАЛИЗАЦИЯ ===
 async function init() {
     try {
-        // Считаем общее количество скриптов для прогресса
         totalScripts = criticalScripts.length + coreScripts.length;
         loadedScripts = 0;
 
-        // 1. Критические скрипты — загружаем сразу
+        // 1. Критические
         await loadScripts(criticalScripts);
 
-        // 2. Основные скрипты — после DOM
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', async () => {
-                await loadScripts(coreScripts);
-                initApp();
-            });
-        } else {
+        // 2. Основные (включая UI и Nodemap)
+        const runCore = async () => {
             await loadScripts(coreScripts);
             initApp();
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runCore);
+        } else {
+            await runCore();
         }
     } catch (error) {
         console.error('❌ Ошибка загрузки модулей:', error);
-        // Скрываем прогресс-бар даже при ошибке
         updateProgress(100);
     }
 }
 
 function initApp() {
-    // Инициализация основного функционала
     if (typeof initTheme === 'function') initTheme();
     if (typeof initModal === 'function') initModal();
     if (typeof initSearch === 'function') initSearch();
     if (typeof initUI === 'function') initUI();
+    // Nodemap инициализируется сам внутри nodemap-init.js, но теперь он точно загружен
 
     console.log('✅ Приложение загружено');
 }
 
-// === ЛЕНИВАЯ ЗАГРУЗКА ПО ТРЕБОВАНИЮ ===
+// === ЛЕНИВАЯ ЗАГРУЗКА ===
 async function loadSolubility() {
     if (solubilityLoaded) return;
-
     console.log('⏳ Загрузка модуля растворимости...');
-    const startTime = performance.now();
-
     try {
         await loadScripts(lazyModules.solubility);
         solubilityLoaded = true;
-
-        // Инициализация после загрузки
-        if (typeof renderSolubilityTable === 'function') {
-            renderSolubilityTable();
-        }
-
-        console.log(`✅ Растворимость загружена за ${(performance.now() - startTime).toFixed(0)}мс`);
+        if (typeof renderSolubilityTable === 'function') renderSolubilityTable();
     } catch (error) {
         console.error('❌ Ошибка загрузки растворимости:', error);
     }
@@ -143,27 +140,17 @@ async function loadSolubility() {
 
 async function loadCalculator() {
     if (calculatorLoaded) return;
-
     console.log('⏳ Загрузка калькулятора...');
-    const startTime = performance.now();
-
     try {
         await loadScripts(lazyModules.calculator);
         calculatorLoaded = true;
-
-        if (typeof initCalculator === 'function') {
-            initCalculator();
-        }
-
-        console.log(`✅ Калькулятор загружен за ${(performance.now() - startTime).toFixed(0)}мс`);
+        if (typeof initCalculator === 'function') initCalculator();
     } catch (error) {
         console.error('❌ Ошибка загрузки калькулятора:', error);
     }
 }
 
-// Делаем функции глобальными для доступа из HTML
 window.loadSolubility = loadSolubility;
 window.loadCalculator = loadCalculator;
 
-// Старт приложения
 init();

@@ -186,6 +186,10 @@ function toggleTheme() {
     }
 
     requestAnimationFrame(animate);
+
+    if (typeof updateNodeMapTheme === 'function') {
+        updateNodeMapTheme(isDark);
+    }
 }
 
 // Загрузка сохранённой темы

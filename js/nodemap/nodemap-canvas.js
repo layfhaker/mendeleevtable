@@ -430,4 +430,22 @@ class NodeMapCanvas {
         this.ctx.fillStyle = this.config.colors.textDim;
         this.ctx.fillText(zoomText, this.width - 60, this.height - 20);
     }
+
+    // === Добавить этот метод в конец класса NodeMapCanvas ===
+    updateTheme(isDark) {
+        if (isDark) {
+            this.config.colors.bg = '#2C3E50';
+            this.config.colors.text = '#ECF0F1';
+            this.config.colors.textDim = '#95A5A6';
+            this.config.colors.connection = '#34495E';
+        } else {
+            this.config.colors.bg = '#ffffff';
+            this.config.colors.text = '#333333';
+            this.config.colors.textDim = '#666666';
+            this.config.colors.connection = '#e0e0e0';
+        }
+        // Принудительная перерисовка
+        this.render();
+    }
+
 }

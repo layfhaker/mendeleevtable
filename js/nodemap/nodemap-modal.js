@@ -446,7 +446,25 @@ class NodeMapModal {
             </div>
         `;
     }
-}
+    // ... внутри класса NodeMapModal ...
+
+        // === Добавить этот метод в класс NodeMapModal ===
+        updateTheme(isDark) {
+            if (this.canvas) {
+                this.canvas.updateTheme(isDark);
+            }
+        }
+    } // <-- Конец класса
+
+    // ... существующий код (let nodeMapModalInstance ...) ...
+
+    // === Добавить в самый конец файла (глобально) ===
+    function updateNodeMapTheme(isDark) {
+        if (nodeMapModalInstance) {
+            nodeMapModalInstance.updateTheme(isDark);
+        }
+    }
+
 
 // Global instance
 let nodeMapModalInstance = null;

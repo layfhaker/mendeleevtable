@@ -1,4 +1,4 @@
-// 📐 NodeMap Layout - Force-Directed Graph Layout
+
 
 class NodeMapLayout {
     constructor(analyzed) {

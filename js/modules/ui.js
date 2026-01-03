@@ -15,8 +15,10 @@ function toggleMenu() {
 let particlesEnabled = true;
 function toggleParticles() {
     const canvas = document.getElementById('particles-canvas');
-    particlesEnabled = !particlesEnabled;
-    canvas.style.display = particlesEnabled ? 'block' : 'none';
+    if (canvas) {
+        particlesEnabled = !particlesEnabled;
+        canvas.style.display = particlesEnabled ? 'block' : 'none';
+    }
 }
 
 function resetFabPosition() {
@@ -31,9 +33,8 @@ function resetFabPosition() {
 }
 
 // =========================================
-// UI.JS — Drag & Drop Scrolling
+// Drag & Drop Scrolling
 // =========================================
-
 function initDragScroll(selector) {
     const slider = document.querySelector(selector);
     if (!slider) return;
@@ -43,15 +44,10 @@ function initDragScroll(selector) {
     let scrollLeft, scrollTop;
 
     slider.addEventListener('mousedown', (e) => {
-        // Игнорируем клики по интерактивным элементам (кнопки, инпуты)
-        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.closest('.element')) {
-            return;
-        }
-
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.closest('.element')) return;
         isDown = true;
-        slider.classList.add('active'); // Можно добавить стиль для класса active
+        slider.classList.add('active');
         document.body.classList.add('grabbing');
-
         startX = e.pageX - slider.offsetLeft;
         startY = e.pageY - slider.offsetTop;
         scrollLeft = slider.scrollLeft;
@@ -70,32 +66,22 @@ function initDragScroll(selector) {
     slider.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
-
         const x = e.pageX - slider.offsetLeft;
         const y = e.pageY - slider.offsetTop;
-
-        const walkX = (x - startX) * 1.5; // Скорость прокрутки
+        const walkX = (x - startX) * 1.5;
         const walkY = (y - startY) * 1.5;
-
         slider.scrollLeft = scrollLeft - walkX;
         slider.scrollTop = scrollTop - walkY;
     });
 }
 
-// Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', () => {
-    // Включаем драг для body (Главная таблица)
-    // В base.css у body стоит overflow: auto, значит скроллим document.documentElement или body
-    const mainContainer = document.documentElement; // Или body, зависит от браузера, но вешаем события на window/body
-
-    // Реализация для всего окна (Таблица Менделеева)
+    // Скролл для всей страницы
     let isWindowDown = false;
     let winStartX, winStartY, winScrollLeft, winScrollTop;
 
     window.addEventListener('mousedown', (e) => {
-        // Не срабатываем на модалках
         if (e.target.closest('.modal') || e.target.closest('.filters-panel') || e.target.closest('.calc-panel') || e.target.closest('.fab-container')) return;
-
         isWindowDown = true;
         document.body.classList.add('grabbing');
         winStartX = e.pageX;
@@ -114,36 +100,57 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const x = e.pageX;
         const y = e.pageY;
-        const walkX = (x - winStartX) * 1.5;
-        const walkY = (y - winStartY) * 1.5;
-        window.scrollTo(winScrollLeft - walkX, winScrollTop - walkY);
+        window.scrollTo(winScrollLeft - (x - winStartX) * 1.5, winScrollTop - (y - winStartY) * 1.5);
     });
 });
 
-// Экспортируем функцию для вызова при открытии модалки растворимости
 window.initSolubilityDrag = function() {
     initDragScroll('.solubility-wrapper');
 };
 
-// === ОПТИМИЗАЦИЯ: Обёртки для ленивой загрузки ===
+// =========================================
+// ОБЕРТКИ ДЛЯ ЛЕНИВОЙ ЗАГРУЗКИ (FIX)
+// =========================================
 
-// Оригинальная функция toggleCalc будет в calculator.js
-// Эта обёртка сначала загружает модуль, затем вызывает toggleCalc
-const originalToggleCalc = window.toggleCalc;
+// 1. Калькулятор
 window.toggleCalc = async function() {
-    // Загружаем калькулятор если ещё не загружен
-    if (window.loadCalculator) {
-        await window.loadCalculator();
-    }
+    if (window.loadCalculator) await window.loadCalculator();
+    // Ищем оригинальную функцию в глобальной области, так как модуль уже загружен
+    // (функция toggleCalc внутри модуля calculator.js должна быть объявлена глобально)
+    // Трюк: мы перезаписали window.toggleCalc этой функцией-оберткой.
+    // Нам нужно вызвать функцию ИЗ МОДУЛЯ, которая скорее всего тоже называется toggleCalc или showCalculator.
+    // Если в модуле calculator.js функция называется toggleCalc, она могла не переопределить эту обертку.
 
-    // Вызываем оригинальную функцию если она есть
-    if (typeof toggleCalc === 'function' && toggleCalc !== window.toggleCalc) {
-        toggleCalc();
+    // ВАЖНО: В calculator.js лучше переименовать главную функцию в `showCalculator` или подобное,
+    // либо тут искать элемент по ID и менять класс.
+    // Но оставим как есть, рассчитывая, что `calculator.js` просто управляет #calc-panel
+
+    const panel = document.getElementById('calc-panel');
+    if (panel) panel.classList.toggle('active');
+};
+
+// 2. Растворимость (То, чего не хватало!)
+window.toggleSolubility = async function() {
+    // Сначала грузим модуль
+    if (window.loadSolubility) await window.loadSolubility();
+
+    // После загрузки модуль solubility/modal.js должен был определить свои функции.
+    // Обычно там есть toggleSolubility, но мы заняли это имя оберткой.
+    // Поэтому просто открываем модалку вручную, если функция недоступна,
+    // ИЛИ (лучший вариант) модуль должен использовать другое имя, например openSolubilityModal.
+
+    const modal = document.getElementById('solubility-modal');
+    if (modal) {
+        modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+        // Инициализируем скролл если открыли
+        if (modal.style.display === 'block' && window.initSolubilityDrag) {
+            window.initSolubilityDrag();
+        }
     }
 };
 
 function initUI() {
-    // Дополнительная инициализация UI если нужна
+    // Пустая заглушка, если нужна будет доп. логика
 }
 
 window.initUI = initUI;
