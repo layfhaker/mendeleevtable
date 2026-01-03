@@ -70,23 +70,33 @@ class NodeMapCanvas {
     }
 
     setupEventListeners() {
-        // Mouse events
-        this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
-        this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
-        this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
-        this.canvas.addEventListener('wheel', (e) => this.onWheel(e));
-        this.canvas.addEventListener('click', (e) => this.onClick(e));
+        // Сохраняем ссылки на функции для удаления
+        this.handlers = {
+            mouseDown: (e) => this.onMouseDown(e),
+            mouseMove: (e) => this.onMouseMove(e),
+            mouseUp: (e) => this.onMouseUp(e),
+            wheel: (e) => this.onWheel(e),
+            click: (e) => this.onClick(e),
+            touchStart: (e) => this.onTouchStart(e),
+            touchMove: (e) => this.onTouchMove(e),
+            touchEnd: (e) => this.onTouchEnd(e),
+            resize: () => { this.resize(); this.render(); }
+        };
 
-        // Touch events for mobile
-        this.canvas.addEventListener('touchstart', (e) => this.onTouchStart(e));
-        this.canvas.addEventListener('touchmove', (e) => this.onTouchMove(e));
-        this.canvas.addEventListener('touchend', (e) => this.onTouchEnd(e));
+        // Mouse events
+        this.canvas.addEventListener('mousedown', this.handlers.mouseDown);
+        this.canvas.addEventListener('mousemove', this.handlers.mouseMove);
+        this.canvas.addEventListener('mouseup', this.handlers.mouseUp);
+        this.canvas.addEventListener('wheel', this.handlers.wheel);
+        this.canvas.addEventListener('click', this.handlers.click);
+
+        // Touch events
+        this.canvas.addEventListener('touchstart', this.handlers.touchStart);
+        this.canvas.addEventListener('touchmove', this.handlers.touchMove);
+        this.canvas.addEventListener('touchend', this.handlers.touchEnd);
 
         // Window resize
-        window.addEventListener('resize', () => {
-            this.resize();
-            this.render();
-        });
+        window.addEventListener('resize', this.handlers.resize);
     }
 
     // Transform screen coordinates to world coordinates
@@ -447,5 +457,21 @@ class NodeMapCanvas {
         // Принудительная перерисовка
         this.render();
     }
+    // Очистка ресурсов и удаление слушателей
+    // Очистка ресурсов
+    destroy() {
+        if (!this.handlers) return;
 
+        this.canvas.removeEventListener('mousedown', this.handlers.mouseDown);
+        this.canvas.removeEventListener('mousemove', this.handlers.mouseMove);
+        this.canvas.removeEventListener('mouseup', this.handlers.mouseUp);
+        this.canvas.removeEventListener('wheel', this.handlers.wheel);
+        this.canvas.removeEventListener('click', this.handlers.click);
+
+        this.canvas.removeEventListener('touchstart', this.handlers.touchStart);
+        this.canvas.removeEventListener('touchmove', this.handlers.touchMove);
+        this.canvas.removeEventListener('touchend', this.handlers.touchEnd);
+
+        window.removeEventListener('resize', this.handlers.resize);
+    }
 }

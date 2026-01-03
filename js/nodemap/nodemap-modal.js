@@ -169,6 +169,10 @@ class NodeMapModal {
     // Run analysis
     runAnalysis() {
         try {
+            if (this.canvas) {
+                this.canvas.destroy();
+                this.canvas = null;
+            }
             // Parse project
             this.parser = new NodeMapParser();
             this.analyzed = this.parser.analyzeProject();
