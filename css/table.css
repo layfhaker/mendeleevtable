@@ -4,28 +4,45 @@
 
 /* --- Контейнер таблицы --- */
 .container {
+    display: -ms-grid; /* IE fallback */
     display: grid;
+    -ms-grid-columns: repeat(18, minmax(40px, 4vw)); /* IE fallback */
     grid-template-columns: repeat(18, minmax(40px, 4vw));
+    -ms-grid-rows: repeat(7, minmax(40px, 4vw)); /* IE fallback */
     grid-template-rows: repeat(7, minmax(40px, 4vw));
     gap: 2px;
     position: relative;
     z-index: 1;
+    /* Исправление для Chrome: явно задаем размеры */
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* --- Элемент таблицы --- */
 .element {
     background-color: #ffffff;
     border: 1px solid #ccc;
+    display: -webkit-flex; /* Safari/Chrome fallback */
     display: flex;
+    -webkit-flex-direction: column; /* Safari/Chrome fallback */
     flex-direction: column;
+    -webkit-align-items: center; /* Safari/Chrome fallback */
     align-items: center;
+    -webkit-justify-content: center; /* Safari/Chrome fallback */
     justify-content: center;
     cursor: pointer;
     font-size: clamp(8px, 0.8vw, 12px);
     position: relative;
     -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     transition: background-color 0.2s;
+    /* Исправление для Chrome: явно задаем размеры */
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
 }
 
 .element:hover {

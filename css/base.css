@@ -25,7 +25,7 @@ body {
     min-height: 100vh;      /* Было height: 100vh */
     height: auto;           /* Разрешаем рост по высоте */
     margin: 0;
-    padding: 20px;
+    padding: 20px 40px 20px 20px; /* Больше отступ справа */
     overflow-y: auto;       /* Разрешаем вертикальный скролл */
     overflow-x: auto;     /* Горизонтальный скрываем, если не нужен */
     box-sizing: border-box;
