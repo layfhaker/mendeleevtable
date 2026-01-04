@@ -9,7 +9,9 @@
       "Bash(del \"js\\solubility\\substances-data.js\")",
       "Bash(if exist \"js\\solubility\\data_example.js\" del \"js\\solubility\\data_example.js\")",
       "Bash(powershell:*)",
-      "Bash(if not exist \"js\\nodemap\" mkdir \"js\\nodemap\")"
+      "Bash(if not exist \"js\\nodemap\" mkdir \"js\\nodemap\")",
+      "Bash(findstr:*)",
+      "Bash(python -m http.server:*)"
     ]
   }
 }

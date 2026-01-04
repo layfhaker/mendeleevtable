@@ -8,6 +8,10 @@ class NodeMapModal {
         this.analyzed = null;
         this.layoutData = null;
 
+        // Режимы: 'graph' или 'flow'
+        this.currentMode = 'graph';
+        this.flowCanvas = null;
+
         this.createModal();
         this.setupEventListeners();
     }
@@ -25,6 +29,16 @@ class NodeMapModal {
                         <span class="nodemap-icon">🗺️</span>
                         <h2>Function Dependency Map</h2>
                     </div>
+
+                    <div class="nodemap-mode-toggle">
+                        <button id="nodemap-mode-graph" class="mode-btn active" title="Граф функций">
+                            🕸️ Граф
+                        </button>
+                        <button id="nodemap-mode-flow" class="mode-btn" title="User Flow">
+                            📊 Flow
+                        </button>
+                    </div>
+
                     <div class="nodemap-stats">
                         <span id="nodemap-stats-functions">0 functions</span>
                         <span id="nodemap-stats-connections">0 connections</span>
@@ -143,6 +157,10 @@ class NodeMapModal {
         // Canvas events
         const canvasElement = document.getElementById('nodemap-canvas');
         canvasElement.addEventListener('nodeSelected', (e) => this.onNodeSelected(e.detail.node));
+
+        // Mode toggle
+        document.getElementById('nodemap-mode-graph').addEventListener('click', () => this.switchMode('graph'));
+        document.getElementById('nodemap-mode-flow').addEventListener('click', () => this.switchMode('flow'));
     }
 
     // Open modal
@@ -152,8 +170,75 @@ class NodeMapModal {
         // Show modal
         document.getElementById('nodemap-modal').classList.add('active');
 
-        // Run analysis
-        this.runAnalysis();
+        // Run analysis for current mode
+        if (this.currentMode === 'graph') {
+            this.runAnalysis();
+        } else {
+            this.runFlowMode();
+        }
+    }
+
+    // Switch between modes
+    switchMode(mode) {
+        if (this.currentMode === mode) return;
+
+        this.currentMode = mode;
+
+        // Update buttons
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`nodemap-mode-${mode}`).classList.add('active');
+
+        // Run appropriate mode
+        if (mode === 'graph') {
+            this.runAnalysis();
+        } else {
+            this.runFlowMode();
+        }
+    }
+
+    // Run User Flow mode
+    runFlowMode() {
+        try {
+            // Clean up previous canvas
+            if (this.canvas) {
+                this.canvas.destroy();
+                this.canvas = null;
+            }
+            if (this.flowCanvas) {
+                this.flowCanvas = null;
+            }
+
+            // Hide sidebar with warnings (not needed in flow mode)
+            document.querySelector('.nodemap-sidebar').style.display = 'none';
+
+            // Hide filters (not applicable for flow)
+            document.querySelector('.nodemap-filters').style.display = 'none';
+
+            // Update title
+            document.querySelector('.nodemap-title h2').textContent = 'User Flow';
+
+            // Calculate layout
+            const layout = new UserFlowLayout(window.UserFlowData);
+            const data = layout.calculate();
+
+            // Create canvas
+            const canvasElement = document.getElementById('nodemap-canvas');
+            this.flowCanvas = new UserFlowCanvas(canvasElement);
+            this.flowCanvas.setData(data);
+            this.flowCanvas.fitToView();
+
+            // Update stats for flow mode
+            document.getElementById('nodemap-stats-functions').textContent =
+                `${data.nodes.length} nodes`;
+            document.getElementById('nodemap-stats-connections').textContent =
+                `${data.connections.length} connections`;
+            document.getElementById('nodemap-stats-clusters').textContent =
+                `User journey map`;
+
+        } catch (error) {
+            console.error('Error running flow mode:', error);
+            this.showError(error.message);
+        }
     }
 
     // Close modal
@@ -173,6 +258,17 @@ class NodeMapModal {
                 this.canvas.destroy();
                 this.canvas = null;
             }
+            if (this.flowCanvas) {
+                this.flowCanvas = null;
+            }
+
+            // Show sidebar and filters (for graph mode)
+            document.querySelector('.nodemap-sidebar').style.display = '';
+            document.querySelector('.nodemap-filters').style.display = '';
+
+            // Update title
+            document.querySelector('.nodemap-title h2').textContent = 'Function Dependency Map';
+
             // Parse project
             this.parser = new NodeMapParser();
             this.analyzed = this.parser.analyzeProject();

@@ -80,6 +80,40 @@
     border-radius: 4px;
 }
 
+/* Mode Toggle */
+.nodemap-mode-toggle {
+    display: flex;
+    gap: 8px;
+    background: #34495e;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.mode-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    color: #95a5a6;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mode-btn:hover {
+    color: #ecf0f1;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-btn.active {
+    background: #3498db;
+    color: #ffffff;
+}
+
 .nodemap-close {
     width: 32px;
     height: 32px;

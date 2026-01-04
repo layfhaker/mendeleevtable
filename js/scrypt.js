@@ -21,6 +21,9 @@ const coreScripts = [
     'js/nodemap/nodemap-parser.js',
     'js/nodemap/nodemap-layout.js',
     'js/nodemap/nodemap-canvas.js',
+    'js/nodemap/nodemap-flow-data.js',
+    'js/nodemap/nodemap-flow-layout.js',
+    'js/nodemap/nodemap-flow-canvas.js',
     'js/nodemap/nodemap-modal.js',
     'js/nodemap/nodemap-init.js'
 ];
