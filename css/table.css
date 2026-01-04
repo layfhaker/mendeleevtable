@@ -192,8 +192,23 @@
         margin: 0 auto 20px auto;
         position: relative;
         width: max-content;
-        touch-action: pan-y pan-x;
+        max-width: 100vw; /* Ограничиваем ширину экраном */
+        overflow-x: auto; /* Включаем горизонтальный скролл */
+        overflow-y: visible;
+        touch-action: pan-x pan-y;
         -webkit-overflow-scrolling: touch;
+    }
+
+    /* Скрываем полосу прокрутки */
+    .container::-webkit-scrollbar {
+        height: 0;
+        width: 0;
+        display: none;
+    }
+
+    .container {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 
     .element {
