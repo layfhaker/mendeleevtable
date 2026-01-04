@@ -49,9 +49,9 @@ body {
          display: flex;
          flex-direction: column;
          justify-content: flex-start; /* Меняем center на flex-start, чтобы верх не обрезался */
-         align-items: center;
+         align-items: flex-start; /* Изменено с center на flex-start */
          background-color: #f0f0f0;
-         padding: 10px 10px 140px 10px !important;
+         padding: 10px !important;
          box-sizing: border-box;
          -webkit-overflow-scrolling: touch;
      }

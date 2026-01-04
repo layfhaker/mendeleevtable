@@ -194,8 +194,6 @@
         width: max-content;
         touch-action: pan-y pan-x;
         -webkit-overflow-scrolling: touch;
-        margin-left: 0;  /* 🆕 Добавь */
-        margin-right: 0; /* 🆕 Добавь */
     }
 
     .element {
