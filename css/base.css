@@ -48,12 +48,22 @@ body {
      body {
          display: flex;
          flex-direction: column;
-         justify-content: flex-start; /* Меняем center на flex-start, чтобы верх не обрезался */
-         align-items: flex-start; /* Изменено с center на flex-start */
+         justify-content: center; /* Возвращаем центрирование по вертикали */
+         align-items: flex-start; /* Оставляем flex-start для горизонтальной прокрутки */
          background-color: #f0f0f0;
          padding: 10px !important;
          box-sizing: border-box;
          -webkit-overflow-scrolling: touch;
+     }
+
+     /* Скрываем полосу прокрутки на мобильных */
+     body::-webkit-scrollbar {
+         display: none;
+     }
+
+     body {
+         -ms-overflow-style: none;  /* IE and Edge */
+         scrollbar-width: none;  /* Firefox */
      }
  }
 
