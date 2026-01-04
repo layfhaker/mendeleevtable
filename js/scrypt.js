@@ -7,7 +7,8 @@
 const criticalScripts = [
     'js/icons.js',
     'js/elements.js',
-    'js/particles.js'
+    'js/particles.js',
+    'js/modules/mobile-layout.js',
 ];
 
 // === ОСНОВНЫЕ СКРИПТЫ (после DOMContentLoaded) ===
