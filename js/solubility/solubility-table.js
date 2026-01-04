@@ -266,12 +266,22 @@ function highlightRow(rIdx) {
 function enableDragScroll(element) {
     let isDown = false;
     let startX, startY, scrollLeft, scrollTop;
+    let isTouch = false;
 
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:266',message:'enableDragScroll called',data:{hasTouchSupport:'ontouchstart' in window,elementTag:element.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
+
+    // Mouse events (Desktop)
     element.addEventListener('mousedown', (e) => {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:270',message:'mousedown event',data:{targetTag:e.target.tagName,isTouch:false},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
         // Не мешаем кликам по ячейкам таблицы и заголовкам
         if (e.target.tagName === 'TD' || e.target.tagName === 'TH') return;
 
         isDown = true;
+        isTouch = false;
         element.style.cursor = 'grabbing';
         element.style.userSelect = 'none';
 
@@ -293,7 +303,7 @@ function enableDragScroll(element) {
     });
 
     element.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
+        if (!isDown || isTouch) return;
         e.preventDefault();
 
         const x = e.pageX - element.offsetLeft;
@@ -304,6 +314,53 @@ function enableDragScroll(element) {
         element.scrollLeft = scrollLeft - walkX;
         element.scrollTop = scrollTop - walkY;
     });
+
+    // Touch events (Mobile) - ИСПРАВЛЕНИЕ
+    element.addEventListener('touchstart', (e) => {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchstart',message:'touchstart event',data:{touchCount:e.touches.length,targetTag:e.target.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
+        // Не мешаем кликам по ячейкам таблицы и заголовкам
+        if (e.target.tagName === 'TD' || e.target.tagName === 'TH') return;
+        
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            isDown = true;
+            isTouch = true;
+            element.style.userSelect = 'none';
+
+            const rect = element.getBoundingClientRect();
+            startX = touch.clientX - rect.left;
+            startY = touch.clientY - rect.top;
+            scrollLeft = element.scrollLeft;
+            scrollTop = element.scrollTop;
+        }
+    }, { passive: true });
+
+    element.addEventListener('touchmove', (e) => {
+        if (!isDown || !isTouch) return;
+        if (e.touches.length === 1) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = element.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            const walkX = (x - startX) * 1.5;
+            const walkY = (y - startY) * 1.5;
+
+            element.scrollLeft = scrollLeft - walkX;
+            element.scrollTop = scrollTop - walkY;
+        }
+    }, { passive: false });
+
+    element.addEventListener('touchend', () => {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchend',message:'touchend event',data:{isDown},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // #endregion
+        isDown = false;
+        isTouch = false;
+        element.style.userSelect = '';
+    }, { passive: true });
 }
 
 // Получить ключ вещества для ячейки

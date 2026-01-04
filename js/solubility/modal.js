@@ -33,6 +33,14 @@ async function openSolubility() {
 
     modal.style.display = 'flex';
 
+    // #region agent log
+    const modalRect = modal.getBoundingClientRect();
+    const content = document.querySelector('.solubility-content');
+    const contentRect = content ? content.getBoundingClientRect() : null;
+    const isMobile = window.innerWidth <= 1024;
+    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:34',message:'openSolubility - modal dimensions',data:{isMobile,windowWidth:window.innerWidth,windowHeight:window.innerHeight,modalWidth:modalRect.width,modalHeight:modalRect.height,contentWidth:contentRect?.width,contentHeight:contentRect?.height},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+    // #endregion
+
     // Инициализируем кнопку продвинутого режима
     if (typeof initAdvancedModeButton === 'function') {
         initAdvancedModeButton();
@@ -70,6 +78,21 @@ async function openSolubility() {
         wrapper.dataset.dragScrollEnabled = 'true';
     }
 
+    // #region agent log
+    const buttons = document.querySelectorAll('.modal-header-controls button, .close-solubility');
+    const buttonSizes = Array.from(buttons).map(btn => {
+        const rect = btn.getBoundingClientRect();
+        return {tag:btn.tagName,width:rect.width,height:rect.height,id:btn.id || btn.className};
+    });
+    const stickyHeaders = document.querySelectorAll('#solubility-table thead th, #solubility-table tbody th');
+    const stickyInfo = Array.from(stickyHeaders).slice(0, 3).map(th => {
+        const rect = th.getBoundingClientRect();
+        const styles = window.getComputedStyle(th);
+        return {position:styles.position,top:styles.top,left:styles.left,zIndex:styles.zIndex,visible:rect.width > 0 && rect.height > 0};
+    });
+    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:75',message:'button sizes and sticky headers check',data:{buttonSizes,stickyInfo,isMobile:window.innerWidth <= 1024},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
+    // #endregion
+
     if (wrapper && !wrapper.dataset.ctrlScrollEnabled) {
         wrapper.addEventListener('wheel', (e) => {
             if (e.ctrlKey) {
@@ -82,9 +105,15 @@ async function openSolubility() {
 }
 
 function closeSolubility() {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:84',message:'closeSolubility called',data:{isMobile:window.innerWidth <= 1024,hasTouchSupport:'ontouchstart' in window},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+    // #endregion
     const modal = document.getElementById('solubility-modal');
     if (modal) {
         modal.style.display = 'none';
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:87',message:'modal closed',data:{display:modal.style.display},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+        // #endregion
     } else {
         console.warn("Элемент 'solubility-modal' не найден в HTML!");
     }
@@ -118,3 +147,18 @@ function closeSolubility() {
 
     restoreElementFilters();
 }
+
+// Закрытие модального окна при клике вне его области
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('solubility-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:click-outside',message:'modal click event',data:{targetId:e.target.id,targetClass:e.target.className,isModal:e.target === modal,isMobile:window.innerWidth <= 1024},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+            // #endregion
+            if (e.target === modal) {
+                closeSolubility();
+            }
+        });
+    }
+});
