@@ -2,7 +2,7 @@
 // SERVICE WORKER v7 - Оптимизированное кэширование
 // =========================================
 
-const CACHE_NAME = 'chem-assistant-v7';
+const CACHE_NAME = 'chem-assistant-v8';
 
 // === КРИТИЧЕСКИЕ ФАЙЛЫ (кэшируем при установке) ===
 const PRECACHE_ASSETS = [
