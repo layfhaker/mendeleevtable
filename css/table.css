@@ -192,9 +192,10 @@
         margin: 0 auto 20px auto;
         position: relative;
         width: max-content;
-        /* РАЗРЕШАЕМ СКРОЛЛ НА МОБИЛЬНЫХ */
         touch-action: pan-y pan-x;
         -webkit-overflow-scrolling: touch;
+        margin-left: 0;  /* 🆕 Добавь */
+        margin-right: 0; /* 🆕 Добавь */
     }
 
     .element {

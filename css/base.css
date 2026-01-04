@@ -27,7 +27,7 @@ body {
     margin: 0;
     padding: 20px;
     overflow-y: auto;       /* Разрешаем вертикальный скролл */
-    overflow-x: hidden;     /* Горизонтальный скрываем, если не нужен */
+    overflow-x: auto;     /* Горизонтальный скрываем, если не нужен */
     box-sizing: border-box;
 }
 
