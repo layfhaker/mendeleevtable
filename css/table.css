@@ -17,6 +17,7 @@
     width: fit-content;
     max-width: 100%;
     box-sizing: border-box;
+    margin-right: 20px; /* Отступ справа */
 }
 
 /* --- Элемент таблицы --- */
@@ -181,6 +182,7 @@
     margin-top: 1.5vw;
     margin-left: auto;
     margin-right: auto;
+    width: fit-content;
     z-index: 1;
 }
 
@@ -200,13 +202,13 @@
 /* =========================================
    АДАПТИВ
    ========================================= */
-@media (max-width: 1024px) {
+   @media (max-width: 1024px) {
     .container {
         display: grid;
-        grid-template-columns: repeat(18, 55px);
-        grid-template-rows: repeat(7, 55px);
-        gap: 3px;
-        margin: 0 auto 20px auto;
+        grid-template-columns: repeat(18, 12vw); /* 18 × 12vw = 216vw */
+        grid-template-rows: repeat(7, 12vw);
+        gap: 0.5vw;
+        margin: 15vw 0 15vw 0; /* УБРАЛ margin слева/справа */
         position: relative;
         width: max-content;
     }
@@ -215,83 +217,133 @@
         border-width: 1px;
         transform: none !important;
         transition: none !important;
+        min-width: 0;
+        min-height: 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* ВЕРНУЛ center */
+        padding: 1vw;
+        position: relative; /* ДОБАВЛЕНО для абсолютного позиционирования */
     }
 
     .element .symbol {
-        font-size: 20px;
+        font-size: 5vw;
         font-weight: bold;
-        margin-bottom: 2px;
+        line-height: 1;
+        margin: 0;
+        position: absolute; /* АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* ЦЕНТР ПО СЕРЕДИНЕ */
     }
 
     .element .atomic-number {
-        font-size: 9px;
-        top: 2px;
-        left: 2px;
+        font-size: 2vw;
+        position: absolute;
+        top: 0.5vw;
+        left: 0.5vw;
+        z-index: 2; /* НАД СИМВОЛОМ */
     }
 
     .element .name {
-        font-size: 8px;
-        display: block;
-        line-height: 1;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        max-width: 95%;
+        font-size: 1.8vw;
+        line-height: 1.1;
+        overflow: visible;
+        white-space: normal;
+        text-align: center;
+        max-width: 100%;
+        position: absolute; /* АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ */
+        bottom: 0.5vw;
+        left: 50%;
+        transform: translateX(-50%); /* ЦЕНТР ПО ГОРИЗОНТАЛИ */
+        width: 90%;
+        word-break: break-word;
     }
 
+    /* Лантаноиды и актиноиды */
     .lanthanides, .actinides {
-        grid-template-columns: repeat(15, 55px);
-        gap: 3px;
+        display: grid;
+        grid-template-columns: repeat(15, 12vw); /* 15 × 12vw = 180vw */
+        grid-template-rows: repeat(1, 13vw);
+        gap: 0.5vw;
         width: max-content;
-        margin: 10px auto 0 auto;
-        padding-left: 116px;
+        margin: 0.8vw auto 0 auto; /* УМЕНЬШЕН отступ сверху */
+        padding: 0;
     }
 }
 
-/* Маленькие телефоны */
+/* Маленькие телефоны (< 480px) */
 @media (max-width: 480px) {
     .container {
-        grid-template-columns: repeat(18, 38px);
-        grid-template-rows: repeat(7, 38px);
-        margin: 60px 10px 10px 10px;
+        grid-template-columns: repeat(18, 14vw); /* 18 × 14vw = 252vw */
+        grid-template-rows: repeat(7, 14vw);
+        gap: 0.6vw;
+        margin: 18vw 0 18vw 0; /* УБРАЛ margin слева/справа */
+    }
+
+    .element {
+        padding: 1.2vw;
     }
 
     .element .symbol {
-        font-size: 12px;
-    }
-
-    .element .name {
-        display: none;
+        font-size: 6vw;
     }
 
     .element .atomic-number {
-        font-size: 5px;
+        font-size: 2.2vw;
+        top: 0.6vw;
+        left: 0.6vw;
+    }
+
+    .element .name {
+        font-size: 2vw;
+        bottom: 0.6vw;
     }
 
     .lanthanides, .actinides {
-        grid-template-columns: repeat(15, 38px);
-        margin: 10px;
+        grid-template-columns: repeat(15, 14vw); /* 15 × 14vw = 210vw */
+        grid-template-rows: repeat(1, 15vw);
+        gap: 0.6vw;
+        margin: 1vw auto 0 auto; /* УМЕНЬШЕН отступ */
+        padding: 0;
     }
 }
 
 /* Горизонтальная ориентация */
 @media (max-width: 768px) and (orientation: landscape) {
     .container {
-        grid-template-columns: repeat(18, 35px);
-        grid-template-rows: repeat(7, 35px);
-        margin: 50px 10px 10px 10px;
+        grid-template-columns: repeat(18, 10vw); /* 18 × 10vw = 180vw */
+        grid-template-rows: repeat(7, 10vw);
+        gap: 0.4vw;
+        margin: 12vw 0 12vw 0; /* УБРАЛ margin слева/справа */
+    }
+
+    .element {
+        padding: 0.8vw;
     }
 
     .element .symbol {
-        font-size: 11px;
+        font-size: 4.2vw;
+    }
+
+    .element .atomic-number {
+        font-size: 1.6vw;
+        top: 0.4vw;
+        left: 0.4vw;
     }
 
     .element .name {
-        display: none;
+        font-size: 1.5vw;
+        bottom: 0.4vw;
     }
 
     .lanthanides, .actinides {
-        grid-template-columns: repeat(15, 35px);
-        margin: 8px 10px;
+        grid-template-columns: repeat(15, 10vw); /* 15 × 10vw = 150vw */
+        grid-template-rows: repeat(1, 11vw);
+        gap: 0.4vw;
+        margin: 0.6vw auto 0 auto; /* УМЕНЬШЕН отступ */
+        padding: 0;
     }
 }

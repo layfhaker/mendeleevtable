@@ -25,9 +25,9 @@ body {
     min-height: 100vh;      /* Было height: 100vh */
     height: auto;           /* Разрешаем рост по высоте */
     margin: 0;
-    padding: 20px 40px 20px 20px; /* Больше отступ справа */
+    padding: 20px;          /* Равномерный отступ */
     overflow-y: auto;       /* Разрешаем вертикальный скролл */
-    overflow-x: auto;     /* Горизонтальный скрываем, если не нужен */
+    overflow-x: auto;       /* Горизонтальный скрываем, если не нужен */
     box-sizing: border-box;
 }
 
@@ -35,36 +35,36 @@ body {
    АДАПТИВ
    ========================================= */
  @media (max-width: 1024px) {
-     html, body {
-         width: 100%;
-         margin: 0;
-         padding: 0;
-         overflow-x: auto; /* Включаем горизонтальный скролл */
-         overflow-y: auto;
-         -webkit-overflow-scrolling: touch;
-     }
 
-     body {
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         align-items: center;
-         background-color: #f0f0f0;
-         padding: 10px 20px 140px 20px !important; /* Отступы от краев */
-         box-sizing: border-box;
-     }
+    html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: auto; /* Включаем горизонтальный скролл */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-     /* Скрываем полосу прокрутки */
-     body::-webkit-scrollbar {
-         display: none;
-     }
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        padding: 10px 20px 140px 20px !important; /* ИСПРАВЛЕНО: отступы 20px слева и справа */
+        box-sizing: border-box;
+    }
 
-     body {
-         -ms-overflow-style: none;
-         scrollbar-width: none;
-     }
- }
+    /* Скрываем полосу прокрутки */
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
+    body {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
 /* Запрет выделения и grab курсор только на ДЕСКТОПЕ */
 @media (min-width: 1025px) {
     html, body {
@@ -78,13 +78,6 @@ body {
     }
 }
 
-/* На мобильных РАЗРЕШАЕМ нативный скролл */
-@media (max-width: 1024px) {
-    html, body {
-        touch-action: pan-y pan-x; /* Разрешаем свайпы */
-        -webkit-overflow-scrolling: touch; /* Плавный скролл iOS */
-        cursor: auto; /* Обычный курсор */
-    }
 }
 
 /* Разрешаем выделение ТОЛЬКО в текстовых блоках */
