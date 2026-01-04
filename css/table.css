@@ -192,24 +192,6 @@
         margin: 0 auto 20px auto;
         position: relative;
         width: max-content;
-        max-width: calc(100vw - 40px); /* Ограничиваем ширину с отступами от краев */
-        overflow-x: auto; /* Включаем горизонтальный скролл */
-        overflow-y: visible;
-        touch-action: pan-x pan-y;
-        -webkit-overflow-scrolling: touch;
-        padding: 0 15px; /* Отступы от краев экрана */
-    }
-
-    /* Скрываем полосу прокрутки */
-    .container::-webkit-scrollbar {
-        height: 0;
-        width: 0;
-        display: none;
-    }
-
-    .container {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
     }
 
     .element {
@@ -244,27 +226,8 @@
         grid-template-columns: repeat(15, 55px);
         gap: 3px;
         width: max-content;
-        max-width: calc(100vw - 40px); /* Ограничиваем ширину с отступами */
         margin: 10px auto 0 auto;
-        padding: 0 15px 0 131px; /* Отступы: справа-слева от краев, слева для выравнивания */
-        overflow-x: auto; /* Включаем горизонтальный скролл */
-        overflow-y: visible;
-        touch-action: pan-x pan-y;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* Скрываем полосу прокрутки для лантаноидов и актиноидов */
-    .lanthanides::-webkit-scrollbar,
-    .actinides::-webkit-scrollbar {
-        height: 0;
-        width: 0;
-        display: none;
-    }
-
-    .lanthanides,
-    .actinides {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+        padding-left: 116px;
     }
 }
 

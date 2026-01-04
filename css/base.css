@@ -40,19 +40,29 @@ body {
          min-height: 100%;
          margin: 0;
          padding: 0;
-         overflow-x: hidden; /* Скрываем скролл на body */
+         overflow-x: auto; /* Включаем горизонтальный скролл */
          overflow-y: auto;
+         -webkit-overflow-scrolling: touch;
      }
 
      body {
          display: flex;
          flex-direction: column;
-         justify-content: center; /* Центрируем по вертикали */
-         align-items: center; /* Центрируем по горизонтали */
+         justify-content: center;
+         align-items: center;
          background-color: #f0f0f0;
-         padding: 10px !important;
+         padding: 10px 20px 140px 20px !important; /* Отступы от краев */
          box-sizing: border-box;
-         -webkit-overflow-scrolling: touch;
+     }
+
+     /* Скрываем полосу прокрутки */
+     body::-webkit-scrollbar {
+         display: none;
+     }
+
+     body {
+         -ms-overflow-style: none;
+         scrollbar-width: none;
      }
  }
 
