@@ -3,6 +3,10 @@
 // =========================================
 
 // Переключение таблицы растворимости (toggle)
+// =========================================
+// МОДАЛЬНОЕ ОКНО ТАБЛИЦЫ РАСТВОРИМОСТИ
+// =========================================
+
 async function toggleSolubility() {
     const modal = document.getElementById('solubility-modal');
     if (modal.style.display === 'flex') {
@@ -29,14 +33,12 @@ async function openSolubility() {
 
     modal.style.display = 'flex';
 
-    // --- ВАЖНО: Добавьте этот блок ---
     // Инициализируем кнопку продвинутого режима
     if (typeof initAdvancedModeButton === 'function') {
         initAdvancedModeButton();
     }
-    // --------------------------------
 
-    // Инициализация ряда активности (если эта функция у вас есть в solubility-table.js)
+    // Инициализация ряда активности
     if (typeof initActivitySeriesUI === 'function') {
         initActivitySeriesUI();
     }
@@ -45,10 +47,15 @@ async function openSolubility() {
         window.initSolubilityDrag();
     }
 
-    // Остальной код (скрытие FAB, фильтры и т.д.) без изменений...
     document.body.classList.add('solubility-open');
-    const fab = document.getElementById('fab-container');
-    if (fab) fab.classList.remove('active');
+
+    // --- ИСПРАВЛЕНИЕ №1: Скрываем кнопки мгновенно ---
+    const fabContainer = document.getElementById('fab-container');
+    const themeToggle = document.getElementById('theme-toggle'); // Кнопка темы
+
+    if (fabContainer) fabContainer.style.display = 'none'; // <--- ДОБАВИТЬ ЭТО
+    if (themeToggle) themeToggle.style.display = 'none';   // <--- ДОБАВИТЬ ЭТО
+    // -------------------------------------------------
 
     const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
     const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
@@ -76,15 +83,21 @@ async function openSolubility() {
 
 function closeSolubility() {
     const modal = document.getElementById('solubility-modal');
-    // Проверка: существует ли модальное окно?
     if (modal) {
         modal.style.display = 'none';
     } else {
         console.warn("Элемент 'solubility-modal' не найден в HTML!");
     }
 
-    // Убираем класс для показа FAB и кнопки темы на мобильных
     document.body.classList.remove('solubility-open');
+
+    // --- ИСПРАВЛЕНИЕ №2: Возвращаем кнопки ---
+    const fabContainer = document.getElementById('fab-container');
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (fabContainer) fabContainer.style.display = ''; // <--- ДОБАВИТЬ ЭТО (сброс стиля вернет их на место)
+    if (themeToggle) themeToggle.style.display = '';   // <--- ДОБАВИТЬ ЭТО
+    // -----------------------------------------
 
     // Закрываем панель поиска если открыта
     const searchPanel = document.getElementById('solubility-search-panel');
@@ -103,6 +116,5 @@ function closeSolubility() {
     if (calcButton) calcButton.style.display = '';
     if (particlesButton) particlesButton.style.display = '';
 
-    // Восстанавливаем обычные фильтры элементов
     restoreElementFilters();
 }

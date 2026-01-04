@@ -975,3 +975,57 @@ body.dark-theme .act-item.hydrogen {
     background: #fbc02d;
     color: #000;
 }
+
+
+/* === css/solubility.css === */
+
+/* Добавляем поддержку безопасных зон (вырезов) и отступы */
+.solubility-container {
+    /* ... существующие стили ... */
+    
+    /* Добавляем padding для закругленных углов и вырезов */
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: env(safe-area-inset-bottom);
+    width: 100%;
+    box-sizing: border-box; /* Чтобы padding не ломал ширину */
+}
+
+/* Исправляем шапку для мобильных устройств */
+.solubility-header {
+    display: flex;
+    flex-wrap: wrap; /* Разрешаем перенос элементов */
+    gap: 10px; /* Отступ между элементами */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+/* Адаптивность заголовка и кнопок */
+@media (max-width: 600px) {
+    .solubility-header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .solubility-header h2 {
+        width: 100%; /* Заголовок на всю ширину */
+        font-size: 1.2rem; /* Чуть меньше шрифт */
+        margin-bottom: 5px;
+        order: 1; /* Заголовок первым */
+    }
+
+    .solubility-controls {
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        gap: 8px;
+        order: 2; /* Кнопки под заголовком */
+    }
+    
+    /* Если кнопки слишком большие, можно уменьшить padding */
+    .solubility-controls button {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
