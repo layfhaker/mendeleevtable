@@ -12,6 +12,30 @@
         const actinides = document.querySelector('.actinides');
         const allElements = document.querySelectorAll('.element');
 
+        // === ДОБАВИТЬ ЭТОТ БЛОК (Создание единой обертки) ===
+        let wrapper = document.getElementById('mobile-table-wrapper');
+        if (!wrapper && container && lanthanides && actinides) {
+            // Создаем обертку
+            wrapper = document.createElement('div');
+            wrapper.id = 'mobile-table-wrapper';
+            
+            // Настраиваем стили обертки прямо здесь, чтобы они были приоритетными
+            wrapper.style.display = 'flex';
+            wrapper.style.flexDirection = 'column';
+            wrapper.style.alignItems = 'center';
+            wrapper.style.width = '100%';
+            wrapper.style.transformOrigin = 'top center';
+            wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+
+            // Вставляем обертку перед основной таблицей
+            container.parentNode.insertBefore(wrapper, container);
+
+            // Перемещаем элементы внутрь обертки
+            wrapper.appendChild(container);
+            wrapper.appendChild(lanthanides);
+            wrapper.appendChild(actinides);
+        }
+
         // ==========================================
         // 1. УМНЫЙ РАСЧЕТ РАЗМЕРОВ
         // ==========================================

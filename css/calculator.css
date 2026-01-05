@@ -383,43 +383,31 @@
   }
 
   @media (max-width: 1024px) {
+    /* ... твои стили .calc-panel (оставь их без изменений) ... */
+
     /* =========================================
-       АНИМАЦИЯ ТАБЛИЦЫ ПРИ ОТКРЫТИИ КАЛЬКУЛЯТОРА
+       АНИМАЦИЯ ТАБЛИЦЫ (JS Wrapper Fix)
        ========================================= */
-    
-    /* 
-     * КРИТИЧНО: Базовые стили с transition ДОЛЖНЫ быть заданы ДО открытия калькулятора,
-     * иначе первая анимация будет мгновенной.
-     * Используем !important чтобы гарантировать применение поверх inline-стилей из JS.
-     */
+
+    /* 1. Отключаем анимацию отдельных частей, теперь они просто лежат в обертке */
     .container,
     .lanthanides,
     .actinides {
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-        transform-origin: top center !important;
-        transform: translateY(0) scaleY(1) !important;
+        transition: none !important;
+        transform: none !important;
     }
     
-    /* 
-     * Активное состояние калькулятора:
-     * - Только scaleY(0.85) — сжимаем на 15% по вертикали
-     * - transform-origin: top center — верхний край остаётся на месте
-     * - Нижняя часть подтягивается вверх, освобождая место для калькулятора
-     */
-    body.calc-active .container,
-    body.calc-active .lanthanides,
-    body.calc-active .actinides {
-        transform: scaleY(0.85) !important;
+    /* 2. Анимируем нашу созданную JS-ом обертку */
+    body.calc-active #mobile-table-wrapper {
+        /* scaleY(0.8) — сжимаем весь блок (таблицу + лантаноиды + актиноиды) на 20%.
+           translateY(10px) — корректируем отступ сверху. 
+           У тебя в JS padding-top: 10px. Добавляем еще 10px сдвига = 20px (как сбоку).
+        */
+        transform: translateY(10px) scaleY(0.8) !important;
     }
- 
-    /* Скрываем кнопку темы */
-    body.calc-active #theme-toggle {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-    }
-    
-    /* Скрываем FAB-меню при открытом калькуляторе */
+
+    /* Скрываем лишние элементы интерфейса */
+    body.calc-active #theme-toggle,
     body.calc-active .fab-container {
         opacity: 0;
         pointer-events: none;
