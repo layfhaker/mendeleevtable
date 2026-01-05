@@ -23,8 +23,13 @@ document.querySelectorAll('.element').forEach(el => {
     let touchData = {
         symbol: null,
         startTime: 0,
-        isDragging: false
+        startX: 0,
+        startY: 0,
+        isScrolling: false
     };
+
+    // Порог движения для определения скролла (в пикселях)
+    const SCROLL_THRESHOLD = 10;
 
     el.addEventListener('touchstart', function(e) {
         const calcPanel = document.getElementById('calc-panel');
@@ -32,11 +37,13 @@ document.querySelectorAll('.element').forEach(el => {
             return;
         }
 
-        e.preventDefault();
-
+        const touch = e.touches[0];
         touchData.symbol = this.dataset.symbol;
         touchData.startTime = Date.now();
-        touchData.isDragging = false;
+        touchData.startX = touch.clientX;
+        touchData.startY = touch.clientY;
+        touchData.isScrolling = false;
+        
         this.style.opacity = '0.5';
     });
 
@@ -46,22 +53,33 @@ document.querySelectorAll('.element').forEach(el => {
             return;
         }
 
-        e.preventDefault();
-        touchData.isDragging = true;
-
         const touch = e.touches[0];
-        const dropZoneEl = document.getElementById('drop-zone');
-        const dropZoneRect = dropZoneEl.getBoundingClientRect();
+        
+        // Проверяем, сдвинулся ли палец достаточно для скролла
+        const deltaX = Math.abs(touch.clientX - touchData.startX);
+        const deltaY = Math.abs(touch.clientY - touchData.startY);
+        
+        if (deltaX > SCROLL_THRESHOLD || deltaY > SCROLL_THRESHOLD) {
+            touchData.isScrolling = true;
+            // Возвращаем нормальную прозрачность если это скролл
+            this.style.opacity = '1';
+        }
 
-        if (
-            touch.clientX >= dropZoneRect.left &&
-            touch.clientX <= dropZoneRect.right &&
-            touch.clientY >= dropZoneRect.top &&
-            touch.clientY <= dropZoneRect.bottom
-        ) {
-            dropZoneEl.classList.add('drag-over');
-        } else {
-            dropZoneEl.classList.remove('drag-over');
+        // Подсветка drop-zone только если это не скролл
+        if (!touchData.isScrolling) {
+            const dropZoneEl = document.getElementById('drop-zone');
+            const dropZoneRect = dropZoneEl.getBoundingClientRect();
+
+            if (
+                touch.clientX >= dropZoneRect.left &&
+                touch.clientX <= dropZoneRect.right &&
+                touch.clientY >= dropZoneRect.top &&
+                touch.clientY <= dropZoneRect.bottom
+            ) {
+                dropZoneEl.classList.add('drag-over');
+            } else {
+                dropZoneEl.classList.remove('drag-over');
+            }
         }
     });
 
@@ -76,7 +94,13 @@ document.querySelectorAll('.element').forEach(el => {
             return;
         }
 
-        e.preventDefault();
+        // Если это был скролл — не добавляем элемент
+        if (touchData.isScrolling) {
+            touchData.symbol = null;
+            touchData.isScrolling = false;
+            dropZoneEl.classList.remove('drag-over');
+            return;
+        }
 
         const touch = e.changedTouches[0];
         const dropZoneRect = dropZoneEl.getBoundingClientRect();
@@ -90,12 +114,15 @@ document.querySelectorAll('.element').forEach(el => {
 
         const tapDuration = Date.now() - touchData.startTime;
 
+        // Добавляем только если:
+        // 1. Палец над drop-zone, ИЛИ
+        // 2. Короткий тап (<400мс) БЕЗ движения
         if (isOverDropZone || tapDuration < 400) {
             addAtomToCalculator(touchData.symbol);
         }
 
         touchData.symbol = null;
-        touchData.isDragging = false;
+        touchData.isScrolling = false;
         dropZoneEl.classList.remove('drag-over');
     });
 });

@@ -12,9 +12,6 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 15px;
-
-    /* !!! ГЛАВНОЕ ИСПРАВЛЕНИЕ !!! */
-    /* Контейнер пропускает клики сквозь себя, чтобы не блокировать таблицу и модалку */
     pointer-events: none;
 }
 
@@ -33,8 +30,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    /* Возвращаем кликабельность самой кнопке */
     pointer-events: auto;
 }
 
@@ -48,7 +43,7 @@
     background: #f44336;
 }
 
-/* --- Иконки главной кнопки --- */
+/* --- Иконки главной кнопки (Desktop/Base) --- */
 .icon-close {
     display: none;
 }
@@ -67,10 +62,9 @@
     flex-direction: column;
     gap: 15px;
     align-items: flex-end;
-    pointer-events: none; /* Скрытые опции не мешают кликам */
+    pointer-events: none;
 }
 
-/* Когда меню открыто, опции становятся кликабельными */
 .fab-container.active .fab-options {
     pointer-events: auto;
 }
@@ -83,21 +77,17 @@
     opacity: 0;
     transform: translateY(-20px) scale(0.8);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    /* === FIX: Сжимаем контейнер до размера контента === */
     width: fit-content;
-    margin-left: auto; /* Прижимаем к правому краю */
-    pointer-events: none; /* Контейнер не ловит клики */
+    margin-left: auto;
+    pointer-events: none;
 }
 
 .fab-container.active .fab-option {
     opacity: 1;
     transform: translateY(0) scale(1);
-    pointer-events: auto; /* Включаем только когда меню открыто */
+    pointer-events: auto;
 }
 
-
-
-/* Задержка для эффекта лесенки */
 .fab-container.active .fab-option:nth-child(1) { transition-delay: 0.05s; }
 .fab-container.active .fab-option:nth-child(2) { transition-delay: 0.1s; }
 .fab-container.active .fab-option:nth-child(3) { transition-delay: 0.15s; }
@@ -136,45 +126,38 @@
     opacity: 0;
     transform: translateX(10px);
     transition: opacity 0.2s ease, transform 0.2s ease;
-    pointer-events: none; /* Лейбл не мешает кликам */
-    /* === FIX: Абсолютное позиционирование === */
+    pointer-events: none;
     position: absolute;
-    right: 60px; /* Справа от кнопки */
+    right: 60px;
     top: 50%;
     transform: translateY(-50%) translateX(10px);
 }
 
-/* Лейбл появляется при наведении на КНОПКУ */
 .fab-btn:hover + .fab-label,
 .fab-option:hover .fab-label {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
 }
 
-/* Тёмная тема для FAB */
+/* Тёмная тема */
 body.dark-theme .fab-main {
     background: #64B5F6;
     color: #1a1a2e;
 }
-
 body.dark-theme .fab-main:hover {
     background: #90CAF9;
 }
-
 body.dark-theme .fab-container.active .fab-main {
     background: #ef5350;
 }
-
 body.dark-theme .fab-btn {
     background: #2d2d44;
     color: #fff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
-
 body.dark-theme .fab-option:hover .fab-btn {
     background: #3d3d5c;
 }
-
 body.dark-theme .fab-label {
     background: rgba(255,255,255,0.9);
     color: #1a1a2e;
@@ -187,21 +170,14 @@ body.dark-theme .fab-label {
     display: block;
 }
 
-/* Переключение иконок темы в FAB */
-.fab-theme-btn .icon-sun {
-    display: none;
-}
+/* Переключение иконок темы */
+.fab-theme-btn .icon-sun { display: none; }
+body.dark-theme .fab-theme-btn .icon-moon { display: none; }
+body.dark-theme .fab-theme-btn .icon-sun { display: block; }
 
-body.dark-theme .fab-theme-btn .icon-moon {
-    display: none;
-}
-
-body.dark-theme .fab-theme-btn .icon-sun {
-    display: block;
-}
 
 /* =========================================
-   АДАПТИВ
+   АДАПТИВ (MOBILE)
    ========================================= */
 @media (max-width: 1024px) {
    .fab-container {
@@ -212,20 +188,26 @@ body.dark-theme .fab-theme-btn .icon-sun {
        top: auto;
        flex-direction: row-reverse;
        align-items: center;
-       gap: 12px;
+       gap: 1.5vh;
        z-index: 50000 !important;
+   }
+
+   /* Скрываем кнопку темы */
+   .fab-options .fab-option:first-child {
+       display: none !important;
    }
 
    .fab-options {
        flex-direction: row-reverse;
        align-items: center;
-       gap: 12px;
+       gap: 1.5vh;
    }
+
    .fab-option {
        flex-direction: column;
        transform: translateX(-20px) scale(0.8);
        width: fit-content;
-       margin-left: 0; /* На мобильных не нужно */
+       margin-left: 0;
    }
 
    .fab-container.active .fab-option {
@@ -233,28 +215,63 @@ body.dark-theme .fab-theme-btn .icon-sun {
    }
 
    .fab-label {
-       display: none; /* На мобильных скрываем лейблы */
+       display: none;
    }
 
+   /* --- РАЗМЕРЫ КНОПОК --- */
    .fab-main {
-       width: 56px;
-       height: 56px;
+       width: 14vmin;
+       height: 14vmin;
+       min-width: 45px;
+       min-height: 45px;
+       max-width: 65px;
+       max-height: 65px;
        font-size: 22px;
    }
 
    .fab-btn {
-       width: 46px;
-       height: 46px;
+       width: 12vmin;
+       height: 12vmin;
+       min-width: 40px;
+       min-height: 40px;
+       max-width: 55px;
+       max-height: 55px;
        font-size: 20px;
    }
 
-   /* Скрываем FAB, когда калькулятор активен, чтобы не мешал */
-   body.calc-active .fab-container {
-        opacity: 0;
-        pointer-events: none;
-    }
+   /* --- ИСПРАВЛЕНИЕ ИКОНОК (РАЗМЕР И ЦЕНТРОВКА) --- */
+   
+   /* 1. Делаем контейнеры (span) внутри главной кнопки гибкими */
+   /* Это важно, чтобы SVG встал ровно по центру */
+   .fab-main .icon-menu,
+   .fab-main .icon-close {
+       width: 100%;
+       height: 100%;
+       align-items: center;
+       justify-content: center;
+       /* display будет переключаться ниже */
+   }
 
-   /* Скрываем FAB, когда открыта таблица растворимости */
+   /* 2. Переопределяем логику скрытия/показа для использования FLEX вместо BLOCK */
+   /* По умолчанию (меню закрыто) */
+   .fab-main .icon-menu { display: flex; }
+   .fab-main .icon-close { display: none; }
+
+   /* Когда меню открыто */
+   .fab-container.active .icon-menu { display: none; }
+   .fab-container.active .icon-close { display: flex; }
+
+   /* 3. Увеличиваем размер SVG и гарантируем блочность */
+   .fab-main svg, 
+   .fab-btn svg {
+       width: 60%;  /* Было 50%, увеличили */
+       height: 60%;
+       display: block;
+       margin: auto; /* На всякий случай */
+   }
+
+   /* Скрываем FAB при открытых панелях */
+   body.calc-active .fab-container,
    body.solubility-open .fab-container {
         opacity: 0;
         pointer-events: none;

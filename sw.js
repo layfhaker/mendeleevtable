@@ -6,16 +6,16 @@ const CACHE_NAME = 'chem-assistant-v8';
 
 // === КРИТИЧЕСКИЕ ФАЙЛЫ (кэшируем при установке) ===
 const PRECACHE_ASSETS = [
-    '../',
-    '../index.html',
-    '../css/style.css',
-    '../css/base.css',
-    '../css/table.css',
-    '../css/theme.css',
-    '../js/scrypt.js',
-    '../js/elements.js',
-    '../js/icons.js',
-    '../js/particles.js'
+    './',
+    './index.html',
+    './css/style.css',
+    './css/base.css',
+    './css/table.css',
+    './css/theme.css',
+    './js/scrypt.js',
+    './js/elements.js',
+    './js/icons.js',
+    './js/particles.js'
 ];
 
 // === ФАЙЛЫ ДЛЯ RUNTIME КЭШИРОВАНИЯ (загружаются по требованию) ===

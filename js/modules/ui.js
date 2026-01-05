@@ -114,19 +114,31 @@ window.initSolubilityDrag = function() {
 
 // 1. Калькулятор
 window.toggleCalc = async function() {
+    // Загружаем модуль если ещё не загружен
     if (window.loadCalculator) await window.loadCalculator();
-    // Ищем оригинальную функцию в глобальной области, так как модуль уже загружен
-    // (функция toggleCalc внутри модуля calculator.js должна быть объявлена глобально)
-    // Трюк: мы перезаписали window.toggleCalc этой функцией-оберткой.
-    // Нам нужно вызвать функцию ИЗ МОДУЛЯ, которая скорее всего тоже называется toggleCalc или showCalculator.
-    // Если в модуле calculator.js функция называется toggleCalc, она могла не переопределить эту обертку.
-
-    // ВАЖНО: В calculator.js лучше переименовать главную функцию в `showCalculator` или подобное,
-    // либо тут искать элемент по ID и менять класс.
-    // Но оставим как есть, рассчитывая, что `calculator.js` просто управляет #calc-panel
-
+    
     const panel = document.getElementById('calc-panel');
-    if (panel) panel.classList.toggle('active');
+    const fab = document.getElementById('fab-container');
+    
+    if (!panel) return;
+    
+    // Переключаем состояние
+    if (panel.classList.contains('active')) {
+        // Закрываем
+        panel.classList.remove('active');
+        document.body.classList.remove('calc-active');
+        resetFabPosition();
+    } else {
+        // Открываем
+        if (fab) fab.classList.remove('active');
+        panel.classList.add('active');
+        document.body.classList.add('calc-active');
+        
+        // Позиционируем на ПК
+        if (window.innerWidth > 1024 && typeof positionCalculatorPC === 'function') {
+            positionCalculatorPC();
+        }
+    }
 };
 
 // 2. Растворимость (То, чего не хватало!)

@@ -7,8 +7,11 @@
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232196F3'/><stop offset='100%25' style='stop-color:%231976D2'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(60 50 50)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(120 50 50)'/><circle cx='50' cy='50' r='6' fill='%23FF4081'/><circle cx='85' cy='50' r='4' fill='%2300E5FF'/><circle cx='15' cy='50' r='4' fill='%2300E5FF'/><circle cx='50' cy='62' r='4' fill='%2300E5FF'/><circle cx='50' cy='38' r='4' fill='%2300E5FF'/></svg>">
     <link rel="apple-touch-icon" href="img/icon-192.png">
-    <link rel="manifest" href="pwa/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2196F3">
+
+    <!-- Критичный CSS для калькулятора — должен быть загружен ДО взаимодействия -->
+    <link rel="stylesheet" href="css/calculator.css">
 
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
     <link rel="stylesheet" href="css/style.css?v=5">
@@ -447,57 +450,56 @@
           <span class="symbol">Hs</span>
           <span class="name">Хассий</span>
       </div>
-      <div id="Mt" class="element transition-metal" data-symbol="Mt">
-          <span class="atomic-number">109</span>
-          <span class="symbol">Mt</span>
-          <span class="name">Мейтнерий</span>
-      </div>
-      <div id="Ds" class="element transition-metal" data-symbol="Ds">
-          <span class="atomic-number">110</span>
-          <span class="symbol">Ds</span>
-          <span class="name">Дармштадтий</span>
-      </div>
-      <div id="Rg" class="element transition-metal" data-symbol="Rg">
-          <span class="atomic-number">111</span>
-          <span class="symbol">Rg</span>
-          <span class="name">Рентгений</span>
-      </div>
-      <div id="Cn" class="element transition-metal" data-symbol="Cn">
-          <span class="atomic-number">112</span>
-          <span class="symbol">Cn</span>
-          <span class="name">Коперниций</span>
-      </div>
-      <div id="Nh" class="element post-transition-metal" data-symbol="Nh">
-          <span class="atomic-number">113</span>
-          <span class="symbol">Nh</span>
-          <span class="name">Нихоний</span>
-      </div>
-      <div id="Fl" class="element post-transition-metal" data-symbol="Fl">
-          <span class="atomic-number">114</span>
-          <span class="symbol">Fl</span>
-          <span class="name">Флеровий</span>
-      </div>
-      <div id="Mc" class="element post-transition-metal" data-symbol="Mc">
-          <span class="atomic-number">115</span>
-          <span class="symbol">Mc</span>
-          <span class="name">Московий</span>
-      </div>
-      <div id="Lv" class="element post-transition-metal" data-symbol="Lv">
-          <span class="atomic-number">116</span>
-          <span class="symbol">Lv</span>
-          <span class="name">Ливерморий</span>
-      </div>
-      <div id="Ts" class="element halogen" data-symbol="Ts">
-          <span class="atomic-number">117</span>
-          <span class="symbol">Ts</span>
-          <span class="name">Теннессин</span>
-      </div>
-      <div id="Og" class="element noble-gas" data-symbol="Og">
-          <span class="atomic-number">118</span>
-          <span class="symbol">Og</span>
-          <span class="name">Оганесон</span>
-
-      </div>
+    <div id="Mt" class="element unknown" data-symbol="Mt">
+        <span class="atomic-number">109</span>
+        <span class="symbol">Mt</span>
+        <span class="name">Мейтнерий</span>
+    </div>
+    <div id="Ds" class="element unknown" data-symbol="Ds">
+        <span class="atomic-number">110</span>
+        <span class="symbol">Ds</span>
+        <span class="name">Дармштадтий</span>
+    </div>
+    <div id="Rg" class="element unknown" data-symbol="Rg">
+        <span class="atomic-number">111</span>
+        <span class="symbol">Rg</span>
+        <span class="name">Рентгений</span>
+    </div>
+    <div id="Cn" class="element unknown" data-symbol="Cn">
+        <span class="atomic-number">112</span>
+        <span class="symbol">Cn</span>
+        <span class="name">Коперниций</span>
+    </div>
+    <div id="Nh" class="element unknown" data-symbol="Nh">
+        <span class="atomic-number">113</span>
+        <span class="symbol">Nh</span>
+        <span class="name">Нихоний</span>
+    </div>
+    <div id="Fl" class="element unknown" data-symbol="Fl">
+        <span class="atomic-number">114</span>
+        <span class="symbol">Fl</span>
+        <span class="name">Флеровий</span>
+    </div>
+    <div id="Mc" class="element unknown" data-symbol="Mc">
+        <span class="atomic-number">115</span>
+        <span class="symbol">Mc</span>
+        <span class="name">Московий</span>
+    </div>
+    <div id="Lv" class="element unknown" data-symbol="Lv">
+        <span class="atomic-number">116</span>
+        <span class="symbol">Lv</span>
+        <span class="name">Ливерморий</span>
+    </div>
+    <div id="Ts" class="element unknown" data-symbol="Ts">
+        <span class="atomic-number">117</span>
+        <span class="symbol">Ts</span>
+        <span class="name">Теннессин</span>
+    </div>
+    <div id="Og" class="element unknown" data-symbol="Og">
+        <span class="atomic-number">118</span>
+        <span class="symbol">Og</span>
+        <span class="name">Оганесон</span>
+    </div>
 
 
     </div>
@@ -752,6 +754,7 @@
             <button class="filter-btn" data-filter="noble-gas">Благородные газы</button>
             <button class="filter-btn" data-filter="lanthanide">Лантаноиды</button>
             <button class="filter-btn" data-filter="actinide">Актиноиды</button>
+            <button class="filter-btn" data-filter="unknown">"Неизвестные св-ва"</button>
         </div>
     </div>
 
@@ -855,7 +858,7 @@
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('pwa/sw.js')
+            navigator.serviceWorker.register('sw.js')
                 .then(reg => console.log('SW зарегистрирован!', reg))
                 .catch(err => console.log('Ошибка SW:', err));
         });
