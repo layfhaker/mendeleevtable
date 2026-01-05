@@ -431,74 +431,7 @@ body.dark-theme .chem-color-cell.colorless-solution {
     }
 }
 
-/* Для мобильных устройств — на весь экран */
-@media (max-width: 1024px) {
-    .solubility-content {
-        max-width: 100vw !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
-        margin: 0 !important;
-        border-radius: 0;
-        /* Поддержка safe-area-inset для устройств с вырезами */
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        box-sizing: border-box;
-    }
 
-    #solubility-table tbody th {
-        min-width: 60px;
-        max-width: 80px;
-        font-size: 0.75em;
-        padding: 4px;
-    }
-
-    /* Скрываем полное название аниона, оставляем только формулу */
-    #solubility-table tbody th span {
-        display: none;
-    }
-
-    .modal-header {
-        padding: 12px 15px;
-        /* Учитываем safe-area-inset для шапки */
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-        padding-top: max(12px, env(safe-area-inset-top));
-    }
-
-    .table-legend {
-        padding: 8px 15px;
-        font-size: 0.8em;
-        flex-wrap: wrap;
-    }
-
-    /* ИСПРАВЛЕНИЕ: Увеличиваем размеры кнопок для touch-устройств (минимум 44x44px) */
-    .modal-header-controls button,
-    #activity-series-btn,
-    #color-mode-btn,
-    #activity-mode-btn,
-    #advanced-mode-info-btn,
-    #solubility-search-btn {
-        min-width: 44px !important;
-        min-height: 44px !important;
-        width: 44px !important;
-        height: 44px !important;
-        font-size: 20px;
-    }
-
-    /* Кнопка закрытия тоже должна быть достаточно большой */
-    .close-solubility {
-        min-width: 44px !important;
-        min-height: 44px !important;
-        padding: 0 15px !important;
-        font-size: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
 
 /* =========================================
    КНОПКА ПОИСКА В ШАПКЕ (только мобильные)
@@ -556,12 +489,7 @@ body.dark-theme #solubility-search-btn.active svg {
     color: #1a1a2e;
 }
 
-/* Показываем кнопку только на мобильных */
-@media (max-width: 1024px) {
-    #solubility-search-btn {
-        display: flex;
-    }
-}
+
 
 /* =========================================
    ПАНЕЛЬ ПОИСКА (только мобильные)
@@ -860,17 +788,7 @@ body.dark-theme .activity-series-panel {
     border-bottom-color: #444;
 }
 
-/* Мобильная адаптация */
-@media (max-width: 768px) {
-    .activity-series-row {
-        font-size: 0.9em;
-        padding: 10px;
-    }
 
-    .activity-series-content h4 {
-        font-size: 1em;
-    }
-}
 
 /* Стили для кнопки Ряда Активности (Желтая) */
 #activity-mode-btn {
@@ -1029,31 +947,195 @@ body.dark-theme .act-item.hydrogen {
     padding: 10px 0;
 }
 
-/* Адаптивность заголовка и кнопок */
-@media (max-width: 600px) {
-    .solubility-header {
+
+
+/* =========================================
+   ЕДИНСТВЕННЫЙ МОБИЛЬНЫЙ БЛОК (Full Screen App-like)
+   ========================================= */
+@media (max-width: 1024px) {
+    /* 1. МОДАЛЬНОЕ ОКНО - Минимальные отступы слева, справа */
+    #solubility-modal {
+        height: 100dvh !important;
+        width: 100vw !important;
+        padding: 0 !important;
+        /* Отступы только слева и справа */
+        padding-left: max(8px, env(safe-area-inset-left)) !important;
+        padding-right: max(8px, env(safe-area-inset-right)) !important;
+        /* Снизу - ТОЛЬКО safe-area, без минимальных 8px */
+        padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        margin: 0 !important;
+        align-items: flex-start;
         justify-content: center;
-        text-align: center;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
-    .solubility-header h2 {
-        width: 100%; /* Заголовок на всю ширину */
-        font-size: 1.2rem; /* Чуть меньше шрифт */
-        margin-bottom: 5px;
-        order: 1; /* Заголовок первым */
-    }
-
-    .solubility-controls {
-        width: 100%;
-        justify-content: center;
+    /* 2. КОНТЕНТ - На 100% пространства родителя */
+    .solubility-content {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 8px !important; /* Небольшие закругления */
         display: flex;
-        gap: 8px;
-        order: 2; /* Кнопки под заголовком */
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    /* 3. ШАПКА - Вертикальное расположение (заголовок → кнопки) */
+    .modal-header {
+        flex-shrink: 0; /* Не сжимается */
+        flex-direction: column; /* Вертикальное расположение */
+        align-items: center; /* Центрируем */
+        gap: 12px;
+        padding: 15px 20px;
+        padding-top: calc(env(safe-area-inset-top) + 15px) !important; /* Учитываем "челку" */
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
+        background-color: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        box-sizing: border-box;
+    }
+
+    .modal-header h2 {
+        font-size: 1.3rem;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Контейнер кнопок управления */
+    .modal-header-controls {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* 4. ЛЕГЕНДА */
+    .table-legend {
+        flex-shrink: 0;
+        padding: 10px 20px;
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
+        font-size: 0.85em;
+        flex-wrap: wrap;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    /* 5. СКРОЛЛ - ТОЛЬКО внутри таблицы, БЕЗ лишних отступов */
+    .solubility-wrapper {
+        flex: 1;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Полностью убираем отступы - никакого белого пространства */
+        padding: 0 !important;
+        box-sizing: border-box;
+        
+        /* СКРЫВАЕМ СКРОЛЛБАРЫ */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
     }
     
-    /* Если кнопки слишком большие, можно уменьшить padding */
-    .solubility-controls button {
-        padding: 8px 12px;
-        font-size: 0.9rem;
+    /* Скрываем скроллбары WebKit (Chrome, Safari) */
+    .solubility-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 6. ТАБЛИЦА - Компактные ячейки */
+    #solubility-table {
+        font-size: 13px;
+    }
+
+    #solubility-table th,
+    #solubility-table td {
+        padding: 6px 4px;
+        font-size: 0.9em;
+    }
+
+    /* Заголовки анионов - компактные */
+    #solubility-table tbody th {
+        min-width: 60px;
+        max-width: 80px;
+        font-size: 0.75em;
+        padding: 6px 4px;
+    }
+
+    /* Скрываем полное название аниона, оставляем только формулу */
+    #solubility-table tbody th span {
+        display: none;
+    }
+
+    /* 7. КНОПКИ - Удобные для touch (минимум 44x44px) */
+    .modal-header-controls button,
+    #activity-series-btn,
+    #color-mode-btn,
+    #activity-mode-btn,
+    #advanced-mode-info-btn,
+    #solubility-search-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 20px;
+    }
+
+    /* Кнопка закрытия */
+    .close-solubility {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 0 10px !important;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 8. КНОПКА ПОИСКА - Показываем на мобильных */
+    #solubility-search-btn {
+        display: flex;
+    }
+
+    /* 9. ПАНЕЛЬ АКТИВНОСТИ - Компактная */
+    .activity-series-row {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .activity-series-content h4 {
+        font-size: 1em;
+    }
+
+    /* 10. ПАНЕЛЬ РЯД АКТИВНОСТИ */
+    .activity-series-panel {
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
+    }
+
+    /* 11. КОНТЕЙНЕР РЯДА АКТИВНОСТИ */
+    #activity-series-container {
+        padding-left: max(20px, env(safe-area-inset-left)) !important;
+        padding-right: max(20px, env(safe-area-inset-right)) !important;
+    }
+    
+    /* 12. УБИРАЕМ СИНЮЮ ПОЛОСКУ ВНИЗУ */
+    /* Убираем border-bottom, НО НЕ у ячеек таблицы */
+    #solubility-modal *:not(.modal-header):not(.table-legend):not(.activity-series-panel):not(td):not(th):not(.focused-cell):not(.active-row):not(.active-col) {
+        border-bottom: none !important;
+    }
+    
+    /* Убираем любые синие индикаторы и псевдоэлементы */
+    .solubility-content::after,
+    .solubility-wrapper::after,
+    #solubility-table::after,
+    progress {
+        display: none !important;
     }
 }

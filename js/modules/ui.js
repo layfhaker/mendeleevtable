@@ -131,20 +131,64 @@ window.toggleCalc = async function() {
 
 // 2. Растворимость (То, чего не хватало!)
 window.toggleSolubility = async function() {
-    // Сначала грузим модуль
+    // ШАГ 1: Проверяем состояние
+    const modal = document.getElementById('solubility-modal');
+    // Если модалки нет или она скрыта -> значит мы ОТКРЫВАЕМ
+    const isOpening = !modal || modal.style.display === 'none' || modal.style.display === '';
+    
+    // Проверяем, мобильное ли это устройство (как в mobile-layout.js)
+    const isMobile = window.innerWidth <= 1024;
+
+    // ШАГ 2: Если открываем И это мобилка -> СРАЗУ прячем лишний UI
+    if (isOpening && isMobile) {
+        const fab = document.getElementById('fab-container');
+        const themeBtn = document.getElementById('theme-toggle');
+        
+        if (fab) fab.style.display = 'none';
+        if (themeBtn) themeBtn.style.display = 'none';
+    }
+
+    // ШАГ 3: Грузим скрипт
     if (window.loadSolubility) await window.loadSolubility();
 
-    // После загрузки модуль solubility/modal.js должен был определить свои функции.
-    // Обычно там есть toggleSolubility, но мы заняли это имя оберткой.
-    // Поэтому просто открываем модалку вручную, если функция недоступна,
-    // ИЛИ (лучший вариант) модуль должен использовать другое имя, например openSolubilityModal.
-
-    const modal = document.getElementById('solubility-modal');
+    // ШАГ 4: Логика открытия/закрытия
     if (modal) {
-        modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-        // Инициализируем скролл если открыли
-        if (modal.style.display === 'block' && window.initSolubilityDrag) {
-            window.initSolubilityDrag();
+        const currentlyVisible = modal.style.display === 'block' || modal.style.display === 'flex';
+        
+        if (!currentlyVisible) {
+            // Открываем
+            modal.style.display = 'flex'; 
+            document.body.classList.add('solubility-open');
+            
+            // Если мы на ПК (isMobile === false), кнопки скрывать не нужно, 
+            // но на всякий случай убедимся, что они видны (если вдруг остались скрыты с прошлого раза)
+            if (!isMobile) {
+                const fab = document.getElementById('fab-container');
+                const themeBtn = document.getElementById('theme-toggle');
+                if (fab) fab.style.display = '';
+                if (themeBtn) themeBtn.style.display = '';
+            }
+            
+            if (typeof renderSolubilityTable === 'function' && document.getElementById('solubility-table').innerHTML === "") {
+                renderSolubilityTable();
+            }
+            if (window.initSolubilityDrag) {
+                window.initSolubilityDrag();
+            }
+        } else {
+            // Закрываем
+            if (typeof closeSolubility === 'function') {
+                closeSolubility();
+            } else {
+                modal.style.display = 'none';
+                document.body.classList.remove('solubility-open');
+                
+                // Возвращаем кнопки (на случай если модуль не прогрузился)
+                const fab = document.getElementById('fab-container');
+                const themeBtn = document.getElementById('theme-toggle');
+                if (fab) fab.style.display = '';
+                if (themeBtn) themeBtn.style.display = '';
+            }
         }
     }
 };

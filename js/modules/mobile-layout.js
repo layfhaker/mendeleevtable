@@ -119,7 +119,6 @@
                     left: 50% !important;
                     transform: translate(-50%, -50%) !important;
                     margin: 0 !important;
-                    color: #333; /* Делаем текст темным для контраста, если фон светлый */
                 `;
             }
 
@@ -145,7 +144,6 @@
                     display: flex;
                     align-items: flex-end;
                     justify-content: center;
-                    color: #000;
                 `;
             }
 
@@ -156,7 +154,6 @@
                     top: 2px !important;
                     left: 3px !important;
                     line-height: 1 !important;
-                    color: #555;
                 `;
             }
         });
