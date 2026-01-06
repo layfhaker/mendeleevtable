@@ -5093,7 +5093,7 @@ body.dark-theme #advanced-mode-info-btn.active {
 
 /* Активное состояние: выезжает */
 .activity-series-panel.active {
-    max-height: 1000px; /* <--- ИЗМЕНИТЬ ЗДЕСЬ (было 500px) */
+    max-height: none; /* <--- ИЗМЕНИТЬ ЗДЕСЬ (было 500px) */
     opacity: 1;
     padding: 20px 10px;
     margin-bottom: 10px;
@@ -5272,6 +5272,8 @@ body.dark-theme .toggle-series-btn:hover {
         display: none !important;
     }
 }
+
+     
 
 ============================================================
 ФАЙЛ: .\css\style.css
