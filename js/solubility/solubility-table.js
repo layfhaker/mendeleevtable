@@ -376,118 +376,109 @@ function getCellSubstanceKey(rowIndex, colIndex) {
     return `${catKey}-${anionKey}`;
 }
 
-/// =========================================
+// ... (весь код выше, до строки "// РЯД АКТИВНОСТИ ...", оставляем без изменений)
+
+// =========================================
 // РЯД АКТИВНОСТИ (ФИНАЛЬНАЯ ВЕРСИЯ)
 // =========================================
 
-let isMetalsView = true;
+var isMetalsView = true;
 
-// Инициализация UI (вызывать внутри openSolubility)
-function initActivitySeriesUI() {
-    // 1. Находим существующую желтую кнопку в HTML
-    const toggleBtn = document.getElementById('activity-mode-btn');
-    if (!toggleBtn) return;
-
-    // Сбрасываем старые обработчики (клон элемента)
-    const newBtn = toggleBtn.cloneNode(true);
-    toggleBtn.parentNode.replaceChild(newBtn, toggleBtn);
-
-    // Вешаем новый клик
-    newBtn.onclick = () => {
-        newBtn.classList.toggle('active');
-        toggleActivityContainerDisplay(newBtn.classList.contains('active'));
-    };
-
-    // 2. Создаем контейнер, если его нет
-    const modalContent = document.querySelector('.solubility-content');
-    let container = document.getElementById('activity-series-container');
-
-    if (!container && modalContent) {
-        container = document.createElement('div');
-        container.id = 'activity-series-container';
-        // Вставляем сразу после шапки
-        const header = modalContent.querySelector('.modal-header');
-        if (header) {
-            header.after(container);
-        }
-    }
-
-    // Скрываем при открытии таблицы (сбрасываем состояние)
-    if (container) container.style.display = 'none';
-    if (newBtn) newBtn.classList.remove('active');
-}
-
-// Показать/Скрыть
-function toggleActivityContainerDisplay(isVisible) {
-    const container = document.getElementById('activity-series-container');
+// 1. Функция отрисовки карточек
+window.renderActivitySeries = function() {
+    const container = document.getElementById('activity-series-panel');
     if (!container) return;
 
-    if (isVisible) {
-        container.style.display = 'block';
-        isMetalsView = true; // Сброс на металлы при открытии
-        renderActivityContent();
-    } else {
-        container.style.display = 'none';
-    }
-}
+    // Данные элементов
+    const metals = ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"];
+    const nonMetals = ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"];
+    
+    // Выбираем список
+    const currentList = isMetalsView ? metals : nonMetals;
+    
+    // Тексты
+    const titleText = isMetalsView 
+        ? "Электрохимический ряд напряжений металлов" 
+        : "Ряд электроотрицательности неметаллов";
+        
+    const btnText = isMetalsView 
+        ? "Переключить на неметаллы" 
+        : "Переключить на металлы";
+        
+    const noteText = isMetalsView 
+        ? "← Активность (восстановители) . . . Пассивность (окислители) →" 
+        : "← Сильные окислители . . . Слабые окислители →";
 
-// Рендер содержимого
-function renderActivityContent() {
-    const container = document.getElementById('activity-series-container');
-    if (!container) return;
-
-    const titleText = isMetalsView ? "Ряд активности металлов" : "Ряд неметаллов";
-    const switchBtnText = isMetalsView ? "К неметаллам →" : "← К металлам";
-    const data = isMetalsView ? activityData.metals : activityData.nonMetals;
-
-    // Генерируем элементы
-    let itemsHTML = '';
-    data.forEach((symbol, idx) => {
+    // Генерируем HTML карточек
+    let cardsHTML = '';
+    currentList.forEach((symbol, idx) => {
         const isHydrogen = (symbol === 'H' && isMetalsView);
         const className = isHydrogen ? 'act-item hydrogen' : 'act-item';
+        
+        // Клик открывает модалку элемента
+        cardsHTML += `<div class="${className}" onclick="if(window.openElementModal) window.openElementModal('${symbol}')">${symbol}</div>`;
 
-        itemsHTML += `<div class="${className}">${symbol}</div>`;
-
-        // Стрелочка между элементами
-        if (idx < data.length - 1) {
-            itemsHTML += `<div class="act-arrow">→</div>`;
+        // Стрелочка
+        if (idx < currentList.length - 1) {
+            cardsHTML += `<div class="act-arrow">→</div>`;
         }
     });
 
+    // Вставляем в панель
     container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin:0; font-size: 16px; color: var(--text-color);">${titleText}</h3>
-            <button id="activity-switch-btn" style="padding: 6px 12px; cursor: pointer; border: 1px solid #2196F3; background: transparent; color: #2196F3; border-radius: 4px; font-size: 13px;">
-                ${switchBtnText}
-            </button>
-        </div>
+        <div class="activity-content-wrapper">
+            <div class="activity-header">
+                <h4>${titleText}</h4>
+                <button id="toggle-series-type-btn" class="toggle-series-btn">
+                    ${btnText}
+                </button>
+            </div>
 
-        <div class="activity-list-container">
-            ${itemsHTML}
-        </div>
+            <div class="series-container active" style="display: flex;">
+                ${cardsHTML}
+            </div>
 
-        <div style="margin-top: 10px; font-size: 12px; color: #888; text-align: center;">
-            ${isMetalsView ? "← Активные (восстановители) . . . Пассивные (окислители) →" : "← Сильные окислители . . . Слабые окислители →"}
+            <p class="activity-note">${noteText}</p>
         </div>
     `;
 
-    // Кнопка переключения типа ряда
-    const switchBtn = document.getElementById('activity-switch-btn');
+    // Вешаем обработчик на внутреннюю кнопку переключения
+    const switchBtn = document.getElementById('toggle-series-type-btn');
     if (switchBtn) {
-        switchBtn.onclick = () => {
+        switchBtn.onclick = function() {
             isMetalsView = !isMetalsView;
-            renderActivityContent();
+            window.renderActivitySeries(); // Перерисовываем
         };
     }
-}
+};
 
-// Переключение панели рядов активности
-function toggleActivitySeries() {
+// 2. Главная функция переключения (исправлены ID)
+window.toggleActivitySeries = function() {
+    // ВАЖНО: Используем правильный ID кнопки из index.html ('activity-mode-btn')
+    const btn = document.getElementById('activity-mode-btn');
     const panel = document.getElementById('activity-series-panel');
-    const btn = document.getElementById('activity-series-btn');
 
-    if (panel && btn) {
-        panel.classList.toggle('active');
-        btn.classList.toggle('active');
+    if (!btn || !panel) {
+        console.error('Элементы ряда активности не найдены (проверьте ID activity-mode-btn и activity-series-panel)');
+        return;
     }
-}
+
+    // Если в панели старый текст (из HTML), заменяем его на карточки
+    // Проверяем наличие класса activity-content-wrapper, который мы создаем в JS
+    if (!panel.querySelector('.activity-content-wrapper')) {
+        window.renderActivitySeries();
+    }
+
+    // Переключаем классы
+    const isActive = btn.classList.toggle('active');
+    panel.classList.toggle('active', isActive);
+};
+
+// 3. Инициализация при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    const panel = document.getElementById('activity-series-panel');
+    if (panel) {
+        // Убираем класс active, чтобы панель была скрыта при старте
+        panel.classList.remove('active');
+    }
+});

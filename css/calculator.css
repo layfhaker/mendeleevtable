@@ -1,5 +1,5 @@
 /* =========================================
-   CALCULATOR.CSS — Оригинальный компактный стиль + удобные кнопки
+   CALCULATOR.CSS — Оригинальный компактный стиль
    ========================================= */
 
 /* =========================================
@@ -23,394 +23,276 @@
         display: flex;
         animation: fadeInCalc 0.2s ease-out;
     }
-  }
+}
   
-  @keyframes fadeInCalc {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
-  }
-  
-  /* =========================================
-     ШАПКА КАЛЬКУЛЯТОРА
-     ========================================= */
-  .calc-header {
-      flex: 0 0 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      background: #f7f7f7;
-      border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .calc-header h3 {
-      margin: 0;
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #666;
-  }
-  
-  .close-calc-panel {
-      font-size: 16px;
-      cursor: pointer;
-      color: #999;
-      line-height: 1;
-  }
-  
-  .close-calc-panel:hover {
-      color: #d32f2f;
-  }
-  
-  /* =========================================
-     ЗОНА ПЕРЕТАСКИВАНИЯ
-     ========================================= */
-  .drop-zone {
-      flex: 1;
-      position: relative;
-      background: #ffffff;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 4px;
-      padding: 4px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-  }
-  
-  .drop-zone::-webkit-scrollbar {
-      width: 4px;
-  }
-  
-  .drop-zone::-webkit-scrollbar-thumb {
-      background-color: #ccc;
-  }
-  
-  .drop-zone.drag-over {
-      background: #e3f2fd;
-      box-shadow: inset 0 0 0 2px #2196F3;
-  }
-  
-  .drop-placeholder {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #aaa;
-      font-size: 11px;
-      text-align: center;
-      pointer-events: none;
-  }
-  
-  /* =========================================
-     ЭЛЕМЕНТ АТОМА (Компактный чип-стиль)
-     ========================================= */
-  .calc-atom {
-      height: 20px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      padding: 0 4px;
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  }
-  
-  .calc-atom-symbol {
-      font-size: 11px;
-      font-weight: bold;
-      color: #333;
-  }
-  
-  /* Контейнер для кнопок и инпута */
-  .calc-controls {
-      display: flex;
-      align-items: center;
-      gap: 1px;
-  }
-  
-  /* Инпут (скрываем стрелки браузера) */
-  .calc-atom-count {
-      width: 20px;
-      font-size: 11px;
-      border: none;
-      border-bottom: 1px solid #2196F3;
-      text-align: center;
-      background: transparent;
-      color: #333;
-      padding: 0;
-      -moz-appearance: textfield;
-  }
-  
-  .calc-atom-count::-webkit-inner-spin-button,
-  .calc-atom-count::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-  }
-  
-  .calc-atom-count:focus {
-      outline: none;
-      border-bottom-color: #1976D2;
-  }
-  
-  /* Кнопки +/- (Компактные) */
-  .calc-btn-minus,
-  .calc-btn-plus {
-      width: 14px;
-      height: 14px;
-      padding: 0;
-      background: #e3f2fd;
-      border: none;
-      border-radius: 2px;
-      font-size: 10px;
-      font-weight: bold;
-      color: #1976D2;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      user-select: none;
-      transition: background 0.15s;
-  }
-  
-  .calc-btn-minus:hover,
-  .calc-btn-plus:hover {
-      background: #bbdefb;
-  }
-  
-  .calc-btn-minus:active,
-  .calc-btn-plus:active {
-      background: #90caf9;
-  }
-  
-  /* Кнопка удалить */
-  .calc-atom-remove {
-      font-size: 14px;
-      color: #999;
-      cursor: pointer;
-      line-height: 1;
-      margin-left: 2px;
-  }
-  
-  .calc-atom-remove:hover {
-      color: #f44336;
-  }
-  
-  /* =========================================
-     ИТОГОВАЯ МАССА
-     ========================================= */
-  #calc-result {
-      flex: 0 0 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      background: #f0f0f0;
-      border-top: 1px solid #e0e0e0;
-  }
-  
-  .mass-value {
-      font-size: 14px;
-      font-weight: bold;
-      color: #2e7d32;
-  }
-  
-  .unit {
-      font-size: 11px;
-      font-weight: normal;
-      color: #666;
-  }
-  
-  .clear-btn {
-      padding: 4px 8px;
-      background: #ff5252;
-      color: white;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 11px;
-  }
-  
-  .clear-btn:hover {
-      background: #ff1744;
-  }
-  
-  /* =========================================
-     ТЁМНАЯ ТЕМА
-     ========================================= */
-  body.dark-theme .calc-panel {
-      background: #2d2d44;
-      border-color: #444;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  }
-  
-  body.dark-theme .calc-header {
-      background: #252535;
-      border-bottom-color: #444;
-  }
-  
-  body.dark-theme .calc-header h3 {
-      color: #aaa;
-  }
-  
-  body.dark-theme .close-calc-panel {
-      color: #666;
-  }
-  
-  body.dark-theme .close-calc-panel:hover {
-      color: #fff;
-  }
-  
-  body.dark-theme .drop-zone {
-      background: #2d2d44;
-  }
-  
-  body.dark-theme .drop-zone.drag-over {
-      background: #3a3a5a;
-  }
-  
-  body.dark-theme .drop-placeholder {
-      color: #666;
-  }
-  
-  body.dark-theme .calc-atom {
-      background: #3d3d5c;
-      border-color: #555;
-  }
-  
-  body.dark-theme .calc-atom-symbol {
-      color: #fff;
-  }
-  
-  body.dark-theme .calc-atom-count {
-      color: #fff;
-      border-bottom-color: #64B5F6;
-  }
-  
-  body.dark-theme .calc-btn-minus,
-  body.dark-theme .calc-btn-plus {
-      background: rgba(100, 181, 246, 0.2);
-      color: #64B5F6;
-  }
-  
-  body.dark-theme .calc-btn-minus:hover,
-  body.dark-theme .calc-btn-plus:hover {
-      background: rgba(100, 181, 246, 0.3);
-  }
-  
-  body.dark-theme #calc-result {
-      background: #252535;
-      border-top-color: #444;
-  }
-  
-  body.dark-theme .mass-value {
-      color: #81c784;
-  }
-  
-  body.dark-theme .unit {
-      color: #999;
-  }
-  
-  /* =========================================
-     МОБИЛЬНАЯ ВЕРСИЯ
-     ========================================= */
-  @media (max-width: 1024px) {
-     .calc-panel {
-         position: fixed;
-         bottom: 0;
-         left: 0;
-         right: 0;
-         width: 100% !important;
-         
-         /* ВАЖНОЕ ИСПРАВЛЕНИЕ: */
-         box-sizing: border-box !important;
-         margin: 0;
-         
-         min-height: 180px;
-         max-height: 250px;
-         height: 25vh !important;
-         background: #ffffff;
-         border: 2px solid #2196F3;
-         border-bottom: none;
-         border-radius: 20px 20px 0 0;
-         box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
-         display: none;
-         flex-direction: column;
-         padding: 10px;
-         z-index: 60000;
-         transform: translateY(100%);
-         transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-     }
-  
-     .calc-panel.active {
-         display: flex;
-         transform: translateY(0);
-     }
-  
-     /* На мобильных делаем элементы чуть крупнее для удобства */
-     .calc-atom {
-         height: 26px;
-         padding: 0 6px;
-         gap: 3px;
-     }
-  
-     .calc-atom-symbol {
-         font-size: 13px;
-     }
-  
-     .calc-atom-count {
-         width: 26px;
-         font-size: 13px;
-     }
-  
-     .calc-btn-minus,
-     .calc-btn-plus {
-         width: 18px;
-         height: 18px;
-         font-size: 12px;
-     }
-  
-     .calc-atom-remove {
-         font-size: 18px;
-     }
-  
-     body.dark-theme .calc-panel {
-         background: #2d2d44;
-         border-color: #444;
-     }
-  }
+@keyframes fadeInCalc {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
 
-  @media (max-width: 1024px) {
-    /* ... твои стили .calc-panel (оставь их без изменений) ... */
+/* =========================================
+   ОБЩИЕ СТИЛИ
+   ========================================= */
+.calc-header {
+    flex: 0 0 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
+}
 
-    /* =========================================
-       АНИМАЦИЯ ТАБЛИЦЫ (JS Wrapper Fix)
-       ========================================= */
+.calc-header h3 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #666;
+}
 
-    /* 1. Отключаем анимацию отдельных частей, теперь они просто лежат в обертке */
-    .container,
-    .lanthanides,
-    .actinides {
-        transition: none !important;
+.close-calc-panel {
+    font-size: 16px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+}
+
+.close-calc-panel:hover {
+    color: #d32f2f;
+}
+
+.drop-zone {
+    flex: 1;
+    position: relative;
+    background: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 4px;
+    padding: 4px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.drop-zone.drag-over {
+    background: #e3f2fd;
+    box-shadow: inset 0 0 0 2px #2196F3;
+}
+
+.drop-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa;
+    font-size: 11px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.calc-atom {
+    height: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.calc-atom-symbol {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+}
+
+.calc-controls {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.calc-atom-count {
+    width: 20px;
+    font-size: 11px;
+    border: none;
+    border-bottom: 1px solid #2196F3;
+    text-align: center;
+    background: transparent;
+    color: #333;
+    padding: 0;
+    -moz-appearance: textfield;
+}
+
+.calc-atom-count:focus {
+    outline: none;
+    border-bottom-color: #1976D2;
+}
+
+.calc-btn-minus,
+.calc-btn-plus {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    background: #e3f2fd;
+    border: none;
+    border-radius: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #1976D2;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.calc-atom-remove {
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    margin-left: 2px;
+}
+
+#calc-result {
+    flex: 0 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: #f0f0f0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.mass-value {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.unit {
+    font-size: 11px;
+    font-weight: normal;
+    color: #666;
+}
+
+.clear-btn {
+    padding: 4px 8px;
+    background: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+/* Тёмная тема */
+body.dark-theme .calc-panel {
+    background: #2d2d44;
+    border-color: #444;
+}
+body.dark-theme .calc-header {
+    background: #252535;
+    border-bottom-color: #444;
+}
+body.dark-theme .drop-zone {
+    background: #2d2d44;
+}
+body.dark-theme .calc-atom {
+    background: #3d3d5c;
+    border-color: #555;
+    color: #fff;
+}
+body.dark-theme .calc-atom-symbol {
+    color: #fff;
+}
+body.dark-theme .calc-atom-count {
+    color: #fff;
+}
+body.dark-theme #calc-result {
+    background: #252535;
+    border-top-color: #444;
+}
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+   ========================================= */
+@media (max-width: 1024px) {
+    
+    .calc-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0;
+        
+        min-height: 180px;
+        height: calc(25vh + env(safe-area-inset-bottom, 0px)) !important;
+        
+        background: #ffffff;
+        border: 2px solid #2196F3;
+        border-bottom: none;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        
+        display: none;
+        flex-direction: column;
+        
+        padding: 10px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        
+        z-index: 60000;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+ 
+    .calc-panel.active {
+        display: flex;
+        transform: translateY(0);
+    }
+ 
+    .calc-atom {
+        height: 26px;
+        padding: 0 6px;
+    }
+
+    /* --- WRAPPER ДЛЯ ТАБЛИЦЫ --- */
+    #mobile-table-wrapper {
+        display: flex;
+        flex-direction: column;
+        /* ВАЖНО: Выравнивание влево, чтобы был доступен правый скролл */
+        align-items: flex-start !important;
+        width: 100%;
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    #mobile-table-wrapper > .container,
+    #mobile-table-wrapper > .lanthanides,
+    #mobile-table-wrapper > .actinides {
         transform: none !important;
     }
     
-    /* 2. Анимируем нашу созданную JS-ом обертку */
-    body.calc-active #mobile-table-wrapper {
-        /* scaleY(0.8) — сжимаем весь блок (таблицу + лантаноиды + актиноиды) на 20%.
-           translateY(10px) — корректируем отступ сверху. 
-           У тебя в JS padding-top: 10px. Добавляем еще 10px сдвига = 20px (как сбоку).
-        */
-        transform: translateY(10px) scaleY(0.8) !important;
-    }
-
-    /* Скрываем лишние элементы интерфейса */
     body.calc-active #theme-toggle,
     body.calc-active .fab-container {
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s ease;
+    }
+    
+    /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
+    body.calc-active {
+        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;   /* Разрешаем горизонтальный */
+        position: relative !important; /* Убираем fixed, чтобы скролл работал */
+        height: 100% !important;
+        width: 100% !important;
+        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
     }
 }

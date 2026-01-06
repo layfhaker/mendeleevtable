@@ -42,6 +42,10 @@
     margin-right: auto;
     margin-left: 20px; /* Прижимаем к левому краю с небольшим отступом */
     background-color: var(--sol-bg); /* Добавили фон */
+    /* ФИКС: Добавляем flex-контейнер для корректного распределения пространства */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* --- ШАПКА (Название + Крестик) --- */
@@ -671,18 +675,6 @@ body.dark-theme .solubility-search-content .search-btn:hover {
 /* =========================================
    ПАНЕЛЬ РЯДОВ АКТИВНОСТИ
    ========================================= */
-.activity-series-panel {
-    display: none;
-    padding: 20px;
-    background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    flex-shrink: 0;
-}
-
-.activity-series-panel.active {
-    display: block;
-    animation: slideDown 0.3s ease-out;
-}
 
 @keyframes slideDown {
     from {
@@ -699,45 +691,10 @@ body.dark-theme .solubility-search-content .search-btn:hover {
     }
 }
 
-/* Заголовок с кнопкой переключения */
-.activity-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
-}
 
-.activity-header h4 {
-    margin: 0;
-    font-size: 1.1em;
-    color: var(--text-color);
-}
-
-.toggle-series-btn {
-    padding: 6px 12px;
-    background: rgba(33, 150, 243, 0.1);
-    border: 1px solid rgba(33, 150, 243, 0.3);
-    border-radius: 4px;
-    color: #2196F3;
-    font-size: 0.85em;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-}
-
-.toggle-series-btn:hover {
-    background: rgba(33, 150, 243, 0.2);
-    border-color: rgba(33, 150, 243, 0.5);
-}
-
-/* Контейнеры серий */
-.series-container {
-    display: none;
-}
 
 .series-container.active {
-    display: block;
+    display: flex; /* ФИКС: было display: block - ломало flex-wrap */
     animation: fadeIn 0.3s ease;
 }
 
@@ -771,22 +728,11 @@ body.dark-theme .solubility-search-content .search-btn:hover {
     color: var(--text-color);
 }
 
-.activity-note {
-    margin: 5px 0 0 15px;
-    font-size: 0.85em;
-    color: #999;
-    font-style: italic;
-}
-
 body.dark-theme .activity-series-row {
     background: rgba(255, 213, 79, 0.15);
     border-left-color: #FFD54F;
 }
 
-body.dark-theme .activity-series-panel {
-    background-color: #1a1a2e;
-    border-bottom-color: #444;
-}
 
 
 
@@ -884,43 +830,8 @@ body.dark-theme #advanced-mode-info-btn.active {
     justify-content: center; /* Центрируем */
 }
 
-/* Элементы ряда */
-.act-item {
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
-    display: inline-block;
-}
 
-.act-arrow {
-    color: #999;
-    font-size: 12px;
-    user-select: none;
-}
 
-/* Водород */
-.act-item.hydrogen {
-    background: #fff9c4;
-    border-color: #fbc02d;
-    color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Темная тема элементов */
-body.dark-theme .act-item {
-    background: #2d2d44;
-    border-color: #444;
-    color: #eee;
-}
-body.dark-theme .act-item.hydrogen {
-    background: #fbc02d;
-    color: #000;
-}
 
 
 /* === css/solubility.css === */
@@ -1137,5 +1048,241 @@ body.dark-theme .act-item.hydrogen {
     #solubility-table::after,
     progress {
         display: none !important;
+    }
+}
+
+/* === СТИЛИ ДЛЯ РЯДА АКТИВНОСТИ === */
+
+.act-item:active {
+    transform: translateY(-1px);
+}
+/* =========================================
+   СТИЛИ ДЛЯ РЯДА АКТИВНОСТИ (ФИНАЛ)
+   ========================================= */
+
+/* Контейнер панели - АНИМАЦИЯ ВЫЕЗЖАНИЯ */
+.activity-series-panel {
+    width: 100%;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    overflow: hidden; /* Важно для анимации */
+    
+    /* Начальное состояние: скрыто */
+    max-height: 0;
+    opacity: 0;
+    padding: 0 10px;
+    margin-bottom: 0;
+    
+    /* Плавный переход */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    
+    /* ФИКС: Не сжимаем панель когда активна */
+    flex-shrink: 0;
+}
+
+/* Активное состояние: выезжает */
+.activity-series-panel.active {
+    max-height: none; /* <--- ИЗМЕНИТЬ ЗДЕСЬ (было 500px) */
+    opacity: 1;
+    padding: 20px 10px;
+    margin-bottom: 10px;
+    
+    /* Дополнительно: если контент вдруг даже больше 1000px, 
+       появится скролл внутри панели, а не обрезка */
+    overflow-y: auto; 
+}
+
+.activity-content-wrapper {
+    width: 100%;
+    max-width: 900px; /* Ограничиваем ширину для красоты */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Заголовок и кнопка в одной строке */
+.activity-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Расстояние между текстом и кнопкой */
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* На совсем мелких экранах перенесется */
+}
+
+.activity-header h4 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Кнопка переключения */
+.toggle-series-btn {
+    padding: 6px 14px;
+    border: 1px solid #2196F3;
+    background: #e3f2fd;
+    color: #1976D2;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.toggle-series-btn:hover {
+    background: #bbdefb;
+}
+
+/* Контейнер для карточек */
+.series-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; /* Зазор между элементами */
+}
+
+/* КОМПАКТНЫЕ КАРТОЧКИ ЭЛЕМЕНТОВ */
+.act-item {
+    width: 36px;       /* Было 45 */
+    height: 40px;      /* Было 50 */
+    font-size: 14px;   /* Было 16 */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: transform 0.1s, border-color 0.1s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.act-item:hover {
+    transform: translateY(-2px);
+    border-color: #2196F3;
+    color: #2196F3;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+/* Водород */
+.act-item.hydrogen {
+    border-color: #ff5252;
+    background: #fff5f5;
+    color: #d32f2f;
+}
+
+/* Стрелочка */
+.act-arrow {
+    color: #bdbdbd;
+    font-size: 12px;
+    user-select: none;
+}
+
+/* Подпись снизу */
+.activity-note {
+    margin-top: 15px;
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* --- ТЕМНАЯ ТЕМА --- */
+body.dark-theme .activity-series-panel {
+    background: #252535;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .activity-header h4 { color: #eee; }
+body.dark-theme .activity-note { color: #aaa; }
+
+body.dark-theme .act-item {
+    background: #3d3d5c;
+    border-color: #555;
+    color: #eee;
+}
+
+body.dark-theme .act-item:hover {
+    border-color: #64B5F6;
+    color: #64B5F6;
+    background: #4a4a6a;
+}
+
+body.dark-theme .act-item.hydrogen {
+    background: #4a2c2c;
+    border-color: #e57373;
+    color: #e57373;
+}
+
+body.dark-theme .act-arrow { color: #666; }
+
+body.dark-theme .toggle-series-btn {
+    background: #2d2d44;
+    border-color: #64B5F6;
+    color: #64B5F6;
+}
+
+body.dark-theme .toggle-series-btn:hover {
+    background: rgba(33, 150, 243, 0.15);
+}
+
+/* ============================================================
+   ЛОГИКА ОТОБРАЖЕНИЯ РЯДА АКТИВНОСТИ (Мобильные vs ПК)
+   ============================================================ */
+
+/* ПК (по умолчанию): Работает как "шторка" (accordion). 
+   CSS для этого уже есть в файле (классы .activity-series-panel.active).
+   Таблица остается на месте, просто сдвигается вниз.
+*/
+
+/* МОБИЛЬНЫЕ: Ряд активности ЗАМЕЩАЕТ таблицу 
+*/
+@media (max-width: 1024px) {
+    
+    /* 1. Когда панель активна, она растягивается на все доступное место */
+    .activity-series-panel.active {
+        flex-grow: 1;          /* Занимаем пространство, которое раньше занимала таблица */
+        max-height: none;      /* Отключаем ограничение высоты "шторки" */
+        overflow-y: auto;      /* Разрешаем скролл внутри панели, если элементов много */
+        padding-bottom: 20px;  /* Отступ снизу для удобства */
+    }
+
+    /* 2. Когда панель активна, СКРЫВАЕМ таблицу, идущую следом */
+    /* Знак "+" означает "соседний элемент сразу после" */
+    .activity-series-panel.active + .solubility-wrapper {
+        display: none !important;
+    }
+}
+
+/* Фикс для панели активности на ПК */
+@media (min-width: 1025px) {
+    .activity-series-panel.active {
+        overflow-y: visible; /* ФИКС: было auto - могло обрезать контент */
+        max-height: none; /* ФИКС: было 600px - ограничивало высоту */
+    }
+    
+    /* Чтобы контент внутри тоже мог скроллиться */
+    .activity-series-content {
+        overflow-y: visible;
+        max-height: none;
+    }
+    
+    /* Убедимся, что стрелочки и элементы не выходят за пределы */
+    .activity-list-container {
+        max-height: none;
+        overflow-y: visible;
     }
 }

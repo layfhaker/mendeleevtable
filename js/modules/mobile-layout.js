@@ -1,93 +1,120 @@
 (function() {
     'use strict';
 
-    function initMobileTable() {
-        if (window.innerWidth > 1024) return;
+    const CONFIG = {
+        TOP_MARGIN: 20,
+        BOTTOM_GAP: 15,
+        MIN_SCALE: 0.4,
+        MAX_SCALE: 1.0,
+        BODY_PADDING: 10,
+        DEBUG: false
+    };
 
-        console.log('🎨 Refining Mobile Layout (Unlocked Transform)...');
+    let state = {
+        wrapperCreated: false,
+        originalHeight: null
+    };
+
+    function isMobile() {
+        return window.innerWidth <= 1024;
+    }
+
+    function getAbsoluteTop(element) {
+        let top = 0;
+        let el = element;
+        while (el) {
+            top += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return top;
+    }
+
+    function ensureWrapper() {
+        if (!isMobile()) return null;
+        
+        let wrapper = document.getElementById('mobile-table-wrapper');
+        if (wrapper) {
+            state.wrapperCreated = true;
+            return wrapper;
+        }
+        
+        const container = document.querySelector('.container');
+        const lanthanides = document.querySelector('.lanthanides');
+        const actinides = document.querySelector('.actinides');
+        
+        if (!container) return null;
+        
+        wrapper = document.createElement('div');
+        wrapper.id = 'mobile-table-wrapper';
+        
+        // ВАЖНО:
+        // 1. align-self: flex-start + margin-right: auto — ЖЕСТКО прижимаем влево, отменяя центрирование родителя.
+        // 2. padding-right: 20px — создает надежный отступ справа внутри скролла.
+        // 3. transform-origin: top left — масштабируем от левого края.
+        wrapper.style.cssText = `
+            width: max-content; 
+            min-width: 100%; 
+            margin: 0; 
+            margin-right: auto; 
+            align-self: flex-start; 
+            padding-right: 20px; 
+            box-sizing: border-box; 
+            transform-origin: top left; 
+            will-change: transform; 
+            backface-visibility: hidden;
+        `;
+        
+        const parent = container.parentNode;
+        parent.insertBefore(wrapper, container);
+        
+        wrapper.appendChild(container);
+        if (lanthanides) wrapper.appendChild(lanthanides);
+        if (actinides) wrapper.appendChild(actinides);
+        
+        state.wrapperCreated = true;
+        return wrapper;
+    }
+
+    function applyTableStyles() {
+        if (!isMobile()) return;
 
         const container = document.querySelector('.container');
-        const body = document.body;
         const lanthanides = document.querySelector('.lanthanides');
         const actinides = document.querySelector('.actinides');
         const allElements = document.querySelectorAll('.element');
 
-        // === ДОБАВИТЬ ЭТОТ БЛОК (Создание единой обертки) ===
-        let wrapper = document.getElementById('mobile-table-wrapper');
-        if (!wrapper && container && lanthanides && actinides) {
-            // Создаем обертку
-            wrapper = document.createElement('div');
-            wrapper.id = 'mobile-table-wrapper';
-            
-            // Настраиваем стили обертки прямо здесь, чтобы они были приоритетными
-            wrapper.style.display = 'flex';
-            wrapper.style.flexDirection = 'column';
-            wrapper.style.alignItems = 'center';
-            wrapper.style.width = '100%';
-            wrapper.style.transformOrigin = 'top center';
-            wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-
-            // Вставляем обертку перед основной таблицей
-            container.parentNode.insertBefore(wrapper, container);
-
-            // Перемещаем элементы внутрь обертки
-            wrapper.appendChild(container);
-            wrapper.appendChild(lanthanides);
-            wrapper.appendChild(actinides);
-        }
-
-        // ==========================================
-        // 1. УМНЫЙ РАСЧЕТ РАЗМЕРОВ
-        // ==========================================
         const availableHeight = window.innerHeight - 160; 
-        
-        let calculatedSize = Math.floor(availableHeight / 11);
-        if (calculatedSize > 55) calculatedSize = 55;
-        if (calculatedSize < 38) calculatedSize = 38;
+        let CELL_H = Math.floor(availableHeight / 11);
+        CELL_H = Math.min(55, Math.max(38, CELL_H));
 
-        const CELL_W = 58;           
-        const CELL_H = calculatedSize; 
+        const CELL_W = 58;
         const LA_HEIGHT = Math.floor(CELL_H * 0.75);
-        
         const GAP = 3;
         
         const FONT_SYM = Math.floor(CELL_H * 0.4) + 'px';
         const FONT_NAME = Math.max(9, Math.floor(CELL_H * 0.18)) + 'px';
         const FONT_NUM = '10px';
 
-        // ==========================================
-        // 2. НАСТРОЙКА BODY
-        // ==========================================
-        body.style.overflowX = 'auto';
-        body.style.overflowY = 'hidden'; 
-        body.style.padding = '10px 20px'; 
-        body.style.alignItems = 'flex-start'; 
-
-        // ==========================================
-        // 3. НАСТРОЙКА ГЛАВНОГО КОНТЕЙНЕРА
-        // ==========================================
         const tableWidth = (18 * CELL_W) + (17 * GAP);
         
-        // ВАЖНО: НЕ трогаем transform/transition — они управляются CSS (calculator.css)
-        container.style.cssText = `
-            display: grid !important;
-            grid-template-columns: repeat(18, ${CELL_W}px) !important;
-            grid-template-rows: repeat(7, ${CELL_H}px) !important;
-            gap: ${GAP}px !important;
-            width: ${tableWidth}px !important;
-            min-width: ${tableWidth}px !important;
-            margin: 0 auto !important;
-            margin-bottom: 10px !important;
-        `;
+        if (container) {
+            container.style.cssText = `
+                display: grid !important;
+                grid-template-columns: repeat(18, ${CELL_W}px) !important;
+                grid-template-rows: repeat(7, ${CELL_H}px) !important;
+                gap: ${GAP}px !important;
+                width: ${tableWidth}px !important;
+                min-width: ${tableWidth}px !important;
+                margin: 0 !important;
+                margin-left: 5px !important; /* Небольшой отступ слева */
+                margin-bottom: 10px !important;
+            `;
+        }
 
-        // ==========================================
-        // 4. НАСТРОЙКА ЛАНТАНОИДОВ И АКТИНОИДОВ
-        // ==========================================
         const subTableWidth = (15 * CELL_W) + (14 * GAP);
         
-        const styleSubTable = (el) => {
-            if(!el) return;
-            // ВАЖНО: НЕ трогаем transform/transition — они управляются CSS (calculator.css)
+        [lanthanides, actinides].forEach(el => {
+            if (!el) return;
             el.style.cssText = `
                 display: grid !important;
                 grid-template-columns: repeat(15, ${CELL_W}px) !important;
@@ -97,35 +124,25 @@
                 margin-top: 5px !important;
                 margin-left: ${(3 * CELL_W) + (3 * GAP)}px !important;
             `;
-        };
+        });
 
-        styleSubTable(lanthanides);
-        styleSubTable(actinides);
-
-        // ==========================================
-        // 5. НАСТРОЙКА ЯЧЕЕК
-        // ==========================================
         allElements.forEach(el => {
-            el.style.position = 'relative';
-            el.style.display = 'flex';
-            el.style.flexDirection = 'column';
-            el.style.boxSizing = 'border-box';
-            el.style.border = '1px solid rgba(0,0,0,0.1)';
-            el.style.padding = '0';
-            el.style.margin = '0';
-            el.style.transform = 'none'; // Тут можно оставить, это сброс для самой ячейки
-
-            if (el.parentElement.classList.contains('lanthanides') || el.parentElement.classList.contains('actinides')) {
-                 el.style.height = LA_HEIGHT + 'px';
-            } else {
-                 el.style.height = CELL_H + 'px';
-            }
-            el.style.width = CELL_W + 'px';
+            const isLaOrAc = el.parentElement?.classList.contains('lanthanides') || 
+                             el.parentElement?.classList.contains('actinides');
+            
+            el.style.cssText = `
+                position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                box-sizing: border-box !important;
+                border: 1px solid rgba(0,0,0,0.1) !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: ${CELL_W}px !important;
+                height: ${isLaOrAc ? LA_HEIGHT : CELL_H}px !important;
+            `;
 
             const symbol = el.querySelector('.symbol');
-            const name = el.querySelector('.name');
-            const num = el.querySelector('.atomic-number');
-
             if (symbol) {
                 symbol.style.cssText = `
                     font-size: ${FONT_SYM} !important;
@@ -139,6 +156,7 @@
                 `;
             }
 
+            const name = el.querySelector('.name');
             if (name) {
                 name.style.cssText = `
                     font-size: ${FONT_NAME} !important;
@@ -148,17 +166,11 @@
                     transform: translateX(-50%) !important;
                     width: 96% !important;
                     text-align: center !important;
-                    line-height: 0.95 !important; 
-                    white-space: normal !important; 
-                    word-wrap: break-word !important;
-                    max-height: 35% !important; 
-                    overflow: hidden !important;
-                    display: flex;
-                    align-items: flex-end;
-                    justify-content: center;
+                    line-height: 0.95 !important;
                 `;
             }
 
+            const num = el.querySelector('.atomic-number');
             if (num) {
                 num.style.cssText = `
                     font-size: ${FONT_NUM} !important;
@@ -169,23 +181,105 @@
                 `;
             }
         });
-        
-        console.log(`✅ Table resized. Cell H: ${CELL_H}px`);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initMobileTable);
-    } else {
-        initMobileTable();
+    function applyCalcActiveTransform() {
+        if (!isMobile()) return;
+        
+        const wrapper = document.getElementById('mobile-table-wrapper');
+        const calcPanel = document.getElementById('calc-panel');
+        
+        if (!wrapper || !calcPanel || !calcPanel.classList.contains('active')) return;
+
+        const wrapperHeight = wrapper.offsetHeight || state.originalHeight || 1;
+        state.originalHeight = wrapperHeight;
+
+        // Берем полную ширину контента для расчетов
+        const wrapperWidth = wrapper.scrollWidth;
+        const calcHeight = calcPanel.offsetHeight || (window.innerHeight * 0.25);
+        
+        // Масштаб
+        const availableHeight = window.innerHeight - calcHeight - CONFIG.TOP_MARGIN - CONFIG.BOTTOM_GAP;
+        let scale = availableHeight / wrapperHeight;
+        scale = Math.max(CONFIG.MIN_SCALE, Math.min(CONFIG.MAX_SCALE, scale));
+        
+        // Вертикаль (плавная)
+        const naturalTopDocument = getAbsoluteTop(wrapper);
+        const currentScroll = window.scrollY;
+        const naturalTopViewport = naturalTopDocument - currentScroll;
+        const translateY = CONFIG.TOP_MARGIN - naturalTopViewport;
+
+        // Горизонталь (умное центрирование)
+        const scaledWidth = wrapperWidth * scale;
+        const windowWidth = window.innerWidth;
+        let translateX = 0;
+        
+        // Если таблица ПОСЛЕ уменьшения всё ещё уже экрана — центруем её
+        if (scaledWidth < windowWidth) {
+            translateX = (windowWidth - scaledWidth) / 2;
+        }
+        // Иначе (если шире) — translateX = 0.
+        // Благодаря align-self: flex-start и margin-right: auto она прижмется к левому краю (0), 
+        // и скролл будет работать корректно от начала.
+
+        wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+        wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
-    
-    window.addEventListener('orientationchange', () => {
-        setTimeout(initMobileTable, 300);
+
+    function resetTransform() {
+        const wrapper = document.getElementById('mobile-table-wrapper');
+        if (wrapper) {
+            wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+            wrapper.style.transform = 'none';
+        }
+    }
+
+    function init() {
+        if (!isMobile()) return;
+
+        ensureWrapper();
+        applyTableStyles();
+        
+        requestAnimationFrame(() => {
+            if (document.body.classList.contains('calc-active')) {
+                applyCalcActiveTransform();
+            }
+        });
+    }
+
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            if (mutation.attributeName === 'class') {
+                const isActive = document.body.classList.contains('calc-active');
+                if (isActive) {
+                    applyCalcActiveTransform();
+                    setTimeout(applyCalcActiveTransform, 300);
+                } else {
+                    resetTransform();
+                }
+            }
+        }
     });
     
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        });
+    } else {
+        init();
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-         clearTimeout(window.resizeTimer);
-         window.resizeTimer = setTimeout(initMobileTable, 200);
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            state.originalHeight = null;
+            init();
+        }, 200);
     });
+
+    window.mobileLayout = { init, applyTransform: applyCalcActiveTransform, resetTransform };
 
 })();

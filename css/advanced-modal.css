@@ -45,7 +45,8 @@
 /* Контент модального окна */
 .advanced-modal-content {
     background: var(--bg-color, #fff);
-    border-radius: 12px;
+    /* Увеличили радиус для большей плавности */
+    border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     width: 90%;
     max-width: 800px;
@@ -54,7 +55,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Важно: обрезает контент по закругленным углам */
     animation: slideInModal 0.3s ease-out;
 }
 
@@ -320,7 +321,8 @@ body.dark-theme .decomposition-info { background: rgba(255, 152, 0, 0.15); }
         max-width: 100%;
         height: 100%;
         max-height: 100%;
-        border-radius: 0;
+        /* ИСПРАВЛЕНИЕ: Ставим 16px вместо 0, чтобы углы были скруглены и на телефоне */
+        border-radius: 16px; 
     }
 
     .advanced-header {
