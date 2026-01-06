@@ -42,10 +42,6 @@
     margin-right: auto;
     margin-left: 20px; /* Прижимаем к левому краю с небольшим отступом */
     background-color: var(--sol-bg); /* Добавили фон */
-    /* ФИКС: Добавляем flex-контейнер для корректного распределения пространства */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
 }
 
 /* --- ШАПКА (Название + Крестик) --- */
@@ -694,7 +690,7 @@ body.dark-theme .solubility-search-content .search-btn:hover {
 
 
 .series-container.active {
-    display: flex; /* ФИКС: было display: block - ломало flex-wrap */
+    display: block;
     animation: fadeIn 0.3s ease;
 }
 
@@ -1080,9 +1076,6 @@ body.dark-theme #advanced-mode-info-btn.active {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    
-    /* ФИКС: Не сжимаем панель когда активна */
-    flex-shrink: 0;
 }
 
 /* Активное состояние: выезжает */
@@ -1267,22 +1260,4 @@ body.dark-theme .toggle-series-btn:hover {
     }
 }
 
-/* Фикс для панели активности на ПК */
-@media (min-width: 1025px) {
-    .activity-series-panel.active {
-        overflow-y: visible; /* ФИКС: было auto - могло обрезать контент */
-        max-height: none; /* ФИКС: было 600px - ограничивало высоту */
-    }
-    
-    /* Чтобы контент внутри тоже мог скроллиться */
-    .activity-series-content {
-        overflow-y: visible;
-        max-height: none;
-    }
-    
-    /* Убедимся, что стрелочки и элементы не выходят за пределы */
-    .activity-list-container {
-        max-height: none;
-        overflow-y: visible;
-    }
-}
+     
