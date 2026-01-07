@@ -1064,7 +1064,7 @@ body.dark-theme #advanced-mode-info-btn.active {
     overflow: hidden; /* Важно для анимации */
     
     /* Начальное состояние: скрыто */
-    max-height: 0;
+
     opacity: 0;
     padding: 0 10px;
     margin-bottom: 0;
@@ -1076,11 +1076,11 @@ body.dark-theme #advanced-mode-info-btn.active {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
+    height:0;
 }
 
 /* Активное состояние: выезжает */
 .activity-series-panel.active {
-    max-height: none; /* <--- ИЗМЕНИТЬ ЗДЕСЬ (было 500px) */
     opacity: 1;
     padding: 20px 10px;
     margin-bottom: 10px;
@@ -1088,6 +1088,7 @@ body.dark-theme #advanced-mode-info-btn.active {
     /* Дополнительно: если контент вдруг даже больше 1000px, 
        появится скролл внутри панели, а не обрезка */
     overflow-y: auto; 
+    height:1000px;
 }
 
 .activity-content-wrapper {

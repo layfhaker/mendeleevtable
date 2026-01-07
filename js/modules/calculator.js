@@ -320,6 +320,13 @@ function clearCalculator() {
 
 // Переключение калькулятора
 function toggleCalc() {
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isSolubilityOpen || isFiltersOpen) {
+        return;
+    }
     const calcPanel = document.getElementById('calc-panel');
     const fab = document.getElementById('fab-container');
 

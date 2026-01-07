@@ -14,6 +14,7 @@ const criticalScripts = [
 // === ОСНОВНЫЕ СКРИПТЫ (после DOMContentLoaded) ===
 // Сюда переносим nodemap, чтобы они грузились строго после ядра
 const coreScripts = [
+    
     'js/modules/modal.js',
     'js/modules/theme.js',
     'js/modules/search-filters.js',
@@ -42,7 +43,10 @@ const lazyModules = {
     ],
     calculator: [
         'js/modules/calculator.js'
-    ]
+    ],
+    balancer: [
+        'js/modules/balancer.js'
+    ],
 };
 
 // Флаги загрузки
@@ -153,6 +157,17 @@ async function loadCalculator() {
         console.error('❌ Ошибка загрузки калькулятора:', error);
     }
 }
+
+async function loadBalancer() {
+    console.log('⏳ Загрузка уравнителя...');
+    try {
+        await loadScripts(lazyModules.balancer);
+        // Если нужно что-то инициализировать
+    } catch (error) {
+        console.error('❌ Ошибка загрузки уравнителя:', error);
+    }
+}
+window.loadBalancer = loadBalancer;
 
 window.loadSolubility = loadSolubility;
 window.loadCalculator = loadCalculator;

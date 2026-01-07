@@ -1,0 +1,197 @@
+/* =========================================
+   BALANCER.CSS — Extended Upwards
+   ========================================= */
+
+/* Скроллбары (Chrome/Safari/Webkit) — ОБЯЗАТЕЛЬНО */
+.balancer-content::-webkit-scrollbar {
+    width: 6px;
+}
+.balancer-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.balancer-content::-webkit-scrollbar-thumb {
+    background-color: #bbdefb;
+    border-radius: 10px;
+}
+.balancer-content::-webkit-scrollbar-thumb:hover {
+    background-color: #42a5f5;
+}
+
+/* 1. Контейнер */
+.balancer-content {
+    flex: 1 1 auto; /* Занимает всё место, которое даст JS */
+    display: flex;
+    flex-direction: column;
+    padding: 10px 12px;
+    gap: 10px;
+    
+    /* Скролл появляется только если контент больше, чем место до 4-го ряда */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    
+    scrollbar-width: thin;
+    scrollbar-color: #90caf9 transparent;
+}
+
+/* 2. Поле ввода */
+.balancer-input-row {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 6px;
+    position: relative;
+}
+
+#balancer-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px; /* Чуть крупнее для удобства */
+    background: #fff;
+    color: #333;
+    outline: none;
+}
+
+#balancer-input:focus {
+    border-color: #2196F3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.15);
+}
+
+#balance-btn {
+    padding: 0 16px;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#balance-btn:hover { background: #1976D2; }
+
+/* 3. Результат */
+.balancer-result {
+    flex: 0 0 auto;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f7fa;
+    border: 1px dashed #cfd8dc;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    font-size: 18px; /* Крупный шрифт результата */
+    line-height: 1.4;
+    color: #37474f;
+    word-break: break-word;
+}
+
+.balancer-result .coeff {
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 0 2px;
+}
+
+/* Исправление отображения индексов (маленьких цифр) */
+.balancer-result sub {
+    font-size: 0.6em;       /* Уменьшаем размер шрифта до 60% */
+    vertical-align: sub;    /* Стандартное выравнивание */
+    line-height: 0;         /* Чтобы индекс не раздвигал высоту строки */
+    position: relative;     
+    bottom: -0.1em;         /* Небольшая корректировка позиции, если нужно */
+}
+
+.placeholder-text {
+    color: #b0bec5;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Ошибки */
+.balancer-error {
+    display: none;
+    flex: 0 0 auto;
+    color: #c62828;
+    background: #ffebee;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid #ffcdd2;
+}
+
+/* 4. Примеры */
+.balancer-examples {
+    flex: 0 0 auto;
+    margin-top: 5px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.balancer-examples span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #90a4ae;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.ex-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ex-chips button {
+    background: white;
+    border: 1px solid #e3f2fd;
+    border-radius: 14px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #1976D2;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ex-chips button:hover {
+    background: #e3f2fd;
+}
+
+/* --- ТЕМНАЯ ТЕМА --- */
+body.dark-theme #balancer-panel {
+    background: #2d2d44;
+    border-color: #444;
+}
+body.dark-theme #balancer-input {
+    background: #393952;
+    border-color: #4a4a6a;
+    color: #fff;
+}
+body.dark-theme .balancer-result {
+    background: #252535;
+    border-color: #4a4a6a;
+    color: #eceff1;
+}
+body.dark-theme .balancer-result .coeff { color: #ff8a80; }
+body.dark-theme .placeholder-text { color: #607d8b; }
+body.dark-theme .balancer-examples { border-top-color: #444; }
+body.dark-theme .ex-chips button {
+    background: #32324a;
+    border-color: #4a4a6a;
+    color: #9fa8da;
+}
+body.dark-theme .ex-chips button:hover {
+    background: #3f3f5c;
+    color: #fff;
+}
+body.dark-theme .balancer-content {
+    scrollbar-color: #5c6bc0 transparent;
+}
+body.dark-theme .balancer-content::-webkit-scrollbar-thumb {
+    background-color: #3f3f5c;
+}

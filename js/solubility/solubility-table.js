@@ -269,13 +269,13 @@ function enableDragScroll(element) {
     let isTouch = false;
 
     // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:266',message:'enableDragScroll called',data:{hasTouchSupport:'ontouchstart' in window,elementTag:element.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+    // fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:266',message:'enableDragScroll called',data:{hasTouchSupport:'ontouchstart' in window,elementTag:element.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
     // #endregion
 
     // Mouse events (Desktop)
     element.addEventListener('mousedown', (e) => {
         // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:270',message:'mousedown event',data:{targetTag:e.target.tagName,isTouch:false},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:270',message:'mousedown event',data:{targetTag:e.target.tagName,isTouch:false},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
         // Не мешаем кликам по ячейкам таблицы и заголовкам
         if (e.target.tagName === 'TD' || e.target.tagName === 'TH') return;
@@ -318,7 +318,7 @@ function enableDragScroll(element) {
     // Touch events (Mobile) - ИСПРАВЛЕНИЕ
     element.addEventListener('touchstart', (e) => {
         // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchstart',message:'touchstart event',data:{touchCount:e.touches.length,targetTag:e.target.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchstart',message:'touchstart event',data:{touchCount:e.touches.length,targetTag:e.target.tagName},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
         // Не мешаем кликам по ячейкам таблицы и заголовкам
         if (e.target.tagName === 'TD' || e.target.tagName === 'TH') return;
@@ -355,7 +355,7 @@ function enableDragScroll(element) {
 
     element.addEventListener('touchend', () => {
         // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchend',message:'touchend event',data:{isDown},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
+        // fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'solubility-table.js:touchend',message:'touchend event',data:{isDown},timestamp:Date.now(),sessionId:'debug-session',runId:'post-fix',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
         isDown = false;
         isTouch = false;

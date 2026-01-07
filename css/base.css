@@ -3,11 +3,70 @@
    ========================================= */
 
 /* --- Safe Area переменные для iPhone notch --- */
+/* =========================================
+   BASE.CSS — Базовые стили страницы
+   ========================================= */
+
+/* --- Safe Area переменные --- */
 :root {
     --sat: env(safe-area-inset-top, 0px);
     --sab: env(safe-area-inset-bottom, 0px);
     --sal: env(safe-area-inset-left, 0px);
     --sar: env(safe-area-inset-right, 0px);
+}
+
+/* 1. ПЕРЕНОСИМ ФОН СЮДА */
+html {
+    background-color: #f0f0f0; /* Красим "подложку" всего браузера */
+    height: 100%;
+}
+
+/* --- Основные стили body --- */
+body {
+    font-family: Arial, sans-serif;
+    /* background-color: #f0f0f0;  <-- УБИРАЕМ ОТСЮДА или оставляем (не мешает) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;      
+    height: auto;           
+    margin: 0;
+    padding: 20px;          
+    overflow-y: auto;       
+    overflow-x: hidden;      /* Лучше hidden для десктопа, если нет таблицы */
+    box-sizing: border-box;
+}
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+@media (max-width: 1024px) {
+
+    html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: auto; 
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Гарантируем, что фон на мобильных тоже серый */
+        background-color: #f0f0f0; 
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        /* ВАЖНО: Добавляем var(--sab) к нижнему отступу */
+        /* Было 140px, стало calc(140px + safe-area) */
+        padding: 10px 20px calc(140px + var(--sab)) 20px !important; 
+        
+        box-sizing: border-box;
+    }
+
 }
 
 /* --- Canvas для частиц --- */
@@ -21,47 +80,12 @@
     pointer-events: none;
 }
 
-/* --- Основные стили body --- */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /* ИСПРАВЛЕНИЕ СКРОЛЛА: */
-    min-height: 100vh;      /* Было height: 100vh */
-    height: auto;           /* Разрешаем рост по высоте */
-    margin: 0;
-    padding: 20px;          /* Равномерный отступ */
-    overflow-y: auto;       /* Разрешаем вертикальный скролл */
-    overflow-x: auto;       /* Горизонтальный скрываем, если не нужен */
-    box-sizing: border-box;
-}
+
 
 /* =========================================
    АДАПТИВ
    ========================================= */
  @media (max-width: 1024px) {
-
-    html, body {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: auto; /* Включаем горизонтальный скролл */
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #f0f0f0;
-        padding: 10px 20px 140px 20px !important; /* ИСПРАВЛЕНО: отступы 20px слева и справа */
-        box-sizing: border-box;
-    }
 
     /* Скрываем полосу прокрутки */
     body::-webkit-scrollbar {

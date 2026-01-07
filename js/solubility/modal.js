@@ -2,163 +2,142 @@
 // МОДАЛЬНОЕ ОКНО ТАБЛИЦЫ РАСТВОРИМОСТИ
 // =========================================
 
-// Переключение таблицы растворимости (toggle)
-// =========================================
-// МОДАЛЬНОЕ ОКНО ТАБЛИЦЫ РАСТВОРИМОСТИ
-// =========================================
-
-async function toggleSolubility() {
+// Объявляем функции глобально для доступа из HTML
+window.toggleSolubility = async function() {
     const modal = document.getElementById('solubility-modal');
-    if (modal.style.display === 'flex') {
+    // Проверяем, открыто ли окно
+    if (modal && (getComputedStyle(modal).display === 'flex' || getComputedStyle(modal).display === 'block')) {
         closeSolubility();
     } else {
         await openSolubility();
     }
-}
+};
 
-async function openSolubility() {
-    // Загружаем модуль растворимости если ещё не загружен
+window.openSolubility = async function() {
+    // 1. Загрузка модуля растворимости, если он еще не загружен
     if (window.loadSolubility) {
         await window.loadSolubility();
     }
 
     const modal = document.getElementById('solubility-modal');
+    if (!modal) return;
 
-    // Генерируем таблицу только если она пустая
-    if(document.getElementById('solubility-table').innerHTML === "") {
+    // 2. Генерация таблицы, если контейнер пуст
+    const table = document.getElementById('solubility-table');
+    if (table && table.innerHTML.trim() === "") {
         if (typeof renderSolubilityTable === 'function') {
             renderSolubilityTable();
         }
     }
 
+    // 3. Открытие окна
     modal.style.display = 'flex';
-
-    // #region agent log
-    const modalRect = modal.getBoundingClientRect();
-    const content = document.querySelector('.solubility-content');
-    const contentRect = content ? content.getBoundingClientRect() : null;
-    const isMobile = window.innerWidth <= 1024;
-    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:34',message:'openSolubility - modal dimensions',data:{isMobile,windowWidth:window.innerWidth,windowHeight:window.innerHeight,modalWidth:modalRect.width,modalHeight:modalRect.height,contentWidth:contentRect?.width,contentHeight:contentRect?.height},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-    // #endregion
-
-    // Инициализируем кнопку продвинутого режима
-    if (typeof initAdvancedModeButton === 'function') {
-        initAdvancedModeButton();
-    }
-
-    // Инициализация ряда активности
-    if (typeof initActivitySeriesUI === 'function') {
-        initActivitySeriesUI();
-    }
-
-    if (window.initSolubilityDrag) {
-        window.initSolubilityDrag();
-    }
-
     document.body.classList.add('solubility-open');
 
-    // --- ИСПРАВЛЕНИЕ №1: Скрываем кнопки мгновенно ---
-    const fabContainer = document.getElementById('fab-container');
-    const themeToggle = document.getElementById('theme-toggle'); // Кнопка темы
-
-    if (fabContainer) fabContainer.style.display = 'none'; // <--- ДОБАВИТЬ ЭТО
-    if (themeToggle) themeToggle.style.display = 'none';   // <--- ДОБАВИТЬ ЭТО
-    // -------------------------------------------------
-
-    const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
-    const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
-    if (calcButton) calcButton.style.display = 'none';
-    if (particlesButton) particlesButton.style.display = 'none';
-
-    updateFiltersForSolubility();
-
-    const wrapper = document.querySelector('.solubility-wrapper');
-    if (wrapper && !wrapper.dataset.dragScrollEnabled) {
-        enableDragScroll(wrapper);
-        wrapper.dataset.dragScrollEnabled = 'true';
-    }
-
-    // #region agent log
-    const buttons = document.querySelectorAll('.modal-header-controls button, .close-solubility');
-    const buttonSizes = Array.from(buttons).map(btn => {
-        const rect = btn.getBoundingClientRect();
-        return {tag:btn.tagName,width:rect.width,height:rect.height,id:btn.id || btn.className};
-    });
-    const stickyHeaders = document.querySelectorAll('#solubility-table thead th, #solubility-table tbody th');
-    const stickyInfo = Array.from(stickyHeaders).slice(0, 3).map(th => {
-        const rect = th.getBoundingClientRect();
-        const styles = window.getComputedStyle(th);
-        return {position:styles.position,top:styles.top,left:styles.left,zIndex:styles.zIndex,visible:rect.width > 0 && rect.height > 0};
-    });
-    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:75',message:'button sizes and sticky headers check',data:{buttonSizes,stickyInfo,isMobile:window.innerWidth <= 1024},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
-    // #endregion
-
-    if (wrapper && !wrapper.dataset.ctrlScrollEnabled) {
-        wrapper.addEventListener('wheel', (e) => {
-            if (e.ctrlKey) {
-                e.preventDefault();
-                wrapper.scrollLeft += e.deltaY;
-            }
-        }, { passive: false });
-        wrapper.dataset.ctrlScrollEnabled = 'true';
-    }
-}
-
-function closeSolubility() {
-    // #region agent log
-    fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:84',message:'closeSolubility called',data:{isMobile:window.innerWidth <= 1024,hasTouchSupport:'ontouchstart' in window},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-    // #endregion
-    const modal = document.getElementById('solubility-modal');
-    if (modal) {
-        modal.style.display = 'none';
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:87',message:'modal closed',data:{display:modal.style.display},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        // #endregion
-    } else {
-        console.warn("Элемент 'solubility-modal' не найден в HTML!");
-    }
-
-    document.body.classList.remove('solubility-open');
-
-    // --- ИСПРАВЛЕНИЕ №2: Возвращаем кнопки ---
+    // 4. Управление интерфейсом (АДАПТИВНОЕ)
     const fabContainer = document.getElementById('fab-container');
     const themeToggle = document.getElementById('theme-toggle');
 
-    if (fabContainer) fabContainer.style.display = ''; // <--- ДОБАВИТЬ ЭТО (сброс стиля вернет их на место)
-    if (themeToggle) themeToggle.style.display = '';   // <--- ДОБАВИТЬ ЭТО
-    // -----------------------------------------
-
-    // Закрываем панель поиска если открыта
-    const searchPanel = document.getElementById('solubility-search-panel');
-    if (searchPanel) searchPanel.classList.remove('active');
-    const searchBtn = document.getElementById('solubility-search-btn');
-    if (searchBtn) searchBtn.classList.remove('active');
-
-    // Если есть функция очистки выделения
-    if (typeof clearTableSelection === 'function') {
-        clearTableSelection();
+    if (window.innerWidth <= 1024) {
+        // МОБИЛЬНЫЕ: Скрываем всё лишнее, чтобы освободить место
+        if (fabContainer) fabContainer.style.display = 'none';
+        if (themeToggle) themeToggle.style.display = 'none';
+    } else {
+        // ПК: Убеждаемся, что всё видно (на случай, если было скрыто ранее)
+        if (fabContainer) fabContainer.style.display = '';
+        if (themeToggle) themeToggle.style.display = '';
+        
+        // Явно восстанавливаем видимость кнопок внутри FAB (если они были скрыты)
+        const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
+        const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
+        if (calcButton) calcButton.style.display = '';
+        if (particlesButton) particlesButton.style.display = '';
     }
 
-    // Возвращаем кнопки калькулятора и частиц в FAB меню
+    // 5. Инициализация подмодулей (продвинутый режим, ряд активности, поиск)
+    if (typeof initAdvancedModeButton === 'function') initAdvancedModeButton();
+    if (typeof initActivitySeriesUI === 'function') initActivitySeriesUI();
+    if (typeof updateFiltersForSolubility === 'function') updateFiltersForSolubility();
+    
+    // 6. Инициализация перетаскивания (Drag Scroll)
+    const wrapper = document.querySelector('.solubility-wrapper');
+    if (wrapper) {
+        if (!wrapper.dataset.dragScrollEnabled && typeof enableDragScroll === 'function') {
+            enableDragScroll(wrapper);
+            wrapper.dataset.dragScrollEnabled = 'true';
+        }
+        // Горизонтальный скролл колесиком мыши + Ctrl
+        if (!wrapper.dataset.ctrlScrollEnabled) {
+            wrapper.addEventListener('wheel', (e) => {
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    wrapper.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+            wrapper.dataset.ctrlScrollEnabled = 'true';
+        }
+    }
+    
+    // ПРИНУДИТЕЛЬНАЯ ПРИВЯЗКА СОБЫТИЙ ЗАКРЫТИЯ
+    bindCloseEvents();
+};
+
+window.closeSolubility = function() {
+    const modal = document.getElementById('solubility-modal');
+    if (!modal) return;
+
+    modal.style.display = 'none';
+    document.body.classList.remove('solubility-open');
+
+    // Восстанавливаем интерфейс (сбрасываем стили скрытия)
+    const fabContainer = document.getElementById('fab-container');
+    const themeToggle = document.getElementById('theme-toggle');
+    if (fabContainer) fabContainer.style.display = '';
+    if (themeToggle) themeToggle.style.display = '';
+
+    // Восстанавливаем кнопки FAB (калькулятор и частицы)
     const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
     const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
     if (calcButton) calcButton.style.display = '';
     if (particlesButton) particlesButton.style.display = '';
 
-    restoreElementFilters();
-}
+    // Сбрасываем состояния поиска и фильтров
+    const searchPanel = document.getElementById('solubility-search-panel');
+    if (searchPanel) searchPanel.classList.remove('active');
+    
+    const searchBtn = document.getElementById('solubility-search-btn');
+    if (searchBtn) searchBtn.classList.remove('active');
 
-// Закрытие модального окна при клике вне его области
-document.addEventListener('DOMContentLoaded', () => {
+    if (typeof clearTableSelection === 'function') clearTableSelection();
+    if (typeof restoreElementFilters === 'function') restoreElementFilters();
+};
+
+// Функция для надежной привязки закрытия
+function bindCloseEvents() {
+    const closeButtons = document.querySelectorAll('.close-solubility');
+    closeButtons.forEach(btn => {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeSolubility();
+        };
+        // Добавляем поддержку тач-событий для мобильных
+        btn.ontouchstart = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeSolubility();
+        };
+    });
+    
     const modal = document.getElementById('solubility-modal');
     if (modal) {
-        modal.addEventListener('click', (e) => {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/62ca497c-fdce-4d75-9803-1df85cc7de10',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'modal.js:click-outside',message:'modal click event',data:{targetId:e.target.id,targetClass:e.target.className,isModal:e.target === modal,isMobile:window.innerWidth <= 1024},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
+        modal.onclick = function(e) {
             if (e.target === modal) {
                 closeSolubility();
             }
-        });
+        };
     }
-});
+}
+
+// Запускаем привязку событий сразу при загрузке скрипта
+bindCloseEvents();

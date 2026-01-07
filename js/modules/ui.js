@@ -114,6 +114,13 @@ window.initSolubilityDrag = function() {
 
 // 1. Калькулятор
 window.toggleCalc = async function() {
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isSolubilityOpen || isFiltersOpen) {
+        return;
+    }
     // Загружаем модуль если ещё не загружен
     if (window.loadCalculator) await window.loadCalculator();
     
@@ -210,3 +217,30 @@ function initUI() {
 }
 
 window.initUI = initUI;
+
+// В ui.js добавьте:
+
+// Добавьте это в конец ui.js
+
+window.toggleBalancer = async function() {
+    // Проверка конфликтов
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isSolubilityOpen || isFiltersOpen) return;
+
+    if (window.loadBalancer) await window.loadBalancer();
+    
+    // После загрузки скрипта, он переопределит эту функцию (если так написано в модуле).
+    // Но в моем коде выше (шаг 3) я уже написал toggleBalancer внутри модуля.
+    // JS заменит эту функцию на функцию из модуля.
+    // Чтобы первый клик сработал, нам нужно вызвать "новую" функцию вручную.
+    
+    // НО! Чтобы не усложнять, давайте в модуле balancer.js назовем функцию
+    // toggleBalancerPanel, а здесь будем её вызывать.
+    
+    if (typeof window.toggleBalancerPanel === 'function') {
+        window.toggleBalancerPanel();
+    }
+};

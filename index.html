@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Интерактивная Таблица Менделеева</title>
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232196F3'/><stop offset='100%25' style='stop-color:%231976D2'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(60 50 50)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(120 50 50)'/><circle cx='50' cy='50' r='6' fill='%23FF4081'/><circle cx='85' cy='50' r='4' fill='%2300E5FF'/><circle cx='15' cy='50' r='4' fill='%2300E5FF'/><circle cx='50' cy='62' r='4' fill='%2300E5FF'/><circle cx='50' cy='38' r='4' fill='%2300E5FF'/></svg>">
@@ -16,13 +16,7 @@
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
     <link rel="stylesheet" href="css/style.css?v=5">
 
-    <!-- Некритичные стили загружаем отложенно -->
-    <link rel="preload" href="css/advanced-modal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="css/advanced-modal.css"></noscript>
 
-    <!-- NodeMap styles -->
-    <link rel="preload" href="css/nodemap.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="css/nodemap.css"></noscript>
     
     <!-- Fallback для Chrome: если preload не сработал, загружаем через JS -->
     <script>
@@ -679,6 +673,35 @@
     </div>
 </div>
 
+<div id="balancer-panel" class="calc-panel">
+    <div class="calc-header">
+        <h3>Уравнитель Реакций</h3>
+        <span class="close-calc-panel" onclick="toggleBalancerPanel()">✕</span>
+    </div>
+
+    <div class="balancer-content">
+        <div class="balancer-input-row">
+            <input type="text" id="balancer-input" placeholder="Например: H2 + O2 = H2O">
+            <button id="balance-btn" onclick="performBalance()">GO</button>
+        </div>
+        
+        <div id="balancer-result" class="balancer-result">
+            <span class="placeholder-text">Результат появится здесь</span>
+        </div>
+        
+        <div id="balancer-error" class="balancer-error"></div>
+        
+        <div class="balancer-examples">
+            <span>Примеры:</span>
+            <div class="ex-chips">
+                <button onclick="fillBalance('Fe + Cl2 = FeCl3')">Fe + Cl2</button>
+                <button onclick="fillBalance('Al + O2 = Al2O3')">Al + O2</button>
+                <button onclick="fillBalance('CH4 + O2 = CO2 + H2O')">CH4 + O2</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="fab-container" id="fab-container">
     <div class="fab-options">
         <div class="fab-option" onclick="toggleTheme()">
@@ -711,6 +734,14 @@
             <button class="fab-btn" aria-label="Открыть/закрыть таблицу растворимости">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="fab-option" onclick="toggleBalancer()">
+            <span class="fab-label">Уравнитель</span>
+            <button class="fab-btn" aria-label="Открыть уравнитель">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/> 
                 </svg>
             </button>
         </div>

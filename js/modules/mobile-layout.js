@@ -187,19 +187,25 @@
         if (!isMobile()) return;
         
         const wrapper = document.getElementById('mobile-table-wrapper');
-        const calcPanel = document.getElementById('calc-panel');
         
-        if (!wrapper || !calcPanel || !calcPanel.classList.contains('active')) return;
+        // ИЗМЕНЕНИЕ: Ищем ЛЮБУЮ активную панель (калькулятор или уравнитель)
+        // Оба эти элемента имеют класс .calc-panel
+        const activePanel = document.querySelector('.calc-panel.active');
+        
+        // Если нет враппера или нет активной панели — выходим
+        if (!wrapper || !activePanel) return;
 
         const wrapperHeight = wrapper.offsetHeight || state.originalHeight || 1;
         state.originalHeight = wrapperHeight;
 
         // Берем полную ширину контента для расчетов
         const wrapperWidth = wrapper.scrollWidth;
-        const calcHeight = calcPanel.offsetHeight || (window.innerHeight * 0.25);
+        
+        // ИЗМЕНЕНИЕ: Считаем высоту именно той панели, которая сейчас открыта
+        const panelHeight = activePanel.offsetHeight || (window.innerHeight * 0.25);
         
         // Масштаб
-        const availableHeight = window.innerHeight - calcHeight - CONFIG.TOP_MARGIN - CONFIG.BOTTOM_GAP;
+        const availableHeight = window.innerHeight - panelHeight - CONFIG.TOP_MARGIN - CONFIG.BOTTOM_GAP;
         let scale = availableHeight / wrapperHeight;
         scale = Math.max(CONFIG.MIN_SCALE, Math.min(CONFIG.MAX_SCALE, scale));
         
@@ -214,13 +220,9 @@
         const windowWidth = window.innerWidth;
         let translateX = 0;
         
-        // Если таблица ПОСЛЕ уменьшения всё ещё уже экрана — центруем её
         if (scaledWidth < windowWidth) {
             translateX = (windowWidth - scaledWidth) / 2;
         }
-        // Иначе (если шире) — translateX = 0.
-        // Благодаря align-self: flex-start и margin-right: auto она прижмется к левому краю (0), 
-        // и скролл будет работать корректно от начала.
 
         wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
         wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
