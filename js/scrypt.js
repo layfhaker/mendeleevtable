@@ -134,6 +134,8 @@ function initApp() {
 }
 
 // === ЛЕНИВАЯ ЗАГРУЗКА ===
+
+// 1. Растворимость
 async function loadSolubility() {
     if (solubilityLoaded) return;
     console.log('⏳ Загрузка модуля растворимости...');
@@ -146,6 +148,7 @@ async function loadSolubility() {
     }
 }
 
+// 2. Калькулятор
 async function loadCalculator() {
     if (calculatorLoaded) return;
     console.log('⏳ Загрузка калькулятора...');
@@ -158,17 +161,48 @@ async function loadCalculator() {
     }
 }
 
-async function loadBalancer() {
+// 3. Уравнитель (С ИСПРАВЛЕНИЕМ)
+let isBalancerLoading = false;
+
+// Эта функция-обертка существует только до первой загрузки скрипта.
+// Balancer.js при загрузке перезапишет её своей настоящей версией.
+window.toggleBalancerPanel = async function() {
+    // Если настоящая функция уже загружена (balancer.js отработал), вызываем её
+    // (на случай если перезапись не сработала автоматически, хотя должна)
+    if (window.balancerLoaded && typeof window.balanceEquation === 'function') {
+        // Здесь мы пытаемся найти настоящую логику, если она не перезаписала window.toggleBalancerPanel
+        console.error("Ошибка: Balancer.js загружен, но функция не обновилась.");
+        return;
+    }
+
+    if (isBalancerLoading) return; // Защита от двойного клика
+    isBalancerLoading = true;
+
     console.log('⏳ Загрузка уравнителя...');
+    
     try {
+        // Загружаем скрипт
         await loadScripts(lazyModules.balancer);
-        // Если нужно что-то инициализировать
+        
+        // Помечаем, что загрузили
+        window.balancerLoaded = true;
+
+        // В этот момент balancer.js должен был выполниться и заменить window.toggleBalancerPanel
+        // Проверяем, изменилась ли функция
+        console.log('✅ Уравнитель загружен, открываем...');
+        
+        // Вызываем функцию снова. Теперь это должна быть НАСТОЯЩАЯ функция из balancer.js
+        window.toggleBalancerPanel();
+        
     } catch (error) {
         console.error('❌ Ошибка загрузки уравнителя:', error);
+        alert('Не удалось загрузить уравнитель. Проверьте соединение.');
+    } finally {
+        isBalancerLoading = false;
     }
-}
-window.loadBalancer = loadBalancer;
+};
 
+// Экспорты для консоли (если нужно)
 window.loadSolubility = loadSolubility;
 window.loadCalculator = loadCalculator;
 

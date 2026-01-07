@@ -5,39 +5,40 @@
 // --- UI ЛОГИКА ---
 
 window.toggleBalancerPanel = async function() {
-    // 1. Проверка конфликтов
+    const panel = document.getElementById('balancer-panel');
+    const fab = document.getElementById('fab-container');
+    
+    if (!panel) return;
+
+    // СНАЧАЛА проверяем: если окно уже открыто — закрываем его (безусловно)
+    if (panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        document.body.classList.remove('calc-active');
+        if (typeof resetFabPosition === 'function') resetFabPosition();
+        return; // Выходим из функции
+    }
+
+    // И только если мы хотим ОТКРЫТЬ, проверяем конфликты
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
 
     if (isSolubilityOpen || isFiltersOpen) return;
 
-    const panel = document.getElementById('balancer-panel');
-    const fab = document.getElementById('fab-container');
+    // Логика открытия...
+    // Закрываем калькулятор массы, если открыт
+    const calcPanel = document.getElementById('calc-panel');
+    if (calcPanel && calcPanel.classList.contains('active')) {
+        if (typeof toggleCalc === 'function') toggleCalc();
+    }
+
+    if (fab) fab.classList.remove('active');
+    panel.classList.add('active');
+    document.body.classList.add('calc-active');
     
-    if (!panel) return;
-
-    if (panel.classList.contains('active')) {
-        // Закрываем
-        panel.classList.remove('active');
-        document.body.classList.remove('calc-active');
-        if (typeof resetFabPosition === 'function') resetFabPosition();
-    } else {
-        // Открываем
-        // Закрываем калькулятор массы, если открыт
-        const calcPanel = document.getElementById('calc-panel');
-        if (calcPanel && calcPanel.classList.contains('active')) {
-            if (typeof toggleCalc === 'function') toggleCalc();
-        }
-
-        if (fab) fab.classList.remove('active');
-        panel.classList.add('active');
-        document.body.classList.add('calc-active');
-        
-        // Позиционирование на ПК
-        if (window.innerWidth > 1024) {
-             positionBalancerPC();
-        }
+    // Позиционирование на ПК
+    if (window.innerWidth > 1024) {
+         positionBalancerPC();
     }
 };
 
