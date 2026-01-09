@@ -676,7 +676,7 @@
 <div id="balancer-panel" class="calc-panel">
     <div class="calc-header">
         <h3>Уравнитель Реакций</h3>
-        <span class="close-calc-panel" onclick="toggleBalancerPanel()">✕</span>
+        <span class="close-calc-panel" onclick="toggleBalancerPanel(event)">✕</span>
     </div>
 
     <div class="balancer-content">
@@ -737,11 +737,11 @@
                 </svg>
             </button>
         </div>
-        <div class="fab-option" onclick="toggleBalancerPanel()">
+        <div class="fab-option" onclick="toggleBalancerPanel(event)">
             <span class="fab-label">Уравнитель</span>
             <button class="fab-btn" aria-label="Открыть уравнитель">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/> 
+                    <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/>
                 </svg>
             </button>
         </div>

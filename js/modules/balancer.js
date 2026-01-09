@@ -4,10 +4,15 @@
 
 // --- UI ЛОГИКА ---
 
-window.toggleBalancerPanel = async function() {
+window.toggleBalancerPanel = async function(event) {
+    // Останавливаем всплытие события, если оно передано
+    if (event && typeof event.stopPropagation === 'function') {
+        event.stopPropagation();
+    }
+
     const panel = document.getElementById('balancer-panel');
     const fab = document.getElementById('fab-container');
-    
+
     if (!panel) return;
 
     // СНАЧАЛА проверяем: если окно уже открыто — закрываем его (безусловно)

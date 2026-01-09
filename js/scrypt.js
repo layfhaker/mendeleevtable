@@ -166,7 +166,7 @@ let isBalancerLoading = false;
 
 // Эта функция-обертка существует только до первой загрузки скрипта.
 // Balancer.js при загрузке перезапишет её своей настоящей версией.
-window.toggleBalancerPanel = async function() {
+window.toggleBalancerPanel = async function(event) {
     // Если настоящая функция уже загружена (balancer.js отработал), вызываем её
     // (на случай если перезапись не сработала автоматически, хотя должна)
     if (window.balancerLoaded && typeof window.balanceEquation === 'function') {
@@ -179,21 +179,24 @@ window.toggleBalancerPanel = async function() {
     isBalancerLoading = true;
 
     console.log('⏳ Загрузка уравнителя...');
-    
+
     try {
         // Загружаем скрипт
         await loadScripts(lazyModules.balancer);
-        
+
         // Помечаем, что загрузили
         window.balancerLoaded = true;
 
         // В этот момент balancer.js должен был выполниться и заменить window.toggleBalancerPanel
         // Проверяем, изменилась ли функция
         console.log('✅ Уравнитель загружен, открываем...');
-        
-        // Вызываем функцию снова. Теперь это должна быть НАСТОЯЩАЯ функция из balancer.js
-        window.toggleBalancerPanel();
-        
+
+        // Вызываем функцию снова ТОЛЬКО при первой загрузке (чтобы открыть панель)
+        // НЕ передаем event, чтобы избежать конфликтов
+        if (typeof window.toggleBalancerPanel === 'function') {
+            window.toggleBalancerPanel();
+        }
+
     } catch (error) {
         console.error('❌ Ошибка загрузки уравнителя:', error);
         alert('Не удалось загрузить уравнитель. Проверьте соединение.');
