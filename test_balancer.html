@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест уравнивателя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        button {
+            margin-right: 10px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #balancer-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .calc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-calc-panel {
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+        }
+        
+        .close-calc-panel:hover {
+            color: #333;
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h1>Тестирование функций уравнивателя</h1>
+        <button onclick="openBalancer()">Открыть уравниватель</button>
+        <button onclick="closeBalancer()">Закрыть уравниватель</button>
+        <button onclick="toggleBalancer()">Переключить уравниватель</button>
+    </div>
+
+    <div id="balancer-overlay" class="overlay"></div>
+    
+    <div id="balancer-panel">
+        <div class="calc-header">
+            <h3>Уравнитель Реакций</h3>
+            <span class="close-calc-panel" onclick="closeBalancerReal()">✕</span>
+        </div>
+        <div class="balancer-content">
+            <p>Это тестовая панель уравнивателя</p>
+            <input type="text" id="balancer-input" placeholder="Введите уравнение" style="width: 100%; padding: 8px;">
+            <br><br>
+            <button onclick="performBalance()">Уравнять</button>
+            <div id="balancer-result" style="margin-top: 15px; padding: 10px; background-color: #f9f9f9;">
+                Результат появится здесь
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Имитация функций из оригинального приложения
+        
+        // Флаг состояния загрузки
+        window.balancerLoaded = true;
+        
+        // Реальная функция закрытия
+        window.closeBalancerReal = function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const panel = document.getElementById('balancer-panel');
+            const overlay = document.getElementById('balancer-overlay');
+            
+            if (panel) {
+                panel.style.display = 'none';
+            }
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+            
+            console.log('Панель уравнивателя закрыта');
+        };
+        
+        // Реальная функция открытия
+        window.toggleBalancerReal = async function(event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            const panel = document.getElementById('balancer-panel');
+            const overlay = document.getElementById('balancer-overlay');
+            
+            if (!panel) return;
+            
+            // Если открыто - закрываем
+            if (panel.style.display === 'block' || panel.style.display === 'flex') {
+                closeBalancerReal();
+                return;
+            }
+            
+            // Открываем панель
+            panel.style.display = 'block';
+            overlay.style.display = 'block';
+            
+            console.log('Панель уравнивателя открыта');
+        };
+        
+        // Функция открытия (для удобства тестирования)
+        function openBalancer() {
+            const panel = document.getElementById('balancer-panel');
+            const overlay = document.getElementById('balancer-overlay');
+            
+            panel.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+        
+        // Функция закрытия (для удобства тестирования)
+        function closeBalancer() {
+            const panel = document.getElementById('balancer-panel');
+            const overlay = document.getElementById('balancer-overlay');
+            
+            panel.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+        
+        // Функция переключения (для удобства тестирования)
+        function toggleBalancer() {
+            const panel = document.getElementById('balancer-panel');
+            
+            if (panel.style.display === 'block' || panel.style.display === 'flex') {
+                closeBalancer();
+            } else {
+                openBalancer();
+            }
+        }
+        
+        // Функция уравнивания (для тестирования)
+        function performBalance() {
+            const input = document.getElementById('balancer-input');
+            const resultDiv = document.getElementById('balancer-result');
+            
+            if (!input || !resultDiv) return;
+            
+            const equation = input.value || "H2 + O2 = H2O";
+            resultDiv.innerHTML = `Уравнено: ${equation}`;
+        }
+        
+        // Имитация функций из scrypt.js
+        window.closeBalancerPanel = function(event) {
+            // Проверяем, открыта ли панель, и если да - закрываем её
+            const panel = document.getElementById('balancer-panel');
+            if (panel && panel.classList.contains('active')) {
+                if (typeof window.toggleBalancer === 'function') {
+                    window.toggleBalancer(event);
+                }
+            }
+        };
+
+        window.toggleBalancerPanel = async function(event) {
+            // Вызываем функцию из ui.js, которая теперь содержит полную реализацию
+            if (typeof window.toggleBalancer === 'function') {
+                window.toggleBalancer(event);
+            }
+        };
+
+        // Имитация функции из ui.js
+        window.toggleBalancer = async function(event) {
+            const panel = document.getElementById('balancer-panel');
+            const fab = document.getElementById('fab-container');
+
+            if (!panel) return;
+
+            // Если панель открыта, закрываем её
+            if (panel.style.display === 'block' || panel.style.display === 'flex') {
+                // Закрываем панель
+                panel.style.display = 'none';
+                return;
+            }
+
+            // Открываем панель
+            panel.style.display = 'block';
+        };
+    </script>
+</body>
+</html>

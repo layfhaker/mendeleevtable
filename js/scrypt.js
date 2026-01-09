@@ -161,49 +161,48 @@ async function loadCalculator() {
     }
 }
 
-// 3. Уравнитель (С ИСПРАВЛЕНИЕМ)
+// 3. Уравнитель
 let isBalancerLoading = false;
 
-// Эта функция-обертка существует только до первой загрузки скрипта.
-// Balancer.js при загрузке перезапишет её своей настоящей версией.
-window.toggleBalancerPanel = async function(event) {
-    // Если настоящая функция уже загружена (balancer.js отработал), вызываем её
-    // (на случай если перезапись не сработала автоматически, хотя должна)
-    if (window.balancerLoaded && typeof window.balanceEquation === 'function') {
-        // Здесь мы пытаемся найти настоящую логику, если она не перезаписала window.toggleBalancerPanel
-        console.error("Ошибка: Balancer.js загружен, но функция не обновилась.");
-        return;
+// Обертка для закрытия
+window.closeBalancerPanel = function(event) {
+    // Вызываем функцию из ui.js, которая теперь содержит полную реализацию
+    // Проверяем, открыта ли панель, и если да - закрываем её
+    const panel = document.getElementById('balancer-panel');
+    if (panel && panel.classList.contains('active')) {
+        if (typeof window.toggleBalancer === 'function') {
+            window.toggleBalancer(event);
+        }
     }
+};
 
-    if (isBalancerLoading) return; // Защита от двойного клика
+// Обертка для toggle
+window.toggleBalancerPanel = async function(event) {
+    // Вызываем функцию из ui.js, которая теперь содержит полную реализацию
+    if (typeof window.toggleBalancer === 'function') {
+        window.toggleBalancer(event);
+    }
+};
+
+// Функция для загрузки балансера (для использования в других модулях)
+window.loadBalancer = async function() {
+    if (window.balancerLoaded) return;
+
+    // Защита от повторной загрузки
+    if (isBalancerLoading) return;
     isBalancerLoading = true;
 
-    console.log('⏳ Загрузка уравнителя...');
-
     try {
-        // Загружаем скрипт
+        // Загружаем модуль
         await loadScripts(lazyModules.balancer);
-
-        // Помечаем, что загрузили
         window.balancerLoaded = true;
-
-        // В этот момент balancer.js должен был выполниться и заменить window.toggleBalancerPanel
-        // Проверяем, изменилась ли функция
-        console.log('✅ Уравнитель загружен, открываем...');
-
-        // Вызываем функцию снова ТОЛЬКО при первой загрузке (чтобы открыть панель)
-        // НЕ передаем event, чтобы избежать конфликтов
-        if (typeof window.toggleBalancerPanel === 'function') {
-            window.toggleBalancerPanel();
-        }
-
     } catch (error) {
-        console.error('❌ Ошибка загрузки уравнителя:', error);
-        alert('Не удалось загрузить уравнитель. Проверьте соединение.');
+        console.error('Ошибка загрузки балансера:', error);
     } finally {
         isBalancerLoading = false;
     }
 };
+
 
 // Экспорты для консоли (если нужно)
 window.loadSolubility = loadSolubility;

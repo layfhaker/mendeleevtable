@@ -232,6 +232,10 @@ function clearSearch() {
 // ЛОГИКА ФИЛЬТРОВ
 // =========================================
 function toggleFilters() {
+    // Проверяем, открыт ли уравниватель
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    if (isBalancerOpen) return;
+
     const panel = document.getElementById('filters-panel');
     const fab = document.getElementById('fab-container');
 
@@ -239,7 +243,8 @@ function toggleFilters() {
         panel.classList.toggle('active');
     }
 
-    if (fab && fab.classList.contains('active')) {
+    // Скрываем FAB только на мобильных устройствах
+    if (window.innerWidth <= 1024 && fab && fab.classList.contains('active')) {
         fab.classList.remove('active');
     }
 }

@@ -2,6 +2,31 @@
    BALANCER.CSS — Extended Upwards
    ========================================= */
 
+/* Базовые стили панели */
+.balancer-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 320px;
+    min-height: 180px;
+    max-height: 400px;
+    background: white;
+    border: 2px solid #2196F3;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.balancer-panel.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Скроллбары (Chrome/Safari/Webkit) — ОБЯЗАТЕЛЬНО */
 .balancer-content::-webkit-scrollbar {
     width: 6px;
@@ -24,11 +49,12 @@
     flex-direction: column;
     padding: 10px 12px;
     gap: 10px;
-    
-    /* Скролл появляется только если контент больше, чем место до 4-го ряда */
-    overflow-y: auto; 
+
+    /* Ограничиваем высоту и добавляем скролл */
+    max-height: 200px;
+    overflow-y: auto;
     overflow-x: hidden;
-    
+
     scrollbar-width: thin;
     scrollbar-color: #90caf9 transparent;
 }
@@ -130,6 +156,8 @@
     margin-top: 5px;
     padding-top: 10px;
     border-top: 1px solid #eee;
+    max-height: 80px; /* Ограничиваем высоту примеров */
+    overflow-y: auto; /* Добавляем скролл при необходимости */
 }
 
 .balancer-examples span {
@@ -194,4 +222,64 @@ body.dark-theme .balancer-content {
 }
 body.dark-theme .balancer-content::-webkit-scrollbar-thumb {
     background-color: #3f3f5c;
+}
+
+/* Стили для активного уравнивателя */
+@media (max-width: 1024px) {
+    body.balancer-active #theme-toggle,
+    body.balancer-active .fab-container {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+
+    /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
+    body.balancer-active {
+        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;   /* Разрешаем горизонтальный */
+        position: relative !important; /* Убираем fixed, чтобы скролл работал */
+        height: 100% !important;
+        width: 100% !important;
+        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
+    }
+}
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ УРАВНИВАТЕЛЯ
+   ========================================= */
+@media (max-width: 1024px) {
+    .balancer-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin: 0;
+
+        min-height: 180px;
+        height: 25vh !important;
+        max-height: 40vh !important;
+
+        background: #ffffff;
+        border: 2px solid #2196F3;
+        border-bottom: none;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+
+        display: none;
+        flex-direction: column;
+
+        padding: 10px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+
+        z-index: 60000;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .balancer-panel.active {
+        display: flex;
+        transform: translateY(0);
+    }
 }

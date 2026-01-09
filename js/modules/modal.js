@@ -277,7 +277,8 @@ function returnElements() {
 // =========================================
 document.querySelectorAll('.element').forEach(el => {
     el.addEventListener('click', () => {
-        if (document.body.classList.contains('calc-active')) {
+        // Проверяем, открыт ли уравниватель или калькулятор
+        if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
             return;
         }
         lastClickedElement = el;
