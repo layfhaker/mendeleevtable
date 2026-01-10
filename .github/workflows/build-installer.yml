@@ -52,7 +52,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create deployment branch if it doesn't exist
+      - name: Create releases branch if it doesn't exist
         run: |
           # Fetch all branches
           git fetch origin
@@ -62,15 +62,24 @@ jobs:
 
           if (-not $remoteBranchExists) {
             Write-Host "Creating releases branch"
-            # Create the releases branch from main
-            git checkout -b releases
-            # Clear all files
-            git rm -r --cached .
-            # Create an empty commit
-            git commit --allow-empty -m "Initial releases branch"
-            # Push the new branch
+
+            # Create a new orphan branch
+            git checkout --orphan temp-branch
+            # Remove all files
+            git rm -rf .
+            # Create a placeholder file
+            "Placeholder for releases branch" | Out-File -FilePath "placeholder.txt"
+            # Add the placeholder file
+            git add placeholder.txt
+            # Commit
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git commit -m "Initial releases branch"
+            # Rename the branch to releases
+            git branch -M releases
+            # Push the branch
             git push -u origin releases
-            # Switch back to main
+            # Return to main branch
             git checkout main
           } else {
             Write-Host "Releases branch already exists"
@@ -91,11 +100,16 @@ jobs:
           if (Test-Path "releases-repo") {
             Set-Location releases-repo
 
+            # Remove placeholder if exists
+            if (Test-Path "placeholder.txt") {
+              Remove-Item "placeholder.txt"
+            }
+
             # Copy new installer files
             Copy-Item -Path "..\deploy-tmp\*.exe" -Destination ".\"
 
             # Commit and push
-            git add *.exe
+            git add .
             git config user.name 'github-actions[bot]'
             git config user.email 'github-actions[bot]@users.noreply.github.com'
             git commit -m "Update installer from commit ${{ github.sha }}" -m "Commit: ${{ github.sha }}"
