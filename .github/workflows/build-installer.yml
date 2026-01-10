@@ -54,15 +54,26 @@ jobs:
 
       - name: Create deployment branch if it doesn't exist
         run: |
-          # Check if releases branch exists
-          $branchExists = git ls-remote --heads origin releases | Select-String "releases"
-          if (-not $branchExists) {
+          # Fetch all branches
+          git fetch origin
+
+          # Check if releases branch exists remotely
+          $remoteBranchExists = git ls-remote --heads origin releases | Measure-Object | ForEach-Object {$_.Count -gt 0}
+
+          if (-not $remoteBranchExists) {
             Write-Host "Creating releases branch"
-            git checkout --orphan releases
-            git reset --hard
+            # Create the releases branch from main
+            git checkout -b releases
+            # Clear all files
+            git rm -r --cached .
+            # Create an empty commit
             git commit --allow-empty -m "Initial releases branch"
+            # Push the new branch
             git push -u origin releases
+            # Switch back to main
             git checkout main
+          } else {
+            Write-Host "Releases branch already exists"
           }
 
       - name: Deploy installer to releases branch
@@ -73,14 +84,23 @@ jobs:
           # Find and copy the installer files
           Get-ChildItem -Path "electron-app\dist" -Filter "*.exe" | Copy-Item -Destination "deploy-tmp\"
 
-          # Switch to releases branch
+          # Clone the releases branch
           git clone -b releases "https://github.com/${{ github.repository }}.git" releases-repo
-          Set-Location releases-repo
 
-          # Copy new installer files
-          Copy-Item -Path "..\deploy-tmp\*.exe" -Destination ".\"
+          # Check if clone was successful
+          if (Test-Path "releases-repo") {
+            Set-Location releases-repo
 
-          # Commit and push
-          git add *.exe
-          git commit -m "Update installer from commit ${{ github.sha }}"
-          git push origin releases
+            # Copy new installer files
+            Copy-Item -Path "..\deploy-tmp\*.exe" -Destination ".\"
+
+            # Commit and push
+            git add *.exe
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git commit -m "Update installer from commit ${{ github.sha }}" -m "Commit: ${{ github.sha }}"
+            git push origin releases
+          } else {
+            Write-Host "Failed to clone releases branch"
+            exit 1
+          }
