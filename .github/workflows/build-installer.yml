@@ -20,20 +20,25 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
       - name: Copy project files to electron-app directory
         run: |
           # Create directories if they don't exist
-          mkdir -p electron-app/css
-          mkdir -p electron-app/js
-          mkdir -p electron-app/img
-          
+          New-Item -ItemType Directory -Path "electron-app\css" -Force
+          New-Item -ItemType Directory -Path "electron-app\js" -Force
+          New-Item -ItemType Directory -Path "electron-app\img" -Force
+
           # Copy files to electron-app directory
-          cp -r css/* electron-app/css/
-          cp -r js/* electron-app/js/
-          cp -r img/* electron-app/img/
-          cp index.html electron-app/
-          cp manifest.json electron-app/
-          cp sw.js electron-app/
+          Copy-Item -Path "css\*" -Destination "electron-app\css" -Recurse
+          Copy-Item -Path "js\*" -Destination "electron-app\js" -Recurse
+          Copy-Item -Path "img\*" -Destination "electron-app\img" -Recurse
+          Copy-Item -Path "index.html" -Destination "electron-app\"
+          Copy-Item -Path "manifest.json" -Destination "electron-app\"
+          Copy-Item -Path "sw.js" -Destination "electron-app\"
 
       - name: Install dependencies
         run: |
@@ -49,36 +54,32 @@ jobs:
 
       - name: Create deployment branch if it doesn't exist
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
           # Check if releases branch exists
-          if git ls-remote --heads origin releases | grep releases; then
-            echo "Branch releases exists"
-          else
-            echo "Creating releases branch"
-            git switch --orphan releases
+          $branchExists = git ls-remote --heads origin releases | Select-String "releases"
+          if (-not $branchExists) {
+            Write-Host "Creating releases branch"
+            git checkout --orphan releases
             git reset --hard
             git commit --allow-empty -m "Initial releases branch"
             git push -u origin releases
-            git switch main
-          fi
+            git checkout main
+          }
 
       - name: Deploy installer to releases branch
         run: |
           # Create temporary directory for deployment
-          mkdir -p deploy-tmp
-          
+          New-Item -ItemType Directory -Path "deploy-tmp" -Force
+
           # Find and copy the installer files
-          find electron-app/dist -name "*.exe" -exec cp {} deploy-tmp/ \;
-          
+          Get-ChildItem -Path "electron-app\dist" -Filter "*.exe" | Copy-Item -Destination "deploy-tmp\"
+
           # Switch to releases branch
-          git clone -b releases https://github.com/${{ github.repository }}.git releases-repo
-          cd releases-repo
-          
+          git clone -b releases "https://github.com/${{ github.repository }}.git" releases-repo
+          Set-Location releases-repo
+
           # Copy new installer files
-          cp -f ../deploy-tmp/*.exe ./
-          
+          Copy-Item -Path "..\deploy-tmp\*.exe" -Destination ".\"
+
           # Commit and push
           git add *.exe
           git commit -m "Update installer from commit ${{ github.sha }}"
