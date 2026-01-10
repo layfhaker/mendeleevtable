@@ -1,0 +1,192 @@
+/* =========================================
+   FOOTER.CSS — Секция скачивания приложения в below-table-content
+   ========================================= */
+
+/* Секция скачивания приложения */
+.download-app-section {
+    margin: 60px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.download-card {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(25, 118, 210, 0.05) 100%);
+    border: 2px solid rgba(33, 150, 243, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.download-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 48px rgba(33, 150, 243, 0.2);
+    border-color: rgba(33, 150, 243, 0.5);
+}
+
+.download-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+}
+
+.download-icon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+}
+
+.download-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.download-card > p {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.download-btn-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    color: white;
+    padding: 18px 40px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+    margin: 20px 0;
+}
+
+.download-btn-large svg {
+    width: 24px;
+    height: 24px;
+    animation: bounce 2s infinite;
+}
+
+.download-btn-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(33, 150, 243, 0.6);
+    background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+}
+
+.download-btn-large:active {
+    transform: translateY(-1px);
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.download-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.download-details span {
+    opacity: 0.8;
+}
+
+.download-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.download-links a {
+    color: #2196F3;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 0 8px;
+}
+
+.download-links a:hover {
+    color: #42A5F5;
+    text-decoration: underline;
+}
+
+.download-links span {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+/* Темная тема */
+body.dark-theme .download-card {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(25, 118, 210, 0.08) 100%);
+    border-color: rgba(33, 150, 243, 0.4);
+}
+
+body.dark-theme .download-card:hover {
+    border-color: rgba(33, 150, 243, 0.6);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .download-app-section {
+        margin: 40px 0;
+        padding: 0 15px;
+    }
+
+    .download-card {
+        padding: 30px 20px;
+    }
+
+    .download-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .download-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .download-card h3 {
+        font-size: 20px;
+    }
+
+    .download-btn-large {
+        padding: 14px 28px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .download-details {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .download-details span:nth-child(2),
+    .download-details span:nth-child(4) {
+        display: none;
+    }
+}
+
+/* Скрыть секцию скачивания в Electron приложении */
+body.electron-app .download-app-section {
+    display: none;
+}

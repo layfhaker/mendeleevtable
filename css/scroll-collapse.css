@@ -11,18 +11,24 @@
     justify-content: center;
     align-items: center;
     transition: transform 0.1s ease-out;
-    transform-origin: center center;
+    transform-origin: center top;
     position: relative;
-    z-index: 1;
+    z-index: 10;
+    background: transparent; /* Прозрачный фон чтобы видеть частицы */
+    pointer-events: auto;
+    transform: scale(1.0); /* Начальное состояние - полный размер */
+    padding: 0 20px; /* Добавляем отступы по бокам */
 }
 
 /* --- Состояние сжатия --- */
 .periodic-table-container.scroll-collapsed {
-    position: sticky;
-    top: 0;
-    height: auto;
+    height: auto; /* Автоматическая высота вместо фиксированной */
+    min-height: auto;
     transform: scale(0.6) !important;
-    padding: 20px 0;
+    padding: 20px;
+    z-index: 100;
+    box-shadow: none; /* Убираем тень */
+    background: transparent; /* Прозрачный фон даже в сжатом состоянии */
 }
 
 /* --- Мобильные устройства --- */
@@ -35,15 +41,17 @@
 
 /* --- Body стили для scroll режима --- */
 body.scroll-unlocked {
-    overflow-y: auto;
-    height: auto;
+    overflow-y: auto !important;
+    height: auto !important;
     min-height: 200vh; /* Позволяем скролл ниже */
 }
 
 /* --- Изначально body не скроллится --- */
 body.scroll-locked {
-    overflow-y: hidden;
-    height: 100vh;
+    overflow-y: hidden !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
 }
 
 /* --- Контент под таблицей (для тестирования) --- */
@@ -53,20 +61,67 @@ body.scroll-locked {
     padding: 40px 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    display: flex;
+    display: none; /* Скрыт по умолчанию */
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+}
+
+/* Показываем только когда скролл разблокирован */
+body.scroll-unlocked .below-table-content {
+    display: flex;
 }
 
 .below-table-content h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
 .below-table-content p {
     font-size: 1.2rem;
     max-width: 600px;
     line-height: 1.6;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Обёртка для таблицы (объединяет основную таблицу, лантаноиды и актиноиды) --- */
+.table-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0; /* Без промежутков между элементами */
+    flex-shrink: 0; /* Не сжимаем */
+    border: none !important; /* Убираем любые рамки */
+    outline: none !important; /* Убираем outline */
+    box-shadow: none !important; /* Убираем тени */
+    background: transparent !important; /* Прозрачный фон */
+    padding: 0 !important; /* Убираем padding */
+    margin: 0 !important; /* Убираем margin */
+}
+
+/* --- Специфичные стили для внутренних элементов wrapper'а --- */
+.table-wrapper > .container,
+.table-wrapper > .lanthanides,
+.table-wrapper > .actinides {
+    /* Сохраняем оригинальное позиционирование из table.css */
+    flex-shrink: 0; /* Не сжимаем */
+}
+
+/* --- Темная тема --- */
+body.dark-theme .periodic-table-container {
+    background: transparent; /* Прозрачный и в темной теме */
+}
+
+body.dark-theme .periodic-table-container.scroll-collapsed {
+    box-shadow: none; /* Убираем тень и в темной теме */
+    background: transparent; /* Прозрачный фон даже в сжатом состоянии */
+}
+
+body.dark-theme .below-table-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }

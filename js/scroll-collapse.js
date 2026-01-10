@@ -47,7 +47,14 @@
 
         const threshold = getThreshold();
 
+        console.log('[Scroll-Collapse] Virtual scroll:', {
+            virtualScrollY,
+            threshold,
+            willUnlock: virtualScrollY >= threshold
+        });
+
         if (virtualScrollY >= threshold) {
+            console.log('[Scroll-Collapse] 🔓 Разблокировка скролла!');
             unlockScroll();
         } else {
             updateTableScale();
@@ -65,6 +72,11 @@
             const minScale = getMinScale();
             const progress = Math.min(virtualScrollY / threshold, 1);
             const scale = CONFIG.MAX_SCALE - (progress * (CONFIG.MAX_SCALE - minScale));
+
+            console.log('[Scroll-Collapse] Update scale:', {
+                progress: (progress * 100).toFixed(1) + '%',
+                scale: scale.toFixed(2)
+            });
 
             tableContainer.style.transform = `scale(${scale})`;
             rafId = null;
@@ -101,6 +113,13 @@
 
     // Обработка колесика мыши (для десктопа)
     function handleWheel(event) {
+        console.log('[Scroll-Collapse] Wheel event:', {
+            deltaY: event.deltaY,
+            virtualScrollY,
+            threshold: getThreshold(),
+            isScrollUnlocked
+        });
+
         if (!isScrollUnlocked && virtualScrollY < getThreshold()) {
             event.preventDefault();
             handleVirtualScroll(event.deltaY);
@@ -141,19 +160,27 @@
 
     // Инициализация
     function init() {
+        console.log('[Scroll-Collapse] Начало инициализации...');
+
         if (!tableContainer) {
             console.error('[Scroll-Collapse] Контейнер .periodic-table-container не найден!');
+            console.log('[Scroll-Collapse] Доступные элементы:', document.body.children);
             return;
         }
 
+        console.log('[Scroll-Collapse] Контейнер найден:', tableContainer);
+
         // Устанавливаем начальное состояние
         body.classList.add('scroll-locked');
+        console.log('[Scroll-Collapse] Класс scroll-locked добавлен');
 
         // Обработчики событий
         window.addEventListener('wheel', handleWheel, { passive: false });
         window.addEventListener('touchstart', handleTouchStart, { passive: true });
         window.addEventListener('touchmove', handleTouchMove, { passive: false });
         window.addEventListener('scroll', handlePageScroll, { passive: true });
+
+        console.log('[Scroll-Collapse] Event listeners добавлены');
 
         // Обработка изменения размера окна
         window.addEventListener('resize', () => {
@@ -162,13 +189,17 @@
             }
         });
 
-        console.log('[Scroll-Collapse] Система инициализирована');
+        console.log('[Scroll-Collapse] ✅ Система инициализирована успешно!');
+        console.log('[Scroll-Collapse] Порог:', getThreshold(), 'px');
+        console.log('[Scroll-Collapse] Мин. масштаб:', getMinScale());
     }
 
     // Запуск при загрузке DOM
     if (document.readyState === 'loading') {
+        console.log('[Scroll-Collapse] Ожидание DOMContentLoaded...');
         document.addEventListener('DOMContentLoaded', init);
     } else {
+        console.log('[Scroll-Collapse] DOM уже загружен, запуск init()');
         init();
     }
 

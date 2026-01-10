@@ -1,0 +1,89 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    tags:
+      - 'v*'  # Триггер при создании тега типа v1.0.0
+  workflow_dispatch:  # Позволяет запускать вручную
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        working-directory: ./electron-app
+        run: npm install
+
+      - name: Build Electron app
+        working-directory: ./electron-app
+        run: npm run build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get version from package.json
+        id: package-version
+        working-directory: ./electron-app
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Chemical Assistant v${{ steps.package-version.outputs.VERSION }}
+          body: |
+            ## 🎉 Релиз Chemical Assistant v${{ steps.package-version.outputs.VERSION }}
+
+            ### 📥 Скачать
+            - **ChemicalAssistant-Setup.exe** — инсталлятор с меню Пуск
+            - **ChemicalAssistant-Portable.exe** — портативная версия (не требует установки)
+
+            ### ✨ Возможности
+            - 🖼️ Установка обоев Windows
+            - ✨ Scroll-Collapse система
+            - 🧪 Интерактивная таблица Менделеева
+            - 🔬 Таблица растворимости
+            - 🧮 Калькулятор молекулярной массы
+
+            ### 🛠️ Системные требования
+            - Windows 10/11 (64-bit)
+            - ~100 МБ свободного места
+
+            ---
+            **Веб-версия:** https://layfhaker.github.io/mendeleevtable/
+          draft: false
+          prerelease: false
+
+      - name: Upload Setup Installer
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./electron-app/dist/Chemical Assistant Wallpaper Setup ${{ steps.package-version.outputs.VERSION }}.exe
+          asset_name: ChemicalAssistant-Setup.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Portable Version
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./electron-app/dist/ChemicalAssistant-Portable-${{ steps.package-version.outputs.VERSION }}.exe
+          asset_name: ChemicalAssistant-Portable.exe
+          asset_content_type: application/octet-stream

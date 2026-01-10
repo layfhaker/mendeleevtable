@@ -30,12 +30,12 @@
     "productName": "Chemical Assistant Wallpaper",
     "files": [
       "electron/**/*",
-      "index.html",
-      "css/**/*",
-      "js/**/*",
-      "img/**/*",
-      "manifest.json",
-      "sw.js"
+      "../index.html",
+      "../css/**/*",
+      "../js/**/*",
+      "../img/**/*",
+      "../manifest.json",
+      "../sw.js"
     ],
     "directories": {
       "output": "dist",
@@ -56,7 +56,7 @@
           ]
         }
       ],
-      "icon": "img/icon-192.png",
+      "icon": "../img/icon-192.png",
       "certificateFile": null,
       "certificatePassword": null
     },

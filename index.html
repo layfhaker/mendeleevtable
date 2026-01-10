@@ -47,6 +47,7 @@
   </button>
 
   <div class="periodic-table-container">
+    <div class="table-wrapper">
   <div class="container">
       <!-- Все элементы основной таблицы -->
       <div id="H" class="element nonmetal" data-symbol="H">
@@ -650,12 +651,51 @@
           <span class="name">Лоуренсий</span>
       </div>
   </div>
+    </div>
   </div>
 
     <!-- Контент под таблицей (появляется после разблокировки скролла) -->
     <div class="below-table-content">
         <h2>Добро пожаловать в расширенный режим!</h2>
         <p>Вы успешно прокрутили таблицу. Здесь будет дополнительный контент: статьи о химии, интерактивные эксперименты, и многое другое.</p>
+
+        <!-- Секция скачивания приложения -->
+        <div class="download-app-section">
+            <div class="download-card">
+                <div class="download-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                </div>
+                <h3>Десктопная версия для Windows</h3>
+                <p>Скачайте полнофункциональное приложение с возможностью установки обоев рабочего стола</p>
+                <a href="https://github.com/layfhaker/mendeleevtable/releases/latest/download/ChemicalAssistant-Setup.exe"
+                   class="download-btn-large"
+                   id="download-app-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Скачать для Windows
+                </a>
+                <div class="download-details">
+                    <span>Версия 1.0.0</span>
+                    <span>•</span>
+                    <span>Windows 10/11</span>
+                    <span>•</span>
+                    <span>~100 МБ</span>
+                </div>
+                <div class="download-links">
+                    <a href="https://github.com/layfhaker/mendeleevtable/releases" target="_blank">Все релизы</a>
+                    <span>|</span>
+                    <a href="https://github.com/layfhaker/mendeleevtable" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+
         <p>Прокрутите обратно в самый верх, чтобы вернуть таблицу в полноэкранный режим.</p>
     </div>
 
@@ -755,15 +795,6 @@
             <button class="fab-btn" aria-label="Открыть уравнитель">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/>
-                </svg>
-            </button>
-        </div>
-        <div class="fab-option" id="wallpaper-option" onclick="handleSetWallpaper()">
-            <span class="fab-label">Установить обои</span>
-            <button class="fab-btn" aria-label="Установить как обои рабочего стола">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <path d="M12 8v8M8 12h8"></path>
                 </svg>
             </button>
         </div>
