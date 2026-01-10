@@ -1,0 +1,85 @@
+name: Build and Deploy Installer
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Copy project files to electron-app directory
+        run: |
+          # Create directories if they don't exist
+          mkdir -p electron-app/css
+          mkdir -p electron-app/js
+          mkdir -p electron-app/img
+          
+          # Copy files to electron-app directory
+          cp -r css/* electron-app/css/
+          cp -r js/* electron-app/js/
+          cp -r img/* electron-app/img/
+          cp index.html electron-app/
+          cp manifest.json electron-app/
+          cp sw.js electron-app/
+
+      - name: Install dependencies
+        run: |
+          cd electron-app
+          npm install
+
+      - name: Build Windows installer
+        run: |
+          cd electron-app
+          npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create deployment branch if it doesn't exist
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Check if releases branch exists
+          if git ls-remote --heads origin releases | grep releases; then
+            echo "Branch releases exists"
+          else
+            echo "Creating releases branch"
+            git switch --orphan releases
+            git reset --hard
+            git commit --allow-empty -m "Initial releases branch"
+            git push -u origin releases
+            git switch main
+          fi
+
+      - name: Deploy installer to releases branch
+        run: |
+          # Create temporary directory for deployment
+          mkdir -p deploy-tmp
+          
+          # Find and copy the installer files
+          find electron-app/dist -name "*.exe" -exec cp {} deploy-tmp/ \;
+          
+          # Switch to releases branch
+          git clone -b releases https://github.com/${{ github.repository }}.git releases-repo
+          cd releases-repo
+          
+          # Copy new installer files
+          cp -f ../deploy-tmp/*.exe ./
+          
+          # Commit and push
+          git add *.exe
+          git commit -m "Update installer from commit ${{ github.sha }}"
+          git push origin releases
