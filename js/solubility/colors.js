@@ -230,7 +230,7 @@ function toggleNonmetalsSeries() {
         // Переход к металлам
         nonmetalsContainer.classList.remove('active');
         metalsContainer.classList.add('active');
-        title.textContent = 'Ряд активности металлов (электрохимический)';
+        title.textContent = 'Ряд активности металлов';
         toggleBtn.textContent = 'Переключить на неметаллы';
     }
 }

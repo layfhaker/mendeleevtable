@@ -262,12 +262,28 @@ body.dark-theme .fab-theme-btn .icon-sun { display: block; }
    .fab-container.active .icon-close { display: flex; }
 
    /* 3. Увеличиваем размер SVG и гарантируем блочность */
-   .fab-main svg, 
+   .fab-main svg,
    .fab-btn svg {
-       width: 60%;  /* Было 50%, увеличили */
-       height: 60%;
+       width: 85%;  /* Увеличили до 85% для лучшей видимости на iPhone */
+       height: 85%;
        display: block;
        margin: auto; /* На всякий случай */
+       min-width: 24px; /* Минимальный размер для обеспечения видимости на iPhone */
+       min-height: 24px; /* Минимальный размер для обеспечения видимости на iPhone */
+   }
+
+   /* Уменьшаем размер иконок на Android устройствах */
+   @media screen and (-webkit-device-pixel-ratio: 1.5),
+          screen and (-webkit-device-pixel-ratio: 2),
+          screen and (-webkit-device-pixel-ratio: 3) {
+       /* Проверяем, является ли устройство Android */
+       body:not(.device-iphone):not(.device-ipad) .fab-main svg,
+       body:not(.device-iphone):not(.device-ipad) .fab-btn svg {
+           width: 75% !important;  /* Уменьшаем до 75% на Android */
+           height: 75% !important;
+           min-width: 20px !important; /* Уменьшаем минимальный размер */
+           min-height: 20px !important;
+       }
    }
 
    /* Скрываем FAB при открытых панелях */
@@ -275,6 +291,15 @@ body.dark-theme .fab-theme-btn .icon-sun { display: block; }
    body.solubility-open .fab-container {
         opacity: 0;
         pointer-events: none;
+    }
+
+    /* Дополнительные стили для iPhone - увеличиваем размер иконок */
+    body.device-iphone .fab-main svg,
+    body.device-iphone .fab-btn svg {
+        width: 90% !important;  /* Увеличиваем до 90% на iPhone */
+        height: 90% !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
     }
 }
 

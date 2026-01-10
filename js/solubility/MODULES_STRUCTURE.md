@@ -110,6 +110,8 @@ solubility-modal.js (использует: renderSolubilityTable, updateFiltersF
 - `openAdvancedModal()` - из advanced-modal.js
 - `resetTableDisplay()` - из основного скрипта таблицы элементов
 - `applyCategoryFilter()` - из фильтров элементов
+- `DeviceUtils.getDeviceType()` - из utils.js для определения типа устройства
+- `DeviceUtils.addDeviceClassToBody()` - из utils.js для адаптации интерфейса под устройство
 
 ## Примечания
 

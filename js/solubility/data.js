@@ -555,7 +555,7 @@ const solubilityData = {
 // Данные для ряда активности
 const activityData = {
     metals: ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"],
-    nonMetals: ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"]
+    nonMetals: ["F", "O", "N", "Cl", "Br", "I", "S", "C", "P", "Si"]
 };
 
 // =========================================

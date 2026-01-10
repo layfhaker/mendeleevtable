@@ -185,13 +185,12 @@
 
     function applyCalcActiveTransform() {
         if (!isMobile()) return;
-        
+
         const wrapper = document.getElementById('mobile-table-wrapper');
-        
+
         // ИЗМЕНЕНИЕ: Ищем ЛЮБУЮ активную панель (калькулятор или уравнитель)
-        // Оба эти элемента имеют класс .calc-panel
-        const activePanel = document.querySelector('.calc-panel.active');
-        
+        const activePanel = document.querySelector('.calc-panel.active, .balancer-panel.active');
+
         // Если нет враппера или нет активной панели — выходим
         if (!wrapper || !activePanel) return;
 
@@ -200,15 +199,15 @@
 
         // Берем полную ширину контента для расчетов
         const wrapperWidth = wrapper.scrollWidth;
-        
+
         // ИЗМЕНЕНИЕ: Считаем высоту именно той панели, которая сейчас открыта
         const panelHeight = activePanel.offsetHeight || (window.innerHeight * 0.25);
-        
+
         // Масштаб
         const availableHeight = window.innerHeight - panelHeight - CONFIG.TOP_MARGIN - CONFIG.BOTTOM_GAP;
         let scale = availableHeight / wrapperHeight;
         scale = Math.max(CONFIG.MIN_SCALE, Math.min(CONFIG.MAX_SCALE, scale));
-        
+
         // Вертикаль (плавная)
         const naturalTopDocument = getAbsoluteTop(wrapper);
         const currentScroll = window.scrollY;
@@ -219,7 +218,7 @@
         const scaledWidth = wrapperWidth * scale;
         const windowWidth = window.innerWidth;
         let translateX = 0;
-        
+
         if (scaledWidth < windowWidth) {
             translateX = (windowWidth - scaledWidth) / 2;
         }
@@ -252,7 +251,10 @@
     const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
             if (mutation.attributeName === 'class') {
-                const isActive = document.body.classList.contains('calc-active');
+                const isCalcActive = document.body.classList.contains('calc-active');
+                const isBalancerActive = document.body.classList.contains('balancer-active');
+                const isActive = isCalcActive || isBalancerActive;
+
                 if (isActive) {
                     applyCalcActiveTransform();
                     setTimeout(applyCalcActiveTransform, 300);

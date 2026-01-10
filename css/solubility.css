@@ -325,15 +325,60 @@ body.dark-theme .solubility-wrapper {
 }
 
 body.dark-theme #color-mode-btn {
-    background: rgba(100, 181, 246, 0.2);
+    background: rgba(100, 181, 246, 0.2) !important;
 }
 
 body.dark-theme #color-mode-btn:hover {
-    background: rgba(100, 181, 246, 0.4);
+    background: rgba(100, 181, 246, 0.4) !important;
 }
 
 body.dark-theme #color-mode-btn.active {
-    background: #64B5F6;
+    background: #64B5F6 !important;
+}
+
+/* Стили для всех кнопок в .modal-header-controls */
+.modal-header-controls button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+/* SVG иконки внутри кнопок */
+.modal-header-controls button svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* Универсальные стили для кнопок, чтобы они были синими на всех устройствах */
+#solubility-modal #color-mode-btn {
+    background: rgba(33, 150, 243, 0.15) !important;
+    border: none !important;
+}
+
+#solubility-modal #color-mode-btn:hover {
+    background: rgba(33, 150, 243, 0.3) !important;
+}
+
+#solubility-modal #color-mode-btn.active {
+    background: #2196F3 !important;
+}
+
+#solubility-modal #advanced-mode-info-btn {
+    background: rgba(33, 150, 243, 0.15) !important; /* Изменяем на синий цвет вместо фиолетового */
+    border: none !important;
+}
+
+#solubility-modal #advanced-mode-info-btn:hover {
+    background: rgba(33, 150, 243, 0.3) !important; /* Изменяем на синий цвет вместо фиолетового */
+}
+
+#solubility-modal #advanced-mode-info-btn.active {
+    background: #2196F3 !important; /* Изменяем на синий цвет вместо фиолетового */
+    color: white !important;
+    box-shadow: 0 0 12px #2196F3 !important;
 }
 
 /* =========================================
@@ -796,16 +841,16 @@ body.dark-theme #activity-mode-btn.active {
 }
 
 body.dark-theme #advanced-mode-info-btn {
-    background: rgba(149, 117, 205, 0.2);
+    background: rgba(100, 181, 246, 0.2) !important; /* Синий цвет для темной темы */
 }
 
 body.dark-theme #advanced-mode-info-btn:hover {
-    background: rgba(149, 117, 205, 0.4);
+    background: rgba(100, 181, 246, 0.4) !important; /* Синий цвет для темной темы */
 }
 
 body.dark-theme #advanced-mode-info-btn.active {
-    background: #9575cd;
-    box-shadow: 0 0 12px #9575cd;
+    background: #64B5F6 !important; /* Синий цвет для темной темы */
+    box-shadow: 0 0 12px #64B5F6 !important; /* Синий цвет для темной темы */
 }
 
 /* --- КОНТЕЙНЕР РЯДА АКТИВНОСТИ --- */
@@ -994,6 +1039,80 @@ body.dark-theme #advanced-mode-info-btn.active {
         font-size: 20px;
     }
 
+    /* Уменьшаем размер кнопок на iPhone для более компактного отображения */
+    body.device-iphone .modal-header-controls button,
+    body.device-iphone #activity-series-btn,
+    body.device-iphone #color-mode-btn,
+    body.device-iphone #activity-mode-btn,
+    body.device-iphone #advanced-mode-info-btn,
+    body.device-iphone #solubility-search-btn {
+        min-width: 38px !important;
+        min-height: 38px !important;
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    /* SVG иконки на мобильных - максимально увеличиваем для iPhone */
+    .modal-header-controls button svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Дополнительные стили для iPhone - увеличиваем размер SVG иконок */
+    body.device-iphone .modal-header-controls button svg,
+    body.device-iphone #activity-series-btn svg,
+    body.device-iphone #color-mode-btn svg,
+    body.device-iphone #activity-mode-btn svg,
+    body.device-iphone #advanced-mode-info-btn svg,
+    body.device-iphone #solubility-search-btn svg {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        max-width: 34px !important;
+        max-height: 34px !important;
+    }
+
+    /* Еще более конкретные правила для кнопок в шапке таблицы растворимости на iPhone */
+    body.device-iphone #solubility-modal .modal-header .modal-header-controls #color-mode-btn svg,
+    body.device-iphone #solubility-modal .modal-header .modal-header-controls #activity-mode-btn svg,
+    body.device-iphone #solubility-modal .modal-header .modal-header-controls #advanced-mode-info-btn svg {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        max-width: 34px !important;
+        max-height: 34px !important;
+    }
+
+    /* Альтернативные стили для устройств Apple (iPhone) через медиа-запросы */
+    @media screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 375px),
+           screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 414px),
+           screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 320px),
+           screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 414px) and (device-height: 896px),
+           screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 375px) and (device-height: 812px),
+           screen and (-webkit-min-device-pixel-ratio: 2) and (device-width: 414px) and (device-height: 736px) {
+        #solubility-modal .modal-header .modal-header-controls #color-mode-btn svg,
+        #solubility-modal .modal-header .modal-header-controls #activity-mode-btn svg,
+        #solubility-modal .modal-header .modal-header-controls #advanced-mode-info-btn svg,
+        #solubility-modal .modal-header .modal-header-controls #solubility-search-btn svg {
+            width: 34px !important;
+            height: 34px !important;
+            min-width: 34px !important;
+            min-height: 34px !important;
+            max-width: 34px !important;
+            max-height: 34px !important;
+        }
+    }
+
+    /* Увеличиваем размер SVG иконок для специфических кнопок в таблице растворимости на iPhone */
+    body.device-iphone .modal-header-controls #color-mode-btn svg,
+    body.device-iphone .modal-header-controls #activity-mode-btn svg,
+    body.device-iphone .modal-header-controls #advanced-mode-info-btn svg {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
     /* Кнопка закрытия */
     .close-solubility {
         min-width: 44px !important;
@@ -1128,6 +1247,9 @@ body.dark-theme #advanced-mode-info-btn.active {
     font-weight: 500;
     transition: background 0.2s;
     white-space: nowrap;
+    position: relative;
+    z-index: 10; /* Увеличили z-index для гарантии отображения поверх */
+    margin-bottom: 8px; /* Увеличили отступ снизу */
 }
 
 .toggle-series-btn:hover {
@@ -1141,6 +1263,7 @@ body.dark-theme #advanced-mode-info-btn.active {
     justify-content: center;
     align-items: center;
     gap: 6px; /* Зазор между элементами */
+    padding-top: 5px; /* Отступ сверху чтобы не перекрывать кнопку */
 }
 
 /* КОМПАКТНЫЕ КАРТОЧКИ ЭЛЕМЕНТОВ */

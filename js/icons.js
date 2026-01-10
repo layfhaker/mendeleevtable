@@ -63,6 +63,29 @@ const iconsSVG = `
         <path d="M21 21l-4.35-4.35"/>
     </symbol>
 
+    <!-- Палитра (цветовой режим) -->
+    <symbol id="icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="7.5" cy="10" r="1.5" fill="currentColor"/>
+        <circle cx="12" cy="7.5" r="1.5" fill="currentColor"/>
+        <circle cx="16.5" cy="10" r="1.5" fill="currentColor"/>
+        <circle cx="16.5" cy="14" r="1.5" fill="currentColor"/>
+        <circle cx="12" cy="16.5" r="1.5" fill="currentColor"/>
+        <path d="M12 22a1 1 0 0 1-1-1v-2a1 1 0 0 1 2 0v2a1 1 0 0 1-1 1z"/>
+    </symbol>
+
+    <!-- Молния (ряды активности) -->
+    <symbol id="icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+
+    <!-- Информация (продвинутый режим) -->
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+    </symbol>
+
 </svg>
 `;
 

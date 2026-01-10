@@ -295,4 +295,22 @@ body.dark-theme #calc-result {
         width: 100% !important;
         touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
     }
+
+    /* Применяем те же стили при активном уравнителе */
+    body.balancer-active #theme-toggle,
+    body.balancer-active .fab-container {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+
+    /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
+    body.balancer-active {
+        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;   /* Разрешаем горизонтальный */
+        position: relative !important; /* Убираем fixed, чтобы скролл работал */
+        height: 100% !important;
+        width: 100% !important;
+        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
+    }
 }

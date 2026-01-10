@@ -17,6 +17,13 @@ window.closeBalancerRealModule = function(event) {
     panel.classList.remove('active');
     document.body.classList.remove('balancer-active');
 
+    // Восстанавливаем позицию скролла, если она была сохранена
+    const savedScrollY = document.body.dataset.savedScrollY;
+    if (savedScrollY !== undefined) {
+        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+        delete document.body.dataset.savedScrollY;
+    }
+
     // Возвращаем FAB на мобильных устройствах
     if (window.innerWidth <= 1024 && fab) {
         fab.style.display = '';
@@ -48,6 +55,9 @@ window.toggleBalancerRealModule = async function(event) {
         return;
     }
 
+    // Сохраняем текущую позицию скролла
+    const savedScrollY = window.scrollY || window.pageYOffset;
+
     // Проверяем конфликты перед открытием
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
@@ -59,6 +69,19 @@ window.toggleBalancerRealModule = async function(event) {
     const calcPanel = document.getElementById('calc-panel');
     if (calcPanel && calcPanel.classList.contains('active')) {
         if (typeof toggleCalc === 'function') toggleCalc();
+    }
+
+    // На мобильных: скроллим вверх СРАЗУ, до всех других действий
+    if (window.innerWidth <= 1024) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Закрываем таблицу растворимости на мобильных
+    if (window.innerWidth <= 1024) {
+        const solubilityModal = document.getElementById('solubility-modal');
+        if (solubilityModal && solubilityModal.classList.contains('show')) {
+            if (typeof closeSolubility === 'function') closeSolubility();
+        }
     }
 
     // Открываем панель
@@ -73,6 +96,9 @@ window.toggleBalancerRealModule = async function(event) {
     if (window.innerWidth > 1024) {
          positionBalancerPC();
     }
+
+    // Сохраняем позицию скролла в dataset для восстановления при закрытии
+    document.body.dataset.savedScrollY = savedScrollY;
 };
 
 window.fillBalance = function(equation) {

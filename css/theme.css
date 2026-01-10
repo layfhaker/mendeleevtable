@@ -30,6 +30,9 @@
     display: block;
     margin: 0;
     padding: 0;
+    pointer-events: none;
+    stroke: currentColor;
+    fill: none;
 }
 
 #theme-toggle:hover {
@@ -44,16 +47,26 @@
     animation: spinIcon 0.4s ease-out;
 }
 
+#theme-toggle .icon-moon {
+    display: block !important;
+    width: 100%;
+    height: 100%;
+}
+
 #theme-toggle .icon-sun {
-    display: none;
+    display: none !important;
+    width: 100%;
+    height: 100%;
 }
 
 body.dark-theme #theme-toggle .icon-moon {
-    display: none;
+    display: none !important;
 }
 
 body.dark-theme #theme-toggle .icon-sun {
-    display: block;
+    display: block !important;
+    width: 100%;
+    height: 100%;
 }
 
 /* =========================================
@@ -245,6 +258,49 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
         font-size: 20px;
         z-index: 5000;
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Увеличиваем SVG иконку для лучшей видимости на iPhone */
+    #theme-toggle svg {
+        width: 28px !important;  /* Увеличиваем размер иконки */
+        height: 28px !important;
+        stroke: currentColor !important;
+        fill: currentColor !important;  /* Добавляем fill для надежности */
+        color: inherit !important;
+        display: block !important;
+        margin: auto !important;  /* Центрируем иконку */
+    }
+
+    /* Явно показываем иконку луны на светлой теме */
+    #theme-toggle .icon-moon {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Явно скрываем иконку солнца на светлой теме */
+    #theme-toggle .icon-sun {
+        display: none !important;
+    }
+
+    /* Дополнительные стили для обеспечения видимости иконки */
+    #theme-toggle .icon-moon,
+    #theme-toggle .icon-sun {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 24px !important;
+        min-height: 24px !important;
+    }
+
+    /* Дополнительные стили для iPhone - увеличиваем размер иконки темы */
+    body.device-iphone #theme-toggle svg {
+        width: 32px !important;  /* Увеличиваем размер иконки на iPhone */
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
     }
 
     body.dark-theme .modal {

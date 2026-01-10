@@ -391,15 +391,15 @@ window.renderActivitySeries = function() {
 
     // Данные элементов
     const metals = ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"];
-    const nonMetals = ["F", "O", "Cl", "N", "Br", "I", "S", "C", "P", "Si"];
+    const nonMetals = ["F", "O", "N", "Cl", "Br", "I", "S", "C", "P", "Si"];
     
     // Выбираем список
     const currentList = isMetalsView ? metals : nonMetals;
     
     // Тексты
-    const titleText = isMetalsView 
-        ? "Электрохимический ряд напряжений металлов" 
-        : "Ряд электроотрицательности неметаллов";
+    const titleText = isMetalsView
+        ? "Ряд активности металлов"
+        : "Ряд активности неметаллов";
         
     const btnText = isMetalsView 
         ? "Переключить на неметаллы" 

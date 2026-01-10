@@ -7,14 +7,14 @@
 // icons.js теперь загружается синхронно в HTML (для Safari iOS)
 const criticalScripts = [
     'js/elements.js',
-    'js/particles.js',
+    'js/utils.js',
     'js/modules/mobile-layout.js',
 ];
 
 // === ОСНОВНЫЕ СКРИПТЫ (после DOMContentLoaded) ===
 // Сюда переносим nodemap, чтобы они грузились строго после ядра
 const coreScripts = [
-    
+    'js/particles.js',
     'js/modules/modal.js',
     'js/modules/theme.js',
     'js/modules/search-filters.js',
