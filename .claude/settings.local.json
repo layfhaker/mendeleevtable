@@ -11,7 +11,8 @@
       "Bash(powershell:*)",
       "Bash(if not exist \"js\\nodemap\" mkdir \"js\\nodemap\")",
       "Bash(findstr:*)",
-      "Bash(python -m http.server:*)"
+      "Bash(python -m http.server:*)",
+      "Bash(ipconfig:*)"
     ]
   }
 }

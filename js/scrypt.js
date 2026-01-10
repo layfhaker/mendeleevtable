@@ -4,8 +4,8 @@
 // =========================================
 
 // === КРИТИЧЕСКИЕ СКРИПТЫ (загружаются сразу) ===
+// icons.js удален - SVG спрайт теперь встроен в HTML для Safari iOS
 const criticalScripts = [
-    'js/icons.js',
     'js/elements.js',
     'js/particles.js',
     'js/modules/mobile-layout.js',
