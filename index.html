@@ -45,6 +45,8 @@
         <svg class="icon-moon"><use href="#icon-moon"></use></svg>
         <svg class="icon-sun"><use href="#icon-sun"></use></svg>
   </button>
+
+  <div class="periodic-table-container">
   <div class="container">
       <!-- Все элементы основной таблицы -->
       <div id="H" class="element nonmetal" data-symbol="H">
@@ -648,6 +650,14 @@
           <span class="name">Лоуренсий</span>
       </div>
   </div>
+  </div>
+
+    <!-- Контент под таблицей (появляется после разблокировки скролла) -->
+    <div class="below-table-content">
+        <h2>Добро пожаловать в расширенный режим!</h2>
+        <p>Вы успешно прокрутили таблицу. Здесь будет дополнительный контент: статьи о химии, интерактивные эксперименты, и многое другое.</p>
+        <p>Прокрутите обратно в самый верх, чтобы вернуть таблицу в полноэкранный режим.</p>
+    </div>
 
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -745,6 +755,15 @@
             <button class="fab-btn" aria-label="Открыть уравнитель">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/>
+                </svg>
+            </button>
+        </div>
+        <div class="fab-option" id="wallpaper-option" onclick="handleSetWallpaper()">
+            <span class="fab-label">Установить обои</span>
+            <button class="fab-btn" aria-label="Установить как обои рабочего стола">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <path d="M12 8v8M8 12h8"></path>
                 </svg>
             </button>
         </div>
@@ -889,6 +908,8 @@
 </div>
 
 <script src="js/scrypt.js"></script>
+<script src="js/scroll-collapse.js"></script>
+<script src="js/wallpaper-handler.js"></script>
 
 
 

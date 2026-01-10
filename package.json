@@ -1,0 +1,74 @@
+{
+  "name": "chemical-assistant-wallpaper",
+  "version": "1.0.0",
+  "description": "Интерактивная таблица Менделеева с возможностью установки как обои Windows",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "electron": "electron .",
+    "dev": "set NODE_ENV=development && electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:portable": "electron-builder --win portable"
+  },
+  "keywords": [
+    "chemistry",
+    "periodic-table",
+    "mendeleev",
+    "wallpaper",
+    "education",
+    "electron"
+  ],
+  "author": "Chemical Assistant Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.chemistryassistant.wallpaper",
+    "productName": "Chemical Assistant Wallpaper",
+    "files": [
+      "electron/**/*",
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "img/**/*",
+      "manifest.json",
+      "sw.js"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "img/icon-192.png",
+      "certificateFile": null,
+      "certificatePassword": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Chemical Assistant"
+    },
+    "portable": {
+      "artifactName": "ChemicalAssistant-Portable-${version}.exe"
+    }
+  }
+}

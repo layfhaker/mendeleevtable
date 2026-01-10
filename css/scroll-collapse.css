@@ -1,0 +1,72 @@
+/* =========================================
+   SCROLL-COLLAPSE.CSS — Система сжатия при скролле
+   ========================================= */
+
+/* --- Контейнер периодической таблицы --- */
+.periodic-table-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s ease-out;
+    transform-origin: center center;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Состояние сжатия --- */
+.periodic-table-container.scroll-collapsed {
+    position: sticky;
+    top: 0;
+    height: auto;
+    transform: scale(0.6) !important;
+    padding: 20px 0;
+}
+
+/* --- Мобильные устройства --- */
+@media (max-width: 768px) {
+    .periodic-table-container.scroll-collapsed {
+        transform: scale(0.5) !important;
+        padding: 10px 0;
+    }
+}
+
+/* --- Body стили для scroll режима --- */
+body.scroll-unlocked {
+    overflow-y: auto;
+    height: auto;
+    min-height: 200vh; /* Позволяем скролл ниже */
+}
+
+/* --- Изначально body не скроллится --- */
+body.scroll-locked {
+    overflow-y: hidden;
+    height: 100vh;
+}
+
+/* --- Контент под таблицей (для тестирования) --- */
+.below-table-content {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.below-table-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.below-table-content p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+}
