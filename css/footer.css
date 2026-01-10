@@ -28,9 +28,9 @@
 }
 
 .download-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
     background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     border-radius: 50%;
     display: flex;
@@ -40,8 +40,8 @@
 }
 
 .download-icon svg {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     color: white;
 }
 
@@ -60,16 +60,16 @@
 .download-btn-large {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 18px 40px;
-    border-radius: 12px;
+    padding: 14px 28px;
+    border-radius: 10px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
     margin: 20px 0;
 }
 
@@ -80,9 +80,9 @@
 }
 
 .download-btn-large:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(33, 150, 243, 0.6);
-    background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #7a8ce4 0%, #8a5bc7 100%);
 }
 
 .download-btn-large:active {
@@ -142,6 +142,16 @@ body.dark-theme .download-card {
 
 body.dark-theme .download-card:hover {
     border-color: rgba(33, 150, 243, 0.6);
+}
+
+body.dark-theme .download-btn-large {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    box-shadow: 0 4px 20px rgba(42, 48, 58, 0.4);
+}
+
+body.dark-theme .download-btn-large:hover {
+    box-shadow: 0 6px 24px rgba(42, 48, 58, 0.6);
+    background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
 }
 
 /* Мобильная адаптация */
