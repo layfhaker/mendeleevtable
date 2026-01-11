@@ -31,15 +31,15 @@
   },
   "build": {
     "appId": "com.chemistryassistant.wallpaper",
-    "productName": "Chemical Assistant Wallpaper",
+    "productName": "Chemical Assistant",
     "files": [
       "electron/**/*",
-      "../index.html",
-      "../css/**/*",
-      "../js/**/*",
-      "../img/**/*",
-      "../manifest.json",
-      "../sw.js"
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "img/**/*",
+      "manifest.json",
+      "sw.js"
     ],
     "directories": {
       "output": "dist",
@@ -52,27 +52,17 @@
           "arch": [
             "x64"
           ]
-        },
-        {
-          "target": "portable",
-          "arch": [
-            "x64"
-          ]
         }
       ],
-      "icon": "../img/icon-192.png",
-      "certificateFile": null,
-      "certificatePassword": null
+      "icon": "img/png2.png"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Chemical Assistant"
-    },
-    "portable": {
-      "artifactName": "ChemicalAssistant-Portable-${version}.exe"
+      "shortcutName": "Chemical Assistant",
+      "artifactName": "ChemicalAssistant-Setup-${version}.exe"
     }
   }
 }

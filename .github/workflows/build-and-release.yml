@@ -1,0 +1,109 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-electron:
+    name: Build Electron App
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: electron-app/package-lock.json
+
+      - name: Copy project files to electron-app
+        shell: powershell
+        run: |
+          Write-Host "Creating directories..."
+          New-Item -ItemType Directory -Path "electron-app\css" -Force | Out-Null
+          New-Item -ItemType Directory -Path "electron-app\js" -Force | Out-Null
+          New-Item -ItemType Directory -Path "electron-app\img" -Force | Out-Null
+
+          Write-Host "Copying files..."
+          Copy-Item -Path "css\*" -Destination "electron-app\css" -Recurse -Force
+          Copy-Item -Path "js\*" -Destination "electron-app\js" -Recurse -Force
+          Copy-Item -Path "img\*" -Destination "electron-app\img" -Recurse -Force
+          Copy-Item -Path "index.html" -Destination "electron-app\" -Force
+          Copy-Item -Path "manifest.json" -Destination "electron-app\" -Force
+          Copy-Item -Path "sw.js" -Destination "electron-app\" -Force
+
+          Write-Host "Files copied successfully"
+
+      - name: Install dependencies
+        working-directory: electron-app
+        run: npm ci
+
+      - name: Build Windows installer
+        working-directory: electron-app
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List build artifacts
+        shell: powershell
+        run: |
+          Write-Host "Build artifacts:"
+          Get-ChildItem -Path "electron-app\dist" -Recurse | Select-Object Name, Length
+
+      - name: Determine version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+            IS_PRERELEASE=false
+          else
+            VERSION="nightly-$(date +'%Y%m%d-%H%M%S')"
+            IS_PRERELEASE=true
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "is_prerelease=${IS_PRERELEASE}" >> $GITHUB_OUTPUT
+          echo "tag=v${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            electron-app/dist/*.exe
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: ${{ steps.version.outputs.is_prerelease }}
+          body: |
+            ## Химический Ассистент v${{ steps.version.outputs.version }}
+
+            ### Установка
+            Скачайте `.exe` файл и запустите установку.
+
+            ### Возможности
+            - Интерактивная таблица Менделеева (118 элементов)
+            - Таблица растворимости (384 соединения)
+            - Калькулятор молярной массы
+            - Установка обоев рабочего стола Windows
+            - Тёмная тема
+            - PWA-версия
+
+            ### Системные требования
+            - Windows 10/11 (64-bit)
+            - ~100 МБ свободного места
+
+            ---
+
+            **Commit:** ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

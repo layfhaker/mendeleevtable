@@ -12,7 +12,8 @@
       "Bash(if not exist \"js\\nodemap\" mkdir \"js\\nodemap\")",
       "Bash(findstr:*)",
       "Bash(python -m http.server:*)",
-      "Bash(ipconfig:*)"
+      "Bash(ipconfig:*)",
+      "Bash(del \"C:\\\\Users\\\\79319\\\\Documents\\\\GitHub\\\\mendeleevtable\\\\.github\\\\workflows\\\\release.yml\")"
     ]
   }
 }
