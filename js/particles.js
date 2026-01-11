@@ -11,6 +11,12 @@ let connectionDistance = 120;
 
 let wave = { active: false, x: 0, y: 0, radius: 0, maxRadius: 0, toDark: false };
 
+// Wallpaper mode settings
+let wallpaperMode = false;
+let fpsCap = 60;
+let lastFrameTime = 0;
+const frameInterval = 1000 / 60; // Default 60 FPS
+
 // === Инициализация ===
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -44,6 +50,27 @@ window.spawnAtom = function(atomicNumber, period) {
 
 window.clearAtom = function() {
     specificAtomsArray = [];
+};
+
+/**
+ * Enable/disable wallpaper mode optimizations
+ * Reduces FPS to save resources when running as desktop wallpaper
+ */
+window.setWallpaperMode = function(enabled) {
+    wallpaperMode = enabled;
+
+    if (enabled) {
+        fpsCap = 30; // Reduce to 30 FPS for wallpaper mode
+        console.log('[Particles] Wallpaper mode enabled: FPS capped at 30');
+    } else {
+        fpsCap = 60;
+        console.log('[Particles] Wallpaper mode disabled: FPS restored to 60');
+    }
+};
+
+// Also expose via particleSystem for compatibility
+window.particleSystem = {
+    setWallpaperMode: window.setWallpaperMode
 };
 
 function createSpecificAtoms(atomicNumber, period) {
@@ -221,8 +248,18 @@ function initParticles() {
     }
 }
 
-function animate() {
+function animate(currentTime) {
     requestAnimationFrame(animate);
+
+    // FPS limiting for wallpaper mode
+    if (wallpaperMode) {
+        const targetInterval = 1000 / fpsCap;
+        if (currentTime - lastFrameTime < targetInterval) {
+            return;
+        }
+        lastFrameTime = currentTime;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (wave.active) {

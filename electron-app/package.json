@@ -29,6 +29,9 @@
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1"
   },
+  "dependencies": {
+    "auto-launch": "^5.0.6"
+  },
   "build": {
     "appId": "com.chemistryassistant.wallpaper",
     "productName": "Chemical Assistant",
@@ -39,7 +42,8 @@
       "js/**/*",
       "img/**/*",
       "manifest.json",
-      "sw.js"
+      "sw.js",
+      "node_modules/auto-launch/**/*"
     ],
     "directories": {
       "output": "dist",
@@ -54,7 +58,8 @@
           ]
         }
       ],
-      "icon": "img/icon-512.png"
+      "icon": "img/icon-512.png",
+      "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
       "oneClick": false,
@@ -62,7 +67,9 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Chemical Assistant",
-      "artifactName": "ChemicalAssistant-Setup-${version}.exe"
+      "artifactName": "ChemicalAssistant-Setup-${version}.exe",
+      "perMachine": false,
+      "allowElevation": true
     }
   }
 }
