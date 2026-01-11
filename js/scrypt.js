@@ -59,14 +59,15 @@ let loadedScripts = 0;
 
 // === УТИЛИТЫ ЗАГРУЗКИ ===
 function updateProgress(percent) {
-    const bar = document.getElementById('loading-progress');
-    if (bar) {
-        bar.style.width = percent + '%';
+    // Используем новый красивый лоадер
+    if (window.ChemLoader) {
+        window.ChemLoader.updateProgress(percent);
+
+        // Скрываем при 100%
         if (percent >= 100) {
             setTimeout(() => {
-                const container = document.getElementById('loading-bar');
-                if (container) container.style.display = 'none';
-            }, 300);
+                window.ChemLoader.hide();
+            }, 500);
         }
     }
 }
@@ -131,6 +132,11 @@ function initApp() {
     // Nodemap инициализируется сам внутри nodemap-init.js, но теперь он точно загружен
 
     console.log('✅ Приложение загружено');
+
+    // Скрываем лоадер
+    if (window.ChemLoader) {
+        window.ChemLoader.hide();
+    }
 }
 
 // === ЛЕНИВАЯ ЗАГРУЗКА ===
@@ -164,36 +170,30 @@ async function loadCalculator() {
 // 3. Уравнитель
 let isBalancerLoading = false;
 
-// Обертка для закрытия
+// Balancer wrappers (actual logic is in balancer.js)
 window.closeBalancerPanel = function(event) {
-    // Вызываем функцию из ui.js, которая теперь содержит полную реализацию
-    // Проверяем, открыта ли панель, и если да - закрываем её
-    const panel = document.getElementById('balancer-panel');
-    if (panel && panel.classList.contains('active')) {
-        if (typeof window.toggleBalancer === 'function') {
-            window.toggleBalancer(event);
-        }
+    if (typeof window.closeBalancer === 'function') {
+        window.closeBalancer(event);
     }
 };
 
-// Обертка для toggle
 window.toggleBalancerPanel = async function(event) {
-    // Вызываем функцию из ui.js, которая теперь содержит полную реализацию
+    // Load module if not loaded
+    if (window.loadBalancer) await window.loadBalancer();
+
     if (typeof window.toggleBalancer === 'function') {
         window.toggleBalancer(event);
     }
 };
 
-// Функция для загрузки балансера (для использования в других модулях)
+// Function for loading balancer module
 window.loadBalancer = async function() {
     if (window.balancerLoaded) return;
 
-    // Защита от повторной загрузки
     if (isBalancerLoading) return;
     isBalancerLoading = true;
 
     try {
-        // Загружаем модуль
         await loadScripts(lazyModules.balancer);
         window.balancerLoaded = true;
     } catch (error) {

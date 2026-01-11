@@ -1,0 +1,277 @@
+/* =========================================
+   LOADER.CSS — Анимация загрузки приложения
+   Химические формулы с эффектом печати
+   ========================================= */
+
+/* === Основной контейнер === */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    overflow: hidden;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#loading-screen.hidden {
+    display: none;
+}
+
+/* === Фоновые частицы === */
+.loader-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.loader-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(33, 150, 243, 0.3);
+    border-radius: 50%;
+    animation: loader-float 15s infinite ease-in-out;
+}
+
+@keyframes loader-float {
+    0%, 100% { 
+        transform: translateY(100vh) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { 
+        transform: translateY(-100vh) rotate(720deg); 
+        opacity: 0; 
+    }
+}
+
+/* === Контейнер формулы === */
+.formula-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+/* === Орбиты вокруг формулы === */
+.loader-orbits {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    pointer-events: none;
+}
+
+.orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(33, 150, 243, 0.15);
+    border-radius: 50%;
+    animation: orbit-spin 10s linear infinite;
+}
+
+.orbit-ring-1 { width: 200px; height: 200px; }
+.orbit-ring-2 { width: 260px; height: 260px; animation-duration: 15s; animation-direction: reverse; }
+.orbit-ring-3 { width: 320px; height: 320px; animation-duration: 20s; }
+
+.orbit-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00d4ff;
+    border-radius: 50%;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px #00d4ff;
+}
+
+@keyframes orbit-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* === Бокс с формулой === */
+.formula-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(33, 150, 243, 0.2);
+    border-radius: 16px;
+    padding: 30px 50px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 40px rgba(33, 150, 243, 0.1),
+        inset 0 0 30px rgba(33, 150, 243, 0.05);
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 40px rgba(33, 150, 243, 0.1), 
+            inset 0 0 30px rgba(33, 150, 243, 0.05); 
+    }
+    50% { 
+        box-shadow: 
+            0 0 60px rgba(33, 150, 243, 0.2), 
+            inset 0 0 40px rgba(33, 150, 243, 0.1); 
+    }
+}
+
+/* === Текст формулы === */
+.formula-text {
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 42px;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(90deg, #00d4ff, #00ff88, #00d4ff);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: gradient-shift 3s linear infinite;
+    letter-spacing: 2px;
+    min-width: 200px;
+    text-align: center;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* Эффект печатной машинки */
+.formula-typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #00d4ff;
+    animation: 
+        loader-typing var(--typing-duration, 1.5s) steps(var(--chars, 10), end) forwards,
+        loader-blink 0.7s step-end infinite;
+}
+
+@keyframes loader-typing {
+    from { max-width: 0; }
+    to { max-width: 100%; }
+}
+
+@keyframes loader-blink {
+    50% { border-color: transparent; }
+}
+
+/* Подпись вещества */
+.formula-name {
+    margin-top: 16px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: loader-fade-in 0.5s ease-out 1s forwards;
+    opacity: 0;
+    font-family: Arial, sans-serif;
+}
+
+@keyframes loader-fade-in {
+    to { opacity: 1; }
+}
+
+/* === Прогресс-бар === */
+.loader-progress-section {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+.loader-progress-bar {
+    width: 280px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00d4ff, #00ff88, #ff00ff, #00d4ff);
+    background-size: 300% 100%;
+    animation: loader-progress-gradient 2s linear infinite;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+@keyframes loader-progress-gradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.loader-progress-text {
+    margin-top: 12px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.loader-progress-percent {
+    margin-top: 6px;
+    font-size: 13px;
+    color: rgba(0, 212, 255, 0.8);
+    font-family: 'Courier New', monospace;
+}
+
+/* === Мобильная адаптация === */
+@media (max-width: 600px) {
+    .formula-text {
+        font-size: 28px;
+    }
+    
+    .formula-box {
+        padding: 20px 30px;
+    }
+    
+    .loader-progress-bar {
+        width: 200px;
+    }
+    
+    .loader-orbits {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .orbit-ring-1 { width: 140px; height: 140px; }
+    .orbit-ring-2 { width: 180px; height: 180px; }
+    .orbit-ring-3 { width: 220px; height: 220px; }
+    
+    .formula-name {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+}
+
+/* === Тёмная тема (уже тёмный, но на всякий случай) === */
+body.dark-theme #loading-screen {
+    background: linear-gradient(135deg, #0a0a15 0%, #0d1525 50%, #050510 100%);
+}

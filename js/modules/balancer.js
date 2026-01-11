@@ -1,30 +1,31 @@
 // =========================================
-// МОДУЛЬ: УРАВНИТЕЛЬ РЕАКЦИЙ
+// MODULE: EQUATION BALANCER
 // =========================================
 
-// --- UI ЛОГИКА ---
-
-window.closeBalancerRealModule = function(event) {
+/**
+ * Close balancer panel
+ */
+window.closeBalancer = function(event) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();
     }
 
     const panel = document.getElementById('balancer-panel');
-    const fab = document.getElementById('fab-container');
     if (!panel) return;
 
     panel.classList.remove('active');
     document.body.classList.remove('balancer-active');
 
-    // Восстанавливаем позицию скролла, если она была сохранена
+    // Restore scroll position if saved
     const savedScrollY = document.body.dataset.savedScrollY;
     if (savedScrollY !== undefined) {
-        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+        window.scrollTo({ top: parseInt(savedScrollY), behavior: 'instant' });
         delete document.body.dataset.savedScrollY;
     }
 
-    // Возвращаем FAB на мобильных устройствах
+    // Show FAB on mobile
+    const fab = document.getElementById('fab-container');
     if (window.innerWidth <= 1024 && fab) {
         fab.style.display = '';
     }
@@ -32,13 +33,18 @@ window.closeBalancerRealModule = function(event) {
     if (typeof resetFabPosition === 'function') resetFabPosition();
 };
 
-// Функция для проверки, открыт ли уравниватель
+/**
+ * Check if balancer is active
+ */
 window.isBalancerActive = function() {
     const panel = document.getElementById('balancer-panel');
     return panel && panel.classList.contains('active');
 };
 
-window.toggleBalancerRealModule = async function(event) {
+/**
+ * Toggle balancer panel
+ */
+window.toggleBalancer = async function(event) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -49,57 +55,46 @@ window.toggleBalancerRealModule = async function(event) {
 
     if (!panel) return;
 
-    // Если открыто - закрываем
+    // If open - close
     if (panel.classList.contains('active')) {
-        closeBalancerRealModule(event);
+        window.closeBalancer(event);
         return;
     }
 
-    // Сохраняем текущую позицию скролла
-    const savedScrollY = window.scrollY || window.pageYOffset;
-
-    // Проверяем конфликты перед открытием
+    // Check for conflicts
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+    const isCalcOpen = document.body.classList.contains('calc-active');
 
-    if (isSolubilityOpen || isFiltersOpen) return;
+    if (isSolubilityOpen || isFiltersOpen || isCalcOpen) return;
 
-    // Закрываем калькулятор если открыт
-    const calcPanel = document.getElementById('calc-panel');
-    if (calcPanel && calcPanel.classList.contains('active')) {
-        if (typeof toggleCalc === 'function') toggleCalc();
-    }
+    // Save scroll position
+    document.body.dataset.savedScrollY = window.scrollY || window.pageYOffset;
 
-    // На мобильных: скроллим вверх СРАЗУ, до всех других действий
+    // On mobile: scroll to top immediately
     if (window.innerWidth <= 1024) {
         window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    // Закрываем таблицу растворимости на мобильных
-    if (window.innerWidth <= 1024) {
-        const solubilityModal = document.getElementById('solubility-modal');
-        if (solubilityModal && solubilityModal.classList.contains('show')) {
-            if (typeof closeSolubility === 'function') closeSolubility();
-        }
-    }
-
-    // Открываем панель
-    // Не скрываем FAB на ПК, только на мобильных
+    // Open panel
     if (window.innerWidth <= 1024 && fab) {
         fab.classList.remove('active');
     }
     panel.classList.add('active');
     document.body.classList.add('balancer-active');
 
-    // Позиционирование на ПК
-    if (window.innerWidth > 1024) {
-         positionBalancerPC();
+    // Position on PC
+    if (window.innerWidth > 1024 && typeof positionBalancerPC === 'function') {
+        positionBalancerPC();
     }
-
-    // Сохраняем позицию скролла в dataset для восстановления при закрытии
-    document.body.dataset.savedScrollY = savedScrollY;
 };
+
+// Keep backwards compatibility aliases
+window.toggleBalancerRealModule = window.toggleBalancer;
+window.closeBalancerRealModule = window.closeBalancer;
+window.toggleBalancerPanel = window.toggleBalancer;
+window.closeBalancerPanel = window.closeBalancer;
 
 window.fillBalance = function(equation) {
     const input = document.getElementById('balancer-input');
