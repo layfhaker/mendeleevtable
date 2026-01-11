@@ -11,13 +11,15 @@ async function updateDownloadLink() {
 
     try {
         console.log('[Download] Fetching latest release info...');
-        const response = await fetch('https://api.github.com/repos/layfhaker/mendeleevtable/releases/latest');
+        const response = await fetch('https://api.github.com/repos/layfhaker/mendeleevtable/releases');
 
         if (!response.ok) {
             throw new Error(`GitHub API error: ${response.status}`);
         }
 
-        const data = await response.json();
+        const releases = await response.json();
+        const data = releases[0]; // Get most recent release (includes pre-releases)
+        if (!data) throw new Error('No releases found');
         console.log('[Download] Latest release:', data.tag_name);
 
         // Find the .exe installer file
