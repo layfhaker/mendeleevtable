@@ -31,13 +31,6 @@
     background: transparent; /* Прозрачный фон даже в сжатом состоянии */
 }
 
-/* --- Мобильные устройства --- */
-@media (max-width: 768px) {
-    .periodic-table-container.scroll-collapsed {
-        transform: scale(0.5) !important;
-        padding: 10px 0;
-    }
-}
 
 /* --- Body стили для scroll режима --- */
 body.scroll-unlocked {
@@ -124,4 +117,43 @@ body.dark-theme .periodic-table-container.scroll-collapsed {
 
 body.dark-theme .below-table-content {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+.download-btn-large-icon {
+    justify-content:left;
+    width:15vw;
+    height:15vw;
+}
+.download-detailes-all{
+    margin-left: auto; /* Прижмёт к правому краю */
+    align-self: center; /* Выравнивание по вертикали */
+    flex-direction: column;
+}
+.download-card {
+    display:flex;
+    width:auto;
+    flex-direction:row !important;
+    align-items:center;
+}
+.download-detailes {
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    body.scroll-unlocked .below-table-content {
+        display: none !important;
+    }
+}
+
+/* Запрет для Electron-приложений */
+@media screen and (-webkit-min-device-pixel-ratio: 1) {
+    /* Проверяем, является ли приложение Electron */
+    body.electron-app .below-table-content,
+    body[data-app-type="electron"] .below-table-content {
+        display: none !important;
+    }
+}
+
+/* Альтернатива: через JS-детект */
+body.electron .below-table-content {
+    display: none !important;
 }
