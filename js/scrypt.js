@@ -209,4 +209,4 @@ window.loadSolubility = loadSolubility;
 window.loadCalculator = loadCalculator;
 
 init();
-console.log("71 версия")
+console.log("72 версия")
