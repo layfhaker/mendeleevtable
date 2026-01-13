@@ -1,6 +1,4 @@
-# Dependencies
-node_modules/
-package-lock.json
+
 
 # Build outputs
 dist/
@@ -35,9 +33,7 @@ yarn-error.log*
 *.temp
 .cache/
 
-# Personal files
-all_code.txt
-codeextractor.py
+
 
 # Electron
 electron-app/node_modules/
