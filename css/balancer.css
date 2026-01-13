@@ -4,7 +4,7 @@
 
 /* Базовые стили панели */
 .balancer-panel {
-    position: fixed;
+    position: fixed; /* Changed back to fixed for proper desktop positioning */
     bottom: 20px;
     right: 20px;
     width: 320px;
@@ -20,12 +20,15 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; /* Fixes zombie hitbox issue */
 }
 
 .balancer-panel.active {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto; /* Enable pointer events when active */
 }
+
 
 /* Скроллбары (Chrome/Safari/Webkit) — ОБЯЗАТЕЛЬНО */
 .balancer-content::-webkit-scrollbar {
@@ -127,7 +130,7 @@
     font-size: 0.6em;       /* Уменьшаем размер шрифта до 60% */
     vertical-align: sub;    /* Стандартное выравнивание */
     line-height: 0;         /* Чтобы индекс не раздвигал высоту строки */
-    position: relative;     
+    position: relative;
     bottom: -0.1em;         /* Небольшая корректировка позиции, если нужно */
 }
 
@@ -294,3 +297,5 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb {
         transform: translateY(0);
     }
 }
+
+

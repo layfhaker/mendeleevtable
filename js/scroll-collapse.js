@@ -40,6 +40,14 @@
 
     // Обработка виртуального скролла
     function handleVirtualScroll(deltaY) {
+        // Если любой из активных элементов открыт, не обрабатываем скролл
+        if (document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('solubility-open') ||
+            document.body.classList.contains('calc-active') ||
+            (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
+            return;
+        }
+
         if (isScrollUnlocked) return; // Если скролл разблокирован, не обрабатываем
 
         virtualScrollY += deltaY;
@@ -113,6 +121,14 @@
 
     // Обработка колесика мыши (для десктопа)
     function handleWheel(event) {
+        // Если любой из активных элементов открыт, не обрабатываем скролл
+        if (document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('solubility-open') ||
+            document.body.classList.contains('calc-active') ||
+            (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
+            return;
+        }
+
         console.log('[Scroll-Collapse] Wheel event:', {
             deltaY: event.deltaY,
             virtualScrollY,
@@ -131,6 +147,14 @@
     let lastTouchY = 0;
 
     function handleTouchStart(event) {
+        // Если любой из активных элементов открыт, не обрабатываем тач-события
+        if (document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('solubility-open') ||
+            document.body.classList.contains('calc-active') ||
+            (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
+            return;
+        }
+
         if (!isScrollUnlocked) {
             touchStartY = event.touches[0].clientY;
             lastTouchY = touchStartY;
@@ -138,6 +162,14 @@
     }
 
     function handleTouchMove(event) {
+        // Если любой из активных элементов открыт, не обрабатываем тач-события
+        if (document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('solubility-open') ||
+            document.body.classList.contains('calc-active') ||
+            (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
+            return;
+        }
+
         if (!isScrollUnlocked && virtualScrollY < getThreshold()) {
             const currentY = event.touches[0].clientY;
             const deltaY = lastTouchY - currentY; // Инвертируем для правильного направления
@@ -152,6 +184,14 @@
 
     // Обработка реального скролла страницы
     function handlePageScroll() {
+        // Если любой из активных элементов открыт, не блокируем скролл
+        if (document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('solubility-open') ||
+            document.body.classList.contains('calc-active') ||
+            (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
+            return;
+        }
+
         if (isScrollUnlocked && window.scrollY === 0) {
             // Если пользователь прокрутил в самый верх, блокируем скролл
             lockScroll();
@@ -161,6 +201,23 @@
     // Инициализация
     function init() {
         console.log('[Scroll-Collapse] Начало инициализации...');
+
+        // Check if the device is Mobile (width <= 1024px) OR if running in Electron (check existence of window.electronAPI)
+        if (window.innerWidth <= 1024 || window.electronAPI) {
+            console.log('[Scroll-Collapse] Mobile or Electron detected - disabling scroll collapse and hiding footer');
+
+            // Force the page to stay locked (overflow: hidden on body)
+            document.body.style.overflow = 'hidden';
+
+            // Ensure .below-table-content is hidden (display: none)
+            const belowTableContent = document.querySelector('.below-table-content');
+            if (belowTableContent) {
+                belowTableContent.style.display = 'none';
+            }
+
+            // Return early - don't initialize scroll logic
+            return;
+        }
 
         if (!tableContainer) {
             console.error('[Scroll-Collapse] Контейнер .periodic-table-container не найден!');
@@ -203,4 +260,45 @@
         init();
     }
 
+    // Функции для отключения и включения системы скроллколапса
+    // Они доступны глобально, чтобы другие модули могли их использовать
+    window.disableScrollCollapseSystem = function() {
+        // Disable scroll-collapse functionality
+        const tableContainer = document.querySelector('.periodic-table-container');
+        if (tableContainer) {
+            tableContainer.classList.add('scroll-locked'); // Add class to prevent scaling
+        }
+
+        // Hide below-table-content
+        const belowTableContent = document.querySelector('.below-table-content');
+        if (belowTableContent) {
+            belowTableContent.style.display = 'none';
+        }
+
+        // Prevent scroll-collapse event listeners from working
+        const scrollCollapseListeners = document.body.getAttribute('data-scroll-collapse-disabled');
+        if (!scrollCollapseListeners) {
+            document.body.setAttribute('data-scroll-collapse-disabled', 'true');
+        }
+    };
+
+    window.restoreScrollCollapseSystem = function() {
+        // Re-enable scroll-collapse functionality
+        const tableContainer = document.querySelector('.periodic-table-container');
+        if (tableContainer) {
+            tableContainer.classList.remove('scroll-locked'); // Remove class that prevented scaling
+        }
+
+        // Show below-table-content if appropriate
+        const belowTableContent = document.querySelector('.below-table-content');
+        if (belowTableContent) {
+            // Only show if scroll-collapse is unlocked (depends on your implementation)
+            // For now, we'll restore the default behavior
+            belowTableContent.style.display = '';
+        }
+
+        // Allow scroll-collapse event listeners to work again
+        document.body.removeAttribute('data-scroll-collapse-disabled');
+    };
 })();
+

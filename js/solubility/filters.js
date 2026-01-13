@@ -24,20 +24,6 @@ function updateFiltersForSolubility() {
             <h4>Цвета веществ</h4>
             <div class="filter-buttons">${buttonsHTML}</div>
         `;
-
-        document.querySelectorAll('#categories-section .filter-btn[data-color-name]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const originalColors = JSON.parse(decodeURIComponent(btn.dataset.encodedColors));
-                if (btn.classList.contains('active')) {
-                    btn.classList.remove('active');
-                    resetSolubilityTableDisplay();
-                } else {
-                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterByColor(originalColors);
-                }
-            });
-        });
     } else {
         categoriesSection.innerHTML = `
             <h4>Растворимость</h4>
@@ -48,21 +34,10 @@ function updateFiltersForSolubility() {
                 <button class="filter-btn" data-solubility="-">Не существует (-)</button>
             </div>
         `;
-
-        document.querySelectorAll('#categories-section .filter-btn[data-solubility]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const solubility = btn.dataset.solubility;
-                if (btn.classList.contains('active')) {
-                    btn.classList.remove('active');
-                    resetSolubilityTableDisplay();
-                } else {
-                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterBySolubility(solubility);
-                }
-            });
-        });
     }
+
+    // Обработчики событий устанавливаются на уровне документа и не требуют повторной установки
+    // после обновления содержимого
 }
 
 function filterByColor(targetColors) {
@@ -132,22 +107,122 @@ function restoreElementFilters() {
     const categoriesSection = document.getElementById('categories-section');
     if (!categoriesSection || !originalCategoriesHTML) return;
     categoriesSection.innerHTML = originalCategoriesHTML;
+
+    // Reattach event handlers to the restored buttons
     document.querySelectorAll('#categories-section .filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filterType = btn.dataset.filter;
-            if (btn.classList.contains('active')) {
-                btn.classList.remove('active');
-                resetTableDisplay();
-            } else {
-                document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                applyCategoryFilter(filterType);
-            }
-        });
+        // Check if handler is already attached
+        if (!btn.dataset.handlerAttached) {
+            btn.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    resetTableDisplay();
+                    // Also reset solubility table display if needed
+                    if (typeof resetSolubilityTableDisplay === 'function') {
+                        resetSolubilityTableDisplay();
+                    }
+                } else {
+                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    applyCategoryFilter(filterType);
+                }
+            });
+
+            // Mark that handler is attached
+            btn.dataset.handlerAttached = 'true';
+        }
     });
 }
 
 
+
+// Используем MutationObserver для отслеживания изменений в DOM и установки обработчиков
+function setupFilterEventHandlers() {
+    // Функция для присоединения обработчика к конкретной кнопке
+    function attachHandlerToButton(button) {
+        // Проверяем, не установлен ли уже обработчик
+        if (button.dataset.handlerAttached === 'true') {
+            return;
+        }
+
+        button.addEventListener('click', function() {
+            console.log('Filter button clicked:', this);
+
+            // Handle color filter buttons
+            if (this.hasAttribute('data-encoded-colors')) {
+                console.log('Color filter clicked:', this.dataset.colorName);
+                const originalColors = JSON.parse(decodeURIComponent(this.dataset.encodedColors));
+
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    resetSolubilityTableDisplay();
+                } else {
+                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterByColor(originalColors);
+                }
+            }
+            // Handle solubility filter buttons
+            else if (this.hasAttribute('data-solubility')) {
+                console.log('Solubility filter clicked:', this.dataset.solubility);
+                const solubility = this.dataset.solubility;
+
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    resetSolubilityTableDisplay();
+                } else {
+                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterBySolubility(solubility);
+                }
+            }
+        });
+
+        // Помечаем, что обработчик уже установлен
+        button.dataset.handlerAttached = 'true';
+    }
+
+    // Наблюдатель за изменениями в DOM
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            // Проверяем, были ли добавлены новые узлы
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1) { // ELEMENT_NODE
+                    // Проверяем, является ли добавленный узел кнопкой фильтра или содержит такие кнопки
+                    if (node.classList && node.classList.contains('filter-btn')) {
+                        attachHandlerToButton(node);
+                    } else if (node.querySelectorAll) {
+                        const filterButtons = node.querySelectorAll('.filter-btn');
+                        filterButtons.forEach(attachHandlerToButton);
+                    }
+                }
+            });
+        });
+    });
+
+    // Начинаем наблюдение за изменениями в #categories-section
+    const targetNode = document.getElementById('categories-section');
+    if (targetNode) {
+        observer.observe(targetNode, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    // Также устанавливаем обработчики для уже существующих кнопок
+    setTimeout(() => {
+        const existingButtons = document.querySelectorAll('#categories-section .filter-btn');
+        existingButtons.forEach(attachHandlerToButton);
+    }, 100);
+}
+
+// Инициализируем обработчики при загрузке
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupFilterEventHandlers);
+} else {
+    setupFilterEventHandlers();
+}
 
 // Экспорт функций в window (на всякий случай)
 window.updateFiltersForSolubility = updateFiltersForSolubility;

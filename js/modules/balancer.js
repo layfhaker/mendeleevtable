@@ -5,6 +5,7 @@
 /**
  * Close balancer panel
  */
+
 window.closeBalancer = function(event) {
     if (event) {
         event.stopPropagation();
@@ -29,6 +30,9 @@ window.closeBalancer = function(event) {
     if (window.innerWidth <= 1024 && fab) {
         fab.style.display = '';
     }
+
+    // Restore scroll-collapse system when balancer is closed
+    window.restoreScrollCollapseSystem();
 
     if (typeof resetFabPosition === 'function') resetFabPosition();
 };
@@ -84,10 +88,48 @@ window.toggleBalancer = async function(event) {
     panel.classList.add('active');
     document.body.classList.add('balancer-active');
 
+    // Disable scroll-collapse system and hide below-table-content
+    window.disableScrollCollapseSystem();
+
     // Position on PC
     if (window.innerWidth > 1024 && typeof positionBalancerPC === 'function') {
-        positionBalancerPC();
+        // Use setTimeout with a longer delay to ensure all animations/transitions complete
+        setTimeout(positionBalancerPC, 100);
     }
+
+    // Show loader initially
+    const resultDiv = document.getElementById('balancer-result');
+    if (resultDiv) {
+        resultDiv.innerHTML = '<span class="placeholder-text">Введите уравнение для уравнивания</span>';
+    }
+};
+
+window.performBalance = function() {
+    const input = document.getElementById('balancer-input');
+    const resultDiv = document.getElementById('balancer-result');
+    const errorDiv = document.getElementById('balancer-error');
+
+    if (!input || !resultDiv) return;
+
+    errorDiv.style.display = 'none';
+    resultDiv.innerHTML = '<span class="placeholder-text">Вычисляю...</span>';
+
+    setTimeout(() => {
+        try {
+            const query = input.value;
+            if(!query.trim()) throw new Error("Введите уравнение");
+
+            const balanced = balanceEquation(query);
+
+            const formatted = formatChemicalHTML(balanced);
+            resultDiv.innerHTML = formatted;
+
+        } catch (e) {
+            resultDiv.innerHTML = '';
+            errorDiv.textContent = e.message.replace(/^Error:\s*/, '');
+            errorDiv.style.display = 'block';
+        }
+    }, 50);
 };
 
 // Keep backwards compatibility aliases
@@ -135,47 +177,225 @@ window.performBalance = function() {
 function positionBalancerPC() {
     if (window.innerWidth <= 1024) return;
 
+    console.log('positionBalancerPC called');
+
     const panel = document.getElementById('balancer-panel');
+
+    // Check if the table is scaled due to scroll-collapse
+    const tableContainer = document.querySelector('.periodic-table-container');
+    console.log('Table container:', tableContainer);
+    console.log('Has scroll-collapsed class:', tableContainer && tableContainer.classList.contains('scroll-collapsed'));
+
+    if (tableContainer && tableContainer.classList.contains('scroll-collapsed')) {
+        console.log('Table is collapsed, showing in default position');
+        // If table is collapsed, show balancer in default position (bottom-right)
+        panel.style.position = 'fixed';
+        panel.style.left = 'auto';  // Explicitly reset to avoid CSS conflicts
+        panel.style.top = 'auto';   // Explicitly reset to avoid CSS conflicts
+        panel.style.right = '20px';
+        panel.style.bottom = '20px';
+        panel.style.width = '320px';
+        panel.style.maxHeight = '400px';
+        panel.style.height = 'auto';
+        panel.style.zIndex = '1000';
+        panel.style.display = 'flex';
+        panel.style.flexDirection = 'column';
+        return;
+    }
+
+    // If table is not collapsed, position next to element K
     const elH = document.getElementById('H');
     const elK = document.getElementById('K');
     const elAl = document.getElementById('Al');
     const elMg = document.getElementById('Mg');
 
-    if (!elH || !elK || !elAl || !panel) return;
+    console.log('Elements found:', { elH: !!elH, elK: !!elK, elAl: !!elAl, elMg: !!elMg });
 
-    const minGapFromTop = 40;
+    if (!elH || !elK || !elAl || !panel) {
+        console.warn('Required elements not found');
+        return;
+    }
 
     const hRect = elH.getBoundingClientRect();
     const kRect = elK.getBoundingClientRect();
     const alRect = elAl.getBoundingClientRect();
+    const mgRect = elMg ? elMg.getBoundingClientRect() : null;
 
-    const mgRight = elMg ? elMg.getBoundingClientRect().right : (hRect.right + 80);
-    const left = mgRight + 6;
-    const width = alRect.left - left - 6;
+    console.log('Element H rectangle:', {
+        x: hRect.x, y: hRect.y,
+        left: hRect.left, top: hRect.top,
+        right: hRect.right, bottom: hRect.bottom,
+        width: hRect.width, height: hRect.height
+    });
 
-    // Позиционируем под элементом K, чтобы не налезать на 4-й ряд
-    const rowHeight = hRect.height || 60;
-    let targetTop = kRect.bottom + window.scrollY + 10; // 10px отступ от K
+    console.log('Element K rectangle:', {
+        x: kRect.x, y: kRect.y,
+        left: kRect.left, top: kRect.top,
+        right: kRect.right, bottom: kRect.bottom,
+        width: kRect.width, height: kRect.height
+    });
 
-    // Ограничиваем максимальную высоту
-    const maxPanelHeight = 250; // Максимальная высота панели
-    const availableHeight = window.innerHeight - (kRect.bottom + 20);
+    console.log('Element Al rectangle:', {
+        x: alRect.x, y: alRect.y,
+        left: alRect.left, top: alRect.top,
+        right: alRect.right, bottom: alRect.bottom,
+        width: alRect.width, height: alRect.height
+    });
 
-    panel.style.position = 'absolute';
+    if (mgRect) {
+        console.log('Element Mg rectangle:', {
+            x: mgRect.x, y: mgRect.y,
+            left: mgRect.left, top: mgRect.top,
+            right: mgRect.right, bottom: mgRect.bottom,
+            width: mgRect.width, height: mgRect.height
+        });
+    } else {
+        console.log('Element Mg not found, using fallback calculation');
+    }
+
+    // Calculate positions based on current view (accounting for any transforms)
+    const mgRight = mgRect ? mgRect.right : (hRect.right + 80);
+    const alLeft = alRect.left;
+    const totalSpace = alLeft - mgRight; // Общее доступное пространство
+    const desiredWidth = totalSpace * 0.97; // 97% от общего пространства (оставляем 1.5% с каждой стороны)
+    const width = Math.floor(desiredWidth); // Округляем ширину до целого
+    const remainingSpace = totalSpace - width; // Оставшееся пространство для отступов
+    const margin = Math.floor(remainingSpace / 2); // Поровну с обеих сторон
+    const left = mgRight + margin; // Позиционируем с учетом левого отступа
+
+    console.log('Calculated positions:', {
+        mgRight: mgRight,
+        alLeft: alLeft,
+        totalSpace: totalSpace,
+        desiredWidth: desiredWidth,
+        width: width,
+        remainingSpace: remainingSpace,
+        margin: margin,
+        left: left
+    });
+
+    // Позиционируем так, чтобы нижняя грань панели была над верхней гранью элемента K
+    // Устанавливаем высоту, которая включает только заголовок, поле ввода и поле вывода с отступами
+    // Примеры будут скрыты и доступны через скролл
+
+    // Сначала устанавливаем панель с видимостью, чтобы можно было измерить её элементы
+    panel.style.position = 'fixed';
     panel.style.left = left + 'px';
-    panel.style.top = targetTop + 'px';
+    panel.style.right = 'auto';
+    panel.style.bottom = 'auto';
     panel.style.width = width + 'px';
-    panel.style.maxHeight = Math.min(maxPanelHeight, availableHeight) + 'px';
+    panel.style.maxHeight = 'none'; // Временно убираем ограничение высоты
     panel.style.height = 'auto';
     panel.style.zIndex = '1000';
     panel.style.display = 'flex';
     panel.style.flexDirection = 'column';
+
+    // Ждем, пока элементы отрендерятся, и затем измеряем их высоту
+    setTimeout(() => {
+        // Скрываем секцию примеров для точного измерения основного контента
+        const examplesSection = panel.querySelector('.balancer-examples');
+        let wasExamplesVisible = false;
+        if (examplesSection && examplesSection.style.display !== 'none') {
+            wasExamplesVisible = true;
+            examplesSection.style.display = 'none';
+        }
+
+        // Измеряем реальные высоты элементов
+        const header = panel.querySelector('.calc-header');
+        const inputRow = panel.querySelector('.balancer-input-row');
+        const result = panel.querySelector('#balancer-result');
+        const error = panel.querySelector('#balancer-error');
+
+        const headerHeight = header ? header.offsetHeight : 0;
+        const inputRowHeight = inputRow ? inputRow.offsetHeight : 0;
+        const resultHeight = result ? result.offsetHeight : 0;
+        const errorHeight = error ? error.offsetHeight : 0;
+
+        // Общая высота основного контента (без примеров)
+        const mainContentHeight = headerHeight + inputRowHeight + resultHeight + errorHeight + 20; // 20px на отступы
+
+        // Восстанавливаем видимость примеров
+        if (wasExamplesVisible && examplesSection) {
+            examplesSection.style.display = '';
+        }
+
+        const targetTop = kRect.top - mainContentHeight - 25; // 25px отступ над K (увеличили отступ, чтобы не перекрывало 4-й ряд)
+
+        // Проверяем, чтобы панель не выходила за верхнюю границу экрана
+        const minTop = 20; // Отступ от верха экрана
+        const finalTop = Math.max(targetTop, minTop);
+
+        // Устанавливаем финальные стили
+        panel.style.top = finalTop + 'px';
+        panel.style.maxHeight = mainContentHeight + 'px'; // Ограничиваем высоту основным контентом
+        panel.style.height = mainContentHeight + 'px'; // Явно устанавливаем высоту
+
+        console.log('Target top with measured main content height (without examples):', {
+            kTop: kRect.top,
+            headerHeight: headerHeight,
+            inputRowHeight: inputRowHeight,
+            resultHeight: resultHeight,
+            errorHeight: errorHeight,
+            mainContentHeight: mainContentHeight,
+            offset: 10,
+            calculatedTop: targetTop,
+            finalTop: finalTop
+        });
+    }, 0);
+
+    // Также логируем реальные размеры панели после установки стилей
+    setTimeout(() => {
+        console.log('Actual panel dimensions after styling:', {
+            offsetHeight: panel.offsetHeight,
+            clientHeight: panel.clientHeight,
+            scrollHeight: panel.scrollHeight,
+            computedStyles: {
+                height: getComputedStyle(panel).height,
+                maxHeight: getComputedStyle(panel).maxHeight
+            }
+        });
+
+        // Логируем размеры внутренних элементов
+        const header = panel.querySelector('.calc-header');
+        const inputRow = panel.querySelector('.balancer-input-row');
+        const result = panel.querySelector('#balancer-result');
+        const examples = panel.querySelector('.balancer-examples');
+
+        if (header) {
+            console.log('Header dimensions:', {
+                offsetHeight: header.offsetHeight,
+                clientHeight: header.clientHeight
+            });
+        }
+
+        if (inputRow) {
+            console.log('Input row dimensions:', {
+                offsetHeight: inputRow.offsetHeight,
+                clientHeight: inputRow.clientHeight
+            });
+        }
+
+        if (result) {
+            console.log('Result dimensions:', {
+                offsetHeight: result.offsetHeight,
+                clientHeight: result.clientHeight
+            });
+        }
+
+        if (examples) {
+            console.log('Examples dimensions:', {
+                offsetHeight: examples.offsetHeight,
+                clientHeight: examples.clientHeight
+            });
+        }
+    }, 100);
 }
 
 window.addEventListener('resize', () => {
     const panel = document.getElementById('balancer-panel');
     if (panel && panel.classList.contains('active') && window.innerWidth > 1024) {
-        positionBalancerPC();
+        // Use setTimeout with a longer delay to ensure all animations/transitions complete
+        setTimeout(positionBalancerPC, 100);
     }
 });
 

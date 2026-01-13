@@ -286,11 +286,53 @@
         }, 300);
     }
 
+    // === СИСТЕМА ИНИЦИАЛИЗАЦИИ МОДУЛЕЙ ===
+    const modulesQueue = [];
+    let initializedModules = 0;
+    let totalModules = 0;
+
+    // Функция для регистрации модуля
+    function registerModule(name, initFunction) {
+        modulesQueue.push({ name, initFunction });
+        totalModules++;
+        updateProgress(0); // Обновляем прогресс
+    }
+
+    // Функция для инициализации модулей
+    async function initializeModules() {
+        if (modulesQueue.length === 0) {
+            // Если нет зарегистрированных модулей, просто скрываем лоадер
+            setTimeout(hideLoader, 500);
+            return;
+        }
+
+        for (const module of modulesQueue) {
+            try {
+                console.log(`Initializing module: ${module.name}`);
+                await module.initFunction();
+                initializedModules++;
+
+                // Обновляем прогресс
+                const progress = (initializedModules / totalModules) * 100;
+                updateProgress(progress);
+
+                console.log(`${module.name} initialized successfully`);
+            } catch (error) {
+                console.error(`Error initializing module ${module.name}:`, error);
+            }
+        }
+
+        // Скрываем лоадер после инициализации всех модулей
+        setTimeout(hideLoader, 500);
+    }
+
     // === ЭКСПОРТ ФУНКЦИЙ ===
     window.ChemLoader = {
         updateProgress: updateProgress,
         hide: hideLoader,
-        showFormula: showRandomFormula
+        showFormula: showRandomFormula,
+        registerModule: registerModule,
+        initializeModules: initializeModules
     };
 
     // === ИНИЦИАЛИЗАЦИЯ ===

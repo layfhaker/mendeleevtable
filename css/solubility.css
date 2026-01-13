@@ -880,7 +880,7 @@ body.dark-theme #advanced-mode-info-btn.active {
 /* Добавляем поддержку безопасных зон (вырезов) и отступы */
 .solubility-container {
     /* ... существующие стили ... */
-    
+
     /* Добавляем padding для закругленных углов и вырезов */
     padding-left: max(16px, env(safe-area-inset-left));
     padding-right: max(16px, env(safe-area-inset-right));
@@ -990,12 +990,12 @@ body.dark-theme #advanced-mode-info-btn.active {
         /* Полностью убираем отступы - никакого белого пространства */
         padding: 0 !important;
         box-sizing: border-box;
-        
+
         /* СКРЫВАЕМ СКРОЛЛБАРЫ */
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* IE/Edge */
     }
-    
+
     /* Скрываем скроллбары WebKit (Chrome, Safari) */
     .solubility-wrapper::-webkit-scrollbar {
         display: none;
@@ -1150,13 +1150,13 @@ body.dark-theme #advanced-mode-info-btn.active {
         padding-left: max(20px, env(safe-area-inset-left)) !important;
         padding-right: max(20px, env(safe-area-inset-right)) !important;
     }
-    
+
     /* 12. УБИРАЕМ СИНЮЮ ПОЛОСКУ ВНИЗУ */
     /* Убираем border-bottom, НО НЕ у ячеек таблицы */
     #solubility-modal *:not(.modal-header):not(.table-legend):not(.activity-series-panel):not(td):not(th):not(.focused-cell):not(.active-row):not(.active-col) {
         border-bottom: none !important;
     }
-    
+
     /* Убираем любые синие индикаторы и псевдоэлементы */
     .solubility-content::after,
     .solubility-wrapper::after,
@@ -1181,16 +1181,16 @@ body.dark-theme #advanced-mode-info-btn.active {
     background: #f8f9fa;
     border-bottom: 1px solid #e0e0e0;
     overflow: hidden; /* Важно для анимации */
-    
+
     /* Начальное состояние: скрыто */
 
     opacity: 0;
     padding: 0 10px;
     margin-bottom: 0;
-    
+
     /* Плавный переход */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1203,10 +1203,10 @@ body.dark-theme #advanced-mode-info-btn.active {
     opacity: 1;
     padding: 20px 10px;
     margin-bottom: 10px;
-    
-    /* Дополнительно: если контент вдруг даже больше 1000px, 
+
+    /* Дополнительно: если контент вдруг даже больше 1000px,
        появится скролл внутри панели, а не обрезка */
-    overflow-y: auto; 
+    overflow-y: auto;
     height:1000px;
 }
 
@@ -1271,7 +1271,7 @@ body.dark-theme #advanced-mode-info-btn.active {
     width: 36px;       /* Было 45 */
     height: 40px;      /* Было 50 */
     font-size: 14px;   /* Было 16 */
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1360,15 +1360,15 @@ body.dark-theme .toggle-series-btn:hover {
    ЛОГИКА ОТОБРАЖЕНИЯ РЯДА АКТИВНОСТИ (Мобильные vs ПК)
    ============================================================ */
 
-/* ПК (по умолчанию): Работает как "шторка" (accordion). 
+/* ПК (по умолчанию): Работает как "шторка" (accordion).
    CSS для этого уже есть в файле (классы .activity-series-panel.active).
    Таблица остается на месте, просто сдвигается вниз.
 */
 
-/* МОБИЛЬНЫЕ: Ряд активности ЗАМЕЩАЕТ таблицу 
+/* МОБИЛЬНЫЕ: Ряд активности ЗАМЕЩАЕТ таблицу
 */
 @media (max-width: 1024px) {
-    
+
     /* 1. Когда панель активна, она растягивается на все доступное место */
     .activity-series-panel.active {
         flex-grow: 1;          /* Занимаем пространство, которое раньше занимала таблица */
@@ -1384,4 +1384,3 @@ body.dark-theme .toggle-series-btn:hover {
     }
 }
 
-     

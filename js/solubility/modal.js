@@ -46,7 +46,7 @@ window.openSolubility = async function() {
         // ПК: Убеждаемся, что всё видно (на случай, если было скрыто ранее)
         if (fabContainer) fabContainer.style.display = '';
         if (themeToggle) themeToggle.style.display = '';
-        
+
         // Явно восстанавливаем видимость кнопок внутри FAB (если они были скрыты)
         const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
         const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
@@ -57,8 +57,15 @@ window.openSolubility = async function() {
     // 5. Инициализация подмодулей (продвинутый режим, ряд активности, поиск)
     if (typeof initAdvancedModeButton === 'function') initAdvancedModeButton();
     if (typeof initActivitySeriesUI === 'function') initActivitySeriesUI();
-    if (typeof updateFiltersForSolubility === 'function') updateFiltersForSolubility();
-    
+    if (typeof updateFiltersForSolubility === 'function') {
+        // Используем лоадер для инициализации фильтров
+        if (typeof window.initializeSolubilityFilters === 'function') {
+            window.initializeSolubilityFilters();
+        } else {
+            updateFiltersForSolubility();
+        }
+    }
+
     // 6. Инициализация перетаскивания (Drag Scroll)
     const wrapper = document.querySelector('.solubility-wrapper');
     if (wrapper) {
@@ -77,7 +84,7 @@ window.openSolubility = async function() {
             wrapper.dataset.ctrlScrollEnabled = 'true';
         }
     }
-    
+
     // ПРИНУДИТЕЛЬНАЯ ПРИВЯЗКА СОБЫТИЙ ЗАКРЫТИЯ
     bindCloseEvents();
 };
@@ -104,12 +111,19 @@ window.closeSolubility = function() {
     // Сбрасываем состояния поиска и фильтров
     const searchPanel = document.getElementById('solubility-search-panel');
     if (searchPanel) searchPanel.classList.remove('active');
-    
+
     const searchBtn = document.getElementById('solubility-search-btn');
     if (searchBtn) searchBtn.classList.remove('active');
 
     if (typeof clearTableSelection === 'function') clearTableSelection();
-    if (typeof restoreElementFilters === 'function') restoreElementFilters();
+    if (typeof restoreElementFilters === 'function') {
+        restoreElementFilters();
+
+        // Also reset the main table display to ensure filters are properly cleared
+        if (typeof resetTableDisplay === 'function') {
+            resetTableDisplay();
+        }
+    }
 };
 
 // Функция для надежной привязки закрытия
@@ -128,7 +142,7 @@ function bindCloseEvents() {
             closeSolubility();
         };
     });
-    
+
     const modal = document.getElementById('solubility-modal');
     if (modal) {
         modal.onclick = function(e) {
