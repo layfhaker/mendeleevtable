@@ -78,7 +78,7 @@ body.dark-theme #theme-toggle .icon-sun {
     height: 0;
     border-radius: 50%;
     pointer-events: none;
-    z-index: -2;
+    z-index: 0;  /* Повышаем z-index, чтобы волна была поверх частиц, но ниже элементов таблицы */
     transform: translate(-50%, -50%);
 }
 
@@ -343,4 +343,14 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
         opacity: 0;
         pointer-events: none;
     }
+}
+
+/* Светлая тема — только луна */
+#theme-toggle .icon-sun {
+  display: none !important;
+}
+
+/* Тёмная тема — только солнце */
+body.dark-theme #theme-toggle .icon-moon {
+  display: none !important;
 }

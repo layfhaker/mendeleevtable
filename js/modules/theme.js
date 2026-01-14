@@ -169,16 +169,31 @@ function toggleTheme() {
             document.body.classList.add('dark-theme');
         }
 
-        // Очищаем inline стили элементов
-        elements.forEach(el => {
-            el.style.backgroundColor = '';
-            el.style.borderColor = '';
-            el.style.color = '';
-            el.style.transition = '';
+        // Добавляем небольшую задержку перед сбросом inline стилей для плавного перехода
+        setTimeout(() => {
+            // Очищаем inline стили элементов с плавным переходом
+            elements.forEach(el => {
+                // Устанавливаем плавный переход перед сбросом стилей
+                el.style.transition = 'all 0.1s ease';
 
-            const nameEl = el.querySelector('.name');
-            if (nameEl) nameEl.style.color = '';
-        });
+                // Сбрасываем inline стили, позволяя CSS-классам темы управлять цветами
+                el.style.backgroundColor = '';
+                el.style.borderColor = '';
+                el.style.color = '';
+
+                const nameEl = el.querySelector('.name');
+                if (nameEl) {
+                    nameEl.style.color = '';
+                }
+            });
+
+            // Через короткое время убираем transition, чтобы не влиять на будущие изменения
+            setTimeout(() => {
+                elements.forEach(el => {
+                    el.style.transition = '';
+                });
+            }, 100);
+        }, 50); // Небольшая задержка для завершения CSS-переходов темы
 
         localStorage.setItem('theme', toLight ? 'light' : 'dark');
 
@@ -187,8 +202,12 @@ function toggleTheme() {
 
     requestAnimationFrame(animate);
 
+    // Убираем временное изменение z-index canvas с частицами,
+    // так как теперь волна темы имеет правильный z-index и не перекрывает элементы таблицы
+    // Ранее частицы временно поднимались выше элементов таблицы, что вызывало проблему
+
     if (typeof updateNodeMapTheme === 'function') {
-        updateNodeMapTheme(isDark);
+        updateNodeMapTheme(targetTheme === 'dark');
     }
 }
 

@@ -12,7 +12,7 @@
     grid-template-rows: repeat(7, minmax(40px, 4vw));
     gap: 2px;
     position: relative;
-    z-index: 1;
+    z-index: 2;  /* Повышаем z-index, чтобы элементы были выше волны темы */
     /* Исправление для Chrome: явно задаем размеры */
     width: fit-content;
     max-width: 100%;
@@ -49,7 +49,7 @@
 
 .element:hover {
     background-color: #e0e0e0;
-    z-index: 2;
+    z-index: 10;  /* Повышаем z-index при наведении, чтобы элемент был выше других */
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
@@ -184,7 +184,7 @@
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
-    z-index: 1;
+    z-index: 2;  /* Повышаем z-index, чтобы элементы были выше волны темы */
 }
 
 /* --- Анимация разлёта элементов --- */
@@ -212,4 +212,109 @@
     transform: scale(1.1);
     z-index: 10;
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Фикс горизонтального скролла на мобильных устройствах */
+@media (max-width: 1024px) {
+    .periodic-table-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        height: auto !important;
+    }
+
+    .table-wrapper {
+        width: fit-content !important;
+        min-width: 100%;
+    }
+
+    .container {
+        width: fit-content !important;
+        min-width: 1200px; /* Минимальная ширина для горизонтального скролла */
+    }
+
+    body.scroll-locked {
+        overflow-x: auto !important;
+        position: relative !important; /* Важно для скролла */
+    }
+}
+
+/* Фикс горизонтального скролла на мобильных */
+@media (max-width: 1024px) {
+    .periodic-table-container {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    #mobile-table-wrapper {
+      transform: none !important;
+      margin-left: 0 !important;
+      padding-left: 15px !important;
+      align-items: flex-start !important;
+    }
+    
+    .container {
+      width: max-content !important;
+      min-width: 1600px !important;
+    }
+    
+    body.scroll-locked {
+      overflow-x: auto !important;
+    }
+    
+    /* Отключаем центрирование */
+    .periodic-table-container {
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+    }
+}
+
+/* Фикс горизонтального скролла на мобильных */
+@media (max-width: 1024px) {
+    .periodic-table-container {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    #mobile-table-wrapper {
+      transform: none !important;
+      margin-left: 0 !important;
+      padding-left: 15px !important;
+      align-items: flex-start !important;
+    }
+    
+    .container {
+      width: max-content !important;
+      min-width: 1600px !important;
+    }
+    
+    body.scroll-locked {
+      overflow-x: auto !important;
+    }
+    
+    /* Отключаем центрирование */
+    .periodic-table-container {
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+    }
+}
+
+/* Скрытие скроллбаров для таблицы Менделеева */
+.periodic-table-container::-webkit-scrollbar {
+    display: none;
+}
+  
+.periodic-table-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+  
+@media (max-width: 1024px) {
+    .periodic-table-container {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .periodic-table-container::-webkit-scrollbar {
+      display: none;
+    }
 }

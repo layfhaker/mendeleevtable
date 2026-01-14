@@ -77,7 +77,8 @@
 
     function applyTableStyles() {
         if (!isMobile()) return;
-
+        
+        
         const container = document.querySelector('.container');
         const lanthanides = document.querySelector('.lanthanides');
         const actinides = document.querySelector('.actinides');
@@ -248,6 +249,49 @@
         });
     }
 
+    // После строки с инициализацией (function init() {)
+if (isMobile()) {
+    centerTableVertically();
+}
+  
+  // После существующих функций добавить:
+function centerTableVertically() {
+    if (!isMobile()) return;
+    
+    const wrapper = document.getElementById('mobile-table-wrapper');
+    if (!wrapper) return;
+    
+    const container = document.querySelector('.periodic-table-container');
+    if (!container) return;
+    
+    const wrapperHeight = wrapper.offsetHeight || 1;
+    const viewportHeight = window.innerHeight;
+    
+    const availableSpace = viewportHeight - (CONFIG.TOP_MARGIN + CONFIG.BOTTOM_GAP);
+    const scale = Math.min(1.0, availableSpace / wrapperHeight);
+    
+    wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+    container.style.transition = 'height 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+    
+    const translateY = (viewportHeight - wrapperHeight * scale) / 2;
+    wrapper.style.transform = `translateY(${translateY}px) scale(${scale})`;
+}
+  
+  // Найти обработчик resize и заменить:
+window.addEventListener('resize', () => {
+    if (isMobile()) {
+        applyTableStyles();
+        centerTableVertically();
+    }
+});
+  
+  // Добавить инициализацию после DOMContentLoaded:
+document.addEventListener('DOMContentLoaded', () => {
+    if (isMobile()) {
+        centerTableVertically();
+    }
+});
+
     const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
             if (mutation.attributeName === 'class') {
@@ -286,4 +330,9 @@
 
     window.mobileLayout = { init, applyTransform: applyCalcActiveTransform, resetTransform };
 
+    // Добавить после применения стилей таблицы:
+    if (isMobile()) {
+        document.body.style.overflowY = 'hidden';
+        document.body.classList.add('scroll-locked');
+    }
 })();

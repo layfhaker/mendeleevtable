@@ -213,7 +213,9 @@ class NodeMapCanvas {
             const touch = e.touches[0];
             this.onMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
         }
-        e.preventDefault();
+        if (e.cancelable) {
+            e.preventDefault();
+        }
     }
 
     onTouchEnd(e) {

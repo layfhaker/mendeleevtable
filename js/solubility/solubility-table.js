@@ -340,7 +340,9 @@ function enableDragScroll(element) {
     element.addEventListener('touchmove', (e) => {
         if (!isDown || !isTouch) return;
         if (e.touches.length === 1) {
-            e.preventDefault();
+            if (e.cancelable) {
+                e.preventDefault();
+            }
             const touch = e.touches[0];
             const rect = element.getBoundingClientRect();
             const x = touch.clientX - rect.left;

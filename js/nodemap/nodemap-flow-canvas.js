@@ -354,7 +354,9 @@ class UserFlowCanvas {
     }
 
     onTouchMove(e) {
-        e.preventDefault();
+        if (e.cancelable) {
+            e.preventDefault();
+        }
         if (e.touches.length === 1) {
             const touch = e.touches[0];
             this.onMouseMove({ clientX: touch.clientX, clientY: touch.clientY });

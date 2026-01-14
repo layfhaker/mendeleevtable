@@ -176,7 +176,10 @@
             lastTouchY = currentY;
 
             if (deltaY > 0) { // Свайп вверх
-                event.preventDefault();
+                // Проверяем, можно ли предотвратить действие по умолчанию
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
                 handleVirtualScroll(deltaY * 2); // Умножаем для более быстрой реакции
             }
         }

@@ -9,7 +9,7 @@ let particlesCount = window.innerWidth < 768 ? 15 : 80;
 let atomsCount = window.innerWidth < 768 ? 10 : 25;
 let connectionDistance = 120;
 
-let wave = { active: false, x: 0, y: 0, radius: 0, maxRadius: 0, toDark: false };
+let wave = { active: false, x: 0, y: 0, radius: 0, maxRadius: 0, toDark: false, ending: false, endTime: 0 };
 
 // Wallpaper mode settings
 let wallpaperMode = false;
@@ -35,6 +35,7 @@ window.addEventListener('resize', () => {
 
 window.startParticleWave = function(x, y, isToDark) {
     wave.active = true;
+    wave.ending = false; // Сбрасываем флаг завершения
     wave.x = x;
     wave.y = y;
     wave.radius = 0;
@@ -72,6 +73,7 @@ window.setWallpaperMode = function(enabled) {
 window.particleSystem = {
     setWallpaperMode: window.setWallpaperMode
 };
+
 
 function createSpecificAtoms(atomicNumber, period) {
     specificAtomsArray = [];
@@ -224,13 +226,18 @@ class Particle {
     getColor() {
         const colorLight = 'rgba(0, 0, 0, 0.3)';
         const colorDark = 'rgba(255, 255, 255, 0.5)';
-        if (!wave.active) return document.body.classList.contains('dark-theme') ? colorDark : colorLight;
 
-        const dx = this.x - wave.x;
-        const dy = this.y - wave.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        const insideWave = dist < wave.radius;
-        return (wave.toDark === insideWave) ? colorDark : colorLight;
+        // Если волна активна, используем цвета волны
+        if (wave.active) {
+            const dx = this.x - wave.x;
+            const dy = this.y - wave.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            const insideWave = dist < wave.radius;
+            return (wave.toDark === insideWave) ? colorDark : colorLight;
+        } else {
+            // Если волна закончилась, возвращаем цвет в зависимости от темы
+            return document.body.classList.contains('dark-theme') ? colorDark : colorLight;
+        }
     }
 
     draw() {
@@ -264,7 +271,17 @@ function animate(currentTime) {
 
     if (wave.active) {
         wave.radius += 25;
-        if (wave.radius > wave.maxRadius) wave.active = false;
+        if (wave.radius > wave.maxRadius) {
+            // Вместо мгновенного отключения волны, начинаем фазу завершения
+            wave.ending = true;
+            wave.endTime = currentTime + 100; // 100ms для плавного перехода
+        }
+    }
+
+    // Проверяем, нужно ли завершить волну
+    if (wave.ending && currentTime > wave.endTime) {
+        wave.active = false;
+        wave.ending = false;
     }
 
     if (specificAtomsArray.length > 0) {
@@ -296,6 +313,12 @@ function connectParticles(i) {
             ctx.stroke();
         }
     }
+}
+
+// На мобильных устройствах устанавливаем z-index выше, чтобы частицы были видны
+if (window.innerWidth <= 1024) {
+    canvas.style.zIndex = '1';
+    canvas.style.pointerEvents = 'none';
 }
 
 initParticles();

@@ -226,3 +226,84 @@ function initUI() {
 }
 
 window.initUI = initUI;
+
+// Блокировка вертикального скролла на мобильных
+function lockVerticalScroll() {
+    if (window.innerWidth <= 1024) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  // Разблокировка скролла
+  function unlockVerticalScroll() {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+  
+// Блокировка ТОЛЬКО вертикального скролла на мобильных
+let startY = 0;
+let isVerticalScroll = false;
+
+document.body.addEventListener('touchstart', (e) => {
+  startY = e.touches[0].clientY;
+  isVerticalScroll = false;
+}, { passive: true });
+
+document.body.addEventListener('touchmove', (e) => {
+  if (window.innerWidth > 1024) return;
+
+  const currentY = e.touches[0].clientY;
+  const diffY = Math.abs(currentY - startY);
+
+  // Если вертикальное движение больше горизонтального - блокируем
+  if (diffY > 10 && !isVerticalScroll) {
+    isVerticalScroll = true;
+
+    // Проверяем, можно ли предотвратить действие по умолчанию
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+    return;
+  }
+
+  // Разрешаем горизонтальный скролл
+  if (!isVerticalScroll) {
+    return;
+  }
+}, { passive: false });
+
+// === ОБРАБОТКА ИЗМЕНЕНИЯ ОРИЕНТАЦИИ ===
+function handleOrientationChange() {
+    const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // Перезагрузка адаптивных стилей для мобильных в горизонтальном режиме
+      setTimeout(() => {
+        if (typeof window.mobileLayout?.init === 'function') {
+          window.mobileLayout.init();
+        }
+        
+        // Адаптация позиций панелей
+        if (document.body.classList.contains('balancer-active') && 
+            typeof positionBalancerPC === 'function') {
+          positionBalancerPC();
+        }
+        
+        if (document.body.classList.contains('calc-active') && 
+            typeof positionCalculatorPC === 'function') {
+          positionCalculatorPC();
+        }
+      }, 300);
+    }
+  }
+  
+  // Добавление слушателя событий
+  window.addEventListener('orientationchange', handleOrientationChange);
+  window.addEventListener('resize', handleOrientationChange);
+  
+  // Инициализация при загрузке
+  document.addEventListener('DOMContentLoaded', () => {
+    handleOrientationChange();
+  });
