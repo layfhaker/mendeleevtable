@@ -44,6 +44,7 @@
         if (document.body.classList.contains('balancer-active') ||
             document.body.classList.contains('solubility-open') ||
             document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('modal-open') ||
             (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
             return;
         }
@@ -125,6 +126,7 @@
         if (document.body.classList.contains('balancer-active') ||
             document.body.classList.contains('solubility-open') ||
             document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('modal-open') ||
             (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
             return;
         }
@@ -151,6 +153,7 @@
         if (document.body.classList.contains('balancer-active') ||
             document.body.classList.contains('solubility-open') ||
             document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('modal-open') ||
             (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
             return;
         }
@@ -166,6 +169,7 @@
         if (document.body.classList.contains('balancer-active') ||
             document.body.classList.contains('solubility-open') ||
             document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('modal-open') ||
             (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
             return;
         }
@@ -191,6 +195,7 @@
         if (document.body.classList.contains('balancer-active') ||
             document.body.classList.contains('solubility-open') ||
             document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('modal-open') ||
             (document.getElementById('filters-panel') && document.getElementById('filters-panel').classList.contains('active'))) {
             return;
         }

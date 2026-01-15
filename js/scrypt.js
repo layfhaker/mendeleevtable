@@ -131,6 +131,7 @@ function initApp() {
     if (typeof initUI === 'function') initUI();
     // Nodemap инициализируется сам внутри nodemap-init.js, но теперь он точно загружен
 
+
     console.log('✅ Приложение загружено');
 
     // Скрываем лоадер

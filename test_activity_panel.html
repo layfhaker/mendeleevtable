@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест шторки ряда активности</title>
+    <style>
+        /* Копируем необходимые стили из solubility.css */
+        .activity-series-panel {
+            width: 100%;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            overflow: hidden;
+            opacity: 0;
+            padding: 0 10px;
+            margin-bottom: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            height: 0;
+        }
+
+        .activity-series-panel.active {
+            opacity: 1;
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            overflow-y: hidden;
+            height: auto;
+            min-height: 220px;
+            max-height: 80vh;
+        }
+
+        .activity-content-wrapper {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .activity-header h4 {
+            margin: 0;
+            color: #333;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .toggle-series-btn {
+            padding: 6px 14px;
+            border: 1px solid #2196F3;
+            background: #e3f2fd;
+            color: #1976D2;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 8px;
+        }
+
+        .series-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding-top: 5px;
+        }
+
+        .act-item {
+            width: 36px;
+            height: 40px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.1s, border-color 0.1s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .act-arrow {
+            color: #bdbdbd;
+            font-size: 12px;
+            user-select: none;
+        }
+
+        .activity-note {
+            margin-top: 15px;
+            color: #888;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        body.dark-theme .activity-series-panel {
+            background: #252535;
+            border-bottom-color: #444;
+        }
+
+        body.dark-theme .activity-header h4 { color: #eee; }
+        body.dark-theme .activity-note { color: #aaa; }
+
+        body.dark-theme .act-item {
+            background: #3d3d5c;
+            border-color: #555;
+            color: #eee;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тест шторки ряда активности</h1>
+    <button onclick="toggleActivitySeries()">Показать/скрыть шторку</button>
+    <button onclick="toggleSeriesType()">Переключить тип (металлы/неметаллы)</button>
+
+    <div id="activity-series-panel" class="activity-series-panel">
+        <!-- Содержимое будет добавлено через JavaScript -->
+    </div>
+
+    <script>
+        let isMetalsView = true;
+
+        function renderActivitySeries() {
+            const container = document.getElementById('activity-series-panel');
+            if (!container) return;
+
+            // Данные элементов
+            const metals = ["Li", "Rb", "K", "Ba", "Sr", "Ca", "Na", "Mg", "Al", "Mn", "Zn", "Cr", "Fe", "Cd", "Co", "Ni", "Sn", "Pb", "H", "Sb", "Bi", "Cu", "Hg", "Ag", "Pt", "Au"];
+            const nonMetals = ["F", "O", "N", "Cl", "Br", "I", "S", "C", "P", "Si"];
+
+            // Выбираем список
+            const currentList = isMetalsView ? metals : nonMetals;
+
+            // Тексты
+            const titleText = isMetalsView
+                ? "Ряд активности металлов"
+                : "Ряд активности неметаллов";
+
+            const btnText = isMetalsView
+                ? "Переключить на неметаллы"
+                : "Переключить на металлы";
+
+            const noteText = isMetalsView
+                ? "← Активность (восстановители) . . . Пассивность (окислители) →"
+                : "← Сильные окислители . . . Слабые окислители →";
+
+            // Генерируем HTML карточек
+            let cardsHTML = '';
+            currentList.forEach((symbol, idx) => {
+                const isHydrogen = (symbol === 'H' && isMetalsView);
+                const className = isHydrogen ? 'act-item hydrogen' : 'act-item';
+
+                // Клик открывает модалку элемента
+                cardsHTML += `<div class="${className}">${symbol}</div>`;
+
+                // Стрелочка
+                if (idx < currentList.length - 1) {
+                    cardsHTML += `<div class="act-arrow">→</div>`;
+                }
+            });
+
+            // Вставляем в панель
+            container.innerHTML = `
+                <div class="activity-content-wrapper">
+                    <div class="activity-header">
+                        <h4>${titleText}</h4>
+                        <button id="toggle-series-type-btn" class="toggle-series-btn">
+                            ${btnText}
+                        </button>
+                    </div>
+
+                    <div class="series-container active" style="display: flex;">
+                        ${cardsHTML}
+                    </div>
+
+                    <p class="activity-note">${noteText}</p>
+                </div>
+            `;
+
+            // Вешаем обработчик на внутреннюю кнопку переключения
+            const switchBtn = document.getElementById('toggle-series-type-btn');
+            if (switchBtn) {
+                switchBtn.onclick = function() {
+                    toggleSeriesType();
+                };
+            }
+
+            // Динамически изменяем высоту панели в зависимости от фактического размера контента
+            // Используем requestAnimationFrame для точного измерения после рендеринга
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => { // Два вызова для гарантии полного рендеринга
+                    // Устанавливаем высоту контейнера равной высоте его содержимого
+                    const contentWrapper = container.querySelector('.activity-content-wrapper');
+                    if (contentWrapper) {
+                        // Принудительно обновляем размеры элементов
+                        contentWrapper.style.display = 'block';
+
+                        // Принудительно обновляем layout
+                        const rect = contentWrapper.getBoundingClientRect();
+
+                        // Получаем фактическую высоту контента
+                        const contentHeight = contentWrapper.scrollHeight;
+
+                        // Добавляем немного места для отступов
+                        const finalHeight = contentHeight + 40; // 40px для дополнительных отступов
+
+                        // Устанавливаем точную высоту, а не только минимальную, чтобы панель уменьшалась при переключении
+                        container.style.height = finalHeight + 'px';
+                        container.style.minHeight = ''; // Убираем минимальную высоту, чтобы не мешала уменьшению
+                    }
+                });
+            });
+        }
+
+        function toggleActivitySeries() {
+            const panel = document.getElementById('activity-series-panel');
+            panel.classList.toggle('active');
+            
+            if (panel.classList.contains('active')) {
+                renderActivitySeries();
+            }
+        }
+
+        function toggleSeriesType() {
+            isMetalsView = !isMetalsView;
+            renderActivitySeries();
+        }
+    </script>
+</body>
+</html>

@@ -330,13 +330,16 @@ function toggleCalc() {
     const calcPanel = document.getElementById('calc-panel');
     const fab = document.getElementById('fab-container');
 
-    if (fab) fab.classList.remove('active');
-
     if (calcPanel.classList.contains('active')) {
+        // При закрытии калькулятора не закрываем FAB меню
         calcPanel.classList.remove('active');
         document.body.classList.remove('calc-active');
         resetFabPosition();
     } else {
+        // При открытии калькулятора скрываем FAB меню только на мобильных устройствах
+        if (window.innerWidth <= 1024 && fab) {
+            fab.classList.remove('active');
+        }
         calcPanel.classList.add('active');
         document.body.classList.add('calc-active');
 

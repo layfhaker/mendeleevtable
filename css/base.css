@@ -97,6 +97,32 @@ body {
         scrollbar-width: none;
     }
 }
+/* Кастомный скроллбар для десктопной версии */
+@media (min-width: 1025px) {
+    body::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: #f0f0f0;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #2196F3, #21CBF3);
+        border-radius: 10px;
+        border: 2px solid #f0f0f0;
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #1976D2, #0BB3F3);
+    }
+
+    body {
+        scrollbar-width: thin;
+        scrollbar-color: #2196F3 #f0f0f0;
+    }
+}
+
 /* Запрет выделения и grab курсор только на ДЕСКТОПЕ */
 @media (min-width: 1025px) {
     html, body {

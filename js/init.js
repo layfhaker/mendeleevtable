@@ -69,12 +69,16 @@ window.showLoadingForModule = function(moduleName, action) {
 // Функция для инициализации фильтров с показом лоадера
 window.initializeSolubilityFilters = function() {
     return window.showLoadingForModule('Solubility Filters', async () => {
+        console.log('initializeSolubilityFilters: Starting with window.isColorMode:', window.isColorMode);
         // Небольшая задержка для уверенности, что DOM готов
         await new Promise(resolve => setTimeout(resolve, 100));
         // Инициализация фильтров
         if (typeof updateFiltersForSolubility === 'function') {
+            console.log('initializeSolubilityFilters: About to call updateFiltersForSolubility, window.isColorMode:', window.isColorMode);
             updateFiltersForSolubility();
             console.log('Solubility filters module initialized');
+        } else {
+            console.error('updateFiltersForSolubility function not found in initializeSolubilityFilters');
         }
         return true;
     });

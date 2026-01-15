@@ -197,14 +197,18 @@ function toggleTheme() {
 
         localStorage.setItem('theme', toLight ? 'light' : 'dark');
 
+        // Перерисовать частицы после смены темы
+        if (typeof updateParticleColors === 'function') {
+            setTimeout(updateParticleColors, 100); // Небольшая задержка для завершения анимации
+        }
+
         currentThemeTarget = null;
     }
 
     requestAnimationFrame(animate);
 
-    // Убираем временное изменение z-index canvas с частицами,
-    // так как теперь волна темы имеет правильный z-index и не перекрывает элементы таблицы
     // Ранее частицы временно поднимались выше элементов таблицы, что вызывало проблему
+    // Теперь z-index фонового круга изменен в CSS, чтобы не перекрывать частицы
 
     if (typeof updateNodeMapTheme === 'function') {
         updateNodeMapTheme(targetTheme === 'dark');
@@ -228,4 +232,15 @@ function toggleTheme() {
         document.body.appendChild(circle);
         backgroundCircle = circle;
     }
+
+    // Полностью перезапустить систему частиц при начальной загрузке темы
+    setTimeout(() => {
+        if (typeof initParticles === 'function') {
+            initParticles(); // Перезапускаем инициализацию частиц с правильной темой
+        } else if (typeof updateParticleColors === 'function') {
+            updateParticleColors(); // Обновляем цвета частиц
+        } else if (typeof redrawParticles === 'function') {
+            redrawParticles(); // Перерисовываем частицы
+        }
+    }, 150); // Немного увеличиваем задержку для полной установки темы
 })();

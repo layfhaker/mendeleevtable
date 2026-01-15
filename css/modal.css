@@ -247,20 +247,9 @@
 /* =========================================
    СКРОЛЛБАРЫ
    ========================================= */
+/* Используем общий стиль скроллбара, но с меньшей шириной для компактности */
 #element-info::-webkit-scrollbar { height: 8px; }
-#element-info::-webkit-scrollbar-track { background: transparent; }
-#element-info::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-#element-info::-webkit-scrollbar-thumb:hover { background: #999; }
-
 .group-content::-webkit-scrollbar { width: 6px; }
-.group-content::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); border-radius: 3px; }
-.group-content::-webkit-scrollbar-thumb { border-radius: 3px; }
-
-/* Цветные скроллбары */
-.info-group.basic .group-content::-webkit-scrollbar-thumb { background: #2196F3; }
-.info-group.physical .group-content::-webkit-scrollbar-thumb { background: #4CAF50; }
-.info-group.history .group-content::-webkit-scrollbar-thumb { background: #FF9800; }
-.info-group.facts .group-content::-webkit-scrollbar-thumb { background: #9C27B0; }
 
 /* =========================================
    АНИМАЦИИ

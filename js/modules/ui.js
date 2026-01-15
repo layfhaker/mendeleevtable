@@ -128,6 +128,7 @@ window.toggleCalc = async function() {
 
     const panel = document.getElementById('calc-panel');
     const fab = document.getElementById('fab-container');
+    const wasFabActive = fab && fab.classList.contains('active'); // Сохраняем состояние FAB перед изменениями
 
     if (!panel) return;
 
@@ -137,6 +138,11 @@ window.toggleCalc = async function() {
         panel.classList.remove('active');
         document.body.classList.remove('calc-active');
         resetFabPosition();
+
+        // Восстанавливаем состояние FAB если оно было активно до открытия калькулятора
+        if (wasFabActive && fab && window.innerWidth > 1024) {
+            fab.classList.add('active');
+        }
     } else {
         // Открываем
         // Не скрываем FAB на ПК, только на мобильных

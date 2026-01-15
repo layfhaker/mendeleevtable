@@ -239,6 +239,21 @@ function toggleFilters() {
     const panel = document.getElementById('filters-panel');
     const fab = document.getElementById('fab-container');
 
+    // Проверяем, открыта ли таблица растворимости
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+
+    if (isSolubilityOpen) {
+        // Если открыта таблица растворимости, устанавливаем фильтры для растворимости
+        if (typeof updateFiltersForSolubility === 'function') {
+            updateFiltersForSolubility();
+        }
+    } else {
+        // В противном случае, восстанавливаем фильтры элементов
+        if (typeof restoreElementFilters === 'function') {
+            restoreElementFilters();
+        }
+    }
+
     if (panel) {
         panel.classList.toggle('active');
     }
@@ -258,11 +273,40 @@ function resetFilters() {
     const searchResults = document.getElementById('search-results');
     if (searchResults) searchResults.innerHTML = '';
 
-    document.querySelectorAll('.filter-btn.active').forEach(btn => {
-        btn.classList.remove('active');
-    });
+    // Проверяем, открыта ли таблица растворимости
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
 
-    resetTableDisplay();
+    if (isSolubilityOpen) {
+        // Если открыта таблица растворимости, сбрасываем фильтры для неё
+        document.querySelectorAll('#categories-section .filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            // Сбрасываем стили, установленные для цветовых фильтров
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+        });
+
+        // Вызываем функцию сброса для таблицы растворимости, если она доступна
+        if (typeof resetSolubilityTableDisplay === 'function') {
+            resetSolubilityTableDisplay();
+        } else {
+            // Если функция недоступна, пробуем загрузить модуль растворимости
+            if (typeof loadSolubility === 'function') {
+                loadSolubility().then(() => {
+                    if (typeof resetSolubilityTableDisplay === 'function') {
+                        resetSolubilityTableDisplay();
+                    }
+                });
+            }
+        }
+    } else {
+        // В противном случае, сбрасываем фильтры для обычных элементов
+        document.querySelectorAll('.filter-btn.active').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        resetTableDisplay();
+    }
 }
 
 // Находим все кнопки фильтров и вешаем клик
@@ -284,8 +328,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 function applyCategoryFilter(categoryClass) {
-    // Ограничиваем селектор только основной таблицей элементов
-    const allElements = document.querySelectorAll('.container .element, .lanthanides .element, .actinides .element');
+    // Используем более общий селектор для всех элементов с классом element
+    const allElements = document.querySelectorAll('.element');
 
     allElements.forEach(el => {
         if (el.classList.contains(categoryClass)) {
@@ -303,8 +347,8 @@ function applyCategoryFilter(categoryClass) {
 }
 
 function resetTableDisplay() {
-    // Ограничиваем селектор только основной таблицей элементов
-    const allElements = document.querySelectorAll('.container .element, .lanthanides .element, .actinides .element');
+    // Сбрасываем стили для всех элементов с классом element
+    const allElements = document.querySelectorAll('.element');
     allElements.forEach(el => {
         el.style.opacity = '';
         el.style.filter = '';

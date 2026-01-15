@@ -31,18 +31,9 @@
 
 
 /* Скроллбары (Chrome/Safari/Webkit) — ОБЯЗАТЕЛЬНО */
+/* Используем общий стиль скроллбара, но с меньшей шириной для компактности */
 .balancer-content::-webkit-scrollbar {
     width: 6px;
-}
-.balancer-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-.balancer-content::-webkit-scrollbar-thumb {
-    background-color: #bbdefb;
-    border-radius: 10px;
-}
-.balancer-content::-webkit-scrollbar-thumb:hover {
-    background-color: #42a5f5;
 }
 
 /* 1. Контейнер */
@@ -220,12 +211,7 @@ body.dark-theme .ex-chips button:hover {
     background: #3f3f5c;
     color: #fff;
 }
-body.dark-theme .balancer-content {
-    scrollbar-color: #5c6bc0 transparent;
-}
-body.dark-theme .balancer-content::-webkit-scrollbar-thumb {
-    background-color: #3f3f5c;
-}
+/* Для темного режима используем общий стиль скроллбара */
 
 /* Стили для активного уравнивателя */
 @media (max-width: 1024px) {

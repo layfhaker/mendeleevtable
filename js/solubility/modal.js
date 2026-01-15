@@ -58,13 +58,26 @@ window.openSolubility = async function() {
     if (typeof initAdvancedModeButton === 'function') initAdvancedModeButton();
     if (typeof initActivitySeriesUI === 'function') initActivitySeriesUI();
     if (typeof updateFiltersForSolubility === 'function') {
+        console.log('openSolubility: Calling filter initialization, window.isColorMode:', window.isColorMode);
         // Используем лоадер для инициализации фильтров
         if (typeof window.initializeSolubilityFilters === 'function') {
+            console.log('Using initializeSolubilityFilters');
             window.initializeSolubilityFilters();
         } else {
+            console.log('Directly calling updateFiltersForSolubility');
             updateFiltersForSolubility();
         }
+    } else {
+        console.log('updateFiltersForSolubility function is not available');
     }
+
+    // Дополнительно вызываем обновление фильтров, чтобы убедиться, что они установлены правильно
+    setTimeout(() => {
+        if (typeof updateFiltersForSolubility === 'function') {
+            console.log('openSolubility: Second call to updateFiltersForSolubility after delay, window.isColorMode:', window.isColorMode);
+            updateFiltersForSolubility();
+        }
+    }, 200);
 
     // 6. Инициализация перетаскивания (Drag Scroll)
     const wrapper = document.querySelector('.solubility-wrapper');

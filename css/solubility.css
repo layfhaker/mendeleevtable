@@ -290,9 +290,7 @@ body.dark-theme .table-legend {
     border-color: #444;
 }
 
-body.dark-theme .solubility-wrapper {
-    background-color: #1a1a2e;
-}
+/* Для темного режима используем общий стиль скроллбара */
 
 /* =========================================
    КНОПКА РЕЖИМА ЦВЕТОВ
@@ -991,14 +989,15 @@ body.dark-theme #advanced-mode-info-btn.active {
         padding: 0 !important;
         box-sizing: border-box;
 
-        /* СКРЫВАЕМ СКРОЛЛБАРЫ */
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+        /* Кастомный стиль скроллбара (как в уравнивателе) */
+        scrollbar-width: thin;
+        scrollbar-color: #bbdefb transparent;
     }
 
-    /* Скрываем скроллбары WebKit (Chrome, Safari) */
+    /* Используем общий стиль скроллбара, но с меньшей шириной для компактности */
     .solubility-wrapper::-webkit-scrollbar {
-        display: none;
+        width: 6px;
+        height: 6px;
     }
 
     /* 6. ТАБЛИЦА - Компактные ячейки */
@@ -1183,7 +1182,6 @@ body.dark-theme #advanced-mode-info-btn.active {
     overflow: hidden; /* Важно для анимации */
 
     /* Начальное состояние: скрыто */
-
     opacity: 0;
     padding: 0 10px;
     margin-bottom: 0;
@@ -1195,19 +1193,22 @@ body.dark-theme #advanced-mode-info-btn.active {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    height:0;
+    height: 0;
+    max-height: 0;
 }
 
 /* Активное состояние: выезжает */
 .activity-series-panel.active {
     opacity: 1;
     padding: 20px 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px; /* Увеличенный отступ снизу */
 
     /* Дополнительно: если контент вдруг даже больше 1000px,
        появится скролл внутри панели, а не обрезка */
     overflow-y: auto;
-    height:1000px;
+    height: auto;
+    min-height: 220px; /* Устанавливаем минимальную высоту для корректного отображения контента */
+    max-height: 80vh; /* Ограничиваем максимальную высоту */
 }
 
 .activity-content-wrapper {

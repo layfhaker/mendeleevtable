@@ -257,22 +257,49 @@ function positionBalancerPC() {
     const mgRight = mgRect ? mgRect.right : (hRect.right + 80);
     const alLeft = alRect.left;
     const totalSpace = alLeft - mgRight; // Общее доступное пространство
-    const desiredWidth = totalSpace * 0.97; // 97% от общего пространства (оставляем 1.5% с каждой стороны)
-    const width = Math.floor(desiredWidth); // Округляем ширину до целого
-    const remainingSpace = totalSpace - width; // Оставшееся пространство для отступов
-    const margin = Math.floor(remainingSpace / 2); // Поровну с обеих сторон
-    const left = mgRight + margin; // Позиционируем с учетом левого отступа
 
-    console.log('Calculated positions:', {
-        mgRight: mgRight,
-        alLeft: alLeft,
-        totalSpace: totalSpace,
-        desiredWidth: desiredWidth,
-        width: width,
-        remainingSpace: remainingSpace,
-        margin: margin,
-        left: left
-    });
+    // Установим фиксированный отступ с обеих сторон (например, 8px как в стандартных отступах)
+    const marginHorizontal = 8; // Одинаковый отступ слева и справа
+    const width = totalSpace - (marginHorizontal * 2); // Ширина панели с учетом отступов
+
+    const left = mgRight + marginHorizontal; // Позиционируем с учетом левого отступа
+    const right = alLeft - marginHorizontal; // Позиция правой границы панели
+
+    // Дополнительные логи для диагностики
+    console.log('Element Mg rectangle:',
+        'x:', mgRect?.x, 'y:', mgRect?.y,
+        'left:', mgRect?.left, 'top:', mgRect?.top,
+        'right:', mgRect?.right, 'bottom:', mgRect?.bottom,
+        'width:', mgRect?.width, 'height:', mgRect?.height
+    );
+
+    console.log('Element Al rectangle:',
+        'x:', alRect.x, 'y:', alRect.y,
+        'left:', alRect.left, 'top:', alRect.top,
+        'right:', alRect.right, 'bottom:', alRect.bottom,
+        'width:', alRect.width, 'height:', alRect.height
+    );
+
+    console.log('Calculated positions:',
+        'mgRight:', mgRight,
+        'alLeft:', alLeft,
+        'totalSpace:', totalSpace,
+        'marginHorizontal:', marginHorizontal,
+        'width:', width,
+        'left:', left,
+        'right:', right,
+        'expectedRight:', window.innerWidth - (left + width) // Ожидаемое расстояние до правой границы экрана
+    );
+
+    // Рассчитаем фактические отступы
+    const actualLeftMargin = left - mgRight;
+    const actualRightMargin = alLeft - (left + width);
+
+    console.log('Actual margins:',
+        'left:', actualLeftMargin,
+        'right:', actualRightMargin,
+        'difference:', Math.abs(actualLeftMargin - actualRightMargin)
+    );
 
     // Позиционируем так, чтобы нижняя грань панели была над верхней гранью элемента K
     // Устанавливаем высоту, которая включает только заголовок, поле ввода и поле вывода с отступами
@@ -281,9 +308,9 @@ function positionBalancerPC() {
     // Сначала устанавливаем панель с видимостью, чтобы можно было измерить её элементы
     panel.style.position = 'fixed';
     panel.style.left = left + 'px';
-    panel.style.right = 'auto';
+    panel.style.right = 'auto'; // Сбрасываем right, чтобы использовать left и width
     panel.style.bottom = 'auto';
-    panel.style.width = width + 'px';
+    panel.style.width = width + 'px'; // Устанавливаем точную ширину
     panel.style.maxHeight = 'none'; // Временно убираем ограничение высоты
     panel.style.height = 'auto';
     panel.style.zIndex = '1000';
@@ -337,7 +364,7 @@ function positionBalancerPC() {
             resultHeight: resultHeight,
             errorHeight: errorHeight,
             mainContentHeight: mainContentHeight,
-            offset: 10,
+            marginVertical: marginVertical,
             calculatedTop: targetTop,
             finalTop: finalTop
         });

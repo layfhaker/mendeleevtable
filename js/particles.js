@@ -240,6 +240,12 @@ class Particle {
         }
     }
 
+    // Метод для принудительного обновления цвета
+    updateColor() {
+        // В данном случае, поскольку цвет зависит от состояния DOM,
+        // нам просто нужно перерисовать частицу
+    }
+
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -252,6 +258,37 @@ function initParticles() {
     particlesArray = [];
     for (let i = 0; i < particlesCount; i++) {
         particlesArray.push(new Particle());
+    }
+
+    // Force redraw after initialization to ensure proper colors
+    redrawParticles();
+}
+
+function redrawParticles() {
+    // Trigger a redraw to ensure particles have correct colors based on theme
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw all particles
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].draw();
+    }
+
+    // Draw connections between particles
+    for (let i = 0; i < particlesArray.length; i++) {
+        for (let j = i + 1; j < particlesArray.length; j++) {
+            let dx = particlesArray[i].x - particlesArray[j].x;
+            let dy = particlesArray[i].y - particlesArray[j].y;
+            let distance = dx*dx + dy*dy;
+
+            if (distance < (connectionDistance * connectionDistance)) {
+                ctx.strokeStyle = particlesArray[i].getColor();
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                ctx.stroke();
+            }
+        }
     }
 }
 
@@ -293,27 +330,28 @@ function animate(currentTime) {
         for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].update();
             particlesArray[i].draw();
-            connectParticles(i);
+        }
+
+        // Draw connections between particles
+        for (let i = 0; i < particlesArray.length; i++) {
+            for (let j = i + 1; j < particlesArray.length; j++) {
+                let dx = particlesArray[i].x - particlesArray[j].x;
+                let dy = particlesArray[i].y - particlesArray[j].y;
+                let distance = dx*dx + dy*dy;
+
+                if (distance < (connectionDistance * connectionDistance)) {
+                    ctx.strokeStyle = particlesArray[i].getColor();
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                    ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                    ctx.stroke();
+                }
+            }
         }
     }
 }
 
-function connectParticles(i) {
-    for (let j = i; j < particlesArray.length; j++) {
-        let dx = particlesArray[i].x - particlesArray[j].x;
-        let dy = particlesArray[i].y - particlesArray[j].y;
-        let distance = dx*dx + dy*dy;
-
-        if (distance < (connectionDistance * connectionDistance)) {
-            ctx.strokeStyle = particlesArray[i].getColor();
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
-        }
-    }
-}
 
 // На мобильных устройствах устанавливаем z-index выше, чтобы частицы были видны
 if (window.innerWidth <= 1024) {
@@ -321,5 +359,44 @@ if (window.innerWidth <= 1024) {
     canvas.style.pointerEvents = 'none';
 }
 
+// Экспортируем функцию перерисовки частиц для использования в других модулях
+window.redrawParticles = redrawParticles;
+
+// Функция для обновления цветов частиц при изменении темы
+window.updateParticleColors = function() {
+    redrawParticles(); // Перерисовываем с новыми цветами
+};
+
+// Экспортируем функцию инициализации частиц для использования в других модулях
+window.initParticles = initParticles;
+
 initParticles();
+
+// После полной загрузки DOM обновляем цвета частиц
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(updateParticleColors, 100); // Небольшая задержка для завершения инициализации темы
+    });
+} else {
+    setTimeout(updateParticleColors, 100);
+}
+
+// Наблюдатель за изменениями класса темы
+const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            // Классы элемента изменились, возможно, изменилась тема
+            if (typeof updateParticleColors === 'function') {
+                setTimeout(updateParticleColors, 50);
+            }
+        }
+    });
+});
+
+// Начинаем наблюдение за изменениями классов в body
+observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+});
+
 animate();

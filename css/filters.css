@@ -23,6 +23,18 @@
    animation: filtersSlideIn 0.3s ease-out;
 }
 
+/* Скроллбары (Chrome/Safari/Webkit) — для содержимого панели фильтров */
+/* Используем общий стиль скроллбара, но с меньшей шириной для компактности */
+.filters-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Скроллбары (Firefox) — для содержимого панели фильтров */
+.filters-panel {
+    scrollbar-width: thin;
+    scrollbar-color: #90caf9 transparent;
+}
+
 .filters-panel.active {
     display: flex;
 }
@@ -111,6 +123,20 @@
 .filter-btn[data-filter="noble-gas"].active { background: #cc99ff; border-color: #cc99ff; color: #333; }
 .filter-btn[data-filter="lanthanide"].active { background: #ff99cc; border-color: #ff99cc; color: #333; }
 .filter-btn[data-filter="actinide"].active { background: #ff99ff; border-color: #ff99ff; color: #333; }
+.filter-btn[data-filter="unknown"].active { background: #e0e0e0; border-color: #e0e0e0; color: #333; }
+
+/* Цвета кнопок для фильтров растворимости */
+.filter-btn[data-solubility="Р"].active { background: #4CAF50; border-color: #4CAF50; color: #fff; }
+.filter-btn[data-solubility="М"].active { background: #FFC107; border-color: #FFC107; color: #333; }
+.filter-btn[data-solubility="Н"].active { background: #F44336; border-color: #F44336; color: #fff; }
+.filter-btn[data-solubility="-"].active { background: #9E9E9E; border-color: #9E9E9E; color: #fff; }
+
+/* Цвета кнопок для фильтров по цветам */
+.filter-btn[data-color-name="Бесцветный"]:active,
+.filter-btn[data-color-name="Бесцветный"].active { background: #f0f9ff; border-color: #90caf9; color: #000; }
+.filter-btn[data-color-name="Белый"]:active,
+.filter-btn[data-color-name="Белый"].active { background: #ffffff; border-color: #cccccc; color: #000; }
+
 
 /* Кнопка сброса */
 .filters-actions {
@@ -140,6 +166,8 @@ body.dark-theme .filters-panel {
     background: #2d2d44;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
+
+/* Для темного режима используем общий стиль скроллбара */
 
 body.dark-theme .filters-header {
     background: #252535;
@@ -184,6 +212,18 @@ body.dark-theme .filter-btn[data-filter="halogen"].active { background: #2e4a7a;
 body.dark-theme .filter-btn[data-filter="noble-gas"].active { background: #5c2e7a; border-color: #5c2e7a; color: #fff; }
 body.dark-theme .filter-btn[data-filter="lanthanide"].active { background: #7a2e5c; border-color: #7a2e5c; color: #fff; }
 body.dark-theme .filter-btn[data-filter="actinide"].active { background: #7a2e7a; border-color: #7a2e7a; color: #fff; }
+body.dark-theme .filter-btn[data-filter="unknown"].active { background: #4a4a4a; border-color: #4a4a4a; color: #fff; }
+
+/* Тёмная тема — активные кнопки для фильтров растворимости */
+body.dark-theme .filter-btn[data-solubility="Р"].active { background: #81c784; border-color: #81c784; color: #000; }
+body.dark-theme .filter-btn[data-solubility="М"].active { background: #ffd54f; border-color: #ffd54f; color: #000; }
+body.dark-theme .filter-btn[data-solubility="Н"].active { background: #e57373; border-color: #e57373; color: #000; }
+body.dark-theme .filter-btn[data-solubility="-"].active { background: #b0b0b0; border-color: #b0b0b0; color: #000; }
+
+/* Тёмная тема — активные кнопки для фильтров по цветам */
+body.dark-theme .filter-btn[data-color-name="Бесцветный"].active { background: #1a2a3a; border-color: #4a6a8a; color: #fff; }
+body.dark-theme .filter-btn[data-color-name="Белый"].active { background: #e8e8e8; border-color: #666666; color: #000; }
+
 
 /* =========================================
    ПОИСК

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование группировки цветов</title>
+</head>
+<body>
+    <h1>Тестирование новой системы группировки цветов</h1>
+    
+    <div id="test-results"></div>
+    
+    <!-- Подключаем необходимые скрипты -->
+    <script src="js/solubility/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/solubility/colors.js"></script>
+    
+    <script>
+        // Функция для тестирования
+        function runColorGroupingTest() {
+            console.log("Запуск теста группировки цветов...");
+            
+            // Получаем уникальные цвета с помощью обновленной функции
+            const uniqueColors = getUniqueColorsFromTable();
+            
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<h2>Результаты тестирования:</h2>';
+            
+            resultsDiv.innerHTML += `<p><strong>Всего уникальных групп цветов:</strong> ${uniqueColors.length}</p>`;
+            
+            resultsDiv.innerHTML += '<ul>';
+            uniqueColors.forEach(colorGroup => {
+                resultsDiv.innerHTML += `<li><strong>${colorGroup.name}</strong>: ${colorGroup.originalColors.join(', ')}</li>`;
+            });
+            resultsDiv.innerHTML += '</ul>';
+            
+            console.log("Тест завершен. Результаты:", uniqueColors);
+        }
+        
+        // Запускаем тест при загрузке страницы
+        window.onload = function() {
+            runColorGroupingTest();
+        };
+    </script>
+</body>
+</html>

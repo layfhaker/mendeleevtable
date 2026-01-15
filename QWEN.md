@@ -160,7 +160,3 @@ Comprehensive 24×16 table with:
 - Realistic colors representing actual substance colors
 - Toggle functionality for highlighting
 - Search and filter capabilities
-
-## Testing and Quality Assurance
-
-The application follows a modular architecture that allows for isolated testing of components. Each module in the `js/modules/`, `js/solubility/`, and `js/nodemap/` directories can be tested independently. The PWA functionality can be tested by checking offline capabilities and service worker behavior.

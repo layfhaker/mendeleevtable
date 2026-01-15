@@ -78,7 +78,7 @@ body.dark-theme #theme-toggle .icon-sun {
     height: 0;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 0;  /* Повышаем z-index, чтобы волна была поверх частиц, но ниже элементов таблицы */
+    z-index: -2;  /* Понижаем z-index, чтобы волна была позади частиц и не скрывала их */
     transform: translate(-50%, -50%);
 }
 
@@ -353,4 +353,32 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
 /* Тёмная тема — только солнце */
 body.dark-theme #theme-toggle .icon-moon {
   display: none !important;
+}
+
+/* =========================================
+   ТЁМНАЯ ТЕМА — КАСТОМНЫЙ СКРОЛЛБАР
+   ========================================= */
+@media (min-width: 1025px) {
+    body.dark-theme::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    body.dark-theme::-webkit-scrollbar-track {
+        background: #1a1a2e;
+    }
+
+    body.dark-theme::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #64B5F6, #2196F3);
+        border-radius: 10px;
+        border: 2px solid #1a1a2e;
+    }
+
+    body.dark-theme::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #90CAF9, #42A5F5);
+    }
+
+    body.dark-theme {
+        scrollbar-width: thin;
+        scrollbar-color: #64B5F6 #1a1a2e;
+    }
 }
