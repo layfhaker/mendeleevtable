@@ -76,6 +76,8 @@
     padding-bottom: 10px;
     display: flex;
     justify-content: center;
+    -ms-overflow-style: auto;  /* IE and Edge */
+    scrollbar-width: thin;  /* Firefox */
 }
 
 /* =========================================
@@ -222,6 +224,8 @@
     overflow-x: hidden;
     opacity: 1;
     transition: opacity 0.2s ease-out, padding 0.3s ease-in-out;
+    -ms-overflow-style: auto;  /* IE and Edge */
+    scrollbar-width: thin;  /* Firefox */
 }
 
 .group-content.collapsed {
@@ -247,9 +251,45 @@
 /* =========================================
    СКРОЛЛБАРЫ
    ========================================= */
-/* Используем общий стиль скроллбара, но с меньшей шириной для компактности */
-#element-info::-webkit-scrollbar { height: 8px; }
-.group-content::-webkit-scrollbar { width: 6px; }
+/* Кастомные скроллбары для модального окна */
+#element-info::-webkit-scrollbar,
+.group-content::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#element-info::-webkit-scrollbar-track,
+.group-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
+}
+
+#element-info::-webkit-scrollbar-thumb,
+.group-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #2196F3, #64B5F6);
+    border-radius: 3px;
+}
+
+#element-info::-webkit-scrollbar-thumb:hover,
+.group-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #1976D2, #2196F3);
+}
+
+/* Тёмная тема */
+body.dark-theme #element-info::-webkit-scrollbar-track,
+body.dark-theme .group-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-theme #element-info::-webkit-scrollbar-thumb,
+body.dark-theme .group-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #64B5F6, #90CAF9);
+}
+
+body.dark-theme #element-info::-webkit-scrollbar-thumb:hover,
+body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #42A5F5, #64B5F6);
+}
 
 /* =========================================
    АНИМАЦИИ

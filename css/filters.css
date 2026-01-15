@@ -21,6 +21,9 @@
    flex-direction: column;
 
    animation: filtersSlideIn 0.3s ease-out;
+
+   -ms-overflow-style: auto;  /* IE and Edge */
+   scrollbar-width: thin;  /* Firefox */
 }
 
 /* Скроллбары (Chrome/Safari/Webkit) — для содержимого панели фильтров */
@@ -29,10 +32,31 @@
     width: 6px;
 }
 
-/* Скроллбары (Firefox) — для содержимого панели фильтров */
-.filters-panel {
-    scrollbar-width: thin;
-    scrollbar-color: #90caf9 transparent;
+.filters-panel::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
+}
+
+.filters-panel::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #2196F3, #64B5F6);
+    border-radius: 3px;
+}
+
+.filters-panel::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #1976D2, #2196F3);
+}
+
+/* Тёмная тема скроллбара */
+body.dark-theme .filters-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-theme .filters-panel::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #64B5F6, #90CAF9);
+}
+
+body.dark-theme .filters-panel::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #42A5F5, #64B5F6);
 }
 
 .filters-panel.active {

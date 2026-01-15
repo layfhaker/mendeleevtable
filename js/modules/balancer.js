@@ -258,117 +258,45 @@ function positionBalancerPC() {
     const alLeft = alRect.left;
     const totalSpace = alLeft - mgRight; // Общее доступное пространство
 
-    // Установим фиксированный отступ с обеих сторон (например, 8px как в стандартных отступах)
-    const marginHorizontal = 8; // Одинаковый отступ слева и справа
-    const width = totalSpace - (marginHorizontal * 2); // Ширина панели с учетом отступов
+    // Позиционируем панель в пустом пространстве таблицы:
+    // - Слева: после Mg (2-й столбец)
+    // - Справа: перед Al (13-й столбец)  
+    // - Сверху: на уровне H (1-й ряд)
+    // - Снизу: над K (4-й ряд)
 
-    const left = mgRight + marginHorizontal; // Позиционируем с учетом левого отступа
-    const right = alLeft - marginHorizontal; // Позиция правой границы панели
+    // Равные отступы со всех сторон
+    const gap = 0.5;
+    
+    // Горизонтальные границы
+    const panelLeft = mgRight + gap;
+    const panelWidth = alLeft - mgRight - (gap * 2);
+    
+    // Вертикальные границы (равные отступы сверху и снизу)
+    const panelTop = hRect.top + gap;
+    const panelHeight = kRect.top - hRect.top - (gap * 2);
 
-    // Дополнительные логи для диагностики
-    console.log('Element Mg rectangle:',
-        'x:', mgRect?.x, 'y:', mgRect?.y,
-        'left:', mgRect?.left, 'top:', mgRect?.top,
-        'right:', mgRect?.right, 'bottom:', mgRect?.bottom,
-        'width:', mgRect?.width, 'height:', mgRect?.height
-    );
-
-    console.log('Element Al rectangle:',
-        'x:', alRect.x, 'y:', alRect.y,
-        'left:', alRect.left, 'top:', alRect.top,
-        'right:', alRect.right, 'bottom:', alRect.bottom,
-        'width:', alRect.width, 'height:', alRect.height
-    );
-
-    console.log('Calculated positions:',
-        'mgRight:', mgRight,
-        'alLeft:', alLeft,
-        'totalSpace:', totalSpace,
-        'marginHorizontal:', marginHorizontal,
-        'width:', width,
-        'left:', left,
-        'right:', right,
-        'expectedRight:', window.innerWidth - (left + width) // Ожидаемое расстояние до правой границы экрана
-    );
-
-    // Рассчитаем фактические отступы
-    const actualLeftMargin = left - mgRight;
-    const actualRightMargin = alLeft - (left + width);
-
-    console.log('Actual margins:',
-        'left:', actualLeftMargin,
-        'right:', actualRightMargin,
-        'difference:', Math.abs(actualLeftMargin - actualRightMargin)
-    );
-
-    // Позиционируем так, чтобы нижняя грань панели была над верхней гранью элемента K
-    // Устанавливаем высоту, которая включает только заголовок, поле ввода и поле вывода с отступами
-    // Примеры будут скрыты и доступны через скролл
-
-    // Сначала устанавливаем панель с видимостью, чтобы можно было измерить её элементы
+    // Устанавливаем панель
     panel.style.position = 'fixed';
-    panel.style.left = left + 'px';
-    panel.style.right = 'auto'; // Сбрасываем right, чтобы использовать left и width
+    panel.style.boxSizing = 'border-box';  // Важно! Ширина включает border
+    panel.style.left = panelLeft + 'px';
+    panel.style.top = panelTop + 'px';
+    panel.style.right = 'auto';
     panel.style.bottom = 'auto';
-    panel.style.width = width + 'px'; // Устанавливаем точную ширину
-    panel.style.maxHeight = 'none'; // Временно убираем ограничение высоты
-    panel.style.height = 'auto';
+    panel.style.width = panelWidth + 'px';
+    panel.style.height = panelHeight + 'px';
+    panel.style.maxHeight = panelHeight + 'px';
+    panel.style.minHeight = '0';  // Отключаем min-height из CSS
     panel.style.zIndex = '1000';
     panel.style.display = 'flex';
     panel.style.flexDirection = 'column';
 
-    // Ждем, пока элементы отрендерятся, и затем измеряем их высоту
-    setTimeout(() => {
-        // Скрываем секцию примеров для точного измерения основного контента
-        const examplesSection = panel.querySelector('.balancer-examples');
-        let wasExamplesVisible = false;
-        if (examplesSection && examplesSection.style.display !== 'none') {
-            wasExamplesVisible = true;
-            examplesSection.style.display = 'none';
-        }
-
-        // Измеряем реальные высоты элементов
-        const header = panel.querySelector('.calc-header');
-        const inputRow = panel.querySelector('.balancer-input-row');
-        const result = panel.querySelector('#balancer-result');
-        const error = panel.querySelector('#balancer-error');
-
-        const headerHeight = header ? header.offsetHeight : 0;
-        const inputRowHeight = inputRow ? inputRow.offsetHeight : 0;
-        const resultHeight = result ? result.offsetHeight : 0;
-        const errorHeight = error ? error.offsetHeight : 0;
-
-        // Общая высота основного контента (без примеров)
-        const mainContentHeight = headerHeight + inputRowHeight + resultHeight + errorHeight + 20; // 20px на отступы
-
-        // Восстанавливаем видимость примеров
-        if (wasExamplesVisible && examplesSection) {
-            examplesSection.style.display = '';
-        }
-
-        const targetTop = kRect.top - mainContentHeight - 25; // 25px отступ над K (увеличили отступ, чтобы не перекрывало 4-й ряд)
-
-        // Проверяем, чтобы панель не выходила за верхнюю границу экрана
-        const minTop = 20; // Отступ от верха экрана
-        const finalTop = Math.max(targetTop, minTop);
-
-        // Устанавливаем финальные стили
-        panel.style.top = finalTop + 'px';
-        panel.style.maxHeight = mainContentHeight + 'px'; // Ограничиваем высоту основным контентом
-        panel.style.height = mainContentHeight + 'px'; // Явно устанавливаем высоту
-
-        console.log('Target top with measured main content height (without examples):', {
-            kTop: kRect.top,
-            headerHeight: headerHeight,
-            inputRowHeight: inputRowHeight,
-            resultHeight: resultHeight,
-            errorHeight: errorHeight,
-            mainContentHeight: mainContentHeight,
-            marginVertical: marginVertical,
-            calculatedTop: targetTop,
-            finalTop: finalTop
-        });
-    }, 0);
+    console.log('Panel positioning:', {
+        panelTop: panelTop,
+        panelLeft: panelLeft,
+        panelWidth: panelWidth,
+        panelHeight: panelHeight,
+        gap: gap
+    });
 
     // Также логируем реальные размеры панели после установки стилей
     setTimeout(() => {

@@ -299,21 +299,21 @@
 }
 
 /* Скрытие скроллбаров для таблицы Менделеева */
-.periodic-table-container::-webkit-scrollbar {
-    display: none;
-}
-  
 .periodic-table-container {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
-  
+
+.periodic-table-container::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 1024px) {
     .periodic-table-container {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    
+
     .periodic-table-container::-webkit-scrollbar {
       display: none;
     }

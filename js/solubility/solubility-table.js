@@ -449,70 +449,9 @@ window.renderActivitySeries = function() {
     if (switchBtn) {
         switchBtn.onclick = function() {
             isMetalsView = !isMetalsView;
-
-            // Сохраняем текущую высоту перед перерисовкой
-            const currentHeight = container.offsetHeight;
-
-            // Устанавливаем высоту в 0 для анимации
-            container.style.height = currentHeight + 'px';
-            container.style.overflow = 'hidden';
-
-            // Перерисовываем с небольшой задержкой, чтобы анимация сработала
-            setTimeout(() => {
-                window.renderActivitySeries(); // Перерисовываем
-
-                // После перерисовки снова измеряем высоту и плавно изменяем
-                requestAnimationFrame(() => {
-                    const contentWrapper = container.querySelector('.activity-content-wrapper');
-                    if (contentWrapper) {
-                        const newHeight = Math.max(contentWrapper.scrollHeight, 220); // Учитываем минимальную высоту
-
-                        // Плавно изменяем высоту
-                        container.style.height = newHeight + 'px';
-
-                        // После завершения анимации убираем ограничение высоты
-                        setTimeout(() => {
-                            if(container.classList.contains('active')) {
-                                container.style.height = 'auto';
-                            }
-                        }, 400); // Соответствует времени transition в CSS
-                    }
-                });
-            }, 10);
+            window.renderActivitySeries(); // Просто перерисовываем
         };
     }
-
-    // Динамически изменяем высоту панели в зависимости от фактического размера контента
-    // Используем requestAnimationFrame для точного измерения после рендеринга
-    requestAnimationFrame(() => {
-        // Устанавливаем высоту контейнера равной высоте его содержимого
-        const contentWrapper = container.querySelector('.activity-content-wrapper');
-        if (contentWrapper) {
-            // Принудительно обновляем размеры элементов
-            contentWrapper.style.display = 'block';
-
-            // Принудительно обновляем layout
-            const rect = contentWrapper.getBoundingClientRect();
-
-            // Получаем фактическую высоту контента
-            const contentHeight = Math.max(contentWrapper.scrollHeight, 220); // Учитываем минимальную высоту
-
-            // Если панель активна, устанавливаем высоту для плавного перехода
-            if (container.classList.contains('active')) {
-                container.style.height = contentHeight + 'px';
-
-                // После завершения анимации убираем ограничение высоты
-                setTimeout(() => {
-                    if(container.classList.contains('active')) {
-                        container.style.height = 'auto';
-                    }
-                }, 400); // Соответствует времени transition в CSS
-            } else {
-                // Если панель не активна, просто устанавливаем высоту для измерения
-                container.style.height = contentHeight + 'px';
-            }
-        }
-    });
 };
 
 // 2. Главная функция переключения (исправлены ID)
@@ -527,47 +466,13 @@ window.toggleActivitySeries = function() {
     }
 
     // Если в панели старый текст (из HTML), заменяем его на карточки
-    // Проверяем наличие класса activity-content-wrapper, который мы создаем в JS
     if (!panel.querySelector('.activity-content-wrapper')) {
         window.renderActivitySeries();
     }
 
-    const isActive = !panel.classList.contains('active');
-
-    // Переключаем классы
-    btn.classList.toggle('active', isActive);
-    panel.classList.toggle('active', isActive);
-
-    // Если панель становится активной, измеряем и устанавливаем высоту
-    if (isActive) {
-        requestAnimationFrame(() => {
-            const contentWrapper = panel.querySelector('.activity-content-wrapper');
-            if (contentWrapper) {
-                const contentHeight = Math.max(contentWrapper.scrollHeight, 220); // Учитываем минимальную высоту
-
-                // Устанавливаем начальную высоту для анимации
-                panel.style.height = contentHeight + 'px';
-
-                // После завершения анимации убираем ограничение высоты
-                setTimeout(() => {
-                    if(panel.classList.contains('active')) {
-                        panel.style.height = 'auto';
-                    }
-                }, 400); // Соответствует времени transition в CSS
-            }
-        });
-    } else {
-        // Если панель скрывается, плавно уменьшаем высоту
-        const contentHeight = panel.scrollHeight;
-        panel.style.height = contentHeight + 'px';
-
-        // Принудительно обновляем layout
-        panel.offsetHeight;
-
-        // Устанавливаем высоту в 0 для анимации скрытия
-        panel.style.height = '0';
-        panel.style.overflow = 'hidden';
-    }
+    // Просто переключаем классы — CSS сделает всё остальное
+    btn.classList.toggle('active');
+    panel.classList.toggle('active');
 };
 
 // 3. Инициализация при загрузке

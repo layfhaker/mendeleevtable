@@ -40,31 +40,7 @@ body.scroll-unlocked {
 }
 
 /* Кастомный скроллбар для разблокированного состояния (десктопная версия) */
-@media (min-width: 1025px) {
-    body.scroll-unlocked::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    body.scroll-unlocked::-webkit-scrollbar-track {
-        background: transparent;
-        border-radius: 10px;
-    }
-
-    body.scroll-unlocked::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #2196F3, #21CBF3);
-        border-radius: 10px;
-        border: 2px solid transparent;
-    }
-
-    body.scroll-unlocked::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #1976D2, #0BB3F3);
-    }
-
-    body.scroll-unlocked {
-        scrollbar-width: thin;
-        scrollbar-color: #2196F3 transparent;
-    }
-}
+/* Удалены дублирующие стили скроллбара, так как теперь используются универсальные стили */
 
 /* --- Изначально body не скроллится --- */
 body.scroll-locked {
@@ -188,29 +164,5 @@ body.electron .below-table-content {
 /* =========================================
    ТЁМНАЯ ТЕМА — КАСТОМНЫЙ СКРОЛЛБАР (скролл-коллапс)
    ========================================= */
-@media (min-width: 1025px) {
-    body.dark-theme.scroll-unlocked::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    body.dark-theme.scroll-unlocked::-webkit-scrollbar-track {
-        background: transparent;
-        border-radius: 10px;
-    }
-
-    body.dark-theme.scroll-unlocked::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #64B5F6, #2196F3);
-        border-radius: 10px;
-        border: 2px solid transparent;
-    }
-
-    body.dark-theme.scroll-unlocked::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #90CAF9, #42A5F5);
-    }
-
-    body.dark-theme.scroll-unlocked {
-        scrollbar-width: thin;
-        scrollbar-color: #64B5F6 transparent;
-    }
-}
+/* Удалены дублирующие стили скроллбара, так как теперь используются универсальные стили */
 

@@ -101,7 +101,8 @@
     border-bottom: 1px solid #ddd;
     overflow-x: auto;
     flex-shrink: 0;
-    scrollbar-width: none;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .advanced-tabs::-webkit-scrollbar {
@@ -148,19 +149,40 @@
     padding: 25px;
     min-height: 0;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: auto;  /* IE and Edge */
+    scrollbar-width: thin;  /* Firefox */
 }
 
+/* Кастомные скроллбары для контента продвинутого режима */
 .advanced-content::-webkit-scrollbar {
     width: 6px;
 }
 
 .advanced-content::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 3px;
 }
 
 .advanced-content::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     border-radius: 3px;
+}
+
+.advanced-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+/* Тёмная тема */
+body.dark-theme .advanced-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-theme .advanced-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+}
+
+body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
 }
 
 .tab-pane {
