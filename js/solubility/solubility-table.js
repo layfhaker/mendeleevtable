@@ -57,7 +57,7 @@ function renderSolubilityTable() {
             let text = '';
             let className = '';
 
-            switch(solubility) {
+            switch (solubility) {
                 case 'R': text = 'Р'; className = 'type-r'; break;
                 case 'N': text = 'Н'; className = 'type-n'; break;
                 case 'M': text = 'М'; className = 'type-m'; break;
@@ -322,7 +322,7 @@ function enableDragScroll(element) {
         // #endregion
         // Не мешаем кликам по ячейкам таблицы и заголовкам
         if (e.target.tagName === 'TD' || e.target.tagName === 'TH') return;
-        
+
         if (e.touches.length === 1) {
             const touch = e.touches[0];
             isDown = true;
@@ -387,7 +387,7 @@ function getCellSubstanceKey(rowIndex, colIndex) {
 var isMetalsView = true;
 
 // 1. Функция отрисовки карточек
-window.renderActivitySeries = function() {
+window.renderActivitySeries = function () {
     const container = document.getElementById('activity-series-panel');
     if (!container) return;
 
@@ -447,36 +447,40 @@ window.renderActivitySeries = function() {
     // Вешаем обработчик на внутреннюю кнопку переключения
     const switchBtn = document.getElementById('toggle-series-type-btn');
     if (switchBtn) {
-        switchBtn.onclick = function() {
+        switchBtn.onclick = function () {
             isMetalsView = !isMetalsView;
             window.renderActivitySeries(); // Просто перерисовываем
         };
     }
 };
 
-// 2. Главная функция переключения (исправлены ID)
-window.toggleActivitySeries = function() {
-    // ВАЖНО: Используем правильный ID кнопки из index.html ('activity-mode-btn')
+// 2. Главная функция переключения шторки (CSS animation approach)
+window.toggleActivitySeries = function () {
     const btn = document.getElementById('activity-mode-btn');
     const panel = document.getElementById('activity-series-panel');
 
-    if (!btn || !panel) {
-        console.error('Элементы ряда активности не найдены (проверьте ID activity-mode-btn и activity-series-panel)');
-        return;
-    }
+    if (!btn || !panel) return;
 
-    // Если в панели старый текст (из HTML), заменяем его на карточки
+    // Инициализация контента при первом клике
     if (!panel.querySelector('.activity-content-wrapper')) {
         window.renderActivitySeries();
     }
 
-    // Просто переключаем классы — CSS сделает всё остальное
-    btn.classList.toggle('active');
-    panel.classList.toggle('active');
+    // Просто переключаем класс - CSS делает анимацию
+    const isOpening = !panel.classList.contains('active');
+
+    if (isOpening) {
+        btn.classList.add('active');
+        panel.classList.add('active');
+    } else {
+        btn.classList.remove('active');
+        panel.classList.remove('active');
+    }
 };
 
+
 // 3. Инициализация при загрузке
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const panel = document.getElementById('activity-series-panel');
     if (panel) {
         // Убираем класс active, чтобы панель была скрыта при старте

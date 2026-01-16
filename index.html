@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -9,7 +10,8 @@
     <link rel="stylesheet" href="css/loader.css">
 
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232196F3'/><stop offset='100%25' style='stop-color:%231976D2'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(60 50 50)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(120 50 50)'/><circle cx='50' cy='50' r='6' fill='%23FF4081'/><circle cx='85' cy='50' r='4' fill='%2300E5FF'/><circle cx='15' cy='50' r='4' fill='%2300E5FF'/><circle cx='50' cy='62' r='4' fill='%2300E5FF'/><circle cx='50' cy='38' r='4' fill='%2300E5FF'/></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%232196F3'/><stop offset='100%25' style='stop-color:%231976D2'/></linearGradient></defs><circle cx='50' cy='50' r='48' fill='url(%23g)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(60 50 50)'/><ellipse cx='50' cy='50' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2' transform='rotate(120 50 50)'/><circle cx='50' cy='50' r='6' fill='%23FF4081'/><circle cx='85' cy='50' r='4' fill='%2300E5FF'/><circle cx='15' cy='50' r='4' fill='%2300E5FF'/><circle cx='50' cy='62' r='4' fill='%2300E5FF'/><circle cx='50' cy='38' r='4' fill='%2300E5FF'/></svg>">
     <link rel="apple-touch-icon" href="img/icon-192.png">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2196F3">
@@ -19,15 +21,16 @@
 
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
     <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/pdf-export.css">
 
 
-    
+
     <!-- Fallback для Chrome: если preload не сработал, загружаем через JS -->
     <script>
         // Fallback для загрузки CSS в Chrome
-        (function() {
+        (function () {
             var links = document.querySelectorAll('link[rel="preload"][as="style"]');
-            links.forEach(function(link) {
+            links.forEach(function (link) {
                 if (link.rel !== 'stylesheet') {
                     link.rel = 'stylesheet';
                 }
@@ -35,626 +38,631 @@
         })();
     </script>
 </head>
+
 <body>
-  <!-- ЛОАДЕР — загружается первым -->
-  <script src="js/loader.js"></script>
+    <!-- ЛОАДЕР — загружается первым -->
+    <script src="js/loader.js"></script>
 
-  <!-- Синхронная загрузка SVG иконок для Safari iOS -->
-  <script src="js/icons.js"></script>
+    <!-- Синхронная загрузка SVG иконок для Safari iOS -->
+    <script src="js/icons.js"></script>
 
-  <canvas id="particles-canvas"></canvas>
-  <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему" aria-label="Переключить тему">
-        <svg class="icon-moon"><use href="#icon-moon"></use></svg>
-        <svg class="icon-sun"><use href="#icon-sun"></use></svg>
-  </button>
+    <canvas id="particles-canvas"></canvas>
+    <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему" aria-label="Переключить тему">
+        <svg class="icon-moon">
+            <use href="#icon-moon"></use>
+        </svg>
+        <svg class="icon-sun">
+            <use href="#icon-sun"></use>
+        </svg>
+    </button>
 
-  <div class="periodic-table-container">
-    <div class="table-wrapper">
-  <div class="container">
-      <!-- Все элементы основной таблицы -->
-      <div id="H" class="element nonmetal" data-symbol="H">
-          <span class="atomic-number">1</span>
-          <span class="symbol">H</span>
-          <span class="name">Водород</span>
-      </div>
-      <div id="He" class="element noble-gas" data-symbol="He">
-          <span class="atomic-number">2</span>
-          <span class="symbol">He</span>
-          <span class="name">Гелий</span>
-      </div>
-      <div id="Li" class="element alkali-metal" data-symbol="Li">
-          <span class="atomic-number">3</span>
-          <span class="symbol">Li</span>
-          <span class="name">Литий</span>
-      </div>
-      <div id="Be" class="element alkaline-earth-metal" data-symbol="Be">
-          <span class="atomic-number">4</span>
-          <span class="symbol">Be</span>
-          <span class="name">Бериллий</span>
-      </div>
-      <div id="B" class="element metalloid" data-symbol="B">
-          <span class="atomic-number">5</span>
-          <span class="symbol">B</span>
-          <span class="name">Бор</span>
-      </div>
-      <div id="C" class="element nonmetal" data-symbol="C">
-          <span class="atomic-number">6</span>
-          <span class="symbol">C</span>
-          <span class="name">Углерод</span>
-      </div>
-      <div id="N" class="element nonmetal" data-symbol="N">
-          <span class="atomic-number">7</span>
-          <span class="symbol">N</span>
-          <span class="name">Азот</span>
-      </div>
-      <div id="O" class="element nonmetal" data-symbol="O">
-          <span class="atomic-number">8</span>
-          <span class="symbol">O</span>
-          <span class="name">Кислород</span>
-      </div>
-      <div id="F" class="element halogen" data-symbol="F">
-          <span class="atomic-number">9</span>
-          <span class="symbol">F</span>
-          <span class="name">Фтор</span>
-      </div>
-      <div id="Ne" class="element noble-gas" data-symbol="Ne">
-          <span class="atomic-number">10</span>
-          <span class="symbol">Ne</span>
-          <span class="name">Неон</span>
-      </div>
-      <div id="Na" class="element alkali-metal" data-symbol="Na">
-          <span class="atomic-number">11</span>
-          <span class="symbol">Na</span>
-          <span class="name">Натрий</span>
-      </div>
-      <div id="Mg" class="element alkaline-earth-metal" data-symbol="Mg">
-          <span class="atomic-number">12</span>
-          <span class="symbol">Mg</span>
-          <span class="name">Магний</span>
-      </div>
-      <div id="Al" class="element post-transition-metal" data-symbol="Al">
-          <span class="atomic-number">13</span>
-          <span class="symbol">Al</span>
-          <span class="name">Алюминий</span>
-      </div>
-      <div id="Si" class="element metalloid" data-symbol="Si">
-          <span class="atomic-number">14</span>
-          <span class="symbol">Si</span>
-          <span class="name">Кремний</span>
-      </div>
-      <div id="P" class="element nonmetal" data-symbol="P">
-          <span class="atomic-number">15</span>
-          <span class="symbol">P</span>
-          <span class="name">Фосфор</span>
-      </div>
-      <div id="S" class="element nonmetal" data-symbol="S">
-          <span class="atomic-number">16</span>
-          <span class="symbol">S</span>
-          <span class="name">Сера</span>
-      </div>
-      <div id="Cl" class="element halogen" data-symbol="Cl">
-          <span class="atomic-number">17</span>
-          <span class="symbol">Cl</span>
-          <span class="name">Хлор</span>
-      </div>
-      <div id="Ar" class="element noble-gas" data-symbol="Ar">
-          <span class="atomic-number">18</span>
-          <span class="symbol">Ar</span>
-          <span class="name">Аргон</span>
-      </div>
-      <div id="K" class="element alkali-metal" data-symbol="K">
-          <span class="atomic-number">19</span>
-          <span class="symbol">K</span>
-          <span class="name">Калий</span>
-      </div>
-      <div id="Ca" class="element alkaline-earth-metal" data-symbol="Ca">
-          <span class="atomic-number">20</span>
-          <span class="symbol">Ca</span>
-          <span class="name">Кальций</span>
-      </div>
-      <div id="Sc" class="element transition-metal" data-symbol="Sc">
-          <span class="atomic-number">21</span>
-          <span class="symbol">Sc</span>
-          <span class="name">Скандий</span>
-      </div>
-      <div id="Ti" class="element transition-metal" data-symbol="Ti">
-          <span class="atomic-number">22</span>
-          <span class="symbol">Ti</span>
-          <span class="name">Титан</span>
-      </div>
-      <div id="V" class="element transition-metal" data-symbol="V">
-          <span class="atomic-number">23</span>
-          <span class="symbol">V</span>
-          <span class="name">Ванадий</span>
-      </div>
-      <div id="Cr" class="element transition-metal" data-symbol="Cr">
-          <span class="atomic-number">24</span>
-          <span class="symbol">Cr</span>
-          <span class="name">Хром</span>
-      </div>
-      <div id="Mn" class="element transition-metal" data-symbol="Mn">
-          <span class="atomic-number">25</span>
-          <span class="symbol">Mn</span>
-          <span class="name">Марганец</span>
-      </div>
-      <div id="Fe" class="element transition-metal" data-symbol="Fe">
-          <span class="atomic-number">26</span>
-          <span class="symbol">Fe</span>
-          <span class="name">Железо</span>
-      </div>
-      <div id="Co" class="element transition-metal" data-symbol="Co">
-          <span class="atomic-number">27</span>
-          <span class="symbol">Co</span>
-          <span class="name">Кобальт</span>
-      </div>
-      <div id="Ni" class="element transition-metal" data-symbol="Ni">
-          <span class="atomic-number">28</span>
-          <span class="symbol">Ni</span>
-          <span class="name">Никель</span>
-      </div>
-      <div id="Cu" class="element transition-metal" data-symbol="Cu">
-          <span class="atomic-number">29</span>
-          <span class="symbol">Cu</span>
-          <span class="name">Медь</span>
-      </div>
-      <div id="Zn" class="element transition-metal" data-symbol="Zn">
-          <span class="atomic-number">30</span>
-          <span class="symbol">Zn</span>
-          <span class="name">Цинк</span>
-      </div>
-      <div id="Ga" class="element post-transition-metal" data-symbol="Ga">
-          <span class="atomic-number">31</span>
-          <span class="symbol">Ga</span>
-          <span class="name">Галлий</span>
-      </div>
-      <div id="Ge" class="element metalloid" data-symbol="Ge">
-          <span class="atomic-number">32</span>
-          <span class="symbol">Ge</span>
-          <span class="name">Германий</span>
-      </div>
-      <div id="As" class="element metalloid" data-symbol="As">
-          <span class="atomic-number">33</span>
-          <span class="symbol">As</span>
-          <span class="name">Мышьяк</span>
-      </div>
-      <div id="Se" class="element nonmetal" data-symbol="Se">
-          <span class="atomic-number">34</span>
-          <span class="symbol">Se</span>
-          <span class="name">Селен</span>
-      </div>
-      <div id="Br" class="element halogen" data-symbol="Br">
-          <span class="atomic-number">35</span>
-          <span class="symbol">Br</span>
-          <span class="name">Бром</span>
-      </div>
-      <div id="Kr" class="element noble-gas" data-symbol="Kr">
-          <span class="atomic-number">36</span>
-          <span class="symbol">Kr</span>
-          <span class="name">Криптон</span>
-      </div>
-      <div id="Rb" class="element alkali-metal" data-symbol="Rb">
-          <span class="atomic-number">37</span>
-          <span class="symbol">Rb</span>
-          <span class="name">Рубидий</span>
-      </div>
-      <div id="Sr" class="element alkaline-earth-metal" data-symbol="Sr">
-          <span class="atomic-number">38</span>
-          <span class="symbol">Sr</span>
-          <span class="name">Стронций</span>
-      </div>
-      <div id="Y" class="element transition-metal" data-symbol="Y">
-          <span class="atomic-number">39</span>
-          <span class="symbol">Y</span>
-          <span class="name">Иттрий</span>
-      </div>
-      <div id="Zr" class="element transition-metal" data-symbol="Zr">
-          <span class="atomic-number">40</span>
-          <span class="symbol">Zr</span>
-          <span class="name">Цирконий</span>
-      </div>
-      <div id="Nb" class="element transition-metal" data-symbol="Nb">
-          <span class="atomic-number">41</span>
-          <span class="symbol">Nb</span>
-          <span class="name">Ниобий</span>
-      </div>
-      <div id="Mo" class="element transition-metal" data-symbol="Mo">
-          <span class="atomic-number">42</span>
-          <span class="symbol">Mo</span>
-          <span class="name">Молибден</span>
-      </div>
-      <div id="Tc" class="element transition-metal" data-symbol="Tc">
-          <span class="atomic-number">43</span>
-          <span class="symbol">Tc</span>
-          <span class="name">Технеций</span>
-      </div>
-      <div id="Ru" class="element transition-metal" data-symbol="Ru">
-          <span class="atomic-number">44</span>
-          <span class="symbol">Ru</span>
-          <span class="name">Рутений</span>
-      </div>
-      <div id="Rh" class="element transition-metal" data-symbol="Rh">
-          <span class="atomic-number">45</span>
-          <span class="symbol">Rh</span>
-          <span class="name">Родий</span>
-      </div>
-      <div id="Pd" class="element transition-metal" data-symbol="Pd">
-          <span class="atomic-number">46</span>
-          <span class="symbol">Pd</span>
-          <span class="name">Палладий</span>
-      </div>
-      <div id="Ag" class="element transition-metal" data-symbol="Ag">
-          <span class="atomic-number">47</span>
-          <span class="symbol">Ag</span>
-          <span class="name">Серебро</span>
-      </div>
-      <div id="Cd" class="element transition-metal" data-symbol="Cd">
-          <span class="atomic-number">48</span>
-          <span class="symbol">Cd</span>
-          <span class="name">Кадмий</span>
-      </div>
-      <div id="In" class="element post-transition-metal" data-symbol="In">
-          <span class="atomic-number">49</span>
-          <span class="symbol">In</span>
-          <span class="name">Индий</span>
-      </div>
-      <div id="Sn" class="element post-transition-metal" data-symbol="Sn">
-          <span class="atomic-number">50</span>
-          <span class="symbol">Sn</span>
-          <span class="name">Олово</span>
-      </div>
-      <div id="Sb" class="element metalloid" data-symbol="Sb">
-          <span class="atomic-number">51</span>
-          <span class="symbol">Sb</span>
-          <span class="name">Сурьма</span>
-      </div>
-      <div id="Te" class="element metalloid" data-symbol="Te">
-          <span class="atomic-number">52</span>
-          <span class="symbol">Te</span>
-          <span class="name">Теллур</span>
-      </div>
-      <div id="I" class="element halogen" data-symbol="I">
-          <span class="atomic-number">53</span>
-          <span class="symbol">I</span>
-          <span class="name">Иод</span>
-      </div>
-      <div id="Xe" class="element noble-gas" data-symbol="Xe">
-          <span class="atomic-number">54</span>
-          <span class="symbol">Xe</span>
-          <span class="name">Ксенон</span>
-      </div>
-      <div id="Cs" class="element alkali-metal" data-symbol="Cs">
-          <span class="atomic-number">55</span>
-          <span class="symbol">Cs</span>
-          <span class="name">Цезий</span>
-      </div>
-      <div id="Ba" class="element alkaline-earth-metal" data-symbol="Ba">
-          <span class="atomic-number">56</span>
-          <span class="symbol">Ba</span>
-          <span class="name">Барий</span>
-      </div>
-      <div id="La" class="element lanthanide" data-symbol="La">
-          <span class="atomic-number">57</span>
-          <span class="symbol">La</span>
-          <span class="name">Лантан</span>
-      </div>
-             <div id="Hf" class="element transition-metal" data-symbol="Hf">
-          <span class="atomic-number">72</span>
-          <span class="symbol">Hf</span>
-          <span class="name">Гафний</span>
-      </div>
-      <div id="Ta" class="element transition-metal" data-symbol="Ta">
-          <span class="atomic-number">73</span>
-          <span class="symbol">Ta</span>
-          <span class="name">Тантал</span>
-      </div>
-      <div id="W" class="element transition-metal" data-symbol="W">
-          <span class="atomic-number">74</span>
-          <span class="symbol">W</span>
-          <span class="name">Вольфрам</span>
-      </div>
-      <div id="Re" class="element transition-metal" data-symbol="Re">
-          <span class="atomic-number">75</span>
-          <span class="symbol">Re</span>
-          <span class="name">Рений</span>
-      </div>
-      <div id="Os" class="element transition-metal" data-symbol="Os">
-          <span class="atomic-number">76</span>
-          <span class="symbol">Os</span>
-          <span class="name">Осмий</span>
-      </div>
-      <div id="Ir" class="element transition-metal" data-symbol="Ir">
-          <span class="atomic-number">77</span>
-          <span class="symbol">Ir</span>
-          <span class="name">Иридий</span>
-      </div>
-      <div id="Pt" class="element transition-metal" data-symbol="Pt">
-          <span class="atomic-number">78</span>
-          <span class="symbol">Pt</span>
-          <span class="name">Платина</span>
-      </div>
-      <div id="Au" class="element transition-metal" data-symbol="Au">
-          <span class="atomic-number">79</span>
-          <span class="symbol">Au</span>
-          <span class="name">Золото</span>
-      </div>
-      <div id="Hg" class="element transition-metal" data-symbol="Hg">
-          <span class="atomic-number">80</span>
-          <span class="symbol">Hg</span>
-          <span class="name">Ртуть</span>
-      </div>
-      <div id="Tl" class="element post-transition-metal" data-symbol="Tl">
-          <span class="atomic-number">81</span>
-          <span class="symbol">Tl</span>
-          <span class="name">Таллий</span>
-      </div>
-      <div id="Pb" class="element post-transition-metal" data-symbol="Pb">
-          <span class="atomic-number">82</span>
-          <span class="symbol">Pb</span>
-          <span class="name">Свинец</span>
-      </div>
-      <div id="Bi" class="element post-transition-metal" data-symbol="Bi">
-          <span class="atomic-number">83</span>
-          <span class="symbol">Bi</span>
-          <span class="name">Висмут</span>
-      </div>
-      <div id="Po" class="element post-transition-metal" data-symbol="Po">
-          <span class="atomic-number">84</span>
-          <span class="symbol">Po</span>
-          <span class="name">Полоний</span>
-      </div>
-      <div id="At" class="element halogen" data-symbol="At">
-          <span class="atomic-number">85</span>
-          <span class="symbol">At</span>
-          <span class="name">Астат</span>
-      </div>
-      <div id="Rn" class="element noble-gas" data-symbol="Rn">
-          <span class="atomic-number">86</span>
-          <span class="symbol">Rn</span>
-          <span class="name">Радон</span>
-      </div>
-      <div id="Fr" class="element alkali-metal" data-symbol="Fr">
-          <span class="atomic-number">87</span>
-          <span class="symbol">Fr</span>
-          <span class="name">Франций</span>
-      </div>
-      <div id="Ra" class="element alkaline-earth-metal" data-symbol="Ra">
-          <span class="atomic-number">88</span>
-          <span class="symbol">Ra</span>
-          <span class="name">Радий</span>
-      </div>
-      <div id="Ac" class="element actinide" data-symbol="Ac">
-          <span class="atomic-number">89</span>
-          <span class="symbol">Ac</span>
-          <span class="name">Актиний</span>
-      </div>
-      <div id="Rf" class="element transition-metal" data-symbol="Rf">
-          <span class="atomic-number">104</span>
-          <span class="symbol">Rf</span>
-          <span class="name">Резерфордий</span>
-      </div>
-      <div id="Db" class="element transition-metal" data-symbol="Db">
-          <span class="atomic-number">105</span>
-          <span class="symbol">Db</span>
-          <span class="name">Дубний</span>
-      </div>
-      <div id="Sg" class="element transition-metal" data-symbol="Sg">
-          <span class="atomic-number">106</span>
-          <span class="symbol">Sg</span>
-          <span class="name">Сиборгий</span>
-      </div>
-      <div id="Bh" class="element transition-metal" data-symbol="Bh">
-          <span class="atomic-number">107</span>
-          <span class="symbol">Bh</span>
-          <span class="name">Борий</span>
-      </div>
-      <div id="Hs" class="element transition-metal" data-symbol="Hs">
-          <span class="atomic-number">108</span>
-          <span class="symbol">Hs</span>
-          <span class="name">Хассий</span>
-      </div>
-    <div id="Mt" class="element unknown" data-symbol="Mt">
-        <span class="atomic-number">109</span>
-        <span class="symbol">Mt</span>
-        <span class="name">Мейтнерий</span>
-    </div>
-    <div id="Ds" class="element unknown" data-symbol="Ds">
-        <span class="atomic-number">110</span>
-        <span class="symbol">Ds</span>
-        <span class="name">Дармштадтий</span>
-    </div>
-    <div id="Rg" class="element unknown" data-symbol="Rg">
-        <span class="atomic-number">111</span>
-        <span class="symbol">Rg</span>
-        <span class="name">Рентгений</span>
-    </div>
-    <div id="Cn" class="element unknown" data-symbol="Cn">
-        <span class="atomic-number">112</span>
-        <span class="symbol">Cn</span>
-        <span class="name">Коперниций</span>
-    </div>
-    <div id="Nh" class="element unknown" data-symbol="Nh">
-        <span class="atomic-number">113</span>
-        <span class="symbol">Nh</span>
-        <span class="name">Нихоний</span>
-    </div>
-    <div id="Fl" class="element unknown" data-symbol="Fl">
-        <span class="atomic-number">114</span>
-        <span class="symbol">Fl</span>
-        <span class="name">Флеровий</span>
-    </div>
-    <div id="Mc" class="element unknown" data-symbol="Mc">
-        <span class="atomic-number">115</span>
-        <span class="symbol">Mc</span>
-        <span class="name">Московий</span>
-    </div>
-    <div id="Lv" class="element unknown" data-symbol="Lv">
-        <span class="atomic-number">116</span>
-        <span class="symbol">Lv</span>
-        <span class="name">Ливерморий</span>
-    </div>
-    <div id="Ts" class="element unknown" data-symbol="Ts">
-        <span class="atomic-number">117</span>
-        <span class="symbol">Ts</span>
-        <span class="name">Теннессин</span>
-    </div>
-    <div id="Og" class="element unknown" data-symbol="Og">
-        <span class="atomic-number">118</span>
-        <span class="symbol">Og</span>
-        <span class="name">Оганесон</span>
-    </div>
+    <div class="periodic-table-container">
+        <div class="table-wrapper">
+            <div class="container">
+                <!-- Все элементы основной таблицы -->
+                <div id="H" class="element nonmetal" data-symbol="H">
+                    <span class="atomic-number">1</span>
+                    <span class="symbol">H</span>
+                    <span class="name">Водород</span>
+                </div>
+                <div id="He" class="element noble-gas" data-symbol="He">
+                    <span class="atomic-number">2</span>
+                    <span class="symbol">He</span>
+                    <span class="name">Гелий</span>
+                </div>
+                <div id="Li" class="element alkali-metal" data-symbol="Li">
+                    <span class="atomic-number">3</span>
+                    <span class="symbol">Li</span>
+                    <span class="name">Литий</span>
+                </div>
+                <div id="Be" class="element alkaline-earth-metal" data-symbol="Be">
+                    <span class="atomic-number">4</span>
+                    <span class="symbol">Be</span>
+                    <span class="name">Бериллий</span>
+                </div>
+                <div id="B" class="element metalloid" data-symbol="B">
+                    <span class="atomic-number">5</span>
+                    <span class="symbol">B</span>
+                    <span class="name">Бор</span>
+                </div>
+                <div id="C" class="element nonmetal" data-symbol="C">
+                    <span class="atomic-number">6</span>
+                    <span class="symbol">C</span>
+                    <span class="name">Углерод</span>
+                </div>
+                <div id="N" class="element nonmetal" data-symbol="N">
+                    <span class="atomic-number">7</span>
+                    <span class="symbol">N</span>
+                    <span class="name">Азот</span>
+                </div>
+                <div id="O" class="element nonmetal" data-symbol="O">
+                    <span class="atomic-number">8</span>
+                    <span class="symbol">O</span>
+                    <span class="name">Кислород</span>
+                </div>
+                <div id="F" class="element halogen" data-symbol="F">
+                    <span class="atomic-number">9</span>
+                    <span class="symbol">F</span>
+                    <span class="name">Фтор</span>
+                </div>
+                <div id="Ne" class="element noble-gas" data-symbol="Ne">
+                    <span class="atomic-number">10</span>
+                    <span class="symbol">Ne</span>
+                    <span class="name">Неон</span>
+                </div>
+                <div id="Na" class="element alkali-metal" data-symbol="Na">
+                    <span class="atomic-number">11</span>
+                    <span class="symbol">Na</span>
+                    <span class="name">Натрий</span>
+                </div>
+                <div id="Mg" class="element alkaline-earth-metal" data-symbol="Mg">
+                    <span class="atomic-number">12</span>
+                    <span class="symbol">Mg</span>
+                    <span class="name">Магний</span>
+                </div>
+                <div id="Al" class="element post-transition-metal" data-symbol="Al">
+                    <span class="atomic-number">13</span>
+                    <span class="symbol">Al</span>
+                    <span class="name">Алюминий</span>
+                </div>
+                <div id="Si" class="element metalloid" data-symbol="Si">
+                    <span class="atomic-number">14</span>
+                    <span class="symbol">Si</span>
+                    <span class="name">Кремний</span>
+                </div>
+                <div id="P" class="element nonmetal" data-symbol="P">
+                    <span class="atomic-number">15</span>
+                    <span class="symbol">P</span>
+                    <span class="name">Фосфор</span>
+                </div>
+                <div id="S" class="element nonmetal" data-symbol="S">
+                    <span class="atomic-number">16</span>
+                    <span class="symbol">S</span>
+                    <span class="name">Сера</span>
+                </div>
+                <div id="Cl" class="element halogen" data-symbol="Cl">
+                    <span class="atomic-number">17</span>
+                    <span class="symbol">Cl</span>
+                    <span class="name">Хлор</span>
+                </div>
+                <div id="Ar" class="element noble-gas" data-symbol="Ar">
+                    <span class="atomic-number">18</span>
+                    <span class="symbol">Ar</span>
+                    <span class="name">Аргон</span>
+                </div>
+                <div id="K" class="element alkali-metal" data-symbol="K">
+                    <span class="atomic-number">19</span>
+                    <span class="symbol">K</span>
+                    <span class="name">Калий</span>
+                </div>
+                <div id="Ca" class="element alkaline-earth-metal" data-symbol="Ca">
+                    <span class="atomic-number">20</span>
+                    <span class="symbol">Ca</span>
+                    <span class="name">Кальций</span>
+                </div>
+                <div id="Sc" class="element transition-metal" data-symbol="Sc">
+                    <span class="atomic-number">21</span>
+                    <span class="symbol">Sc</span>
+                    <span class="name">Скандий</span>
+                </div>
+                <div id="Ti" class="element transition-metal" data-symbol="Ti">
+                    <span class="atomic-number">22</span>
+                    <span class="symbol">Ti</span>
+                    <span class="name">Титан</span>
+                </div>
+                <div id="V" class="element transition-metal" data-symbol="V">
+                    <span class="atomic-number">23</span>
+                    <span class="symbol">V</span>
+                    <span class="name">Ванадий</span>
+                </div>
+                <div id="Cr" class="element transition-metal" data-symbol="Cr">
+                    <span class="atomic-number">24</span>
+                    <span class="symbol">Cr</span>
+                    <span class="name">Хром</span>
+                </div>
+                <div id="Mn" class="element transition-metal" data-symbol="Mn">
+                    <span class="atomic-number">25</span>
+                    <span class="symbol">Mn</span>
+                    <span class="name">Марганец</span>
+                </div>
+                <div id="Fe" class="element transition-metal" data-symbol="Fe">
+                    <span class="atomic-number">26</span>
+                    <span class="symbol">Fe</span>
+                    <span class="name">Железо</span>
+                </div>
+                <div id="Co" class="element transition-metal" data-symbol="Co">
+                    <span class="atomic-number">27</span>
+                    <span class="symbol">Co</span>
+                    <span class="name">Кобальт</span>
+                </div>
+                <div id="Ni" class="element transition-metal" data-symbol="Ni">
+                    <span class="atomic-number">28</span>
+                    <span class="symbol">Ni</span>
+                    <span class="name">Никель</span>
+                </div>
+                <div id="Cu" class="element transition-metal" data-symbol="Cu">
+                    <span class="atomic-number">29</span>
+                    <span class="symbol">Cu</span>
+                    <span class="name">Медь</span>
+                </div>
+                <div id="Zn" class="element transition-metal" data-symbol="Zn">
+                    <span class="atomic-number">30</span>
+                    <span class="symbol">Zn</span>
+                    <span class="name">Цинк</span>
+                </div>
+                <div id="Ga" class="element post-transition-metal" data-symbol="Ga">
+                    <span class="atomic-number">31</span>
+                    <span class="symbol">Ga</span>
+                    <span class="name">Галлий</span>
+                </div>
+                <div id="Ge" class="element metalloid" data-symbol="Ge">
+                    <span class="atomic-number">32</span>
+                    <span class="symbol">Ge</span>
+                    <span class="name">Германий</span>
+                </div>
+                <div id="As" class="element metalloid" data-symbol="As">
+                    <span class="atomic-number">33</span>
+                    <span class="symbol">As</span>
+                    <span class="name">Мышьяк</span>
+                </div>
+                <div id="Se" class="element nonmetal" data-symbol="Se">
+                    <span class="atomic-number">34</span>
+                    <span class="symbol">Se</span>
+                    <span class="name">Селен</span>
+                </div>
+                <div id="Br" class="element halogen" data-symbol="Br">
+                    <span class="atomic-number">35</span>
+                    <span class="symbol">Br</span>
+                    <span class="name">Бром</span>
+                </div>
+                <div id="Kr" class="element noble-gas" data-symbol="Kr">
+                    <span class="atomic-number">36</span>
+                    <span class="symbol">Kr</span>
+                    <span class="name">Криптон</span>
+                </div>
+                <div id="Rb" class="element alkali-metal" data-symbol="Rb">
+                    <span class="atomic-number">37</span>
+                    <span class="symbol">Rb</span>
+                    <span class="name">Рубидий</span>
+                </div>
+                <div id="Sr" class="element alkaline-earth-metal" data-symbol="Sr">
+                    <span class="atomic-number">38</span>
+                    <span class="symbol">Sr</span>
+                    <span class="name">Стронций</span>
+                </div>
+                <div id="Y" class="element transition-metal" data-symbol="Y">
+                    <span class="atomic-number">39</span>
+                    <span class="symbol">Y</span>
+                    <span class="name">Иттрий</span>
+                </div>
+                <div id="Zr" class="element transition-metal" data-symbol="Zr">
+                    <span class="atomic-number">40</span>
+                    <span class="symbol">Zr</span>
+                    <span class="name">Цирконий</span>
+                </div>
+                <div id="Nb" class="element transition-metal" data-symbol="Nb">
+                    <span class="atomic-number">41</span>
+                    <span class="symbol">Nb</span>
+                    <span class="name">Ниобий</span>
+                </div>
+                <div id="Mo" class="element transition-metal" data-symbol="Mo">
+                    <span class="atomic-number">42</span>
+                    <span class="symbol">Mo</span>
+                    <span class="name">Молибден</span>
+                </div>
+                <div id="Tc" class="element transition-metal" data-symbol="Tc">
+                    <span class="atomic-number">43</span>
+                    <span class="symbol">Tc</span>
+                    <span class="name">Технеций</span>
+                </div>
+                <div id="Ru" class="element transition-metal" data-symbol="Ru">
+                    <span class="atomic-number">44</span>
+                    <span class="symbol">Ru</span>
+                    <span class="name">Рутений</span>
+                </div>
+                <div id="Rh" class="element transition-metal" data-symbol="Rh">
+                    <span class="atomic-number">45</span>
+                    <span class="symbol">Rh</span>
+                    <span class="name">Родий</span>
+                </div>
+                <div id="Pd" class="element transition-metal" data-symbol="Pd">
+                    <span class="atomic-number">46</span>
+                    <span class="symbol">Pd</span>
+                    <span class="name">Палладий</span>
+                </div>
+                <div id="Ag" class="element transition-metal" data-symbol="Ag">
+                    <span class="atomic-number">47</span>
+                    <span class="symbol">Ag</span>
+                    <span class="name">Серебро</span>
+                </div>
+                <div id="Cd" class="element transition-metal" data-symbol="Cd">
+                    <span class="atomic-number">48</span>
+                    <span class="symbol">Cd</span>
+                    <span class="name">Кадмий</span>
+                </div>
+                <div id="In" class="element post-transition-metal" data-symbol="In">
+                    <span class="atomic-number">49</span>
+                    <span class="symbol">In</span>
+                    <span class="name">Индий</span>
+                </div>
+                <div id="Sn" class="element post-transition-metal" data-symbol="Sn">
+                    <span class="atomic-number">50</span>
+                    <span class="symbol">Sn</span>
+                    <span class="name">Олово</span>
+                </div>
+                <div id="Sb" class="element metalloid" data-symbol="Sb">
+                    <span class="atomic-number">51</span>
+                    <span class="symbol">Sb</span>
+                    <span class="name">Сурьма</span>
+                </div>
+                <div id="Te" class="element metalloid" data-symbol="Te">
+                    <span class="atomic-number">52</span>
+                    <span class="symbol">Te</span>
+                    <span class="name">Теллур</span>
+                </div>
+                <div id="I" class="element halogen" data-symbol="I">
+                    <span class="atomic-number">53</span>
+                    <span class="symbol">I</span>
+                    <span class="name">Иод</span>
+                </div>
+                <div id="Xe" class="element noble-gas" data-symbol="Xe">
+                    <span class="atomic-number">54</span>
+                    <span class="symbol">Xe</span>
+                    <span class="name">Ксенон</span>
+                </div>
+                <div id="Cs" class="element alkali-metal" data-symbol="Cs">
+                    <span class="atomic-number">55</span>
+                    <span class="symbol">Cs</span>
+                    <span class="name">Цезий</span>
+                </div>
+                <div id="Ba" class="element alkaline-earth-metal" data-symbol="Ba">
+                    <span class="atomic-number">56</span>
+                    <span class="symbol">Ba</span>
+                    <span class="name">Барий</span>
+                </div>
+                <div id="La" class="element lanthanide" data-symbol="La">
+                    <span class="atomic-number">57</span>
+                    <span class="symbol">La</span>
+                    <span class="name">Лантан</span>
+                </div>
+                <div id="Hf" class="element transition-metal" data-symbol="Hf">
+                    <span class="atomic-number">72</span>
+                    <span class="symbol">Hf</span>
+                    <span class="name">Гафний</span>
+                </div>
+                <div id="Ta" class="element transition-metal" data-symbol="Ta">
+                    <span class="atomic-number">73</span>
+                    <span class="symbol">Ta</span>
+                    <span class="name">Тантал</span>
+                </div>
+                <div id="W" class="element transition-metal" data-symbol="W">
+                    <span class="atomic-number">74</span>
+                    <span class="symbol">W</span>
+                    <span class="name">Вольфрам</span>
+                </div>
+                <div id="Re" class="element transition-metal" data-symbol="Re">
+                    <span class="atomic-number">75</span>
+                    <span class="symbol">Re</span>
+                    <span class="name">Рений</span>
+                </div>
+                <div id="Os" class="element transition-metal" data-symbol="Os">
+                    <span class="atomic-number">76</span>
+                    <span class="symbol">Os</span>
+                    <span class="name">Осмий</span>
+                </div>
+                <div id="Ir" class="element transition-metal" data-symbol="Ir">
+                    <span class="atomic-number">77</span>
+                    <span class="symbol">Ir</span>
+                    <span class="name">Иридий</span>
+                </div>
+                <div id="Pt" class="element transition-metal" data-symbol="Pt">
+                    <span class="atomic-number">78</span>
+                    <span class="symbol">Pt</span>
+                    <span class="name">Платина</span>
+                </div>
+                <div id="Au" class="element transition-metal" data-symbol="Au">
+                    <span class="atomic-number">79</span>
+                    <span class="symbol">Au</span>
+                    <span class="name">Золото</span>
+                </div>
+                <div id="Hg" class="element transition-metal" data-symbol="Hg">
+                    <span class="atomic-number">80</span>
+                    <span class="symbol">Hg</span>
+                    <span class="name">Ртуть</span>
+                </div>
+                <div id="Tl" class="element post-transition-metal" data-symbol="Tl">
+                    <span class="atomic-number">81</span>
+                    <span class="symbol">Tl</span>
+                    <span class="name">Таллий</span>
+                </div>
+                <div id="Pb" class="element post-transition-metal" data-symbol="Pb">
+                    <span class="atomic-number">82</span>
+                    <span class="symbol">Pb</span>
+                    <span class="name">Свинец</span>
+                </div>
+                <div id="Bi" class="element post-transition-metal" data-symbol="Bi">
+                    <span class="atomic-number">83</span>
+                    <span class="symbol">Bi</span>
+                    <span class="name">Висмут</span>
+                </div>
+                <div id="Po" class="element post-transition-metal" data-symbol="Po">
+                    <span class="atomic-number">84</span>
+                    <span class="symbol">Po</span>
+                    <span class="name">Полоний</span>
+                </div>
+                <div id="At" class="element halogen" data-symbol="At">
+                    <span class="atomic-number">85</span>
+                    <span class="symbol">At</span>
+                    <span class="name">Астат</span>
+                </div>
+                <div id="Rn" class="element noble-gas" data-symbol="Rn">
+                    <span class="atomic-number">86</span>
+                    <span class="symbol">Rn</span>
+                    <span class="name">Радон</span>
+                </div>
+                <div id="Fr" class="element alkali-metal" data-symbol="Fr">
+                    <span class="atomic-number">87</span>
+                    <span class="symbol">Fr</span>
+                    <span class="name">Франций</span>
+                </div>
+                <div id="Ra" class="element alkaline-earth-metal" data-symbol="Ra">
+                    <span class="atomic-number">88</span>
+                    <span class="symbol">Ra</span>
+                    <span class="name">Радий</span>
+                </div>
+                <div id="Ac" class="element actinide" data-symbol="Ac">
+                    <span class="atomic-number">89</span>
+                    <span class="symbol">Ac</span>
+                    <span class="name">Актиний</span>
+                </div>
+                <div id="Rf" class="element transition-metal" data-symbol="Rf">
+                    <span class="atomic-number">104</span>
+                    <span class="symbol">Rf</span>
+                    <span class="name">Резерфордий</span>
+                </div>
+                <div id="Db" class="element transition-metal" data-symbol="Db">
+                    <span class="atomic-number">105</span>
+                    <span class="symbol">Db</span>
+                    <span class="name">Дубний</span>
+                </div>
+                <div id="Sg" class="element transition-metal" data-symbol="Sg">
+                    <span class="atomic-number">106</span>
+                    <span class="symbol">Sg</span>
+                    <span class="name">Сиборгий</span>
+                </div>
+                <div id="Bh" class="element transition-metal" data-symbol="Bh">
+                    <span class="atomic-number">107</span>
+                    <span class="symbol">Bh</span>
+                    <span class="name">Борий</span>
+                </div>
+                <div id="Hs" class="element transition-metal" data-symbol="Hs">
+                    <span class="atomic-number">108</span>
+                    <span class="symbol">Hs</span>
+                    <span class="name">Хассий</span>
+                </div>
+                <div id="Mt" class="element unknown" data-symbol="Mt">
+                    <span class="atomic-number">109</span>
+                    <span class="symbol">Mt</span>
+                    <span class="name">Мейтнерий</span>
+                </div>
+                <div id="Ds" class="element unknown" data-symbol="Ds">
+                    <span class="atomic-number">110</span>
+                    <span class="symbol">Ds</span>
+                    <span class="name">Дармштадтий</span>
+                </div>
+                <div id="Rg" class="element unknown" data-symbol="Rg">
+                    <span class="atomic-number">111</span>
+                    <span class="symbol">Rg</span>
+                    <span class="name">Рентгений</span>
+                </div>
+                <div id="Cn" class="element unknown" data-symbol="Cn">
+                    <span class="atomic-number">112</span>
+                    <span class="symbol">Cn</span>
+                    <span class="name">Коперниций</span>
+                </div>
+                <div id="Nh" class="element unknown" data-symbol="Nh">
+                    <span class="atomic-number">113</span>
+                    <span class="symbol">Nh</span>
+                    <span class="name">Нихоний</span>
+                </div>
+                <div id="Fl" class="element unknown" data-symbol="Fl">
+                    <span class="atomic-number">114</span>
+                    <span class="symbol">Fl</span>
+                    <span class="name">Флеровий</span>
+                </div>
+                <div id="Mc" class="element unknown" data-symbol="Mc">
+                    <span class="atomic-number">115</span>
+                    <span class="symbol">Mc</span>
+                    <span class="name">Московий</span>
+                </div>
+                <div id="Lv" class="element unknown" data-symbol="Lv">
+                    <span class="atomic-number">116</span>
+                    <span class="symbol">Lv</span>
+                    <span class="name">Ливерморий</span>
+                </div>
+                <div id="Ts" class="element unknown" data-symbol="Ts">
+                    <span class="atomic-number">117</span>
+                    <span class="symbol">Ts</span>
+                    <span class="name">Теннессин</span>
+                </div>
+                <div id="Og" class="element unknown" data-symbol="Og">
+                    <span class="atomic-number">118</span>
+                    <span class="symbol">Og</span>
+                    <span class="name">Оганесон</span>
+                </div>
 
 
-    </div>
-  </div>
+            </div>
+        </div>
 
-  <!-- Лантаноиды -->
-  <div class="lanthanides">
-      <div id="Ce" class="element lanthanide" data-symbol="Ce">
-          <span class="atomic-number">58</span>
-          <span class="symbol">Ce</span>
-          <span class="name">Церий</span>
-      </div>
-      <div id="Pr" class="element lanthanide" data-symbol="Pr">
-          <span class="atomic-number">59</span>
-          <span class="symbol">Pr</span>
-          <span class="name">Празеодим</span>
-      </div>
-      <div id="Nd" class="element lanthanide" data-symbol="Nd">
-          <span class="atomic-number">60</span>
-          <span class="symbol">Nd</span>
-          <span class="name">Неодим</span>
-      </div>
-      <div id="Pm" class="element lanthanide" data-symbol="Pm">
-          <span class="atomic-number">61</span>
-          <span class="symbol">Pm</span>
-          <span class="name">Прометий</span>
-      </div>
-      <div id="Sm" class="element lanthanide" data-symbol="Sm">
-          <span class="atomic-number">62</span>
-          <span class="symbol">Sm</span>
-          <span class="name">Самарий</span>
-      </div>
-      <div id="Eu" class="element lanthanide" data-symbol="Eu">
-          <span class="atomic-number">63</span>
-          <span class="symbol">Eu</span>
-          <span class="name">Европий</span>
-      </div>
-      <div id="Gd" class="element lanthanide" data-symbol="Gd">
-          <span class="atomic-number">64</span>
-          <span class="symbol">Gd</span>
-          <span class="name">Гадолиний</span>
-      </div>
-      <div id="Tb" class="element lanthanide" data-symbol="Tb">
-          <span class="atomic-number">65</span>
-          <span class="symbol">Tb</span>
-          <span class="name">Тербий</span>
-      </div>
-      <div id="Dy" class="element lanthanide" data-symbol="Dy">
-          <span class="atomic-number">66</span>
-          <span class="symbol">Dy</span>
-          <span class="name">Диспрозий</span>
-      </div>
-      <div id="Ho" class="element lanthanide" data-symbol="Ho">
-          <span class="atomic-number">67</span>
-          <span class="symbol">Ho</span>
-          <span class="name">Гольмий</span>
-      </div>
-      <div id="Er" class="element lanthanide" data-symbol="Er">
-          <span class="atomic-number">68</span>
-          <span class="symbol">Er</span>
-          <span class="name">Эрбий</span>
-      </div>
-      <div id="Tm" class="element lanthanide" data-symbol="Tm">
-          <span class="atomic-number">69</span>
-          <span class="symbol">Tm</span>
-          <span class="name">Тулий</span>
-      </div>
-      <div id="Yb" class="element lanthanide" data-symbol="Yb">
-          <span class="atomic-number">70</span>
-          <span class="symbol">Yb</span>
-          <span class="name">Иттербий</span>
-      </div>
-      <div id="Lu" class="element lanthanide" data-symbol="Lu">
-          <span class="atomic-number">71</span>
-          <span class="symbol">Lu</span>
-          <span class="name">Лютеций</span>
-      </div>
-  </div>
-  <!-- Актиноиды -->
-  <div class="actinides">
-      <div id="Th" class="element actinide" data-symbol="Th">
-          <span class="atomic-number">90</span>
-          <span class="symbol">Th</span>
-          <span class="name">Торий</span>
-      </div>
-      <div id="Pa" class="element actinide" data-symbol="Pa">
-          <span class="atomic-number">91</span>
-          <span class="symbol">Pa</span>
-          <span class="name">Протактиний</span>
-      </div>
-      <div id="U" class="element actinide" data-symbol="U">
-          <span class="atomic-number">92</span>
-          <span class="symbol">U</span>
-          <span class="name">Уран</span>
-      </div>
-      <div id="Np" class="element actinide" data-symbol="Np">
-          <span class="atomic-number">93</span>
-          <span class="symbol">Np</span>
-          <span class="name">Нептуний</span>
-      </div>
-      <div id="Pu" class="element actinide" data-symbol="Pu">
-          <span class="atomic-number">94</span>
-          <span class="symbol">Pu</span>
-          <span class="name">Плутоний</span>
-      </div>
-      <div id="Am" class="element actinide" data-symbol="Am">
-          <span class="atomic-number">95</span>
-          <span class="symbol">Am</span>
-          <span class="name">Америций</span>
-      </div>
-      <div id="Cm" class="element actinide" data-symbol="Cm">
-          <span class="atomic-number">96</span>
-          <span class="symbol">Cm</span>
-          <span class="name">Кюрий</span>
-      </div>
-      <div id="Bk" class="element actinide" data-symbol="Bk">
-          <span class="atomic-number">97</span>
-          <span class="symbol">Bk</span>
-          <span class="name">Берклий</span>
-      </div>
-      <div id="Cf" class="element actinide" data-symbol="Cf">
-          <span class="atomic-number">98</span>
-          <span class="symbol">Cf</span>
-          <span class="name">Калифорний</span>
-      </div>
-      <div id="Es" class="element actinide" data-symbol="Es">
-          <span class="atomic-number">99</span>
-          <span class="symbol">Es</span>
-          <span class="name">Эйнштейний</span>
-      </div>
-      <div id="Fm" class="element actinide" data-symbol="Fm">
-          <span class="atomic-number">100</span>
-          <span class="symbol">Fm</span>
-          <span class="name">Фермий</span>
-      </div>
-      <div id="Md" class="element actinide" data-symbol="Md">
-          <span class="atomic-number">101</span>
-          <span class="symbol">Md</span>
-          <span class="name">Менделевий</span>
-      </div>
-      <div id="No" class="element actinide" data-symbol="No">
-          <span class="atomic-number">102</span>
-          <span class="symbol">No</span>
-          <span class="name">Нобелий</span>
-      </div>
-      <div id="Lr" class="element actinide" data-symbol="Lr">
-          <span class="atomic-number">103</span>
-          <span class="symbol">Lr</span>
-          <span class="name">Лоуренсий</span>
-      </div>
-  </div>
+        <!-- Лантаноиды -->
+        <div class="lanthanides">
+            <div id="Ce" class="element lanthanide" data-symbol="Ce">
+                <span class="atomic-number">58</span>
+                <span class="symbol">Ce</span>
+                <span class="name">Церий</span>
+            </div>
+            <div id="Pr" class="element lanthanide" data-symbol="Pr">
+                <span class="atomic-number">59</span>
+                <span class="symbol">Pr</span>
+                <span class="name">Празеодим</span>
+            </div>
+            <div id="Nd" class="element lanthanide" data-symbol="Nd">
+                <span class="atomic-number">60</span>
+                <span class="symbol">Nd</span>
+                <span class="name">Неодим</span>
+            </div>
+            <div id="Pm" class="element lanthanide" data-symbol="Pm">
+                <span class="atomic-number">61</span>
+                <span class="symbol">Pm</span>
+                <span class="name">Прометий</span>
+            </div>
+            <div id="Sm" class="element lanthanide" data-symbol="Sm">
+                <span class="atomic-number">62</span>
+                <span class="symbol">Sm</span>
+                <span class="name">Самарий</span>
+            </div>
+            <div id="Eu" class="element lanthanide" data-symbol="Eu">
+                <span class="atomic-number">63</span>
+                <span class="symbol">Eu</span>
+                <span class="name">Европий</span>
+            </div>
+            <div id="Gd" class="element lanthanide" data-symbol="Gd">
+                <span class="atomic-number">64</span>
+                <span class="symbol">Gd</span>
+                <span class="name">Гадолиний</span>
+            </div>
+            <div id="Tb" class="element lanthanide" data-symbol="Tb">
+                <span class="atomic-number">65</span>
+                <span class="symbol">Tb</span>
+                <span class="name">Тербий</span>
+            </div>
+            <div id="Dy" class="element lanthanide" data-symbol="Dy">
+                <span class="atomic-number">66</span>
+                <span class="symbol">Dy</span>
+                <span class="name">Диспрозий</span>
+            </div>
+            <div id="Ho" class="element lanthanide" data-symbol="Ho">
+                <span class="atomic-number">67</span>
+                <span class="symbol">Ho</span>
+                <span class="name">Гольмий</span>
+            </div>
+            <div id="Er" class="element lanthanide" data-symbol="Er">
+                <span class="atomic-number">68</span>
+                <span class="symbol">Er</span>
+                <span class="name">Эрбий</span>
+            </div>
+            <div id="Tm" class="element lanthanide" data-symbol="Tm">
+                <span class="atomic-number">69</span>
+                <span class="symbol">Tm</span>
+                <span class="name">Тулий</span>
+            </div>
+            <div id="Yb" class="element lanthanide" data-symbol="Yb">
+                <span class="atomic-number">70</span>
+                <span class="symbol">Yb</span>
+                <span class="name">Иттербий</span>
+            </div>
+            <div id="Lu" class="element lanthanide" data-symbol="Lu">
+                <span class="atomic-number">71</span>
+                <span class="symbol">Lu</span>
+                <span class="name">Лютеций</span>
+            </div>
+        </div>
+        <!-- Актиноиды -->
+        <div class="actinides">
+            <div id="Th" class="element actinide" data-symbol="Th">
+                <span class="atomic-number">90</span>
+                <span class="symbol">Th</span>
+                <span class="name">Торий</span>
+            </div>
+            <div id="Pa" class="element actinide" data-symbol="Pa">
+                <span class="atomic-number">91</span>
+                <span class="symbol">Pa</span>
+                <span class="name">Протактиний</span>
+            </div>
+            <div id="U" class="element actinide" data-symbol="U">
+                <span class="atomic-number">92</span>
+                <span class="symbol">U</span>
+                <span class="name">Уран</span>
+            </div>
+            <div id="Np" class="element actinide" data-symbol="Np">
+                <span class="atomic-number">93</span>
+                <span class="symbol">Np</span>
+                <span class="name">Нептуний</span>
+            </div>
+            <div id="Pu" class="element actinide" data-symbol="Pu">
+                <span class="atomic-number">94</span>
+                <span class="symbol">Pu</span>
+                <span class="name">Плутоний</span>
+            </div>
+            <div id="Am" class="element actinide" data-symbol="Am">
+                <span class="atomic-number">95</span>
+                <span class="symbol">Am</span>
+                <span class="name">Америций</span>
+            </div>
+            <div id="Cm" class="element actinide" data-symbol="Cm">
+                <span class="atomic-number">96</span>
+                <span class="symbol">Cm</span>
+                <span class="name">Кюрий</span>
+            </div>
+            <div id="Bk" class="element actinide" data-symbol="Bk">
+                <span class="atomic-number">97</span>
+                <span class="symbol">Bk</span>
+                <span class="name">Берклий</span>
+            </div>
+            <div id="Cf" class="element actinide" data-symbol="Cf">
+                <span class="atomic-number">98</span>
+                <span class="symbol">Cf</span>
+                <span class="name">Калифорний</span>
+            </div>
+            <div id="Es" class="element actinide" data-symbol="Es">
+                <span class="atomic-number">99</span>
+                <span class="symbol">Es</span>
+                <span class="name">Эйнштейний</span>
+            </div>
+            <div id="Fm" class="element actinide" data-symbol="Fm">
+                <span class="atomic-number">100</span>
+                <span class="symbol">Fm</span>
+                <span class="name">Фермий</span>
+            </div>
+            <div id="Md" class="element actinide" data-symbol="Md">
+                <span class="atomic-number">101</span>
+                <span class="symbol">Md</span>
+                <span class="name">Менделевий</span>
+            </div>
+            <div id="No" class="element actinide" data-symbol="No">
+                <span class="atomic-number">102</span>
+                <span class="symbol">No</span>
+                <span class="name">Нобелий</span>
+            </div>
+            <div id="Lr" class="element actinide" data-symbol="Lr">
+                <span class="atomic-number">103</span>
+                <span class="symbol">Lr</span>
+                <span class="name">Лоуренсий</span>
+            </div>
+        </div>
     </div>
-  </div>
+    </div>
 
     <!-- Контент под таблицей (появляется после разблокировки скролла) -->
     <div class="below-table-content">
@@ -662,16 +670,14 @@
         <div class="download-app-section">
             <div class="download-card">
                 <a href="https://github.com/layfhaker/mendeleevtable/releases/download/vnightly-20260113-091612/ChemicalAssistant-Setup-1.0.0.exe"
-                   class="download-btn-large"
-                   id="download-app-btn"
-                   target="_blank"
-                   rel="noopener">
-                   <div class="download-btn-large-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
+                    class="download-btn-large" id="download-app-btn" target="_blank" rel="noopener">
+                    <div class="download-btn-large-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
                     </div>
                 </a>
                 <div class="download-detailes-all">
@@ -683,7 +689,8 @@
                         <span>~100 МБ</span>
                     </div>
                     <div class="download-links">
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases" target="_blank" rel="noopener">Все релизы</a>
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases" target="_blank"
+                            rel="noopener">Все релизы</a>
                         <span>|</span>
                         <a href="https://github.com/layfhaker/mendeleevtable" target="_blank" rel="noopener">GitHub</a>
                     </div>
@@ -696,6 +703,15 @@
 
     <div id="modal" class="modal">
         <div class="modal-content">
+            <button class="pdf-export-icon-btn" onclick="window.generateElementPDF(window.currentElementData)"
+                aria-label="Экспорт в PDF" title="Экспорт в PDF">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+            </button>
             <span class="close">&times;</span>
             <h2 id="element-title"></h2>
 
@@ -705,632 +721,683 @@
         </div>
     </div>
 
-<div id="calc-panel" class="calc-panel">
-    <div class="calc-header">
-        <h3>Калькулятор Массы</h3>
-        <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
-    </div>
-
-    <div id="drop-zone" class="drop-zone">
-        <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
-    </div>
-
-    <div id="calc-result">
-        <div class="mass-value">0 <span class="unit">г/моль</span></div>
-        <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
-    </div>
-</div>
-
-<div id="balancer-panel" class="balancer-panel">
-    <div class="calc-header">
-        <h3>Уравнитель Реакций</h3>
-        <span class="close-calc-panel" onclick="toggleBalancer(event)">✕</span>
-    </div>
-
-    <div class="balancer-content">
-        <div class="balancer-input-row">
-            <input type="text" id="balancer-input" placeholder="Например: H2 + O2 = H2O">
-            <button id="balance-btn" onclick="performBalance()">GO</button>
+    <div id="calc-panel" class="calc-panel">
+        <div class="calc-header">
+            <h3>Калькулятор Массы</h3>
+            <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
         </div>
-        
-        <div id="balancer-result" class="balancer-result">
-            <span class="placeholder-text">Результат появится здесь</span>
+
+        <div id="drop-zone" class="drop-zone">
+            <div class="drop-placeholder">Перетащи элементы сюда 👇</div>
         </div>
-        
-        <div id="balancer-error" class="balancer-error"></div>
-        
-        <div class="balancer-examples">
-            <span>Примеры:</span>
-            <div class="ex-chips">
-                <button onclick="fillBalance('Fe + Cl2 = FeCl3')">Fe + Cl2</button>
-                <button onclick="fillBalance('Al + O2 = Al2O3')">Al + O2</button>
-                <button onclick="fillBalance('CH4 + O2 = CO2 + H2O')">CH4 + O2</button>
+
+        <div id="calc-result">
+            <div class="mass-value">0 <span class="unit">г/моль</span></div>
+            <button class="clear-btn" onclick="clearCalculator()">Очистить</button>
+        </div>
+    </div>
+
+    <div id="balancer-panel" class="balancer-panel">
+        <div class="calc-header">
+            <h3>Уравнитель Реакций</h3>
+            <span class="close-calc-panel" onclick="toggleBalancer(event)">✕</span>
+        </div>
+
+        <div class="balancer-content">
+            <div class="balancer-input-row">
+                <input type="text" id="balancer-input" placeholder="Например: H2 + O2 = H2O">
+                <button id="balance-btn" onclick="performBalance()">GO</button>
             </div>
-        </div>
-    </div>
-</div>
 
-<div class="fab-container" id="fab-container">
-    <div class="fab-options">
-        <div class="fab-option" onclick="toggleParticles()">
-            <span class="fab-label">Анимация фона</span>
-            <button class="fab-btn" aria-label="Включить анимацию частиц">
-                <svg><use href="#icon-particles"></use></svg>
-            </button>
-        </div>
-        <div class="fab-option" onclick="toggleCalc()">
-            <span class="fab-label">Калькулятор</span>
-            <button class="fab-btn" aria-label="Открыть калькулятор">
-                <svg><use href="#icon-calc"></use></svg>
-            </button>
-        </div>
-        <div class="fab-option" onclick="toggleFilters()">
-            <span class="fab-label">Фильтры</span>
-            <button class="fab-btn" aria-label="Открыть фильтры">
-                <svg><use href="#icon-filter"></use></svg>
-            </button>
-        </div>
-        <div class="fab-option" onclick="toggleSolubility()">
-            <span class="fab-label">Растворимость</span>
-            <button class="fab-btn" aria-label="Открыть/закрыть таблицу растворимости">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-                </svg>
-            </button>
-        </div>
-        <div class="fab-option" onclick="toggleBalancerPanel(event)">
-            <span class="fab-label">Уравнитель</span>
-            <button class="fab-btn" aria-label="Открыть уравнитель">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8"/>
-                </svg>
-            </button>
-        </div>
-        <div class="fab-option" id="live-wallpaper-option" onclick="toggleLiveWallpaper()" style="display: none;">
-            <span class="fab-label">Живые Обои <span id="wallpaper-status" class="wallpaper-status-badge">OFF</span></span>
-            <button class="fab-btn" id="live-wallpaper-btn" aria-label="Живые обои">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
-            </button>
-        </div>
-        <div class="fab-option" id="settings-option" onclick="openSettingsModal()" style="display: none;">
-            <span class="fab-label">Настройки</span>
-            <button class="fab-btn" aria-label="Настройки">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-    <button class="fab-main" onclick="toggleMenu()" aria-label="Открыть меню">
-        <span class="icon-menu">
-            <svg><use href="#icon-menu"></use></svg>
-        </span>
-        <span class="icon-close">
-            <svg><use href="#icon-close"></use></svg>
-        </span>
-    </button>
-
-</div>
-<div id="filters-panel" class="filters-panel">
-    <div class="filters-header">
-        <h3>Фильтры</h3>
-        <span class="close-filters" onclick="toggleFilters()" role="button" aria-label="Закрыть фильтры">✕</span>
-    </div>
-    <div class="filters-section search-section">
-        <h4>Поиск</h4>
-        <div class="search-wrapper">
-            <input type="text" id="element-search" placeholder="Введите текст для поиска...">
-            <button class="search-clear" onclick="clearSearch()" aria-label="Очистить поиск">✕</button>
-            <button class="search-btn" onclick="performSearch()" aria-label="Найти">
-                <svg><use href="#icon-search"></use></svg>
-            </button>
-        </div>
-        <div id="search-results" class="search-results"></div>
-    </div>
-    <div class="filters-section" id="categories-section">
-        <h4>Категории</h4>
-        <div class="filter-buttons">
-            <button class="filter-btn" data-filter="alkali-metal">Щелочные</button>
-            <button class="filter-btn" data-filter="alkaline-earth-metal">Щёлочноземельные</button>
-            <button class="filter-btn" data-filter="transition-metal">Переходные</button>
-            <button class="filter-btn" data-filter="post-transition-metal">Постпереходные</button>
-            <button class="filter-btn" data-filter="metalloid">Металлоиды</button>
-            <button class="filter-btn" data-filter="nonmetal">Неметаллы</button>
-            <button class="filter-btn" data-filter="halogen">Галогены</button>
-            <button class="filter-btn" data-filter="noble-gas">Благородные газы</button>
-            <button class="filter-btn" data-filter="lanthanide">Лантаноиды</button>
-            <button class="filter-btn" data-filter="actinide">Актиноиды</button>
-            <button class="filter-btn" data-filter="unknown">"Неизвестные св-ва"</button>
-        </div>
-    </div>
-
-    <div class="filters-actions">
-        <button class="filter-reset" onclick="resetFilters()">Сбросить</button>
-    </div>
-</div>
-
-<div id="solubility-modal" class="modal">
-
-    <div class="modal-content solubility-content">
-        <div class="modal-header">
-            <h2>Таблица растворимости</h2>
-            <div class="modal-header-controls">
-                <button id="color-mode-btn" onclick="toggleColorMode()" title="Реальные цвета веществ">
-                    <svg><use href="#icon-palette"></use></svg>
-                </button>
-
-                <button id="activity-mode-btn" title="Ряд активности металлов" onclick="toggleActivitySeries()">
-                    <svg><use href="#icon-bolt"></use></svg>
-                </button>
-
-                <button id="advanced-mode-info-btn" title="💡 Двойной клик = подробная информация о веществе&#10;(или долгое нажатие на мобильных)">
-                    <svg><use href="#icon-info"></use></svg>
-                </button>
-
-                <button id="solubility-search-btn" onclick="toggleSolubilitySearch()" title="Поиск">
-                    <svg><use href="#icon-search"></use></svg>
-                </button>
-
-                <span class="close-solubility" onclick="closeSolubility()">&times;</span>
+            <div id="balancer-result" class="balancer-result">
+                <span class="placeholder-text">Результат появится здесь</span>
             </div>
-        </div>
 
-        <!-- Панель рядов активности -->
-        <div id="activity-series-panel" class="activity-series-panel">
-            <div class="activity-series-content">
-                <div class="activity-header">
-                    <h4 id="activity-title">Ряд активности металлов</h4>
-                    <button id="toggle-nonmetals-btn" class="toggle-series-btn" onclick="toggleNonmetalsSeries()">
-                        Переключить на неметаллы
-                    </button>
-                </div>
+            <div id="balancer-error" class="balancer-error"></div>
 
-                <div id="metals-series" class="series-container active">
-                    <div class="activity-series-row">
-                        Li → Rb → K → Ba → Sr → Ca → Na → Mg → Al → Mn → Zn → Cr → Fe → Cd → Co → Ni → Sn → Pb → <span class="hydrogen-marker">(H)</span> → Sb → Bi → Cu → Hg → Ag → Pt → Au
-                    </div>
-                    <p class="activity-note">Слева направо — уменьшение восстановительных свойств (активности) металлов</p>
-                </div>
-
-                <div id="nonmetals-series" class="series-container">
-                    <div class="activity-series-row">
-                        F → O → N → Cl → Br → I → S → C → P → Si
-                    </div>
-                    <p class="activity-note">Слева направо — уменьшение окислительных свойств (электроотрицательности) неметаллов</p>
+            <div class="balancer-examples">
+                <span>Примеры:</span>
+                <div class="ex-chips">
+                    <button onclick="fillBalance('Fe + Cl2 = FeCl3')">Fe + Cl2</button>
+                    <button onclick="fillBalance('Al + O2 = Al2O3')">Al + O2</button>
+                    <button onclick="fillBalance('CH4 + O2 = CO2 + H2O')">CH4 + O2</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="solubility-wrapper">
-            <table id="solubility-table"></table>
+    <div class="fab-container" id="fab-container">
+        <div class="fab-options">
+            <div class="fab-option" onclick="toggleParticles()">
+                <span class="fab-label">Анимация фона</span>
+                <button class="fab-btn" aria-label="Включить анимацию частиц">
+                    <svg>
+                        <use href="#icon-particles"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" onclick="toggleCalc()">
+                <span class="fab-label">Калькулятор</span>
+                <button class="fab-btn" aria-label="Открыть калькулятор">
+                    <svg>
+                        <use href="#icon-calc"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" onclick="toggleFilters()">
+                <span class="fab-label">Фильтры</span>
+                <button class="fab-btn" aria-label="Открыть фильтры">
+                    <svg>
+                        <use href="#icon-filter"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" onclick="toggleSolubility()">
+                <span class="fab-label">Растворимость</span>
+                <button class="fab-btn" aria-label="Открыть/закрыть таблицу растворимости">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" onclick="toggleBalancerPanel(event)">
+                <span class="fab-label">Уравнитель</span>
+                <button class="fab-btn" aria-label="Открыть уравнитель">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M3 18h18M8 6v12M16 6v12M8 12h8" />
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" id="live-wallpaper-option" onclick="toggleLiveWallpaper()" style="display: none;">
+                <span class="fab-label">Живые Обои <span id="wallpaper-status"
+                        class="wallpaper-status-badge">OFF</span></span>
+                <button class="fab-btn" id="live-wallpaper-btn" aria-label="Живые обои">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                </button>
+            </div>
+            <div class="fab-option" id="settings-option" onclick="openSettingsModal()" style="display: none;">
+                <span class="fab-label">Настройки</span>
+                <button class="fab-btn" aria-label="Настройки">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                </button>
+            </div>
         </div>
-    </div>
-
-</div>
-
-<!-- Мобильное окно поиска для таблицы растворимости -->
-<div id="solubility-search-panel" class="solubility-search-panel">
-    <div class="solubility-search-header">
-        <h4>Поиск вещества</h4>
-        <span class="close-solubility-search" onclick="toggleSolubilitySearch()">✕</span>
-    </div>
-    <div class="solubility-search-content">
-        <div class="search-wrapper">
-            <input type="text" id="solubility-search-input" placeholder="Введите формулу (NaCl, BaSO4...)">
-            <button class="solubility-search-clear" onclick="clearSolubilitySearch()">✕</button>
-            <button class="search-btn" onclick="performSolubilitySearch()" aria-label="Найти">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
+        <button class="fab-main" onclick="toggleMenu()" aria-label="Открыть меню">
+            <span class="icon-menu">
+                <svg>
+                    <use href="#icon-menu"></use>
                 </svg>
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Модальное окно продвинутого режима -->
-<div id="advanced-substance-modal" class="modal">
-    <div class="advanced-modal-content">
-        <div id="advanced-substance-content">
-            <!-- Содержимое генерируется динамически через advanced-modal.js -->
-        </div>
-        <button class="close-advanced-modal" onclick="closeAdvancedModal()" aria-label="Закрыть">
-            &times;
+            </span>
+            <span class="icon-close">
+                <svg>
+                    <use href="#icon-close"></use>
+                </svg>
+            </span>
         </button>
+
     </div>
-</div>
-
-<!-- Settings Modal for Electron -->
-<div id="settings-modal" class="modal">
-    <div class="modal-content settings-modal-content">
-        <span class="close" onclick="closeSettingsModal()">&times;</span>
-        <h2>Настройки</h2>
-
-        <div class="settings-section">
-            <h3>Автозапуск</h3>
-            <label class="switch-label">
-                <input type="checkbox" id="autostart-checkbox" class="switch-input">
-                <span class="switch-slider"></span>
-                <span class="switch-text">Запускать с Windows</span>
-            </label>
-            <p class="setting-description">
-                Автоматически запускать Chemical Assistant при загрузке Windows (необходимо для постоянных живых обоев)
-            </p>
+    <div id="filters-panel" class="filters-panel">
+        <div class="filters-header">
+            <h3>Фильтры</h3>
+            <span class="close-filters" onclick="toggleFilters()" role="button" aria-label="Закрыть фильтры">✕</span>
+        </div>
+        <div class="filters-section search-section">
+            <h4>Поиск</h4>
+            <div class="search-wrapper">
+                <input type="text" id="element-search" placeholder="Введите текст для поиска...">
+                <button class="search-clear" onclick="clearSearch()" aria-label="Очистить поиск">✕</button>
+                <button class="search-btn" onclick="performSearch()" aria-label="Найти">
+                    <svg>
+                        <use href="#icon-search"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        <div class="filters-section" id="categories-section">
+            <h4>Категории</h4>
+            <div class="filter-buttons">
+                <button class="filter-btn" data-filter="alkali-metal">Щелочные</button>
+                <button class="filter-btn" data-filter="alkaline-earth-metal">Щёлочноземельные</button>
+                <button class="filter-btn" data-filter="transition-metal">Переходные</button>
+                <button class="filter-btn" data-filter="post-transition-metal">Постпереходные</button>
+                <button class="filter-btn" data-filter="metalloid">Металлоиды</button>
+                <button class="filter-btn" data-filter="nonmetal">Неметаллы</button>
+                <button class="filter-btn" data-filter="halogen">Галогены</button>
+                <button class="filter-btn" data-filter="noble-gas">Благородные газы</button>
+                <button class="filter-btn" data-filter="lanthanide">Лантаноиды</button>
+                <button class="filter-btn" data-filter="actinide">Актиноиды</button>
+                <button class="filter-btn" data-filter="unknown">"Неизвестные св-ва"</button>
+            </div>
         </div>
 
-        <div class="settings-section">
-            <h3>Информация о живых обоях</h3>
-            <p class="info-text">
-                Когда живые обои включены и вы закрываете главное окно,
-                приложение продолжает работать в системном трее.
-            </p>
-            <p class="info-text">
-                Щёлкните правой кнопкой мыши по иконке в трее, чтобы переключить обои или выйти из приложения.
-            </p>
-        </div>
-
-        <div class="settings-section">
-            <h3>О приложении</h3>
-            <p class="info-text" id="app-info-text">Chemical Assistant</p>
+        <div class="filters-actions">
+            <button class="filter-reset" onclick="resetFilters()">Сбросить</button>
         </div>
     </div>
-</div>
 
-<script src="js/scrypt.js"></script>
-<script src="js/scroll-collapse.js"></script>
-<script src="js/wallpaper-handler.js"></script>
-<script src="js/download-link-updater.js"></script>
+    <div id="solubility-modal" class="modal">
+
+        <div class="modal-content solubility-content">
+            <div class="modal-header">
+                <h2>Таблица растворимости</h2>
+                <div class="modal-header-controls">
+                    <button id="color-mode-btn" onclick="toggleColorMode()" title="Реальные цвета веществ">
+                        <svg>
+                            <use href="#icon-palette"></use>
+                        </svg>
+                    </button>
+
+                    <button id="activity-mode-btn" title="Ряд активности металлов" onclick="toggleActivitySeries()">
+                        <svg>
+                            <use href="#icon-bolt"></use>
+                        </svg>
+                    </button>
+
+                    <button id="advanced-mode-info-btn"
+                        title="💡 Двойной клик = подробная информация о веществе&#10;(или долгое нажатие на мобильных)">
+                        <svg>
+                            <use href="#icon-info"></use>
+                        </svg>
+                    </button>
+
+                    <button id="solubility-search-btn" onclick="toggleSolubilitySearch()" title="Поиск">
+                        <svg>
+                            <use href="#icon-search"></use>
+                        </svg>
+                    </button>
+
+                    <span class="close-solubility" onclick="closeSolubility()">&times;</span>
+                </div>
+            </div>
+
+            <!-- Панель рядов активности -->
+            <div id="activity-series-panel" class="activity-series-panel">
+                <div class="activity-series-content">
+                    <div class="activity-header">
+                        <h4 id="activity-title">Ряд активности металлов</h4>
+                        <button id="toggle-nonmetals-btn" class="toggle-series-btn" onclick="toggleNonmetalsSeries()">
+                            Переключить на неметаллы
+                        </button>
+                    </div>
+
+                    <div id="metals-series" class="series-container active">
+                        <div class="activity-series-row">
+                            Li → Rb → K → Ba → Sr → Ca → Na → Mg → Al → Mn → Zn → Cr → Fe → Cd → Co → Ni → Sn → Pb →
+                            <span class="hydrogen-marker">(H)</span> → Sb → Bi → Cu → Hg → Ag → Pt → Au
+                        </div>
+                        <p class="activity-note">Слева направо — уменьшение восстановительных свойств (активности)
+                            металлов</p>
+                    </div>
+
+                    <div id="nonmetals-series" class="series-container">
+                        <div class="activity-series-row">
+                            F → O → N → Cl → Br → I → S → C → P → Si
+                        </div>
+                        <p class="activity-note">Слева направо — уменьшение окислительных свойств
+                            (электроотрицательности) неметаллов</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solubility-wrapper">
+                <table id="solubility-table"></table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Мобильное окно поиска для таблицы растворимости -->
+    <div id="solubility-search-panel" class="solubility-search-panel">
+        <div class="solubility-search-header">
+            <h4>Поиск вещества</h4>
+            <span class="close-solubility-search" onclick="toggleSolubilitySearch()">✕</span>
+        </div>
+        <div class="solubility-search-content">
+            <div class="search-wrapper">
+                <input type="text" id="solubility-search-input" placeholder="Введите формулу (NaCl, BaSO4...)">
+                <button class="solubility-search-clear" onclick="clearSolubilitySearch()">✕</button>
+                <button class="search-btn" onclick="performSolubilitySearch()" aria-label="Найти">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно продвинутого режима -->
+    <div id="advanced-substance-modal" class="modal">
+        <div class="advanced-modal-content">
+            <div id="advanced-substance-content">
+                <!-- Содержимое генерируется динамически через advanced-modal.js -->
+            </div>
+            <button class="close-advanced-modal" onclick="closeAdvancedModal()" aria-label="Закрыть">
+                &times;
+            </button>
+        </div>
+    </div>
+
+    <!-- Settings Modal for Electron -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content settings-modal-content">
+            <span class="close" onclick="closeSettingsModal()">&times;</span>
+            <h2>Настройки</h2>
+
+            <div class="settings-section">
+                <h3>Автозапуск</h3>
+                <label class="switch-label">
+                    <input type="checkbox" id="autostart-checkbox" class="switch-input">
+                    <span class="switch-slider"></span>
+                    <span class="switch-text">Запускать с Windows</span>
+                </label>
+                <p class="setting-description">
+                    Автоматически запускать Chemical Assistant при загрузке Windows (необходимо для постоянных живых
+                    обоев)
+                </p>
+            </div>
+
+            <div class="settings-section">
+                <h3>Информация о живых обоях</h3>
+                <p class="info-text">
+                    Когда живые обои включены и вы закрываете главное окно,
+                    приложение продолжает работать в системном трее.
+                </p>
+                <p class="info-text">
+                    Щёлкните правой кнопкой мыши по иконке в трее, чтобы переключить обои или выйти из приложения.
+                </p>
+            </div>
+
+            <div class="settings-section">
+                <h3>О приложении</h3>
+                <p class="info-text" id="app-info-text">Chemical Assistant</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scrypt.js"></script>
+    <script src="js/scroll-collapse.js"></script>
+    <script src="js/wallpaper-handler.js"></script>
+    <script src="js/download-link-updater.js"></script>
 
 
 
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('SW зарегистрирован!', reg))
-                .catch(err => console.log('Ошибка SW:', err));
-        });
-    }
-</script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('SW зарегистрирован!', reg))
+                    .catch(err => console.log('Ошибка SW:', err));
+            });
+        }
+    </script>
 
-<!-- Live Wallpaper & Settings Script (Electron only) -->
-<script>
-// Live Wallpaper Toggle
-(function() {
-    // Check if running in Electron
-    if (!window.electronAPI) {
-        console.log('[Live Wallpaper] Not running in Electron, features disabled');
-        return;
-    }
-
-    console.log('[Live Wallpaper] Electron detected, initializing...');
-
-    // Show Electron-only UI elements
-    const liveWallpaperOption = document.getElementById('live-wallpaper-option');
-    const settingsOption = document.getElementById('settings-option');
-    const statusSpan = document.getElementById('wallpaper-status');
-    const liveWallpaperBtn = document.getElementById('live-wallpaper-btn');
-
-    if (liveWallpaperOption) liveWallpaperOption.style.display = 'flex';
-    if (settingsOption) settingsOption.style.display = 'flex';
-
-    let isWallpaperActive = false;
-
-    // Check initial status
-    window.electronAPI.isLiveWallpaperActive().then(active => {
-        isWallpaperActive = active;
-        updateWallpaperUI();
-    });
-
-    // Global toggle function
-    window.toggleLiveWallpaper = async function() {
-        if (liveWallpaperBtn) liveWallpaperBtn.disabled = true;
-
-        try {
-            let result;
-
-            if (!isWallpaperActive) {
-                // Enable wallpaper
-                result = await window.electronAPI.enableLiveWallpaper();
-            } else {
-                // Disable wallpaper
-                result = await window.electronAPI.disableLiveWallpaper();
+    <!-- Live Wallpaper & Settings Script (Electron only) -->
+    <script>
+        // Live Wallpaper Toggle
+        (function () {
+            // Check if running in Electron
+            if (!window.electronAPI) {
+                console.log('[Live Wallpaper] Not running in Electron, features disabled');
+                return;
             }
 
-            if (result.success) {
-                isWallpaperActive = !isWallpaperActive;
+            console.log('[Live Wallpaper] Electron detected, initializing...');
+
+            // Show Electron-only UI elements
+            const liveWallpaperOption = document.getElementById('live-wallpaper-option');
+            const settingsOption = document.getElementById('settings-option');
+            const statusSpan = document.getElementById('wallpaper-status');
+            const liveWallpaperBtn = document.getElementById('live-wallpaper-btn');
+
+            if (liveWallpaperOption) liveWallpaperOption.style.display = 'flex';
+            if (settingsOption) settingsOption.style.display = 'flex';
+
+            let isWallpaperActive = false;
+
+            // Check initial status
+            window.electronAPI.isLiveWallpaperActive().then(active => {
+                isWallpaperActive = active;
                 updateWallpaperUI();
-                showAppNotification(result.message, 'success');
-            } else {
-                showAppNotification(result.message, 'error');
+            });
+
+            // Global toggle function
+            window.toggleLiveWallpaper = async function () {
+                if (liveWallpaperBtn) liveWallpaperBtn.disabled = true;
+
+                try {
+                    let result;
+
+                    if (!isWallpaperActive) {
+                        // Enable wallpaper
+                        result = await window.electronAPI.enableLiveWallpaper();
+                    } else {
+                        // Disable wallpaper
+                        result = await window.electronAPI.disableLiveWallpaper();
+                    }
+
+                    if (result.success) {
+                        isWallpaperActive = !isWallpaperActive;
+                        updateWallpaperUI();
+                        showAppNotification(result.message, 'success');
+                    } else {
+                        showAppNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('[Wallpaper] Error:', error);
+                    showAppNotification('Не удалось переключить обои', 'error');
+                } finally {
+                    if (liveWallpaperBtn) liveWallpaperBtn.disabled = false;
+                }
+            };
+
+            function updateWallpaperUI() {
+                if (statusSpan) {
+                    if (isWallpaperActive) {
+                        statusSpan.textContent = 'ON';
+                        statusSpan.classList.add('active');
+                    } else {
+                        statusSpan.textContent = 'OFF';
+                        statusSpan.classList.remove('active');
+                    }
+                }
+                if (liveWallpaperBtn) {
+                    if (isWallpaperActive) {
+                        liveWallpaperBtn.classList.add('active');
+                    } else {
+                        liveWallpaperBtn.classList.remove('active');
+                    }
+                }
             }
-        } catch (error) {
-            console.error('[Wallpaper] Error:', error);
-            showAppNotification('Не удалось переключить обои', 'error');
-        } finally {
-            if (liveWallpaperBtn) liveWallpaperBtn.disabled = false;
-        }
-    };
 
-    function updateWallpaperUI() {
-        if (statusSpan) {
-            if (isWallpaperActive) {
-                statusSpan.textContent = 'ON';
-                statusSpan.classList.add('active');
-            } else {
-                statusSpan.textContent = 'OFF';
-                statusSpan.classList.remove('active');
+            // Settings Modal functions
+            window.openSettingsModal = function () {
+                const modal = document.getElementById('settings-modal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    loadSettingsState();
+                }
+            };
+
+            window.closeSettingsModal = function () {
+                const modal = document.getElementById('settings-modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            async function loadSettingsState() {
+                // Load autostart state
+                const autostartCheckbox = document.getElementById('autostart-checkbox');
+                if (autostartCheckbox && window.electronAPI.isAutostartEnabled) {
+                    const enabled = await window.electronAPI.isAutostartEnabled();
+                    autostartCheckbox.checked = enabled;
+                }
+
+                // Load app info
+                const appInfoText = document.getElementById('app-info-text');
+                if (appInfoText && window.electronAPI.getAppInfo) {
+                    const info = await window.electronAPI.getAppInfo();
+                    if (info) {
+                        appInfoText.textContent = `${info.name} v${info.version} (${info.platform} ${info.arch})`;
+                    }
+                }
+            }
+
+            // Autostart toggle handler
+            const autostartCheckbox = document.getElementById('autostart-checkbox');
+            if (autostartCheckbox) {
+                autostartCheckbox.addEventListener('change', async (e) => {
+                    const result = await window.electronAPI.setAutostart(e.target.checked);
+                    if (!result.success) {
+                        showAppNotification('Не удалось изменить настройку автозапуска', 'error');
+                        e.target.checked = !e.target.checked;
+                    } else {
+                        showAppNotification(
+                            e.target.checked ? 'Автозапуск включён' : 'Автозапуск отключён',
+                            'success'
+                        );
+                    }
+                });
+            }
+
+            // Close settings modal on outside click
+            const settingsModal = document.getElementById('settings-modal');
+            if (settingsModal) {
+                settingsModal.addEventListener('click', (e) => {
+                    if (e.target === settingsModal) {
+                        closeSettingsModal();
+                    }
+                });
+            }
+
+            // Notification helper
+            function showAppNotification(message, type) {
+                // Remove existing notifications
+                const existing = document.querySelectorAll('.app-notification');
+                existing.forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `app-notification ${type}`;
+                notification.textContent = message;
+
+                document.body.appendChild(notification);
+
+                // Auto-remove after 4 seconds
+                setTimeout(() => {
+                    notification.classList.add('fade-out');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            console.log('[Live Wallpaper] Initialized successfully');
+        })();
+    </script>
+
+    <style>
+        /* Live Wallpaper & Settings Styles */
+        .wallpaper-status-badge {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(150, 150, 150, 0.3);
+            color: var(--text-secondary, #666);
+            margin-left: 4px;
+        }
+
+        .wallpaper-status-badge.active {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+        }
+
+        .fab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* App Notification */
+        .app-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 100000;
+            animation: slideInNotif 0.3s ease;
+            font-size: 14px;
+            max-width: 350px;
+        }
+
+        .app-notification.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .app-notification.error {
+            background: #f44336;
+            color: white;
+        }
+
+        .app-notification.fade-out {
+            animation: slideOutNotif 0.3s ease forwards;
+        }
+
+        @keyframes slideInNotif {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
-        if (liveWallpaperBtn) {
-            if (isWallpaperActive) {
-                liveWallpaperBtn.classList.add('active');
-            } else {
-                liveWallpaperBtn.classList.remove('active');
+
+        @keyframes slideOutNotif {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(400px);
+                opacity: 0;
             }
         }
-    }
 
-    // Settings Modal functions
-    window.openSettingsModal = function() {
-        const modal = document.getElementById('settings-modal');
-        if (modal) {
-            modal.style.display = 'block';
-            loadSettingsState();
-        }
-    };
-
-    window.closeSettingsModal = function() {
-        const modal = document.getElementById('settings-modal');
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    };
-
-    async function loadSettingsState() {
-        // Load autostart state
-        const autostartCheckbox = document.getElementById('autostart-checkbox');
-        if (autostartCheckbox && window.electronAPI.isAutostartEnabled) {
-            const enabled = await window.electronAPI.isAutostartEnabled();
-            autostartCheckbox.checked = enabled;
+        /* Settings Modal Styles */
+        .settings-modal-content {
+            max-width: 500px;
         }
 
-        // Load app info
-        const appInfoText = document.getElementById('app-info-text');
-        if (appInfoText && window.electronAPI.getAppInfo) {
-            const info = await window.electronAPI.getAppInfo();
-            if (info) {
-                appInfoText.textContent = `${info.name} v${info.version} (${info.platform} ${info.arch})`;
-            }
+        .settings-section {
+            margin: 24px 0;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
         }
-    }
 
-    // Autostart toggle handler
-    const autostartCheckbox = document.getElementById('autostart-checkbox');
-    if (autostartCheckbox) {
-        autostartCheckbox.addEventListener('change', async (e) => {
-            const result = await window.electronAPI.setAutostart(e.target.checked);
-            if (!result.success) {
-                showAppNotification('Не удалось изменить настройку автозапуска', 'error');
-                e.target.checked = !e.target.checked;
-            } else {
-                showAppNotification(
-                    e.target.checked ? 'Автозапуск включён' : 'Автозапуск отключён',
-                    'success'
-                );
-            }
-        });
-    }
+        [data-theme="dark"] .settings-section,
+        .dark-theme .settings-section {
+            background: rgba(255, 255, 255, 0.05);
+        }
 
-    // Close settings modal on outside click
-    const settingsModal = document.getElementById('settings-modal');
-    if (settingsModal) {
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) {
-                closeSettingsModal();
-            }
-        });
-    }
+        .settings-section h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
 
-    // Notification helper
-    function showAppNotification(message, type) {
-        // Remove existing notifications
-        const existing = document.querySelectorAll('.app-notification');
-        existing.forEach(n => n.remove());
+        .switch-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 12px;
+        }
 
-        const notification = document.createElement('div');
-        notification.className = `app-notification ${type}`;
-        notification.textContent = message;
+        .switch-input {
+            display: none;
+        }
 
-        document.body.appendChild(notification);
+        .switch-slider {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 26px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
 
-        // Auto-remove after 4 seconds
-        setTimeout(() => {
-            notification.classList.add('fade-out');
-            setTimeout(() => notification.remove(), 300);
-        }, 4000);
-    }
+        .switch-slider::before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-    console.log('[Live Wallpaper] Initialized successfully');
-})();
-</script>
+        .switch-input:checked+.switch-slider {
+            background: #667eea;
+        }
 
-<style>
-/* Live Wallpaper & Settings Styles */
-.wallpaper-status-badge {
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 10px;
-    background: rgba(150, 150, 150, 0.3);
-    color: var(--text-secondary, #666);
-    margin-left: 4px;
-}
+        .switch-input:checked+.switch-slider::before {
+            transform: translateX(24px);
+        }
 
-.wallpaper-status-badge.active {
-    background: rgba(76, 175, 80, 0.3);
-    color: #4CAF50;
-}
+        .switch-text {
+            font-size: 14px;
+        }
 
-.fab-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
+        .setting-description {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary, #666);
+            line-height: 1.5;
+        }
 
-/* App Notification */
-.app-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 100000;
-    animation: slideInNotif 0.3s ease;
-    font-size: 14px;
-    max-width: 350px;
-}
+        .info-text {
+            font-size: 14px;
+            color: var(--text-secondary, #666);
+            line-height: 1.6;
+            margin: 8px 0;
+        }
 
-.app-notification.success {
-    background: #4CAF50;
-    color: white;
-}
+        /* Wallpaper mode optimizations (when running as wallpaper) */
+        body.wallpaper-mode {
+            overflow: hidden;
+        }
 
-.app-notification.error {
-    background: #f44336;
-    color: white;
-}
+        body.wallpaper-mode .fab-container,
+        body.wallpaper-mode .below-table-content,
+        body.wallpaper-mode .download-app-section,
+        body.wallpaper-mode #theme-toggle,
+        body.wallpaper-mode #filters-panel,
+        body.wallpaper-mode #calc-panel,
+        body.wallpaper-mode #balancer-panel,
+        body.wallpaper-mode .modal {
+            display: none !important;
+        }
+    </style>
 
-.app-notification.fade-out {
-    animation: slideOutNotif 0.3s ease forwards;
-}
+    <!-- KaTeX для формул -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
 
-@keyframes slideInNotif {
-    from {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
+    <!-- html2pdf для генерации PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-@keyframes slideOutNotif {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-}
+    <!-- Модуль экспорта -->
+    <script src="js/modules/latex-export.js"></script>
 
-/* Settings Modal Styles */
-.settings-modal-content {
-    max-width: 500px;
-}
+    <!-- Основные данные и функции -->
+    <script src="js/elements.js"></script>
+    <script src="js/solubility/data.js"></script>
+    <script src="js/solubility/solubility-table.js"></script>
+    <script src="js/solubility/search.js"></script>
 
-.settings-section {
-    margin: 24px 0;
-    padding: 16px;
-    background: rgba(0,0,0,0.03);
-    border-radius: 8px;
-}
+    <!-- Модуль поиска и фильтров -->
+    <script src="js/modules/search-filters.js"></script>
 
-[data-theme="dark"] .settings-section,
-.dark-theme .settings-section {
-    background: rgba(255,255,255,0.05);
-}
-
-.settings-section h3 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    font-size: 16px;
-}
-
-.switch-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap: 12px;
-}
-
-.switch-input {
-    display: none;
-}
-
-.switch-slider {
-    position: relative;
-    width: 50px;
-    height: 26px;
-    background: #ccc;
-    border-radius: 26px;
-    transition: 0.3s;
-    flex-shrink: 0;
-}
-
-.switch-slider::before {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    background: white;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: 0.3s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.switch-input:checked + .switch-slider {
-    background: #667eea;
-}
-
-.switch-input:checked + .switch-slider::before {
-    transform: translateX(24px);
-}
-
-.switch-text {
-    font-size: 14px;
-}
-
-.setting-description {
-    margin-top: 12px;
-    font-size: 13px;
-    color: var(--text-secondary, #666);
-    line-height: 1.5;
-}
-
-.info-text {
-    font-size: 14px;
-    color: var(--text-secondary, #666);
-    line-height: 1.6;
-    margin: 8px 0;
-}
-
-/* Wallpaper mode optimizations (when running as wallpaper) */
-body.wallpaper-mode {
-    overflow: hidden;
-}
-
-body.wallpaper-mode .fab-container,
-body.wallpaper-mode .below-table-content,
-body.wallpaper-mode .download-app-section,
-body.wallpaper-mode #theme-toggle,
-body.wallpaper-mode #filters-panel,
-body.wallpaper-mode #calc-panel,
-body.wallpaper-mode #balancer-panel,
-body.wallpaper-mode .modal {
-    display: none !important;
-}
-</style>
-
+    <script src="js/fab-animation.js"></script>
 </body>
+
 </html>

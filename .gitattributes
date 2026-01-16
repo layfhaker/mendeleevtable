@@ -1,0 +1,11 @@
+# Настройка языков для GitHub
+
+# SVG файлы должны распознаваться как язык программирования
+*.svg linguist-detectable=true
+*.svg linguist-language=SVG
+
+# Документация
+*.md linguist-documentation=true
+
+# Игнорировать сгенерированные файлы в статистике
+dist/* linguist-generated=true

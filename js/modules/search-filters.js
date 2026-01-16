@@ -2,6 +2,10 @@
 // МОДУЛЬ: ПОИСК И ФИЛЬТРЫ
 // =========================================
 
+console.log('[SEARCH-FILTERS] Модуль загружен');
+console.log('[SEARCH-FILTERS] elementsData доступен:', typeof elementsData !== 'undefined');
+console.log('[SEARCH-FILTERS] searchInSolubilityTable доступен:', typeof searchInSolubilityTable !== 'undefined');
+
 // =========================================
 // ЛОГИКА ПОИСКА
 // =========================================
@@ -11,26 +15,148 @@ function performSearch() {
     const input = document.getElementById('element-search');
     const query = input.value.trim();
 
-    if (query.length < 2) {
-        alert('Введите минимум 2 символа');
+    if (query.length < 1) {
         return;
     }
 
-    const foundInTable = searchInSolubilityTable(query);
-    if (foundInTable) {
+    // 0. Если открыта таблица растворимости - ищем ТОЛЬКО в ней
+    const solubilityModal = document.getElementById('solubility-modal');
+    const isSolubilityOpen = solubilityModal && getComputedStyle(solubilityModal).display !== 'none';
+
+    if (isSolubilityOpen && typeof searchInSolubilityTable === 'function') {
+        console.log('[SEARCH] Таблица растворимости открыта, ищем в ней:', query);
+        searchInSolubilityTable(query);
         return;
     }
 
+    // 1. Сначала проверяем точное совпадение по символу элемента (Приоритет!)
+    // Это предотвращает переключение на таблицу растворимости для запросов типа "H", "Cl" и т.д.
+    const symbolMatch = findElementBySymbol(query);
+    if (symbolMatch) {
+        highlightElementInTable(symbolMatch);
+
+        // Умное закрытие панели фильтров: закрываем только если она перекрывает элемент
+        checkOverlapAndCloseFilters(document.getElementById(symbolMatch));
+
+        // Очищаем подсветку через 3 секунды
+        setTimeout(() => {
+            clearElementHighlight();
+        }, 3000);
+        return;
+    }
+
+    // 2. Затем проверяем таблицу растворимости (если не нашли элемент)
+    if (typeof searchInSolubilityTable === 'function') {
+        const foundInTable = searchInSolubilityTable(query);
+        if (foundInTable) {
+            return;
+        }
+    }
+
+    // 3. Если меньше 3 символов и ничего не нашли выше - выходим
+    if (query.length < 3) {
+        return;
+    }
+
+    // 4. Полнотекстовый поиск по всем данным (для 3+ символов)
     currentSearchTerm = query;
     const results = searchElements(query);
     displaySearchResults(results);
+}
+
+// Поиск элемента по символу (регистронезависимый)
+function findElementBySymbol(query) {
+    // Проверяем, доступны ли данные элементов
+    if (typeof elementsData === 'undefined') {
+        console.error('[SEARCH-FILTERS] elementsData не загружен!');
+        return null;
+    }
+
+    const queryUpper = query.toUpperCase();
+
+    // Ищем точное совпадение по символу
+    for (const symbol in elementsData) {
+        if (symbol.toUpperCase() === queryUpper) {
+            return symbol;
+        }
+    }
+
+    return null;
+}
+
+// Функция умного закрытия панели фильтров
+function checkOverlapAndCloseFilters(element) {
+    const filtersPanel = document.getElementById('filters-panel');
+    if (!filtersPanel || !filtersPanel.classList.contains('active') || !element) {
+        return;
+    }
+
+    const panelRect = filtersPanel.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+
+    // Проверяем пересечение прямоугольников
+    const overlap = !(
+        elementRect.right < panelRect.left ||
+        elementRect.left > panelRect.right ||
+        elementRect.bottom < panelRect.top ||
+        elementRect.top > panelRect.bottom
+    );
+
+    // Закрываем только если есть пересечение
+    if (overlap) {
+        console.log('[SEARCH] Элемент перекрыт панелью, закрываем фильтры');
+        filtersPanel.classList.remove('active');
+    } else {
+        console.log('[SEARCH] Элемент виден, панель оставляем открытой');
+    }
+}
+
+// Подсветка элемента в таблице с анимацией
+function highlightElementInTable(symbol) {
+    console.log('Попытка подсветить элемент:', symbol);
+    const elementDiv = document.getElementById(symbol);
+    console.log('Найден элемент:', elementDiv);
+
+    if (!elementDiv) {
+        console.error('Элемент не найден в DOM:', symbol);
+        return;
+    }
+
+    // Убираем предыдущую подсветку, если есть
+    clearElementHighlight();
+
+    // Добавляем класс подсветки
+    elementDiv.classList.add('search-highlight');
+    console.log('Класс search-highlight добавлен к элементу:', symbol);
+    console.log('Классы элемента:', elementDiv.className);
+
+    // Прокручиваем к элементу
+    elementDiv.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center'
+    });
+}
+
+// Очистка подсветки элемента
+function clearElementHighlight() {
+    const highlighted = document.querySelector('.search-highlight');
+    if (highlighted) {
+        highlighted.classList.remove('search-highlight');
+    }
 }
 
 function searchElements(query) {
     const results = [];
     query = query.toLowerCase().trim();
 
-    if (query.length < 2) return results;
+    if (query.length < 3) return results;
+
+    // Проверяем, доступны ли данные элементов
+    if (typeof elementsData === 'undefined') {
+        console.error('[SEARCH-FILTERS] elementsData не загружен!');
+        return results;
+    }
 
     for (const symbol in elementsData) {
         const element = elementsData[symbol];
@@ -197,6 +323,7 @@ function clearSearch() {
     results.innerHTML = '';
     currentSearchTerm = '';
     clearBtn.classList.remove('visible');
+    clearElementHighlight();
 }
 
 (function initSearch() {

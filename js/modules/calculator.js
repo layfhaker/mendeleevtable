@@ -31,7 +31,7 @@ document.querySelectorAll('.element').forEach(el => {
     // Порог движения для определения скролла (в пикселях)
     const SCROLL_THRESHOLD = 10;
 
-    el.addEventListener('touchstart', function(e) {
+    el.addEventListener('touchstart', function (e) {
         const calcPanel = document.getElementById('calc-panel');
         if (!calcPanel.classList.contains('active')) {
             return;
@@ -43,22 +43,22 @@ document.querySelectorAll('.element').forEach(el => {
         touchData.startX = touch.clientX;
         touchData.startY = touch.clientY;
         touchData.isScrolling = false;
-        
+
         this.style.opacity = '0.5';
     });
 
-    el.addEventListener('touchmove', function(e) {
+    el.addEventListener('touchmove', function (e) {
         const calcPanel = document.getElementById('calc-panel');
         if (!calcPanel.classList.contains('active') || !touchData.symbol) {
             return;
         }
 
         const touch = e.touches[0];
-        
+
         // Проверяем, сдвинулся ли палец достаточно для скролла
         const deltaX = Math.abs(touch.clientX - touchData.startX);
         const deltaY = Math.abs(touch.clientY - touchData.startY);
-        
+
         if (deltaX > SCROLL_THRESHOLD || deltaY > SCROLL_THRESHOLD) {
             touchData.isScrolling = true;
             // Возвращаем нормальную прозрачность если это скролл
@@ -83,7 +83,7 @@ document.querySelectorAll('.element').forEach(el => {
         }
     });
 
-    el.addEventListener('touchend', function(e) {
+    el.addEventListener('touchend', function (e) {
         this.style.opacity = '1';
 
         const calcPanel = document.getElementById('calc-panel');
@@ -340,6 +340,7 @@ function toggleCalc() {
         if (window.innerWidth <= 1024 && fab) {
             fab.classList.remove('active');
         }
+
         calcPanel.classList.add('active');
         document.body.classList.add('calc-active');
 

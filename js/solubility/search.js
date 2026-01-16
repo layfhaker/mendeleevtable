@@ -196,7 +196,13 @@ function searchInSolubilityTable(query) {
         // Открываем модалку (если закрыта)
         const modal = document.getElementById('solubility-modal');
         if (modal.style.display !== 'flex') {
-            openSolubility();
+            if (typeof toggleSolubility === 'function') {
+                toggleSolubility();
+            } else {
+                console.error('[SEARCH] toggleSolubility не найдена!');
+                modal.style.display = 'flex'; // Фоллбэк: открываем вручную
+                renderSolubilityTable(); // И рендерим таблицу
+            }
         }
 
         // Закрываем панель фильтров

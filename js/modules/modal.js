@@ -40,6 +40,9 @@ let extraAllotropesExpanded = false; // Флаг: показаны ли допо
 // Рендеринг содержимого модального окна
 // =========================================
 function renderModalContent(data) {
+    // Сохраняем данные текущего элемента для экспорта в PDF
+    window.currentElementData = data;
+
     // 1. ЗАПОМИНАЕМ ТЕКУЩЕЕ СОСТОЯНИЕ (какие секции свернуты)
     const currentStates = {};
     document.querySelectorAll('.info-group').forEach(group => {
@@ -111,6 +114,8 @@ function renderModalContent(data) {
                 <div class="group-content">
                     <p>${factsText}</p>
                     ${data.alloFacts ? `<p><strong>Об этой форме:</strong> ${data.alloFacts}</p>` : ''}
+                </div>
+            </section>
                 </div>
             </section>
         </div>
@@ -296,6 +301,12 @@ document.querySelectorAll('.element').forEach(el => {
         modal.style.display = "flex";
         document.body.classList.add('modal-open');
 
+        // Закрываем панель фильтров при открытии модалки элемента
+        const filtersPanel = document.getElementById('filters-panel');
+        if (filtersPanel && filtersPanel.classList.contains('active')) {
+            filtersPanel.classList.remove('active');
+        }
+
         // Блокируем скролл основной страницы
         document.body.style.overflow = "hidden";
 
@@ -344,7 +355,7 @@ function closeModal() {
 
 closeBtn.onclick = closeModal;
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         closeModal();
     }

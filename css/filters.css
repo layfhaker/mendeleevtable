@@ -3,27 +3,29 @@
    ========================================= */
 
 .filters-panel {
-   position: fixed;
-   bottom: 100px;
-   right: 30px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
 
-   /* УВЕЛИЧИЛИ ШИРИНУ, чтобы кнопки влезали даже со скроллом */
-   width: 340px;
+    /* УВЕЛИЧИЛИ ШИРИНУ, чтобы кнопки влезали даже со скроллом */
+    width: 340px;
 
-   max-height: 70vh;
-   overflow-y: auto;
+    max-height: 70vh;
+    overflow-y: auto;
 
-   background: #ffffff;
-   border-radius: 12px;
-   box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-   z-index: 51000;
-   display: none;
-   flex-direction: column;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    z-index: 51000;
+    display: none;
+    flex-direction: column;
 
-   animation: filtersSlideIn 0.3s ease-out;
+    animation: filtersSlideIn 0.3s ease-out;
 
-   -ms-overflow-style: auto;  /* IE and Edge */
-   scrollbar-width: thin;  /* Firefox */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 /* Скроллбары (Chrome/Safari/Webkit) — для содержимого панели фильтров */
@@ -64,8 +66,15 @@ body.dark-theme .filters-panel::-webkit-scrollbar-thumb:hover {
 }
 
 @keyframes filtersSlideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Шапка */
@@ -137,29 +146,111 @@ body.dark-theme .filters-panel::-webkit-scrollbar-thumb:hover {
 }
 
 /* Цвета кнопок по категориям */
-.filter-btn[data-filter="alkali-metal"].active { background: #ff9999; border-color: #ff9999; color: #333; }
-.filter-btn[data-filter="alkaline-earth-metal"].active { background: #ffcc99; border-color: #ffcc99; color: #333; }
-.filter-btn[data-filter="transition-metal"].active { background: #ffff99; border-color: #ffff99; color: #333; }
-.filter-btn[data-filter="post-transition-metal"].active { background: #ccff99; border-color: #ccff99; color: #333; }
-.filter-btn[data-filter="metalloid"].active { background: #99ffcc; border-color: #99ffcc; color: #333; }
-.filter-btn[data-filter="nonmetal"].active { background: #99ffff; border-color: #99ffff; color: #333; }
-.filter-btn[data-filter="halogen"].active { background: #99ccff; border-color: #99ccff; color: #333; }
-.filter-btn[data-filter="noble-gas"].active { background: #cc99ff; border-color: #cc99ff; color: #333; }
-.filter-btn[data-filter="lanthanide"].active { background: #ff99cc; border-color: #ff99cc; color: #333; }
-.filter-btn[data-filter="actinide"].active { background: #ff99ff; border-color: #ff99ff; color: #333; }
-.filter-btn[data-filter="unknown"].active { background: #e0e0e0; border-color: #e0e0e0; color: #333; }
+.filter-btn[data-filter="alkali-metal"].active {
+    background: #ff9999;
+    border-color: #ff9999;
+    color: #333;
+}
+
+.filter-btn[data-filter="alkaline-earth-metal"].active {
+    background: #ffcc99;
+    border-color: #ffcc99;
+    color: #333;
+}
+
+.filter-btn[data-filter="transition-metal"].active {
+    background: #ffff99;
+    border-color: #ffff99;
+    color: #333;
+}
+
+.filter-btn[data-filter="post-transition-metal"].active {
+    background: #ccff99;
+    border-color: #ccff99;
+    color: #333;
+}
+
+.filter-btn[data-filter="metalloid"].active {
+    background: #99ffcc;
+    border-color: #99ffcc;
+    color: #333;
+}
+
+.filter-btn[data-filter="nonmetal"].active {
+    background: #99ffff;
+    border-color: #99ffff;
+    color: #333;
+}
+
+.filter-btn[data-filter="halogen"].active {
+    background: #99ccff;
+    border-color: #99ccff;
+    color: #333;
+}
+
+.filter-btn[data-filter="noble-gas"].active {
+    background: #cc99ff;
+    border-color: #cc99ff;
+    color: #333;
+}
+
+.filter-btn[data-filter="lanthanide"].active {
+    background: #ff99cc;
+    border-color: #ff99cc;
+    color: #333;
+}
+
+.filter-btn[data-filter="actinide"].active {
+    background: #ff99ff;
+    border-color: #ff99ff;
+    color: #333;
+}
+
+.filter-btn[data-filter="unknown"].active {
+    background: #e0e0e0;
+    border-color: #e0e0e0;
+    color: #333;
+}
 
 /* Цвета кнопок для фильтров растворимости */
-.filter-btn[data-solubility="Р"].active { background: #4CAF50; border-color: #4CAF50; color: #fff; }
-.filter-btn[data-solubility="М"].active { background: #FFC107; border-color: #FFC107; color: #333; }
-.filter-btn[data-solubility="Н"].active { background: #F44336; border-color: #F44336; color: #fff; }
-.filter-btn[data-solubility="-"].active { background: #9E9E9E; border-color: #9E9E9E; color: #fff; }
+.filter-btn[data-solubility="Р"].active {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    color: #fff;
+}
+
+.filter-btn[data-solubility="М"].active {
+    background: #FFC107;
+    border-color: #FFC107;
+    color: #333;
+}
+
+.filter-btn[data-solubility="Н"].active {
+    background: #F44336;
+    border-color: #F44336;
+    color: #fff;
+}
+
+.filter-btn[data-solubility="-"].active {
+    background: #9E9E9E;
+    border-color: #9E9E9E;
+    color: #fff;
+}
 
 /* Цвета кнопок для фильтров по цветам */
 .filter-btn[data-color-name="Бесцветный"]:active,
-.filter-btn[data-color-name="Бесцветный"].active { background: #f0f9ff; border-color: #90caf9; color: #000; }
+.filter-btn[data-color-name="Бесцветный"].active {
+    background: #f0f9ff;
+    border-color: #90caf9;
+    color: #000;
+}
+
 .filter-btn[data-color-name="Белый"]:active,
-.filter-btn[data-color-name="Белый"].active { background: #ffffff; border-color: #cccccc; color: #000; }
+.filter-btn[data-color-name="Белый"].active {
+    background: #ffffff;
+    border-color: #cccccc;
+    color: #000;
+}
 
 
 /* Кнопка сброса */
@@ -188,7 +279,7 @@ body.dark-theme .filters-panel::-webkit-scrollbar-thumb:hover {
    ========================================= */
 body.dark-theme .filters-panel {
     background: #2d2d44;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Для темного режима используем общий стиль скроллбара */
@@ -226,27 +317,109 @@ body.dark-theme .filter-btn:hover {
 }
 
 /* Тёмная тема — активные кнопки с тёмными цветами категорий */
-body.dark-theme .filter-btn[data-filter="alkali-metal"].active { background: #8b3a3a; border-color: #8b3a3a; color: #fff; }
-body.dark-theme .filter-btn[data-filter="alkaline-earth-metal"].active { background: #8b6914; border-color: #8b6914; color: #fff; }
-body.dark-theme .filter-btn[data-filter="transition-metal"].active { background: #7a7a2e; border-color: #7a7a2e; color: #fff; }
-body.dark-theme .filter-btn[data-filter="post-transition-metal"].active { background: #4a7a2e; border-color: #4a7a2e; color: #fff; }
-body.dark-theme .filter-btn[data-filter="metalloid"].active { background: #2e7a5c; border-color: #2e7a5c; color: #fff; }
-body.dark-theme .filter-btn[data-filter="nonmetal"].active { background: #2e6a7a; border-color: #2e6a7a; color: #fff; }
-body.dark-theme .filter-btn[data-filter="halogen"].active { background: #2e4a7a; border-color: #2e4a7a; color: #fff; }
-body.dark-theme .filter-btn[data-filter="noble-gas"].active { background: #5c2e7a; border-color: #5c2e7a; color: #fff; }
-body.dark-theme .filter-btn[data-filter="lanthanide"].active { background: #7a2e5c; border-color: #7a2e5c; color: #fff; }
-body.dark-theme .filter-btn[data-filter="actinide"].active { background: #7a2e7a; border-color: #7a2e7a; color: #fff; }
-body.dark-theme .filter-btn[data-filter="unknown"].active { background: #4a4a4a; border-color: #4a4a4a; color: #fff; }
+body.dark-theme .filter-btn[data-filter="alkali-metal"].active {
+    background: #8b3a3a;
+    border-color: #8b3a3a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="alkaline-earth-metal"].active {
+    background: #8b6914;
+    border-color: #8b6914;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="transition-metal"].active {
+    background: #7a7a2e;
+    border-color: #7a7a2e;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="post-transition-metal"].active {
+    background: #4a7a2e;
+    border-color: #4a7a2e;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="metalloid"].active {
+    background: #2e7a5c;
+    border-color: #2e7a5c;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="nonmetal"].active {
+    background: #2e6a7a;
+    border-color: #2e6a7a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="halogen"].active {
+    background: #2e4a7a;
+    border-color: #2e4a7a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="noble-gas"].active {
+    background: #5c2e7a;
+    border-color: #5c2e7a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="lanthanide"].active {
+    background: #7a2e5c;
+    border-color: #7a2e5c;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="actinide"].active {
+    background: #7a2e7a;
+    border-color: #7a2e7a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-filter="unknown"].active {
+    background: #4a4a4a;
+    border-color: #4a4a4a;
+    color: #fff;
+}
 
 /* Тёмная тема — активные кнопки для фильтров растворимости */
-body.dark-theme .filter-btn[data-solubility="Р"].active { background: #81c784; border-color: #81c784; color: #000; }
-body.dark-theme .filter-btn[data-solubility="М"].active { background: #ffd54f; border-color: #ffd54f; color: #000; }
-body.dark-theme .filter-btn[data-solubility="Н"].active { background: #e57373; border-color: #e57373; color: #000; }
-body.dark-theme .filter-btn[data-solubility="-"].active { background: #b0b0b0; border-color: #b0b0b0; color: #000; }
+body.dark-theme .filter-btn[data-solubility="Р"].active {
+    background: #81c784;
+    border-color: #81c784;
+    color: #000;
+}
+
+body.dark-theme .filter-btn[data-solubility="М"].active {
+    background: #ffd54f;
+    border-color: #ffd54f;
+    color: #000;
+}
+
+body.dark-theme .filter-btn[data-solubility="Н"].active {
+    background: #e57373;
+    border-color: #e57373;
+    color: #000;
+}
+
+body.dark-theme .filter-btn[data-solubility="-"].active {
+    background: #b0b0b0;
+    border-color: #b0b0b0;
+    color: #000;
+}
 
 /* Тёмная тема — активные кнопки для фильтров по цветам */
-body.dark-theme .filter-btn[data-color-name="Бесцветный"].active { background: #1a2a3a; border-color: #4a6a8a; color: #fff; }
-body.dark-theme .filter-btn[data-color-name="Белый"].active { background: #e8e8e8; border-color: #666666; color: #000; }
+body.dark-theme .filter-btn[data-color-name="Бесцветный"].active {
+    background: #1a2a3a;
+    border-color: #4a6a8a;
+    color: #fff;
+}
+
+body.dark-theme .filter-btn[data-color-name="Белый"].active {
+    background: #e8e8e8;
+    border-color: #666666;
+    color: #000;
+}
 
 
 /* =========================================
@@ -300,7 +473,8 @@ body.dark-theme .filter-btn[data-color-name="Белый"].active { background: #
 
 /* Результаты поиска */
 .search-results {
-    max-height: 30vh; /* Сделаем резиновую высоту вместо 150px */
+    max-height: 30vh;
+    /* Сделаем резиновую высоту вместо 150px */
     overflow-y: auto;
     margin-top: 10px;
 }
@@ -394,6 +568,7 @@ body.dark-theme .highlight {
     background: #f9a825;
     color: #000;
 }
+
 .search-no-results {
     padding: 10px;
     text-align: center;
@@ -450,6 +625,81 @@ body.dark-theme .search-btn:hover {
 }
 
 
+
+/* =========================================
+   ПОДСВЕТКА НАЙДЕННОГО ЭЛЕМЕНТА
+   ========================================= */
+.element.search-highlight {
+    position: relative !important;
+    z-index: 10000 !important;
+    animation: elementPulse 2s ease-in-out infinite !important;
+    box-shadow: 0 0 0 4px #2196F3,
+        0 0 20px rgba(33, 150, 243, 0.6),
+        0 0 40px rgba(33, 150, 243, 0.4) !important;
+    transform: scale(1.15) !important;
+    border: 3px solid #2196F3 !important;
+    transition: none !important;
+}
+
+/* Отменяем hover для подсвеченного элемента */
+.element.search-highlight:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 0 4px #2196F3,
+        0 0 20px rgba(33, 150, 243, 0.6),
+        0 0 40px rgba(33, 150, 243, 0.4) !important;
+}
+
+@keyframes elementPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 4px #2196F3,
+            0 0 20px rgba(33, 150, 243, 0.6),
+            0 0 40px rgba(33, 150, 243, 0.4);
+        transform: scale(1.15);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px #1976D2,
+            0 0 30px rgba(25, 118, 210, 0.8),
+            0 0 60px rgba(25, 118, 210, 0.5);
+        transform: scale(1.2);
+    }
+}
+
+/* Тёмная тема */
+body.dark-theme .element.search-highlight {
+    box-shadow: 0 0 0 4px #64B5F6,
+        0 0 20px rgba(100, 181, 246, 0.6),
+        0 0 40px rgba(100, 181, 246, 0.4) !important;
+    border-color: #64B5F6 !important;
+    animation: elementPulseDark 2s ease-in-out infinite !important;
+}
+
+body.dark-theme .element.search-highlight:hover {
+    box-shadow: 0 0 0 4px #64B5F6,
+        0 0 20px rgba(100, 181, 246, 0.6),
+        0 0 40px rgba(100, 181, 246, 0.4) !important;
+    transform: scale(1.15) !important;
+}
+
+@keyframes elementPulseDark {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 4px #64B5F6,
+            0 0 20px rgba(100, 181, 246, 0.6),
+            0 0 40px rgba(100, 181, 246, 0.4);
+        transform: scale(1.15);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px #90CAF9,
+            0 0 30px rgba(144, 202, 249, 0.8),
+            0 0 60px rgba(144, 202, 249, 0.5);
+        transform: scale(1.2);
+    }
+}
 
 /* =========================================
    МОБИЛЬНАЯ ВЕРСИЯ

@@ -2,7 +2,7 @@
 // LOADER.JS — Анимация загрузки с химическими формулами
 // =========================================
 
-(function() {
+(function () {
     'use strict';
 
     // === БАЗА ФОРМУЛ ===
@@ -19,7 +19,7 @@
         { formula: 'HBr', name: 'Бромоводородная' },
         { formula: 'H₂S', name: 'Сероводород' },
         { formula: 'HCN', name: 'Синильная кислота' },
-        
+
         // Основания
         { formula: 'NaOH', name: 'Едкий натр' },
         { formula: 'KOH', name: 'Едкое кали' },
@@ -31,7 +31,7 @@
         { formula: 'Mg(OH)₂', name: 'Молоко магнезии' },
         { formula: 'Zn(OH)₂', name: 'Гидроксид цинка' },
         { formula: 'NH₄OH', name: 'Нашатырный спирт' },
-        
+
         // Соли — хлориды
         { formula: 'NaCl', name: 'Поваренная соль' },
         { formula: 'KCl', name: 'Хлорид калия' },
@@ -42,7 +42,7 @@
         { formula: 'ZnCl₂', name: 'Хлорид цинка' },
         { formula: 'AgCl', name: 'Хлорид серебра' },
         { formula: 'NH₄Cl', name: 'Нашатырь' },
-        
+
         // Соли — сульфаты
         { formula: 'CuSO₄', name: 'Медный купорос' },
         { formula: 'FeSO₄', name: 'Железный купорос' },
@@ -53,7 +53,7 @@
         { formula: 'Na₂SO₄', name: 'Глауберова соль' },
         { formula: 'K₂SO₄', name: 'Сульфат калия' },
         { formula: 'Al₂(SO₄)₃', name: 'Сульфат алюминия' },
-        
+
         // Соли — нитраты
         { formula: 'KNO₃', name: 'Калийная селитра' },
         { formula: 'NaNO₃', name: 'Чилийская селитра' },
@@ -63,7 +63,7 @@
         { formula: 'Cu(NO₃)₂', name: 'Нитрат меди' },
         { formula: 'Fe(NO₃)₃', name: 'Нитрат железа' },
         { formula: 'NH₃NO₃', name: 'Аммиачная селитра' },
-        
+
         // Соли — карбонаты
         { formula: 'CaCO₃', name: 'Мел' },
         { formula: 'Na₂CO₃', name: 'Кальцинированная сода' },
@@ -73,7 +73,7 @@
         { formula: 'BaCO₃', name: 'Витерит' },
         { formula: 'PbCO₃', name: 'Церуссит' },
         { formula: 'ZnCO₃', name: 'Смитсонит' },
-        
+
         // Соли — другие
         { formula: 'KMnO₄', name: 'Марганцовка' },
         { formula: 'K₂Cr₂O₇', name: 'Хромпик' },
@@ -86,7 +86,7 @@
         { formula: 'Ag₂S', name: 'Аргентит' },
         { formula: 'Na₃PO₄', name: 'Фосфат натрия' },
         { formula: 'Ca₃(PO₄)₂', name: 'Фосфорит' },
-        
+
         // Оксиды
         { formula: 'H₂O', name: 'Вода' },
         { formula: 'CO₂', name: 'Углекислый газ' },
@@ -104,7 +104,7 @@
         { formula: 'ZnO', name: 'Цинковые белила' },
         { formula: 'CuO', name: 'Оксид меди' },
         { formula: 'TiO₂', name: 'Титановые белила' },
-        
+
         // Органика
         { formula: 'C₂H₅OH', name: 'Этиловый спирт' },
         { formula: 'CH₃OH', name: 'Метиловый спирт' },
@@ -120,7 +120,7 @@
         { formula: 'HCHO', name: 'Формальдегид' },
         { formula: 'CH₃CHO', name: 'Ацетальдегид' },
         { formula: '(CH₃)₂CO', name: 'Ацетон' },
-        
+
         // Газы
         { formula: 'NH₃', name: 'Аммиак' },
         { formula: 'Cl₂', name: 'Хлор' },
@@ -140,7 +140,7 @@
     function createLoaderHTML() {
         const loader = document.createElement('div');
         loader.id = 'loading-screen';
-        
+
         loader.innerHTML = `
             <!-- Частицы фона -->
             <div class="loader-particles" id="loader-particles"></div>
@@ -168,15 +168,15 @@
                 <div class="loader-progress-percent" id="loader-progress-percent">0%</div>
             </div>
         `;
-        
+
         document.body.insertBefore(loader, document.body.firstChild);
-        
+
         // Создаём частицы
         createParticles();
-        
+
         // Показываем первую формулу
         showRandomFormula();
-        
+
         // Запускаем смену формул
         startFormulaRotation();
     }
@@ -185,9 +185,9 @@
     function createParticles() {
         const container = document.getElementById('loader-particles');
         if (!container) return;
-        
+
         const particleCount = window.innerWidth < 600 ? 15 : 30;
-        
+
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.className = 'loader-particle';
@@ -203,33 +203,33 @@
     function showRandomFormula() {
         const formulaEl = document.getElementById('formula-display');
         const nameEl = document.getElementById('formula-name');
-        
+
         if (!formulaEl || !nameEl) return;
-        
+
         // Выбираем случайную формулу
         const randomIndex = Math.floor(Math.random() * chemicalFormulas.length);
         const compound = chemicalFormulas[randomIndex];
-        
+
         // Сбрасываем анимацию
         formulaEl.style.animation = 'none';
         nameEl.style.animation = 'none';
-        
+
         // Форсируем reflow
         void formulaEl.offsetWidth;
         void nameEl.offsetWidth;
-        
+
         // Устанавливаем формулу
         formulaEl.textContent = compound.formula;
         nameEl.textContent = compound.name;
-        
+
         // Вычисляем длительность печати (50мс на символ)
         const charCount = compound.formula.length;
         const typingDuration = Math.max(0.8, charCount * 0.08);
-        
+
         // Устанавливаем CSS переменные
         formulaEl.style.setProperty('--chars', charCount);
         formulaEl.style.setProperty('--typing-duration', typingDuration + 's');
-        
+
         // Запускаем анимации
         formulaEl.style.animation = `
             loader-typing ${typingDuration}s steps(${charCount}, end) forwards,
@@ -252,9 +252,9 @@
     function updateProgress(percent) {
         const fill = document.getElementById('loader-progress-fill');
         const text = document.getElementById('loader-progress-percent');
-        
+
         progressValue = Math.min(100, Math.max(0, percent));
-        
+
         if (fill) fill.style.width = progressValue + '%';
         if (text) text.textContent = Math.round(progressValue) + '%';
     }
@@ -262,22 +262,22 @@
     // === СКРЫТИЕ ЛОАДЕРА ===
     function hideLoader() {
         isLoaderActive = false;
-        
+
         if (formulaInterval) {
             clearInterval(formulaInterval);
             formulaInterval = null;
         }
-        
+
         const loader = document.getElementById('loading-screen');
         if (!loader) return;
-        
+
         // Устанавливаем 100%
         updateProgress(100);
-        
+
         // Анимация исчезновения
         setTimeout(() => {
             loader.classList.add('fade-out');
-            
+
             setTimeout(() => {
                 loader.classList.add('hidden');
                 // Можно удалить элемент для экономии памяти
@@ -299,6 +299,26 @@
     }
 
     // Функция для инициализации модулей
+    function showLoader() {
+        const loader = document.getElementById('loading-screen');
+        if (!loader) return;
+
+        loader.classList.remove('hidden', 'fade-out');
+        loader.style.display = 'flex'; // Гарантируем отображение
+        isLoaderActive = true;
+
+        // Сбрасываем прогресс
+        updateProgress(0);
+        const progressText = document.querySelector('.loader-progress-text');
+        if (progressText) progressText.textContent = 'Генерация...';
+
+        // Запускаем анимацию, если она остановлена
+        if (!formulaInterval) {
+            showRandomFormula();
+            startFormulaRotation();
+        }
+    }
+
     async function initializeModules() {
         if (modulesQueue.length === 0) {
             // Если нет зарегистрированных модулей, просто скрываем лоадер
@@ -330,6 +350,7 @@
     window.ChemLoader = {
         updateProgress: updateProgress,
         hide: hideLoader,
+        show: showLoader,
         showFormula: showRandomFormula,
         registerModule: registerModule,
         initializeModules: initializeModules

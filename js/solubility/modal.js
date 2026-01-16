@@ -3,7 +3,7 @@
 // =========================================
 
 // Объявляем функции глобально для доступа из HTML
-window.toggleSolubility = async function() {
+window.toggleSolubility = async function () {
     const modal = document.getElementById('solubility-modal');
     // Проверяем, открыто ли окно
     if (modal && (getComputedStyle(modal).display === 'flex' || getComputedStyle(modal).display === 'block')) {
@@ -13,7 +13,7 @@ window.toggleSolubility = async function() {
     }
 };
 
-window.openSolubility = async function() {
+window.openSolubility = async function () {
     // 1. Загрузка модуля растворимости, если он еще не загружен
     if (window.loadSolubility) {
         await window.loadSolubility();
@@ -31,6 +31,10 @@ window.openSolubility = async function() {
     }
 
     // 3. Открытие окна
+
+    // 3. Открытие окна
+    // ... animation removed for simplicity reversion ...
+
     modal.style.display = 'flex';
     document.body.classList.add('solubility-open');
 
@@ -102,7 +106,7 @@ window.openSolubility = async function() {
     bindCloseEvents();
 };
 
-window.closeSolubility = function() {
+window.closeSolubility = function () {
     const modal = document.getElementById('solubility-modal');
     if (!modal) return;
 
@@ -143,13 +147,13 @@ window.closeSolubility = function() {
 function bindCloseEvents() {
     const closeButtons = document.querySelectorAll('.close-solubility');
     closeButtons.forEach(btn => {
-        btn.onclick = function(e) {
+        btn.onclick = function (e) {
             e.preventDefault();
             e.stopPropagation();
             closeSolubility();
         };
         // Добавляем поддержку тач-событий для мобильных
-        btn.ontouchstart = function(e) {
+        btn.ontouchstart = function (e) {
             e.preventDefault();
             e.stopPropagation();
             closeSolubility();
@@ -158,7 +162,7 @@ function bindCloseEvents() {
 
     const modal = document.getElementById('solubility-modal');
     if (modal) {
-        modal.onclick = function(e) {
+        modal.onclick = function (e) {
             if (e.target === modal) {
                 closeSolubility();
             }

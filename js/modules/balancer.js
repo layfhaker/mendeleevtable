@@ -6,7 +6,7 @@
  * Close balancer panel
  */
 
-window.closeBalancer = function(event) {
+window.closeBalancer = function (event) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -15,8 +15,15 @@ window.closeBalancer = function(event) {
     const panel = document.getElementById('balancer-panel');
     if (!panel) return;
 
-    panel.classList.remove('active');
-    document.body.classList.remove('balancer-active');
+    if (panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        document.body.classList.remove('balancer-active');
+    } else {
+        panel.classList.remove('active');
+        document.body.classList.remove('balancer-active');
+    }
+
+    // Continue with other cleanup immediately (or wait? usually immediate is fine for non-visuals)
 
     // Restore scroll position if saved
     const savedScrollY = document.body.dataset.savedScrollY;
@@ -40,7 +47,7 @@ window.closeBalancer = function(event) {
 /**
  * Check if balancer is active
  */
-window.isBalancerActive = function() {
+window.isBalancerActive = function () {
     const panel = document.getElementById('balancer-panel');
     return panel && panel.classList.contains('active');
 };
@@ -48,7 +55,7 @@ window.isBalancerActive = function() {
 /**
  * Toggle balancer panel
  */
-window.toggleBalancer = async function(event) {
+window.toggleBalancer = async function (event) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -85,6 +92,7 @@ window.toggleBalancer = async function(event) {
     if (window.innerWidth <= 1024 && fab) {
         fab.classList.remove('active');
     }
+
     panel.classList.add('active');
     document.body.classList.add('balancer-active');
 
@@ -104,7 +112,7 @@ window.toggleBalancer = async function(event) {
     }
 };
 
-window.performBalance = function() {
+window.performBalance = function () {
     const input = document.getElementById('balancer-input');
     const resultDiv = document.getElementById('balancer-result');
     const errorDiv = document.getElementById('balancer-error');
@@ -117,7 +125,7 @@ window.performBalance = function() {
     setTimeout(() => {
         try {
             const query = input.value;
-            if(!query.trim()) throw new Error("Введите уравнение");
+            if (!query.trim()) throw new Error("Введите уравнение");
 
             const balanced = balanceEquation(query);
 
@@ -138,15 +146,15 @@ window.closeBalancerRealModule = window.closeBalancer;
 window.toggleBalancerPanel = window.toggleBalancer;
 window.closeBalancerPanel = window.closeBalancer;
 
-window.fillBalance = function(equation) {
+window.fillBalance = function (equation) {
     const input = document.getElementById('balancer-input');
-    if(input) {
+    if (input) {
         input.value = equation;
         performBalance();
     }
 };
 
-window.performBalance = function() {
+window.performBalance = function () {
     const input = document.getElementById('balancer-input');
     const resultDiv = document.getElementById('balancer-result');
     const errorDiv = document.getElementById('balancer-error');
@@ -159,7 +167,7 @@ window.performBalance = function() {
     setTimeout(() => {
         try {
             const query = input.value;
-            if(!query.trim()) throw new Error("Введите уравнение");
+            if (!query.trim()) throw new Error("Введите уравнение");
 
             const balanced = balanceEquation(query);
 
@@ -266,11 +274,11 @@ function positionBalancerPC() {
 
     // Равные отступы со всех сторон
     const gap = 0.5;
-    
+
     // Горизонтальные границы
     const panelLeft = mgRight + gap;
     const panelWidth = alLeft - mgRight - (gap * 2);
-    
+
     // Вертикальные границы (равные отступы сверху и снизу)
     const panelTop = hRect.top + gap;
     const panelHeight = kRect.top - hRect.top - (gap * 2);
@@ -472,7 +480,7 @@ function parseFormula(formula) {
         }
         else { i++; }
     }
-    while(stack.length > 1) {
+    while (stack.length > 1) {
         const top = stack.pop();
         const parent = stack[stack.length - 1];
         for (let el in top) parent[el] = (parent[el] || 0) + top[el];

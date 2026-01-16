@@ -1,0 +1,195 @@
+% =========================================
+% ШАБЛОН ДОКУМЕНТА ДЛЯ ХИМИЧЕСКОГО ЭЛЕМЕНТА
+% =========================================
+\documentclass[12pt,a4paper]{article}
+
+% Пакеты
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage[version=4]{mhchem} % Для химических формул
+
+% Настройка страницы
+\geometry{
+    a4paper,
+    left=20mm,
+    right=20mm,
+    top=25mm,
+    bottom=25mm
+}
+
+% Цвета
+\definecolor{primaryBlue}{RGB}{33,150,243}
+\definecolor{secondaryGreen}{RGB}{76,175,80}
+\definecolor{accentOrange}{RGB}{255,152,0}
+\definecolor{accentPurple}{RGB}{156,39,176}
+\definecolor{lightGray}{RGB}{245,245,245}
+
+% Настройка гиперссылок
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryBlue,
+    urlcolor=primaryBlue,
+    pdftitle={Химический элемент: {{ELEMENT_NAME}}},
+    pdfauthor={Интерактивная Таблица Менделеева}
+}
+
+% Колонтитулы
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{Химический элемент: {{ELEMENT_NAME}}}}
+\fancyhead[R]{\small\textcolor{gray}{\thepage\ из \pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Начало документа
+\begin{document}
+
+% =========================================
+% ТИТУЛЬНАЯ ИНФОРМАЦИЯ
+% =========================================
+\begin{center}
+    \vspace*{1cm}
+    {\Huge\bfseries\color{primaryBlue} {{ELEMENT_NAME}} ({{ELEMENT_SYMBOL}})}\\[0.5cm]
+    \rule{\textwidth}{0.4pt}\\[0.3cm]
+    {\large Химический элемент таблицы Менделеева}\\[0.3cm]
+    \rule{\textwidth}{0.4pt}\\[1cm]
+    
+    {\small Документ сгенерирован: {{GENERATION_DATE}}}
+\end{center}
+
+\vspace{1cm}
+
+% =========================================
+% БАЗОВАЯ ИНФОРМАЦИЯ
+% =========================================
+\section*{\color{primaryBlue}Базовая информация}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{lightGray}{white}
+\begin{tabular}{>{\bfseries}p{6cm}p{8cm}}
+\toprule
+\rowcolor{primaryBlue}
+\textcolor{white}{Свойство} & \textcolor{white}{Значение} \\
+\midrule
+Атомный номер & {{ATOMIC_NUMBER}} \\
+Атомная масса & {{ATOMIC_MASS}} \\
+Период & {{PERIOD}} \\
+Группа & {{GROUP}} \\
+Блок & {{BLOCK}} \\
+Категория & {{CATEGORY}} \\
+Электронная конфигурация & \texttt{{{ELECTRON_CONFIG}}} \\
+Электроотрицательность & {{ELECTRONEGATIVITY}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================
+% ФИЗИЧЕСКИЕ СВОЙСТВА
+% =========================================
+\section*{\color{secondaryGreen}Физические свойства}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{lightGray}{white}
+\begin{tabular}{>{\bfseries}p{6cm}p{8cm}}
+\toprule
+\rowcolor{secondaryGreen}
+\textcolor{white}{Свойство} & \textcolor{white}{Значение} \\
+\midrule
+Плотность & {{DENSITY}} \\
+Температура плавления & {{MELTING_POINT}} \\
+Температура кипения & {{BOILING_POINT}} \\
+Состояние (20°C) & {{STATE}} \\
+Цвет & {{COLOR}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================
+% ИСТОРИЯ И ПРИМЕНЕНИЕ
+% =========================================
+\section*{\color{accentOrange}История и применение}
+
+\begin{table}[h!]
+\centering
+\rowcolors{2}{lightGray}{white}
+\begin{tabular}{>{\bfseries}p{6cm}p{8cm}}
+\toprule
+\rowcolor{accentOrange}
+\textcolor{white}{Свойство} & \textcolor{white}{Значение} \\
+\midrule
+Год открытия & {{DISCOVERY_YEAR}} \\
+Первооткрыватель & {{DISCOVERER}} \\
+Происхождение названия & {{NAME_ORIGIN}} \\
+Области применения & {{APPLICATIONS}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =========================================
+% ИНТЕРЕСНЫЕ ФАКТЫ
+% =========================================
+\section*{\color{primaryBlue}Интересные факты}
+
+{{FACTS}}
+
+% =========================================
+% СОЕДИНЕНИЯ ИЗ ТАБЛИЦЫ РАСТВОРИМОСТИ
+% =========================================
+\newpage
+
+\section*{\color{accentPurple}Соединения {{ELEMENT_SYMBOL}} из таблицы растворимости}
+
+\begin{longtable}{p{3cm}p{3.5cm}p{2.5cm}p{5cm}}
+\toprule
+\rowcolor{accentPurple}
+\textcolor{white}{\bfseries Формула} & 
+\textcolor{white}{\bfseries Растворимость} & 
+\textcolor{white}{\bfseries Цвет} & 
+\textcolor{white}{\bfseries Реакция} \\
+\midrule
+\endfirsthead
+
+\multicolumn{4}{c}{\textit{Продолжение таблицы}}\\
+\toprule
+\rowcolor{accentPurple}
+\textcolor{white}{\bfseries Формула} & 
+\textcolor{white}{\bfseries Растворимость} & 
+\textcolor{white}{\bfseries Цвет} & 
+\textcolor{white}{\bfseries Реакция} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{4}{r}{\textit{Продолжение на следующей странице}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+{{COMPOUNDS_TABLE}}
+
+\end{longtable}
+
+% =========================================
+% ПОДВАЛ ДОКУМЕНТА
+% =========================================
+\vfill
+\begin{center}
+\small
+\rule{\textwidth}{0.2pt}\\[0.2cm]
+\textcolor{gray}{Документ создан с помощью Интерактивной Таблицы Менделеева}\\
+\textcolor{gray}{\url{https://github.com/layfhaker/mendeleevtable}}
+\end{center}
+
+\end{document}

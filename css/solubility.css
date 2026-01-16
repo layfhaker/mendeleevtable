@@ -1,30 +1,35 @@
 /* =========================================
    ПЕРЕМЕННЫЕ ДЛЯ ТАБЛИЦЫ РАСТВОРИМОСТИ
    ========================================= */
-   /* --- МОДАЛЬНОЕ ОКНО --- */
+/* --- МОДАЛЬНОЕ ОКНО --- */
 
-   /* === CSS Variables for Solubility Table === */
-   :root {
-       --bg-color: #ffffff;
-       --text-color: #333333;
-       --border-color: #e0e0e0;
-   }
+/* === CSS Variables for Solubility Table === */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+}
 
-   body.dark-theme {
-       --bg-color: #1a1a2e;
-       --text-color: #eeeeee;
-       --border-color: #444444;
-   }
+body.dark-theme {
+    --bg-color: #1a1a2e;
+    --text-color: #eeeeee;
+    --border-color: #444444;
+}
+
 /* ГЛАВНЫЙ КОНТЕЙНЕР МОДАЛКИ */
 #solubility-modal {
-    display: none; /* ВАЖНО: Скрыто по умолчанию! */
-    position: fixed; /* Фиксируем поверх экрана */
-    z-index: 2000;   /* Самый высокий слой, чтобы перекрыть всё */
+    display: none;
+    /* ВАЖНО: Скрыто по умолчанию! */
+    position: fixed;
+    /* Фиксируем поверх экрана */
+    z-index: 2000;
+    /* Самый высокий слой, чтобы перекрыть всё */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Затемнение фона */
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Затемнение фона */
 
     /* Выравнивание содержимого — слева с отступом, вертикально по центру */
     justify-content: flex-start;
@@ -40,19 +45,23 @@
     height: 95vh;
     padding: 0;
     margin-right: auto;
-    margin-left: 20px; /* Прижимаем к левому краю с небольшим отступом */
-    background-color: var(--sol-bg); /* Добавили фон */
+    margin-left: 20px;
+    /* Прижимаем к левому краю с небольшим отступом */
+    background-color: var(--sol-bg);
+    /* Добавили фон */
 }
 
 /* --- ШАПКА (Название + Крестик) --- */
 .modal-header {
     display: flex;
-    justify-content: space-between; /* Разносит элементы по краям */
+    justify-content: space-between;
+    /* Разносит элементы по краям */
     align-items: center;
     padding: 15px 20px;
     background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
-    flex-shrink: 0; /* Чтобы шапка не сжималась */
+    flex-shrink: 0;
+    /* Чтобы шапка не сжималась */
 }
 
 .modal-header h2 {
@@ -122,15 +131,22 @@ body.dark-theme #activity-series-btn.active {
 
 /* --- ОБЛАСТЬ СКРОЛЛА --- */
 .solubility-wrapper {
-    overflow: auto; /* Включаем скролл */
-    flex-grow: 1;   /* Занимает всё оставшееся место */
+    overflow: auto;
+    /* Включаем скролл */
+    flex-grow: 1;
+    /* Занимает всё оставшееся место */
     position: relative;
     background-color: var(--bg-color);
-    cursor: grab; /* Курсор для drag-to-scroll */
-    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
-    touch-action: pan-x pan-y; /* Разрешаем скролл в обе стороны на touch-устройствах */
-    -ms-overflow-style: auto;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    cursor: grab;
+    /* Курсор для drag-to-scroll */
+    -webkit-overflow-scrolling: touch;
+    /* Плавный скролл на iOS */
+    touch-action: pan-x pan-y;
+    /* Разрешаем скролл в обе стороны на touch-устройствах */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 .solubility-wrapper:active {
@@ -139,7 +155,8 @@ body.dark-theme #activity-series-btn.active {
 
 /* --- ТАБЛИЦА --- */
 #solubility-table {
-    border-collapse: separate; /* Обязательно для sticky */
+    border-collapse: separate;
+    /* Обязательно для sticky */
     border-spacing: 0;
     width: 100%;
 }
@@ -162,7 +179,7 @@ body.dark-theme #activity-series-btn.active {
     z-index: 20;
     background-color: var(--bg-color);
     border-bottom: 2px solid var(--text-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     /* Добавляем для гарантии непрозрачности */
     backdrop-filter: none;
 }
@@ -174,7 +191,7 @@ body.dark-theme #activity-series-btn.active {
     z-index: 15;
     background-color: var(--bg-color);
     border-right: 2px solid var(--text-color);
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     /* Добавляем для гарантии непрозрачности */
     backdrop-filter: none;
 }
@@ -195,13 +212,16 @@ body.dark-theme #activity-series-btn.active {
 /* --- АДАПТАЦИЯ ПОД ПК (Уменьшаем масштаб) --- */
 @media (min-width: 1024px) {
     #solubility-table {
-        font-size: 12px; /* Уменьшаем шрифт на ПК */
+        font-size: 12px;
+        /* Уменьшаем шрифт на ПК */
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: 4px 6px; /* Делаем ячейки компактнее */
-        min-width: 35px;  /* Минимальная ширина, чтобы не схлопывались */
+        padding: 4px 6px;
+        /* Делаем ячейки компактнее */
+        min-width: 35px;
+        /* Минимальная ширина, чтобы не схлопывались */
     }
 
     /* Увеличиваем заголовок модалки на ПК */
@@ -216,18 +236,22 @@ body.dark-theme #activity-series-btn.active {
 #solubility-table td:hover {
     border: 2px solid var(--text-color);
     cursor: pointer;
-    transform: scale(1.1); /* Легкое увеличение */
-    z-index: 100; /* Чтобы вылезти поверх соседей */
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transform: scale(1.1);
+    /* Легкое увеличение */
+    z-index: 100;
+    /* Чтобы вылезти поверх соседей */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Активная (выбранная) ячейка */
 .focused-cell {
-    border: 3px solid #ff4081 !important; /* Ярко-розовый бордюр */
+    border: 3px solid #ff4081 !important;
+    /* Ярко-розовый бордюр */
     font-weight: bold;
     transform: scale(1.2);
     z-index: 101;
-    background-color: var(--bg-color); /* Чтобы перекрыть фон */
+    background-color: var(--bg-color);
+    /* Чтобы перекрыть фон */
     color: var(--text-color);
 }
 
@@ -238,6 +262,7 @@ body.dark-theme #activity-series-btn.active {
     box-shadow: inset 0 0 0 2px rgba(33, 150, 243, 0.6) !important;
     position: relative;
 }
+
 /* --- ДОПОЛНИТЕЛЬНАЯ ЗАЩИТА ФОНА ЛЕВОГО СТОЛБЦА --- */
 /* Убираем цветные фоны с заголовков анионов */
 #solubility-table tbody th.type-r,
@@ -264,15 +289,46 @@ body.dark-theme #solubility-table tbody th.type-d {
 }
 
 /* --- ЦВЕТА ЯЧЕЕК --- */
-.type-r { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; } /* Зеленый */
-.type-m { background-color: rgba(255, 193, 7, 0.2); color: #FFC107; } /* Желтый */
-.type-n { background-color: rgba(244, 67, 54, 0.2); color: #F44336; } /* Красный */
-.type-d { background-color: rgba(158, 158, 158, 0.2); color: #9E9E9E; } /* Серый */
+.type-r {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+}
+
+/* Зеленый */
+.type-m {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+}
+
+/* Желтый */
+.type-n {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #F44336;
+}
+
+/* Красный */
+.type-d {
+    background-color: rgba(158, 158, 158, 0.2);
+    color: #9E9E9E;
+}
+
+/* Серый */
 
 /* Ярче для темной темы */
-body.dark-theme .type-r { color: #81c784; background-color: rgba(129, 199, 132, 0.1); }
-body.dark-theme .type-m { color: #ffd54f; background-color: rgba(255, 213, 79, 0.1); }
-body.dark-theme .type-n { color: #e57373; background-color: rgba(229, 115, 115, 0.1); }
+body.dark-theme .type-r {
+    color: #81c784;
+    background-color: rgba(129, 199, 132, 0.1);
+}
+
+body.dark-theme .type-m {
+    color: #ffd54f;
+    background-color: rgba(255, 213, 79, 0.1);
+}
+
+body.dark-theme .type-n {
+    color: #e57373;
+    background-color: rgba(229, 115, 115, 0.1);
+}
 
 /* === Dark Theme: Sticky Headers Fix === */
 body.dark-theme #solubility-table thead th,
@@ -367,16 +423,19 @@ body.dark-theme #color-mode-btn.active {
 }
 
 #solubility-modal #advanced-mode-info-btn {
-    background: rgba(33, 150, 243, 0.15) !important; /* Изменяем на синий цвет вместо фиолетового */
+    background: rgba(33, 150, 243, 0.15) !important;
+    /* Изменяем на синий цвет вместо фиолетового */
     border: none !important;
 }
 
 #solubility-modal #advanced-mode-info-btn:hover {
-    background: rgba(33, 150, 243, 0.3) !important; /* Изменяем на синий цвет вместо фиолетового */
+    background: rgba(33, 150, 243, 0.3) !important;
+    /* Изменяем на синий цвет вместо фиолетового */
 }
 
 #solubility-modal #advanced-mode-info-btn.active {
-    background: #2196F3 !important; /* Изменяем на синий цвет вместо фиолетового */
+    background: #2196F3 !important;
+    /* Изменяем на синий цвет вместо фиолетового */
     color: white !important;
     box-shadow: 0 0 12px #2196F3 !important;
 }
@@ -386,8 +445,8 @@ body.dark-theme #color-mode-btn.active {
    ========================================= */
 .chem-color-cell {
     text-shadow:
-        1px 1px 1px rgba(0,0,0,0.3),
-        -1px -1px 1px rgba(255,255,255,0.3);
+        1px 1px 1px rgba(0, 0, 0, 0.3),
+        -1px -1px 1px rgba(255, 255, 255, 0.3);
     font-weight: bold;
     border: 1px solid rgba(128, 128, 128, 0.4) !important;
 }
@@ -395,21 +454,22 @@ body.dark-theme #color-mode-btn.active {
 .chem-color-cell.dark-bg {
     color: #ffffff !important;
     text-shadow:
-        1px 1px 2px rgba(0,0,0,0.8),
-        0 0 5px rgba(0,0,0,0.5);
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .chem-color-cell.light-bg {
     color: #000000 !important;
     text-shadow:
-        1px 1px 1px rgba(255,255,255,0.8),
-        -1px -1px 1px rgba(255,255,255,0.5);
+        1px 1px 1px rgba(255, 255, 255, 0.8),
+        -1px -1px 1px rgba(255, 255, 255, 0.5);
 }
+
 /* Белые осадки — с заметной рамкой */
 .chem-color-cell.white-precipitate {
     background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
     border: 2px solid #999 !important;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Бесцветные растворы — лёгкий голубой оттенок "воды" */
@@ -482,7 +542,8 @@ body.dark-theme .chem-color-cell.colorless-solution {
    КНОПКА ПОИСКА В ШАПКЕ (только мобильные)
    ========================================= */
 #solubility-search-btn {
-    display: none; /* По умолчанию скрыта на ПК */
+    display: none;
+    /* По умолчанию скрыта на ПК */
     width: 40px;
     height: 40px;
     border: none;
@@ -549,7 +610,7 @@ body.dark-theme #solubility-search-btn.active svg {
     max-width: 400px;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     z-index: 2100;
     animation: searchPanelSlideIn 0.3s ease-out;
 }
@@ -559,8 +620,15 @@ body.dark-theme #solubility-search-btn.active svg {
 }
 
 @keyframes searchPanelSlideIn {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 .solubility-search-header {
@@ -663,7 +731,7 @@ body.dark-theme #solubility-search-btn.active svg {
 /* Тёмная тема для панели поиска */
 body.dark-theme .solubility-search-panel {
     background: #2d2d44;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 body.dark-theme .solubility-search-header {
@@ -724,9 +792,10 @@ body.dark-theme .solubility-search-content .search-btn:hover {
         padding-top: 0;
         padding-bottom: 0;
     }
+
     to {
         opacity: 1;
-        max-height: 300px;
+        max-height: 1000px;
         padding-top: 20px;
         padding-bottom: 20px;
     }
@@ -740,8 +809,13 @@ body.dark-theme .solubility-search-content .search-btn:hover {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Маркер водорода */
@@ -783,8 +857,10 @@ body.dark-theme .activity-series-row {
     height: 40px;
     border: none;
     border-radius: 8px;
-    background: rgba(255, 193, 7, 0.15); /* Желтоватый фон */
-    color: #FFC107; /* Желтая молния */
+    background: rgba(255, 193, 7, 0.15);
+    /* Желтоватый фон */
+    color: #FFC107;
+    /* Желтая молния */
     font-size: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -800,7 +876,8 @@ body.dark-theme .activity-series-row {
 
 #activity-mode-btn.active {
     background: #FFC107;
-    color: #fff; /* Белая молния при активе */
+    color: #fff;
+    /* Белая молния при активе */
     box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
@@ -809,9 +886,11 @@ body.dark-theme #activity-mode-btn {
     background: rgba(255, 213, 79, 0.2);
     color: #FFD54F;
 }
+
 body.dark-theme #activity-mode-btn:hover {
     background: rgba(255, 213, 79, 0.4);
 }
+
 body.dark-theme #activity-mode-btn.active {
     background: #FFD54F;
     color: #333;
@@ -841,34 +920,35 @@ body.dark-theme #activity-mode-btn.active {
 }
 
 body.dark-theme #advanced-mode-info-btn {
-    background: rgba(100, 181, 246, 0.2) !important; /* Синий цвет для темной темы */
+    background: rgba(100, 181, 246, 0.2) !important;
+    /* Синий цвет для темной темы */
 }
 
 body.dark-theme #advanced-mode-info-btn:hover {
-    background: rgba(100, 181, 246, 0.4) !important; /* Синий цвет для темной темы */
+    background: rgba(100, 181, 246, 0.4) !important;
+    /* Синий цвет для темной темы */
 }
 
 body.dark-theme #advanced-mode-info-btn.active {
-    background: #64B5F6 !important; /* Синий цвет для темной темы */
-    box-shadow: 0 0 12px #64B5F6 !important; /* Синий цвет для темной темы */
+    background: #64B5F6 !important;
+    /* Синий цвет для темной темы */
+    box-shadow: 0 0 12px #64B5F6 !important;
+    /* Синий цвет для темной темы */
 }
 
 /* --- КОНТЕЙНЕР РЯДА АКТИВНОСТИ --- */
-#activity-series-container {
-    display: none;
-    padding: 15px 20px;
-    background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    animation: slideDown 0.3s ease-out;
-}
+
 
 /* Исправление отображения списка (Убираем скролл, добавляем перенос) */
 .activity-list-container {
     display: flex;
-    flex-wrap: wrap; /* РАЗРЕШАЕМ ПЕРЕНОС */
-    gap: 8px; /* Отступы между элементами */
+    flex-wrap: wrap;
+    /* РАЗРЕШАЕМ ПЕРЕНОС */
+    gap: 8px;
+    /* Отступы между элементами */
     align-items: center;
-    justify-content: center; /* Центрируем */
+    justify-content: center;
+    /* Центрируем */
 }
 
 
@@ -886,14 +966,17 @@ body.dark-theme #advanced-mode-info-btn.active {
     padding-right: max(16px, env(safe-area-inset-right));
     padding-bottom: env(safe-area-inset-bottom);
     width: 100%;
-    box-sizing: border-box; /* Чтобы padding не ломал ширину */
+    box-sizing: border-box;
+    /* Чтобы padding не ломал ширину */
 }
 
 /* Исправляем шапку для мобильных устройств */
 .solubility-header {
     display: flex;
-    flex-wrap: wrap; /* Разрешаем перенос элементов */
-    gap: 10px; /* Отступ между элементами */
+    flex-wrap: wrap;
+    /* Разрешаем перенос элементов */
+    gap: 10px;
+    /* Отступ между элементами */
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
@@ -905,6 +988,7 @@ body.dark-theme #advanced-mode-info-btn.active {
    ЕДИНСТВЕННЫЙ МОБИЛЬНЫЙ БЛОК (Full Screen App-like)
    ========================================= */
 @media (max-width: 1024px) {
+
     /* 1. МОДАЛЬНОЕ ОКНО - Минимальные отступы слева, справа */
     #solubility-modal {
         height: 100dvh !important;
@@ -930,7 +1014,8 @@ body.dark-theme #advanced-mode-info-btn.active {
         max-height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        border-radius: 8px !important; /* Небольшие закругления */
+        border-radius: 8px !important;
+        /* Небольшие закругления */
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -939,12 +1024,16 @@ body.dark-theme #advanced-mode-info-btn.active {
 
     /* 3. ШАПКА - Вертикальное расположение (заголовок → кнопки) */
     .modal-header {
-        flex-shrink: 0; /* Не сжимается */
-        flex-direction: column; /* Вертикальное расположение */
-        align-items: center; /* Центрируем */
+        flex-shrink: 0;
+        /* Не сжимается */
+        flex-direction: column;
+        /* Вертикальное расположение */
+        align-items: center;
+        /* Центрируем */
         gap: 12px;
         padding: 15px 20px;
-        padding-top: calc(env(safe-area-inset-top) + 15px) !important; /* Учитываем "челку" */
+        padding-top: calc(env(safe-area-inset-top) + 15px) !important;
+        /* Учитываем "челку" */
         padding-left: max(20px, env(safe-area-inset-left)) !important;
         padding-right: max(20px, env(safe-area-inset-right)) !important;
         background-color: var(--bg-color);
@@ -1115,11 +1204,12 @@ body.dark-theme #advanced-mode-info-btn.active {
 
     /* Альтернативные стили для устройств Apple (iPhone) через медиа-запросы */
     @media screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 375px),
-           screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 414px),
-           screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 320px),
-           screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 414px) and (device-height: 896px),
-           screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 375px) and (device-height: 812px),
-           screen and (-webkit-min-device-pixel-ratio: 2) and (device-width: 414px) and (device-height: 736px) {
+    screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 414px),
+    screen and (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 768px) and (device-width: 320px),
+    screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 414px) and (device-height: 896px),
+    screen and (-webkit-min-device-pixel-ratio: 3) and (device-width: 375px) and (device-height: 812px),
+    screen and (-webkit-min-device-pixel-ratio: 2) and (device-width: 414px) and (device-height: 736px) {
+
         #solubility-modal .modal-header .modal-header-controls #color-mode-btn svg,
         #solubility-modal .modal-header .modal-header-controls #activity-mode-btn svg,
         #solubility-modal .modal-header .modal-header-controls #advanced-mode-info-btn svg,
@@ -1199,44 +1289,59 @@ body.dark-theme #advanced-mode-info-btn.active {
 .act-item:active {
     transform: translateY(-1px);
 }
+
 /* =========================================
    СТИЛИ ДЛЯ РЯДА АКТИВНОСТИ (ФИНАЛ)
    ========================================= */
 
-/* Контейнер панели - АНИМАЦИЯ ВЫЕЗЖАНИЯ */
+/* Контейнер панели - CSS Grid анимация (без фиксированных пикселей) */
 .activity-series-panel {
     width: 100%;
     background: #f8f9fa;
-    border-bottom: 1px solid #e0e0e0;
-    overflow: hidden;
+    box-sizing: border-box;
+    border-bottom: none;
 
-    /* Начальное состояние: скрыто */
-    max-height: 0;
-    padding: 0 10px;
+    /* CSS Grid trick для анимации высоты */
+    display: grid;
+    grid-template-rows: 0fr;
+    justify-items: center;
     opacity: 0;
+    padding: 0 10px;
 
-    /* Плавный переход */
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s ease;
+    /* Анимация закрытия: opacity затухает вместе с высотой */
+    transition: grid-template-rows 0.35s ease-in,
+        opacity 0.35s ease-in,
+        padding 0.35s ease-in;
+}
 
+/* Внутренний wrapper (обязательно для grid trick) */
+.activity-series-panel>.activity-content-wrapper,
+.activity-series-panel>.activity-series-content {
+    overflow: hidden;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
+    width: 100%;
 }
 
-/* Активное состояние: выезжает */
+/* Активное состояние - полностью открыто */
 .activity-series-panel.active {
-    max-height: 350px; /* Достаточно для любого контента */
-    padding: 20px 10px;
+    grid-template-rows: 1fr;
     opacity: 1;
-    margin-bottom: 0;
+    padding: 20px 10px;
+    border-bottom: 1px solid #e0e0e0;
+
+    /* Анимация открытия: быстрее */
+    transition: grid-template-rows 0.35s ease-out,
+        opacity 0.25s ease-out,
+        padding 0.35s ease-out;
 }
 
 .activity-content-wrapper {
     width: 100%;
-    max-width: 900px; /* Ограничиваем ширину для красоты */
+    max-width: 900px;
+    /* Ограничиваем ширину для красоты */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1247,9 +1352,11 @@ body.dark-theme #advanced-mode-info-btn.active {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px; /* Расстояние между текстом и кнопкой */
+    gap: 15px;
+    /* Расстояние между текстом и кнопкой */
     margin-bottom: 15px;
-    flex-wrap: wrap; /* На совсем мелких экранах перенесется */
+    flex-wrap: wrap;
+    /* На совсем мелких экранах перенесется */
 }
 
 .activity-header h4 {
@@ -1272,8 +1379,10 @@ body.dark-theme #advanced-mode-info-btn.active {
     transition: background 0.2s;
     white-space: nowrap;
     position: relative;
-    z-index: 10; /* Увеличили z-index для гарантии отображения поверх */
-    margin-bottom: 8px; /* Увеличили отступ снизу */
+    z-index: 10;
+    /* Увеличили z-index для гарантии отображения поверх */
+    margin-bottom: 8px;
+    /* Увеличили отступ снизу */
 }
 
 .toggle-series-btn:hover {
@@ -1286,15 +1395,15 @@ body.dark-theme #advanced-mode-info-btn.active {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 6px; /* Зазор между элементами */
-    padding-top: 5px; /* Отступ сверху чтобы не перекрывать кнопку */
+    gap: 6px;
+    padding-top: 5px;
 }
 
 /* КОМПАКТНЫЕ КАРТОЧКИ ЭЛЕМЕНТОВ */
 .act-item {
-    width: 36px;       /* Было 45 */
-    height: 40px;      /* Было 50 */
-    font-size: 14px;   /* Было 16 */
+    width: 36px;
+    height: 40px;
+    font-size: 14px;
 
     display: flex;
     align-items: center;
@@ -1305,17 +1414,142 @@ body.dark-theme #advanced-mode-info-btn.active {
     font-weight: bold;
     color: #333;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: transform 0.1s, border-color 0.1s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     user-select: none;
+
+    /* Плавные анимации */
+    transition: transform 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.3s ease,
+        box-shadow 0.2s ease;
+
+    /* Анимация появления */
+    animation: cardFadeIn 0.4s ease backwards;
     -webkit-tap-highlight-color: transparent;
+}
+
+/* Последовательное появление карточек */
+.act-item:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.act-item:nth-child(3) {
+    animation-delay: 0.04s;
+}
+
+.act-item:nth-child(5) {
+    animation-delay: 0.06s;
+}
+
+.act-item:nth-child(7) {
+    animation-delay: 0.08s;
+}
+
+.act-item:nth-child(9) {
+    animation-delay: 0.10s;
+}
+
+.act-item:nth-child(11) {
+    animation-delay: 0.12s;
+}
+
+.act-item:nth-child(13) {
+    animation-delay: 0.14s;
+}
+
+.act-item:nth-child(15) {
+    animation-delay: 0.16s;
+}
+
+.act-item:nth-child(17) {
+    animation-delay: 0.18s;
+}
+
+.act-item:nth-child(19) {
+    animation-delay: 0.20s;
+}
+
+.act-item:nth-child(21) {
+    animation-delay: 0.22s;
+}
+
+.act-item:nth-child(23) {
+    animation-delay: 0.24s;
+}
+
+.act-item:nth-child(25) {
+    animation-delay: 0.26s;
+}
+
+.act-item:nth-child(27) {
+    animation-delay: 0.28s;
+}
+
+.act-item:nth-child(29) {
+    animation-delay: 0.30s;
+}
+
+.act-item:nth-child(31) {
+    animation-delay: 0.32s;
+}
+
+.act-item:nth-child(33) {
+    animation-delay: 0.34s;
+}
+
+.act-item:nth-child(35) {
+    animation-delay: 0.36s;
+}
+
+.act-item:nth-child(37) {
+    animation-delay: 0.38s;
+}
+
+.act-item:nth-child(39) {
+    animation-delay: 0.40s;
+}
+
+.act-item:nth-child(41) {
+    animation-delay: 0.42s;
+}
+
+.act-item:nth-child(43) {
+    animation-delay: 0.44s;
+}
+
+.act-item:nth-child(45) {
+    animation-delay: 0.46s;
+}
+
+.act-item:nth-child(47) {
+    animation-delay: 0.48s;
+}
+
+.act-item:nth-child(49) {
+    animation-delay: 0.50s;
+}
+
+.act-item:nth-child(51) {
+    animation-delay: 0.52s;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .act-item:hover {
     transform: translateY(-2px);
     border-color: #2196F3;
     color: #2196F3;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 2;
 }
 
@@ -1347,8 +1581,13 @@ body.dark-theme .activity-series-panel {
     border-bottom-color: #444;
 }
 
-body.dark-theme .activity-header h4 { color: #eee; }
-body.dark-theme .activity-note { color: #aaa; }
+body.dark-theme .activity-header h4 {
+    color: #eee;
+}
+
+body.dark-theme .activity-note {
+    color: #aaa;
+}
 
 body.dark-theme .act-item {
     background: #3d3d5c;
@@ -1368,7 +1607,9 @@ body.dark-theme .act-item.hydrogen {
     color: #e57373;
 }
 
-body.dark-theme .act-arrow { color: #666; }
+body.dark-theme .act-arrow {
+    color: #666;
+}
 
 body.dark-theme .toggle-series-btn {
     background: #2d2d44;
@@ -1395,16 +1636,19 @@ body.dark-theme .toggle-series-btn:hover {
 
     /* 1. Когда панель активна, она растягивается на все доступное место */
     .activity-series-panel.active {
-        flex-grow: 1;          /* Занимаем пространство, которое раньше занимала таблица */
-        max-height: none;      /* Отключаем ограничение высоты "шторки" */
-        overflow-y: auto;      /* Разрешаем скролл внутри панели, если элементов много */
-        padding-bottom: 20px;  /* Отступ снизу для удобства */
+        flex-grow: 1;
+        /* Занимаем пространство, которое раньше занимала таблица */
+        max-height: none;
+        /* Отключаем ограничение высоты "шторки" */
+        overflow-y: auto;
+        /* Разрешаем скролл внутри панели, если элементов много */
+        padding-bottom: 20px;
+        /* Отступ снизу для удобства */
     }
 
     /* 2. Когда панель активна, СКРЫВАЕМ таблицу, идущую следом */
     /* Знак "+" означает "соседний элемент сразу после" */
-    .activity-series-panel.active + .solubility-wrapper {
+    .activity-series-panel.active+.solubility-wrapper {
         display: none !important;
     }
 }
-
