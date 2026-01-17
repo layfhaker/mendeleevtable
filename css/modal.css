@@ -11,7 +11,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     animation: backdropOpen 0.4s cubic-bezier(0.24, 0.45, 1.0, 0.69) forwards;
@@ -30,7 +30,7 @@
     max-height: 80vh;
     padding: 20px 30px;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -76,8 +76,10 @@
     padding-bottom: 10px;
     display: flex;
     justify-content: center;
-    -ms-overflow-style: auto;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 /* =========================================
@@ -176,10 +178,25 @@
 }
 
 /* Цвета секций */
-.info-group.basic { border-left-color: #2196F3; background: #E3F2FD; }
-.info-group.physical { border-left-color: #4CAF50; background: #E8F5E8; }
-.info-group.history { border-left-color: #FF9800; background: #FFF3E0; }
-.info-group.facts { border-left-color: #9C27B0; background: #F3E5F5; }
+.info-group.basic {
+    border-left-color: #2196F3;
+    background: #E3F2FD;
+}
+
+.info-group.physical {
+    border-left-color: #4CAF50;
+    background: #E8F5E8;
+}
+
+.info-group.history {
+    border-left-color: #FF9800;
+    background: #FFF3E0;
+}
+
+.info-group.facts {
+    border-left-color: #9C27B0;
+    background: #F3E5F5;
+}
 
 /* Свёрнутая секция */
 .info-group.collapsed {
@@ -212,7 +229,7 @@
 }
 
 .group-title:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Контент секции */
@@ -224,9 +241,12 @@
     overflow-x: hidden;
     opacity: 1;
     transition: opacity 0.2s ease-out, padding 0.3s ease-in-out;
-    -ms-overflow-style: auto;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
+
 
 .group-content.collapsed {
     width: 0 !important;
@@ -295,33 +315,69 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
    АНИМАЦИИ
    ========================================= */
 @keyframes fadeInTab {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalOpen {
-    0% { opacity: 0; transform: translate(var(--start-x), var(--start-y)) scale(0.1); }
-    100% { opacity: 1; transform: translate(0, 0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translate(var(--start-x), var(--start-y)) scale(0.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
 }
 
 @keyframes modalClose {
-    0% { opacity: 1; transform: translate(0, 0) scale(1); }
-    100% { opacity: 0; transform: translate(var(--start-x), var(--start-y)) scale(0.1); }
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--start-x), var(--start-y)) scale(0.1);
+    }
 }
 
 @keyframes backdropOpen {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes backdropClose {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 /* =========================================
@@ -335,7 +391,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         width: 100vw;
         height: 100vh;
         z-index: 99999;
-        background: rgba(0,0,0,0.4);
+        background: rgba(0, 0, 0, 0.4);
         display: none;
         align-items: center;
         justify-content: center;
@@ -347,18 +403,20 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: 95vh; /* Увеличено с 90vh */
+        max-height: 95vh;
+        /* Увеличено с 90vh */
         background: rgba(255, 255, 255, 0.75);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         border-radius: 20px 20px 0 0;
         padding: 0;
-        padding-bottom: env(safe-area-inset-bottom, 20px); /* Для iPhone с чёлкой */
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+        /* Для iPhone с чёлкой */
         position: relative;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
+        box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.3);
         border-bottom: 3px solid #2196F3;
     }
 
@@ -371,7 +429,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         height: 32px;
         line-height: 32px;
         text-align: center;
-        background: rgba(0,0,0,0.05);
+        background: rgba(0, 0, 0, 0.05);
         border-radius: 50%;
         color: #555;
         z-index: 20;
@@ -384,7 +442,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         padding: 15px 55px 15px 20px;
         text-align: left;
         line-height: 32px;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         flex-shrink: 0;
     }
 
@@ -413,7 +471,8 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         -webkit-overflow-scrolling: touch;
         flex: 1;
         display: block;
-        padding-bottom: 30px; /* Дополнительный запас для прокрутки */
+        padding-bottom: 30px;
+        /* Дополнительный запас для прокрутки */
     }
 
     .groups-container {
@@ -421,7 +480,8 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         flex-direction: column !important;
         gap: 10px;
         height: auto !important;
-        padding-bottom: 20px; /* Запас для прокрутки */
+        padding-bottom: 20px;
+        /* Запас для прокрутки */
     }
 
     .info-group {
@@ -448,7 +508,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         justify-content: flex-start;
         margin: 0;
         background: transparent;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         box-sizing: border-box;
     }
 
@@ -468,7 +528,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         border-bottom: none;
         justify-content: center !important;
         text-align: center;
-        background-color: rgba(0,0,0,0.02);
+        background-color: rgba(0, 0, 0, 0.02);
     }
 
     .info-group.collapsed .group-content {
@@ -569,5 +629,63 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         top: 8px;
         right: 10px;
         font-size: 24px;
+    }
+}
+
+/* =========================================
+   БОЛЬШИЕ ЭКРАНЫ
+   ========================================= */
+@media (min-width: 1400px) {
+    .modal-content {
+        width: 80vw;
+        max-width: 1400px;
+        max-height: 85vh;
+        /* Разрешаем модалке быть выше */
+    }
+
+    .info-group {
+        max-width: none;
+        flex: 1 1 200px;
+        max-height: 60vh;
+        /* Увеличиваем высоту секций (было 350px) */
+    }
+
+    .group-title {
+        width: 60px;
+        /* Расширяем полоску заголовка */
+        min-width: 60px;
+        font-size: 16px;
+        /* Увеличиваем шрифт заголовка */
+    }
+}
+
+@media (min-width: 1900px) {
+
+    /* Для очень больших экранов */
+    .modal-content {
+        width: 75vw;
+        max-width: 1800px;
+        max-height: 90vh;
+    }
+
+    .info-group {
+        max-height: 70vh;
+        /* Ещё выше для огромных экранов */
+    }
+
+    .group-title {
+        width: 70px;
+        /* Ещё шире */
+        min-width: 70px;
+        font-size: 18px;
+    }
+
+    #element-title {
+        font-size: 36px;
+    }
+
+    .info-group p {
+        font-size: 18px;
+        line-height: 1.6;
     }
 }

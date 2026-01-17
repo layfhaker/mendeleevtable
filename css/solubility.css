@@ -209,24 +209,21 @@ body.dark-theme #activity-series-btn.active {
     backdrop-filter: none;
 }
 
-/* --- АДАПТАЦИЯ ПОД ПК (Уменьшаем масштаб) --- */
+/* --- АДАПТАЦИЯ ПОД ПК --- */
 @media (min-width: 1024px) {
     #solubility-table {
-        font-size: 12px;
-        /* Уменьшаем шрифт на ПК */
+        font-size: 1vw;
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: 4px 6px;
-        /* Делаем ячейки компактнее */
-        min-width: 35px;
-        /* Минимальная ширина, чтобы не схлопывались */
+        padding: 0.5vw;
+        min-width: 3.5vw;
     }
 
     /* Увеличиваем заголовок модалки на ПК */
     .modal-header h2 {
-        font-size: 1.8rem;
+        font-size: 1.8vw;
     }
 }
 
@@ -493,46 +490,130 @@ body.dark-theme .chem-color-cell.colorless-solution {
 /* НОВЫЙ БЛОК: Для средних экранов (ноутбуки, мониторы 1920x1080) */
 @media (min-width: 1025px) and (max-width: 1920px) {
     .solubility-content {
-        max-width: calc(100vw - 120px) !important;
-        width: calc(100vw - 120px) !important;
+        max-width: calc(100vw - 8vw) !important;
+        width: calc(100vw - 8vw) !important;
         height: 95vh !important;
     }
 
     #solubility-table {
-        font-size: clamp(11px, 0.85vw, 15px);
+        font-size: 1.1vw;
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: clamp(5px, 0.55vw, 10px);
-        min-width: clamp(38px, 3.2vw, 60px);
+        padding: 0.5vw;
+        min-width: 4vw;
+    }
+
+    /* Левый столбец с анионами */
+    #solubility-table tbody th {
+        font-size: 1.1vw;
+        min-width: 6vw;
+        padding: 0.4vw 0.8vw;
+    }
+
+    /* Верхняя строка с катионами */
+    #solubility-table thead th {
+        font-size: 1.1vw;
+    }
+
+    /* Ячейки степени растворимости */
+    #solubility-table td {
+        font-size: 1.3vw;
+        font-weight: 600;
+    }
+
+    /* Кнопки в шапке - увеличиваем */
+    .modal-header-controls button {
+        width: 3vw;
+        height: 3vw;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .modal-header-controls button svg {
+        width: 1.5vw;
+        height: 1.5vw;
+        min-width: 20px;
+        min-height: 20px;
     }
 
     .modal-header h2 {
-        font-size: 1.6rem;
+        font-size: 1.6vw;
+    }
+
+    /* Кнопка рядов активности */
+    #activity-series-btn {
+        width: 3vw;
+        height: 3vw;
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 1.5vw;
     }
 }
 
 /* Для больших экранов (4K и выше) */
 @media (min-width: 1921px) {
     .solubility-content {
-        max-width: calc(100vw - 120px) !important;
-        width: calc(100vw - 120px) !important;
+        max-width: calc(100vw - 6vw) !important;
+        width: calc(100vw - 6vw) !important;
         height: 95vh !important;
     }
 
     #solubility-table {
-        font-size: 1vw;
+        font-size: 1.2vw;
     }
 
     #solubility-table th,
     #solubility-table td {
-        padding: 0.7vw;
-        min-width: 4vw;
+        padding: 0.6vw;
+        min-width: 4.5vw;
+    }
+
+    /* Левый столбец с анионами */
+    #solubility-table tbody th {
+        font-size: 1.2vw;
+        min-width: 7vw;
+        padding: 0.5vw 1vw;
+    }
+
+    /* Верхняя строка с катионами */
+    #solubility-table thead th {
+        font-size: 1.2vw;
+    }
+
+    /* Ячейки степени растворимости */
+    #solubility-table td {
+        font-size: 1.5vw;
+        font-weight: 600;
+    }
+
+    /* Кнопки в шапке - увеличиваем */
+    .modal-header-controls button {
+        width: 3.5vw;
+        height: 3.5vw;
+        min-width: 50px;
+        min-height: 50px;
+    }
+
+    .modal-header-controls button svg {
+        width: 1.8vw;
+        height: 1.8vw;
+        min-width: 24px;
+        min-height: 24px;
     }
 
     .modal-header h2 {
-        font-size: 2.2rem;
+        font-size: 2vw;
+    }
+
+    /* Кнопка рядов активности */
+    #activity-series-btn {
+        width: 3.5vw;
+        height: 3.5vw;
+        min-width: 50px;
+        min-height: 50px;
+        font-size: 1.8vw;
     }
 }
 
@@ -1613,8 +1694,53 @@ body.dark-theme .act-arrow {
 
 body.dark-theme .toggle-series-btn {
     background: #2d2d44;
+
     border-color: #64B5F6;
     color: #64B5F6;
+}
+
+/* =========================================
+   АДАПТАЦИЯ РЯДА АКТИВНОСТИ ПОД БОЛЬШИЕ ЭКРАНЫ
+   ========================================= */
+@media (min-width: 1024px) {
+
+    /* 1. Увеличиваем размер карточек */
+    .act-item {
+        width: 64px;
+        height: 54px;
+        font-size: 18px;
+        border-radius: 8px;
+    }
+
+    /* 2. Увеличиваем стрелочки */
+    .act-arrow {
+        font-size: 16px;
+        margin: 0 2px;
+    }
+
+    /* 3. Увеличиваем заголовок */
+    .activity-header h4 {
+        font-size: 20px;
+    }
+
+    /* 4. Увеличиваем кнопку переключения */
+    .toggle-series-btn {
+        padding: 8px 18px;
+        font-size: 14px;
+        border-radius: 20px;
+    }
+
+    /* 5. Увеличиваем подпись снизу */
+    .activity-note {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    /* 6. Чуть больше отступы в контейнере */
+    .series-container {
+        gap: 8px;
+        padding-top: 10px;
+    }
 }
 
 body.dark-theme .toggle-series-btn:hover {

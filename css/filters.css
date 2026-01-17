@@ -702,6 +702,112 @@ body.dark-theme .element.search-highlight:hover {
 }
 
 /* =========================================
+   БОЛЬШИЕ ЭКРАНЫ (4K и подобные)
+   ========================================= */
+@media (min-width: 1920px) {
+
+    /* Увеличенная ширина модалки, высота по контенту */
+    .filters-panel {
+        width: 28vw;
+        border-radius: 1vw;
+        bottom: 5vw;
+        right: 5vw;
+        max-height: none;
+        overflow: hidden;
+    }
+
+    /* Шапка модалки */
+    .filters-header {
+        padding: 1.2vw 1.4vw;
+    }
+
+    .filters-header h3 {
+        font-size: 1.4vw;
+    }
+
+    .close-filters {
+        font-size: 1.5vw;
+    }
+
+    /* Секции */
+    .filters-section {
+        padding: 1.3vw 1.4vw;
+    }
+
+    .filters-section h4 {
+        font-size: 1.1vw;
+        margin-bottom: 0.9vw;
+    }
+
+    /* Кнопки фильтров */
+    .filter-buttons {
+        gap: 0.7vw;
+    }
+
+    .filter-btn {
+        padding: 0.6vw 1.1vw;
+        font-size: 1vw;
+        border-radius: 1.5vw;
+        border-width: 0.15vw;
+    }
+
+    /* Кнопка сброса */
+    .filters-actions {
+        padding: 0.9vw 1.4vw 1.4vw;
+    }
+
+    .filter-reset {
+        padding: 0.8vw;
+        font-size: 1.1vw;
+        border-radius: 0.5vw;
+    }
+
+    /* Поиск */
+    #element-search {
+        padding: 0.9vw 5vw 0.9vw 1vw;
+        font-size: 1.1vw;
+        border-radius: 0.6vw;
+    }
+
+    .search-btn {
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 0.5vw;
+    }
+
+    .search-btn svg {
+        width: 1.4vw;
+        height: 1.4vw;
+    }
+
+    .search-clear {
+        font-size: 1.3vw;
+        right: 3vw;
+    }
+
+    /* Результаты поиска */
+    .search-result-item {
+        padding: 0.7vw 0.9vw;
+        margin-bottom: 0.5vw;
+        border-radius: 0.5vw;
+    }
+
+    .search-result-item .result-symbol {
+        font-size: 1vw;
+    }
+
+    .search-result-item .result-context {
+        font-size: 0.9vw;
+        margin-top: 0.3vw;
+    }
+
+    .search-no-results {
+        font-size: 1vw;
+        padding: 0.9vw;
+    }
+}
+
+/* =========================================
    МОБИЛЬНАЯ ВЕРСИЯ
    ========================================= */
 @media (max-width: 1024px) {

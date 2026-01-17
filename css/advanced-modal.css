@@ -48,14 +48,15 @@
     /* Увеличили радиус для большей плавности */
     border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 800px;
-    max-height: 85vh;
-    height: auto;
+    width: 90vw;
+    max-width: 95vw;
+    max-height: 90vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden; /* Важно: обрезает контент по закругленным углам */
+    overflow: hidden;
+    /* Важно: обрезает контент по закругленным углам */
     animation: slideInModal 0.3s ease-out;
 }
 
@@ -69,8 +70,15 @@
 }
 
 @keyframes slideInModal {
-    from { opacity: 0; transform: translateY(-50px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Заголовок */
@@ -101,8 +109,10 @@
     border-bottom: 1px solid #ddd;
     overflow-x: auto;
     flex-shrink: 0;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .advanced-tabs::-webkit-scrollbar {
@@ -149,8 +159,10 @@
     padding: 25px;
     min-height: 0;
     -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: auto;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 /* Кастомные скроллбары для контента продвинутого режима */
@@ -196,8 +208,13 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 }
 
 @keyframes fadeInTab {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .tab-pane h3 {
@@ -252,11 +269,29 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
     color: white;
 }
 
-.solubility-R, .solubility-Р { background: #4caf50; }
-.solubility-N, .solubility-Н { background: #f44336; }
-.solubility-M, .solubility-М { background: #ff9800; }
-.solubility-D, .solubility-— { background: #9e9e9e; }
-.solubility-O { background: #2196f3; }
+.solubility-R,
+.solubility-Р {
+    background: #4caf50;
+}
+
+.solubility-N,
+.solubility-Н {
+    background: #f44336;
+}
+
+.solubility-M,
+.solubility-М {
+    background: #ff9800;
+}
+
+.solubility-D,
+.solubility-— {
+    background: #9e9e9e;
+}
+
+.solubility-O {
+    background: #2196f3;
+}
 
 /* Секция разложения */
 .decomposition-section {
@@ -327,14 +362,40 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 }
 
 /* Тёмная тема */
-body.dark-theme .advanced-modal-content { background: #2d2d44; }
-body.dark-theme .advanced-tabs { background: #252535; border-bottom-color: #444; }
-body.dark-theme .tab-btn { color: #aaa; }
-body.dark-theme .tab-btn:hover { color: #88a4f7; background: rgba(136, 164, 247, 0.1); }
-body.dark-theme .tab-btn.active { color: #88a4f7; background: #2d2d44; }
-body.dark-theme .info-item .value { color: #ddd; }
-body.dark-theme .decomposition-section { background: rgba(255, 152, 0, 0.15); }
-body.dark-theme .decomposition-info { background: rgba(255, 152, 0, 0.15); }
+body.dark-theme .advanced-modal-content {
+    background: #2d2d44;
+}
+
+body.dark-theme .advanced-tabs {
+    background: #252535;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .tab-btn {
+    color: #aaa;
+}
+
+body.dark-theme .tab-btn:hover {
+    color: #88a4f7;
+    background: rgba(136, 164, 247, 0.1);
+}
+
+body.dark-theme .tab-btn.active {
+    color: #88a4f7;
+    background: #2d2d44;
+}
+
+body.dark-theme .info-item .value {
+    color: #ddd;
+}
+
+body.dark-theme .decomposition-section {
+    background: rgba(255, 152, 0, 0.15);
+}
+
+body.dark-theme .decomposition-info {
+    background: rgba(255, 152, 0, 0.15);
+}
 
 /* Мобильная адаптация */
 @media (max-width: 768px) {
@@ -344,7 +405,7 @@ body.dark-theme .decomposition-info { background: rgba(255, 152, 0, 0.15); }
         height: 100%;
         max-height: 100%;
         /* ИСПРАВЛЕНИЕ: Ставим 16px вместо 0, чтобы углы были скруглены и на телефоне */
-        border-radius: 16px; 
+        border-radius: 16px;
     }
 
     .advanced-header {
@@ -352,16 +413,204 @@ body.dark-theme .decomposition-info { background: rgba(255, 152, 0, 0.15); }
         padding-right: 50px;
     }
 
-    .advanced-title-group h2 { font-size: 22px; }
+    .advanced-title-group h2 {
+        font-size: 22px;
+    }
 
-    .tab-btn { padding: 10px 15px; font-size: 13px; }
+    .tab-btn {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
 
-    .advanced-content { padding: 20px 15px; }
+    .advanced-content {
+        padding: 20px 15px;
+    }
 
-    .info-grid { grid-template-columns: 1fr; }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
 
     .appearance-container {
         flex-direction: column;
         align-items: center;
+    }
+}
+
+/* =========================================
+   БОЛЬШИЕ ЭКРАНЫ
+   ========================================= */
+@media (min-width: 1400px) {
+    .advanced-modal-content {
+        width: 85vw;
+        max-width: 1400px;
+        max-height: 90vh;
+        height: auto;
+    }
+
+    .advanced-header {
+        padding: 30px 40px;
+        padding-right: 80px;
+    }
+
+    .advanced-title-group h2 {
+        font-size: 38px;
+    }
+
+    .substance-name {
+        font-size: 22px;
+    }
+
+    .tab-btn {
+        padding: 16px 30px;
+        font-size: 17px;
+    }
+
+    .advanced-content {
+        padding: 40px;
+    }
+
+    .tab-pane h3 {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .tab-pane h4 {
+        font-size: 20px;
+        margin: 25px 0 15px;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+    }
+
+    .info-item .label {
+        font-size: 15px;
+    }
+
+    .info-item .value {
+        font-size: 20px;
+    }
+
+    .solubility-badge {
+        padding: 10px 18px;
+        font-size: 18px;
+    }
+
+    .decomposition-section {
+        padding: 20px;
+    }
+
+    .reaction-equation {
+        font-size: 20px;
+    }
+
+    .reaction-description {
+        font-size: 16px;
+    }
+
+    .visual-item {
+        min-width: 200px;
+        gap: 20px;
+    }
+
+    .visual-caption {
+        font-size: 16px;
+    }
+
+    .close-advanced-modal {
+        width: 45px;
+        height: 45px;
+        font-size: 36px;
+        top: 18px;
+        right: 18px;
+    }
+}
+
+@media (min-width: 1900px) {
+    .advanced-modal-content {
+        width: 80vw;
+        max-width: 1800px;
+        max-height: 92vh;
+        height: auto;
+    }
+
+    .advanced-header {
+        padding: 35px 50px;
+        padding-right: 90px;
+    }
+
+    .advanced-title-group h2 {
+        font-size: 44px;
+    }
+
+    .substance-name {
+        font-size: 26px;
+    }
+
+    .tab-btn {
+        padding: 18px 36px;
+        font-size: 18px;
+    }
+
+    .advanced-content {
+        padding: 50px;
+    }
+
+    .tab-pane h3 {
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+
+    .tab-pane h4 {
+        font-size: 24px;
+        margin: 30px 0 18px;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+    }
+
+    .info-item .label {
+        font-size: 17px;
+    }
+
+    .info-item .value {
+        font-size: 24px;
+    }
+
+    .solubility-badge {
+        padding: 12px 22px;
+        font-size: 20px;
+    }
+
+    .decomposition-section {
+        padding: 25px;
+    }
+
+    .reaction-equation {
+        font-size: 24px;
+    }
+
+    .reaction-description {
+        font-size: 18px;
+    }
+
+    .visual-item {
+        min-width: 250px;
+        gap: 25px;
+    }
+
+    .visual-caption {
+        font-size: 18px;
+    }
+
+    .close-advanced-modal {
+        width: 50px;
+        height: 50px;
+        font-size: 40px;
+        top: 20px;
+        right: 20px;
     }
 }

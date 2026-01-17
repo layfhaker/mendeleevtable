@@ -5,7 +5,7 @@
 /* =========================================
    ДЕСКТОП ВЕРСИЯ
    ========================================= */
-   @media (min-width: 1025px) {
+@media (min-width: 1025px) {
     .calc-panel {
         position: fixed !important;
         z-index: 60000;
@@ -16,19 +16,28 @@
         background: #ffffff;
         border: 2px solid #2196F3;
         border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-  
+
     .calc-panel.active {
         display: flex;
         animation: fadeInCalc 0.2s ease-out;
     }
 }
-  
+
 @keyframes fadeInCalc {
-    from { opacity: 0; transform: scale(0.98); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
+
+
 
 /* =========================================
    ОБЩИЕ СТИЛИ
@@ -100,7 +109,7 @@
     display: flex;
     align-items: center;
     gap: 2px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .calc-atom-symbol {
@@ -197,34 +206,118 @@ body.dark-theme .calc-panel {
     background: #2d2d44;
     border-color: #444;
 }
+
 body.dark-theme .calc-header {
     background: #252535;
     border-bottom-color: #444;
 }
+
 body.dark-theme .drop-zone {
     background: #2d2d44;
 }
+
 body.dark-theme .calc-atom {
     background: #3d3d5c;
     border-color: #555;
     color: #fff;
 }
+
 body.dark-theme .calc-atom-symbol {
     color: #fff;
 }
+
 body.dark-theme .calc-atom-count {
     color: #fff;
 }
+
 body.dark-theme #calc-result {
     background: #252535;
     border-top-color: #444;
 }
 
 /* =========================================
+   ДЕСКТОП — Увеличенный интерфейс (vw единицы)
+   ========================================= */
+@media (min-width: 1025px) {
+    .calc-header {
+        flex: 0 0 2.5vw;
+        padding: 0 0.8vw;
+    }
+
+    .calc-header h3 {
+        font-size: 1vw;
+    }
+
+    .close-calc-panel {
+        font-size: 1.3vw;
+    }
+
+    .drop-zone {
+        gap: 0.4vw;
+        padding: 0.4vw;
+    }
+
+    .drop-placeholder {
+        font-size: 0.9vw;
+    }
+
+    .calc-atom {
+        height: 1.8vw;
+        padding: 0 0.4vw;
+        gap: 0.25vw;
+        border-radius: 0.25vw;
+    }
+
+    .calc-atom-symbol {
+        font-size: 1vw;
+    }
+
+    .calc-controls {
+        gap: 0.15vw;
+    }
+
+    .calc-atom-count {
+        width: 1.8vw;
+        font-size: 1vw;
+    }
+
+    .calc-btn-minus,
+    .calc-btn-plus {
+        width: 1.3vw;
+        height: 1.3vw;
+        font-size: 0.9vw;
+        border-radius: 0.2vw;
+    }
+
+    .calc-atom-remove {
+        font-size: 1.2vw;
+    }
+
+    #calc-result {
+        flex: 0 0 2.8vw;
+        padding: 0 0.8vw;
+    }
+
+    .mass-value {
+        font-size: 1.2vw;
+    }
+
+    .unit {
+        font-size: 0.9vw;
+    }
+
+    .clear-btn {
+        padding: 0.4vw 0.8vw;
+        font-size: 0.9vw;
+        border-radius: 0.25vw;
+    }
+}
+
+/* =========================================
    МОБИЛЬНАЯ ВЕРСИЯ
    ========================================= */
 @media (max-width: 1024px) {
-    
+
     .calc-panel {
         position: fixed;
         bottom: 0;
@@ -233,32 +326,32 @@ body.dark-theme #calc-result {
         width: 100% !important;
         box-sizing: border-box !important;
         margin: 0;
-        
+
         min-height: 180px;
         height: calc(25vh + env(safe-area-inset-bottom, 0px)) !important;
-        
+
         background: #ffffff;
         border: 2px solid #2196F3;
         border-bottom: none;
         border-radius: 20px 20px 0 0;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
-        
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+
         display: none;
         flex-direction: column;
-        
+
         padding: 10px;
         padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-        
+
         z-index: 60000;
         transform: translateY(100%);
         transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
- 
+
     .calc-panel.active {
         display: flex;
         transform: translateY(0);
     }
- 
+
     .calc-atom {
         height: 26px;
         padding: 0 6px;
@@ -275,27 +368,31 @@ body.dark-theme #calc-result {
         backface-visibility: hidden;
     }
 
-    #mobile-table-wrapper > .container,
-    #mobile-table-wrapper > .lanthanides,
-    #mobile-table-wrapper > .actinides {
+    #mobile-table-wrapper>.container,
+    #mobile-table-wrapper>.lanthanides,
+    #mobile-table-wrapper>.actinides {
         transform: none !important;
     }
-    
+
     body.calc-active #theme-toggle,
     body.calc-active .fab-container {
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s ease;
     }
-    
+
     /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
     body.calc-active {
-        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
-        overflow-x: auto !important;   /* Разрешаем горизонтальный */
-        position: relative !important; /* Убираем fixed, чтобы скролл работал */
+        overflow-y: hidden !important;
+        /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;
+        /* Разрешаем горизонтальный */
+        position: relative !important;
+        /* Убираем fixed, чтобы скролл работал */
         height: 100% !important;
         width: 100% !important;
-        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
+        touch-action: pan-x;
+        /* Подсказка браузеру, что можно свайпать влево-вправо */
     }
 
     /* Применяем те же стили при активном уравнителе */
@@ -308,11 +405,15 @@ body.dark-theme #calc-result {
 
     /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
     body.balancer-active {
-        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
-        overflow-x: auto !important;   /* Разрешаем горизонтальный */
-        position: relative !important; /* Убираем fixed, чтобы скролл работал */
+        overflow-y: hidden !important;
+        /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;
+        /* Разрешаем горизонтальный */
+        position: relative !important;
+        /* Убираем fixed, чтобы скролл работал */
         height: 100% !important;
         width: 100% !important;
-        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
+        touch-action: pan-x;
+        /* Подсказка браузеру, что можно свайпать влево-вправо */
     }
 }

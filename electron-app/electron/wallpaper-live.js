@@ -25,15 +25,8 @@ async function enableLiveWallpaper() {
     try {
         console.log('[Wallpaper] Starting live wallpaper...');
 
-        // Step 1: Find WorkerW window
-        console.log('[Wallpaper] Finding WorkerW...');
-        const workerW = win32.findWorkerW();
+        // Step 1: skipped (logic moved to setupWallpaperMode)
 
-        if (!workerW) {
-            throw new Error('Could not find WorkerW window');
-        }
-
-        console.log('[Wallpaper] WorkerW found:', workerW);
 
         // Step 2: Get primary display dimensions (full screen, not work area)
         const primaryDisplay = screen.getPrimaryDisplay();
@@ -58,9 +51,9 @@ async function enableLiveWallpaper() {
             focusable: false,  // Don't steal focus
             alwaysOnBottom: true,
             show: false,
-            backgroundColor: '#1a1a1a',
-            roundedCorners: false,  // No rounded corners (Windows 11)
-            thickFrame: false,      // No thick frame
+            backgroundColor: '#000000', // Restore black or default background
+            roundedCorners: false,      // No rounded corners (Windows 11)
+            thickFrame: false,          // No thick frame
             webPreferences: {
                 nodeIntegration: false,
                 contextIsolation: true,
@@ -73,81 +66,84 @@ async function enableLiveWallpaper() {
         console.log('[Wallpaper] Loading content...');
         await wallpaperWindow.loadFile(path.join(__dirname, '../../index.html'));
 
+        // Step 4.5: Capture Desktop Screenshot for 'Ghost Icons' visual
+        const userDataPath = require('electron').app.getPath('userData');
+        const screenshotPath = path.join(userDataPath, 'desktop_bg.png');
+        console.log('[Wallpaper] Capturing desktop state for visual icons...');
+        const captureSuccess = await win32.getDesktopScreenshot(screenshotPath);
+
         // Step 5: Inject CSS and JS to optimize for wallpaper mode
+        const bgStyle = captureSuccess
+            ? `body { 
+                background-image: url("file://${screenshotPath.replace(/\\/g, '/')}") !important;
+                background-size: ${width}px ${height}px !important;
+                background-position: top left !important;
+                background-repeat: no-repeat !important;
+                background-attachment: fixed !important;
+            }`
+            : `body { background-color: #000000 !important; }`;
+
         await wallpaperWindow.webContents.executeJavaScript(`
             // Add wallpaper mode class
             document.body.classList.add('wallpaper-mode');
 
-            // DISABLE ALL INTERACTIONS - this is just a wallpaper!
+            // Apply Ghost Icons or Black background
+            const style = document.createElement('style');
+            style.textContent = \`${bgStyle}
+                .below-table-content, .fab-container, #theme-toggle, #filters-panel, #calc-panel, #balancer-panel { display: none !important; }
+                .element { pointer-events: none !important; }
+            \`;
+            document.head.appendChild(style);
+
+            // DISABLE ALL INTERACTIONS
             document.body.style.pointerEvents = 'none';
 
-            // Hide FAB menu and other UI elements
-            const fab = document.querySelector('.fab-container');
-            if (fab) fab.style.display = 'none';
-
-            // Hide below-table content (download section, etc)
-            const belowContent = document.querySelector('.below-table-content');
-            if (belowContent) belowContent.style.display = 'none';
-
-            // Hide theme toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            if (themeToggle) themeToggle.style.display = 'none';
-
-            // Hide filters panel
-            const filtersPanel = document.getElementById('filters-panel');
-            if (filtersPanel) filtersPanel.style.display = 'none';
-
-            // Hide calc panel
-            const calcPanel = document.getElementById('calc-panel');
-            if (calcPanel) calcPanel.style.display = 'none';
-
-            // Hide balancer panel
-            const balancerPanel = document.getElementById('balancer-panel');
-            if (balancerPanel) balancerPanel.style.display = 'none';
-
-            // Hide all modals
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-
-            // Disable element clicks
-            document.querySelectorAll('.element').forEach(el => {
-                el.style.pointerEvents = 'none';
-                el.onclick = null;
-            });
-
-            // Optimize canvas animations for wallpaper
-            if (window.particleSystem) {
-                window.particleSystem.setWallpaperMode(true);
-            }
-
-            console.log('[Wallpaper Mode] Optimizations applied - interactions disabled');
+            console.log('[Wallpaper Mode] Visual simulation applied');
         `);
 
         // Step 6: Get window handle
         const electronHandle = wallpaperWindow.getNativeWindowHandle();
 
-        // Convert Buffer to integer (Windows HWND)
+        // Convert Buffer to integer/string (Windows HWND)
         let handleValue;
         if (Buffer.isBuffer(electronHandle)) {
-            handleValue = electronHandle.readInt32LE(0);
+            if (electronHandle.length === 8) {
+                // 64-bit Handle
+                handleValue = electronHandle.readBigInt64LE(0).toString();
+            } else {
+                // 32-bit Handle
+                handleValue = electronHandle.readInt32LE(0).toString();
+            }
         } else {
-            handleValue = electronHandle;
+            handleValue = electronHandle.toString();
         }
 
         console.log('[Wallpaper] Electron handle:', handleValue);
 
-        // Step 7: Show window first (before SetParent)
+        // Step 6: Show window and enable click-through FIRST (ensure window is ready)
+        // Note: showing before SetParent might cause a brief flash, but it's more reliable for visibility
         wallpaperWindow.show();
         wallpaperWindow.setBounds({ x: 0, y: 0, width: width, height: height });
 
-        // Step 8: Set WorkerW as parent (async to not block)
-        console.log('[Wallpaper] Setting parent...');
-        const setParentResult = win32.setParent(handleValue, workerW);
+        // CRITICAL: Make window transparent to mouse events so users can click desktop icons
+        wallpaperWindow.setIgnoreMouseEvents(true, { forward: true });
 
-        if (!setParentResult || setParentResult === 0) {
-            console.warn('[Wallpaper] SetParent may have failed, trying to show window anyway');
-            // Even if SetParent fails, we'll show the window at the bottom
+        // Step 7/8/9: Consolidated Wallpaper Setup (Attach to WorkerW/Progman)
+        console.log('[Wallpaper] Attaching to Desktop Layer (Consolidated)...');
+        const attachResult = await win32.attachToWallpaper(handleValue, width, height);
+
+        if (attachResult !== null) {
+            console.log('[Wallpaper] Attach Success! Parent handle:', attachResult);
+            isActive = true;
+        } else {
+            console.error('[Wallpaper] Attach Failed!');
+            // Try to show window anyway as a fallback
             wallpaperWindow.setAlwaysOnTop(false);
+            wallpaperWindow.show();
         }
+
+        // Final desktop refresh
+        win32.refreshDesktop();
 
         isActive = true;
 

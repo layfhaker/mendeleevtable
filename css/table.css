@@ -4,34 +4,44 @@
 
 /* --- Контейнер таблицы --- */
 .container {
-    display: -ms-grid; /* IE fallback */
+    display: -ms-grid;
+    /* IE fallback */
     display: grid;
-    -ms-grid-columns: repeat(18, minmax(40px, 4vw)); /* IE fallback */
+    -ms-grid-columns: repeat(18, minmax(40px, 4vw));
+    /* IE fallback */
     grid-template-columns: repeat(18, minmax(40px, 4vw));
-    -ms-grid-rows: repeat(7, minmax(40px, 4vw)); /* IE fallback */
+    -ms-grid-rows: repeat(7, minmax(40px, 4vw));
+    /* IE fallback */
     grid-template-rows: repeat(7, minmax(40px, 4vw));
     gap: 2px;
     position: relative;
-    z-index: 2;  /* Повышаем z-index, чтобы элементы были выше волны темы */
+    z-index: 2;
+    /* Повышаем z-index, чтобы элементы были выше волны темы */
     /* Исправление для Chrome: явно задаем размеры */
     width: fit-content;
     max-width: 100%;
     box-sizing: border-box;
-    margin-right: 20px; /* Отступ справа */
-    padding-bottom: 2px; /* Добавляем отступ снизу для видимости нижней границы */
+    margin-right: 20px;
+    /* Отступ справа */
+    padding-bottom: 2px;
+    /* Добавляем отступ снизу для видимости нижней границы */
 }
 
 /* --- Элемент таблицы --- */
 .element {
     background-color: #ffffff;
     border: 1px solid #ccc;
-    display: -webkit-flex; /* Safari/Chrome fallback */
+    display: -webkit-flex;
+    /* Safari/Chrome fallback */
     display: flex;
-    -webkit-flex-direction: column; /* Safari/Chrome fallback */
+    -webkit-flex-direction: column;
+    /* Safari/Chrome fallback */
     flex-direction: column;
-    -webkit-align-items: center; /* Safari/Chrome fallback */
+    -webkit-align-items: center;
+    /* Safari/Chrome fallback */
     align-items: center;
-    -webkit-justify-content: center; /* Safari/Chrome fallback */
+    -webkit-justify-content: center;
+    /* Safari/Chrome fallback */
     justify-content: center;
     cursor: pointer;
     font-size: clamp(8px, 0.8vw, 12px);
@@ -49,9 +59,10 @@
 
 .element:hover {
     background-color: #e0e0e0;
-    z-index: 10;  /* Повышаем z-index при наведении, чтобы элемент был выше других */
+    z-index: 10;
+    /* Повышаем z-index при наведении, чтобы элемент был выше других */
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .atomic-number {
@@ -71,112 +82,504 @@
 }
 
 /* --- Цвета категорий (светлая тема) --- */
-.alkali-metal { background-color: #ff9999; }
-.alkaline-earth-metal { background-color: #ffcc99; }
-.transition-metal { background-color: #ffff99; }
-.post-transition-metal { background-color: #ccff99; }
-.metalloid { background-color: #99ffcc; }
-.nonmetal { background-color: #99ffff; }
-.halogen { background-color: #99ccff; }
-.noble-gas { background-color: #cc99ff; }
-.lanthanide { background-color: #ff99cc; }
-.actinide { background-color: #ff99ff; }
-.unknown { background-color: #cccccc; }
+.alkali-metal {
+    background-color: #ff9999;
+}
+
+.alkaline-earth-metal {
+    background-color: #ffcc99;
+}
+
+.transition-metal {
+    background-color: #ffff99;
+}
+
+.post-transition-metal {
+    background-color: #ccff99;
+}
+
+.metalloid {
+    background-color: #99ffcc;
+}
+
+.nonmetal {
+    background-color: #99ffff;
+}
+
+.halogen {
+    background-color: #99ccff;
+}
+
+.noble-gas {
+    background-color: #cc99ff;
+}
+
+.lanthanide {
+    background-color: #ff99cc;
+}
+
+.actinide {
+    background-color: #ff99ff;
+}
+
+.unknown {
+    background-color: #cccccc;
+}
 
 /* --- Сетка позиций элементов --- */
-#H { grid-row: 1; grid-column: 1; }
-#He { grid-row: 1; grid-column: 18; }
-#Li { grid-row: 2; grid-column: 1; }
-#Be { grid-row: 2; grid-column: 2; }
-#B { grid-row: 2; grid-column: 13; }
-#C { grid-row: 2; grid-column: 14; }
-#N { grid-row: 2; grid-column: 15; }
-#O { grid-row: 2; grid-column: 16; }
-#F { grid-row: 2; grid-column: 17; }
-#Ne { grid-row: 2; grid-column: 18; }
-#Na { grid-row: 3; grid-column: 1; }
-#Mg { grid-row: 3; grid-column: 2; }
-#Al { grid-row: 3; grid-column: 13; }
-#Si { grid-row: 3; grid-column: 14; }
-#P { grid-row: 3; grid-column: 15; }
-#S { grid-row: 3; grid-column: 16; }
-#Cl { grid-row: 3; grid-column: 17; }
-#Ar { grid-row: 3; grid-column: 18; }
-#K { grid-row: 4; grid-column: 1; }
-#Ca { grid-row: 4; grid-column: 2; }
-#Sc { grid-row: 4; grid-column: 3; }
-#Ti { grid-row: 4; grid-column: 4; }
-#V { grid-row: 4; grid-column: 5; }
-#Cr { grid-row: 4; grid-column: 6; }
-#Mn { grid-row: 4; grid-column: 7; }
-#Fe { grid-row: 4; grid-column: 8; }
-#Co { grid-row: 4; grid-column: 9; }
-#Ni { grid-row: 4; grid-column: 10; }
-#Cu { grid-row: 4; grid-column: 11; }
-#Zn { grid-row: 4; grid-column: 12; }
-#Ga { grid-row: 4; grid-column: 13; }
-#Ge { grid-row: 4; grid-column: 14; }
-#As { grid-row: 4; grid-column: 15; }
-#Se { grid-row: 4; grid-column: 16; }
-#Br { grid-row: 4; grid-column: 17; }
-#Kr { grid-row: 4; grid-column: 18; }
-#Rb { grid-row: 5; grid-column: 1; }
-#Sr { grid-row: 5; grid-column: 2; }
-#Y { grid-row: 5; grid-column: 3; }
-#Zr { grid-row: 5; grid-column: 4; }
-#Nb { grid-row: 5; grid-column: 5; }
-#Mo { grid-row: 5; grid-column: 6; }
-#Tc { grid-row: 5; grid-column: 7; }
-#Ru { grid-row: 5; grid-column: 8; }
-#Rh { grid-row: 5; grid-column: 9; }
-#Pd { grid-row: 5; grid-column: 10; }
-#Ag { grid-row: 5; grid-column: 11; }
-#Cd { grid-row: 5; grid-column: 12; }
-#In { grid-row: 5; grid-column: 13; }
-#Sn { grid-row: 5; grid-column: 14; }
-#Sb { grid-row: 5; grid-column: 15; }
-#Te { grid-row: 5; grid-column: 16; }
-#I { grid-row: 5; grid-column: 17; }
-#Xe { grid-row: 5; grid-column: 18; }
-#Cs { grid-row: 6; grid-column: 1; }
-#Ba { grid-row: 6; grid-column: 2; }
-#La { grid-row: 6; grid-column: 3; }
-#Hf { grid-row: 6; grid-column: 4; }
-#Ta { grid-row: 6; grid-column: 5; }
-#W { grid-row: 6; grid-column: 6; }
-#Re { grid-row: 6; grid-column: 7; }
-#Os { grid-row: 6; grid-column: 8; }
-#Ir { grid-row: 6; grid-column: 9; }
-#Pt { grid-row: 6; grid-column: 10; }
-#Au { grid-row: 6; grid-column: 11; }
-#Hg { grid-row: 6; grid-column: 12; }
-#Tl { grid-row: 6; grid-column: 13; }
-#Pb { grid-row: 6; grid-column: 14; }
-#Bi { grid-row: 6; grid-column: 15; }
-#Po { grid-row: 6; grid-column: 16; }
-#At { grid-row: 6; grid-column: 17; }
-#Rn { grid-row: 6; grid-column: 18; }
-#Fr { grid-row: 7; grid-column: 1; }
-#Ra { grid-row: 7; grid-column: 2; }
-#Ac { grid-row: 7; grid-column: 3; }
-#Rf { grid-row: 7; grid-column: 4; }
-#Db { grid-row: 7; grid-column: 5; }
-#Sg { grid-row: 7; grid-column: 6; }
-#Bh { grid-row: 7; grid-column: 7; }
-#Hs { grid-row: 7; grid-column: 8; }
-#Mt { grid-row: 7; grid-column: 9; }
-#Ds { grid-row: 7; grid-column: 10; }
-#Rg { grid-row: 7; grid-column: 11; }
-#Cn { grid-row: 7; grid-column: 12; }
-#Nh { grid-row: 7; grid-column: 13; }
-#Fl { grid-row: 7; grid-column: 14; }
-#Mc { grid-row: 7; grid-column: 15; }
-#Lv { grid-row: 7; grid-column: 16; }
-#Ts { grid-row: 7; grid-column: 17; }
-#Og { grid-row: 7; grid-column: 18; }
+#H {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#He {
+    grid-row: 1;
+    grid-column: 18;
+}
+
+#Li {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+#Be {
+    grid-row: 2;
+    grid-column: 2;
+}
+
+#B {
+    grid-row: 2;
+    grid-column: 13;
+}
+
+#C {
+    grid-row: 2;
+    grid-column: 14;
+}
+
+#N {
+    grid-row: 2;
+    grid-column: 15;
+}
+
+#O {
+    grid-row: 2;
+    grid-column: 16;
+}
+
+#F {
+    grid-row: 2;
+    grid-column: 17;
+}
+
+#Ne {
+    grid-row: 2;
+    grid-column: 18;
+}
+
+#Na {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+#Mg {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+#Al {
+    grid-row: 3;
+    grid-column: 13;
+}
+
+#Si {
+    grid-row: 3;
+    grid-column: 14;
+}
+
+#P {
+    grid-row: 3;
+    grid-column: 15;
+}
+
+#S {
+    grid-row: 3;
+    grid-column: 16;
+}
+
+#Cl {
+    grid-row: 3;
+    grid-column: 17;
+}
+
+#Ar {
+    grid-row: 3;
+    grid-column: 18;
+}
+
+#K {
+    grid-row: 4;
+    grid-column: 1;
+}
+
+#Ca {
+    grid-row: 4;
+    grid-column: 2;
+}
+
+#Sc {
+    grid-row: 4;
+    grid-column: 3;
+}
+
+#Ti {
+    grid-row: 4;
+    grid-column: 4;
+}
+
+#V {
+    grid-row: 4;
+    grid-column: 5;
+}
+
+#Cr {
+    grid-row: 4;
+    grid-column: 6;
+}
+
+#Mn {
+    grid-row: 4;
+    grid-column: 7;
+}
+
+#Fe {
+    grid-row: 4;
+    grid-column: 8;
+}
+
+#Co {
+    grid-row: 4;
+    grid-column: 9;
+}
+
+#Ni {
+    grid-row: 4;
+    grid-column: 10;
+}
+
+#Cu {
+    grid-row: 4;
+    grid-column: 11;
+}
+
+#Zn {
+    grid-row: 4;
+    grid-column: 12;
+}
+
+#Ga {
+    grid-row: 4;
+    grid-column: 13;
+}
+
+#Ge {
+    grid-row: 4;
+    grid-column: 14;
+}
+
+#As {
+    grid-row: 4;
+    grid-column: 15;
+}
+
+#Se {
+    grid-row: 4;
+    grid-column: 16;
+}
+
+#Br {
+    grid-row: 4;
+    grid-column: 17;
+}
+
+#Kr {
+    grid-row: 4;
+    grid-column: 18;
+}
+
+#Rb {
+    grid-row: 5;
+    grid-column: 1;
+}
+
+#Sr {
+    grid-row: 5;
+    grid-column: 2;
+}
+
+#Y {
+    grid-row: 5;
+    grid-column: 3;
+}
+
+#Zr {
+    grid-row: 5;
+    grid-column: 4;
+}
+
+#Nb {
+    grid-row: 5;
+    grid-column: 5;
+}
+
+#Mo {
+    grid-row: 5;
+    grid-column: 6;
+}
+
+#Tc {
+    grid-row: 5;
+    grid-column: 7;
+}
+
+#Ru {
+    grid-row: 5;
+    grid-column: 8;
+}
+
+#Rh {
+    grid-row: 5;
+    grid-column: 9;
+}
+
+#Pd {
+    grid-row: 5;
+    grid-column: 10;
+}
+
+#Ag {
+    grid-row: 5;
+    grid-column: 11;
+}
+
+#Cd {
+    grid-row: 5;
+    grid-column: 12;
+}
+
+#In {
+    grid-row: 5;
+    grid-column: 13;
+}
+
+#Sn {
+    grid-row: 5;
+    grid-column: 14;
+}
+
+#Sb {
+    grid-row: 5;
+    grid-column: 15;
+}
+
+#Te {
+    grid-row: 5;
+    grid-column: 16;
+}
+
+#I {
+    grid-row: 5;
+    grid-column: 17;
+}
+
+#Xe {
+    grid-row: 5;
+    grid-column: 18;
+}
+
+#Cs {
+    grid-row: 6;
+    grid-column: 1;
+}
+
+#Ba {
+    grid-row: 6;
+    grid-column: 2;
+}
+
+#La {
+    grid-row: 6;
+    grid-column: 3;
+}
+
+#Hf {
+    grid-row: 6;
+    grid-column: 4;
+}
+
+#Ta {
+    grid-row: 6;
+    grid-column: 5;
+}
+
+#W {
+    grid-row: 6;
+    grid-column: 6;
+}
+
+#Re {
+    grid-row: 6;
+    grid-column: 7;
+}
+
+#Os {
+    grid-row: 6;
+    grid-column: 8;
+}
+
+#Ir {
+    grid-row: 6;
+    grid-column: 9;
+}
+
+#Pt {
+    grid-row: 6;
+    grid-column: 10;
+}
+
+#Au {
+    grid-row: 6;
+    grid-column: 11;
+}
+
+#Hg {
+    grid-row: 6;
+    grid-column: 12;
+}
+
+#Tl {
+    grid-row: 6;
+    grid-column: 13;
+}
+
+#Pb {
+    grid-row: 6;
+    grid-column: 14;
+}
+
+#Bi {
+    grid-row: 6;
+    grid-column: 15;
+}
+
+#Po {
+    grid-row: 6;
+    grid-column: 16;
+}
+
+#At {
+    grid-row: 6;
+    grid-column: 17;
+}
+
+#Rn {
+    grid-row: 6;
+    grid-column: 18;
+}
+
+#Fr {
+    grid-row: 7;
+    grid-column: 1;
+}
+
+#Ra {
+    grid-row: 7;
+    grid-column: 2;
+}
+
+#Ac {
+    grid-row: 7;
+    grid-column: 3;
+}
+
+#Rf {
+    grid-row: 7;
+    grid-column: 4;
+}
+
+#Db {
+    grid-row: 7;
+    grid-column: 5;
+}
+
+#Sg {
+    grid-row: 7;
+    grid-column: 6;
+}
+
+#Bh {
+    grid-row: 7;
+    grid-column: 7;
+}
+
+#Hs {
+    grid-row: 7;
+    grid-column: 8;
+}
+
+#Mt {
+    grid-row: 7;
+    grid-column: 9;
+}
+
+#Ds {
+    grid-row: 7;
+    grid-column: 10;
+}
+
+#Rg {
+    grid-row: 7;
+    grid-column: 11;
+}
+
+#Cn {
+    grid-row: 7;
+    grid-column: 12;
+}
+
+#Nh {
+    grid-row: 7;
+    grid-column: 13;
+}
+
+#Fl {
+    grid-row: 7;
+    grid-column: 14;
+}
+
+#Mc {
+    grid-row: 7;
+    grid-column: 15;
+}
+
+#Lv {
+    grid-row: 7;
+    grid-column: 16;
+}
+
+#Ts {
+    grid-row: 7;
+    grid-column: 17;
+}
+
+#Og {
+    grid-row: 7;
+    grid-column: 18;
+}
 
 /* --- Лантаноиды и актиноиды --- */
-.lanthanides, .actinides {
+.lanthanides,
+.actinides {
     display: grid;
     grid-template-columns: repeat(15, minmax(40px, 4vw));
     gap: 2px;
@@ -184,11 +587,14 @@
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
-    z-index: 2;  /* Повышаем z-index, чтобы элементы были выше волны темы */
+    z-index: 2;
+    /* Повышаем z-index, чтобы элементы были выше волны темы */
 }
 
 /* --- Анимация разлёта элементов --- */
-.element, .lanthanides .element, .actinides .element {
+.element,
+.lanthanides .element,
+.actinides .element {
     transition: transform 0.5s cubic-bezier(0.5, 0.9, 0.5, 1.0);
 }
 
@@ -202,7 +608,8 @@
 
 /* Добавь это к цветам категорий */
 .element.unknown {
-    background-color: #e0e0e0; /* Светло-серый для неизвестных */
+    background-color: #e0e0e0;
+    /* Светло-серый для неизвестных */
     color: #333;
 }
 
@@ -211,7 +618,7 @@
     background-color: #d0d0d0;
     transform: scale(1.1);
     z-index: 10;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Фикс горизонтального скролла на мобильных устройствах */
@@ -229,79 +636,83 @@
 
     .container {
         width: fit-content !important;
-        min-width: 1200px; /* Минимальная ширина для горизонтального скролла */
+        min-width: 1200px;
+        /* Минимальная ширина для горизонтального скролла */
     }
 
     body.scroll-locked {
         overflow-x: auto !important;
-        position: relative !important; /* Важно для скролла */
+        position: relative !important;
+        /* Важно для скролла */
     }
 }
 
 /* Фикс горизонтального скролла на мобильных */
 @media (max-width: 1024px) {
     .periodic-table-container {
-      overflow-x: auto !important;
-      -webkit-overflow-scrolling: touch;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
-    
+
     #mobile-table-wrapper {
-      transform: none !important;
-      margin-left: 0 !important;
-      padding-left: 15px !important;
-      align-items: flex-start !important;
+        transform: none !important;
+        margin-left: 0 !important;
+        padding-left: 15px !important;
+        align-items: flex-start !important;
     }
-    
+
     .container {
-      width: max-content !important;
-      min-width: 1600px !important;
+        width: max-content !important;
+        min-width: 1600px !important;
     }
-    
+
     body.scroll-locked {
-      overflow-x: auto !important;
+        overflow-x: auto !important;
     }
-    
+
     /* Отключаем центрирование */
     .periodic-table-container {
-      justify-content: flex-start !important;
-      align-items: flex-start !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
     }
 }
 
 /* Фикс горизонтального скролла на мобильных */
 @media (max-width: 1024px) {
     .periodic-table-container {
-      overflow-x: auto !important;
-      -webkit-overflow-scrolling: touch;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
-    
+
     #mobile-table-wrapper {
-      transform: none !important;
-      margin-left: 0 !important;
-      padding-left: 15px !important;
-      align-items: flex-start !important;
+        transform: none !important;
+        margin-left: 0 !important;
+        padding-left: 15px !important;
+        align-items: flex-start !important;
     }
-    
+
     .container {
-      width: max-content !important;
-      min-width: 1600px !important;
+        width: max-content !important;
+        min-width: 1600px !important;
     }
-    
+
     body.scroll-locked {
-      overflow-x: auto !important;
+        overflow-x: auto !important;
     }
-    
+
     /* Отключаем центрирование */
     .periodic-table-container {
-      justify-content: flex-start !important;
-      align-items: flex-start !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
     }
 }
 
 /* Скрытие скроллбаров для таблицы Менделеева */
 .periodic-table-container {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .periodic-table-container::-webkit-scrollbar {
@@ -315,6 +726,49 @@
     }
 
     .periodic-table-container::-webkit-scrollbar {
-      display: none;
+        display: none;
+    }
+}
+
+/* --- Увеличенные шрифты для больших экранов --- */
+@media (min-width: 1600px) {
+    .atomic-number {
+        font-size: 0.7vw;
+    }
+
+    .symbol {
+        font-size: 1.4vw;
+    }
+
+    .name {
+        font-size: 0.65vw;
+    }
+}
+
+@media (min-width: 1920px) {
+    .atomic-number {
+        font-size: 0.7vw;
+    }
+
+    .symbol {
+        font-size: 1.3vw;
+    }
+
+    .name {
+        font-size: 0.65vw;
+    }
+}
+
+@media (min-width: 2560px) {
+    .atomic-number {
+        font-size: 0.6vw;
+    }
+
+    .symbol {
+        font-size: 1.1vw;
+    }
+
+    .name {
+        font-size: 0.55vw;
     }
 }

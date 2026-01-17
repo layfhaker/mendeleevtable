@@ -375,7 +375,7 @@ function positionCalculatorPC() {
     const width = right - left;
     const top = containerRect.top - 20;
     const rowHeight = mgRect.height + 2;
-    const height = rowHeight * 3.3;
+    const height = rowHeight * 3.2;
 
     calcPanel.style.left = left + 'px';
     calcPanel.style.top = top + 'px';

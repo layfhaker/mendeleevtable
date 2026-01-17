@@ -1,0 +1,168 @@
+[2026-01-17T15:19:57.475Z] Starting findWorkerW...
+[2026-01-17T15:19:58.187Z] findWorkerW raw output: PROG:66010
+[2026-01-17T15:19:59.017Z] setParent called: Child=2035076, Parent=66010
+[2026-01-17T15:20:04.557Z] setParent Fallback to PS
+[2026-01-17T15:20:34.581Z] setParent PS error: 
+[2026-01-17T15:20:34.819Z] setWindowPos CSC initiated
+[2026-01-17T15:23:47.579Z] Starting findWorkerW...
+[2026-01-17T15:23:48.063Z] findWorkerW raw output: PROG:66010
+[2026-01-17T15:23:48.539Z] setParent called: Child=3870864, Parent=66010
+[2026-01-17T15:23:53.988Z] setParent Fallback to PS
+[2026-01-17T15:24:24.010Z] setParent PS error: 
+[2026-01-17T15:24:24.274Z] setWindowPos CSC initiated
+[2026-01-17T15:34:25.419Z] Starting setupWallpaperMode...
+[2026-01-17T15:34:25.803Z] setupWallpaperMode output: HIDDEN:66002
+PROG:66010
+[2026-01-17T15:34:25.805Z] setParent called: Child=2101092, Parent=66010
+[2026-01-17T16:12:10.968Z] Starting setupWallpaperMode...
+[2026-01-17T16:12:11.514Z] setupWallpaperMode output: HIDDEN:66002
+PROG:66010
+[2026-01-17T16:12:11.515Z] setParent called: Child=3804328, Parent=66010
+[2026-01-17T16:17:58.671Z] Starting setupWallpaperMode...
+[2026-01-17T16:17:59.048Z] setupWallpaperMode output: HIDDEN:66002
+PROG:66010
+[2026-01-17T16:17:59.050Z] setParent called: Child=1379436, Parent=66010
+[2026-01-17T16:18:06.350Z] Starting setupWallpaperMode...
+[2026-01-17T16:18:06.724Z] setupWallpaperMode output: HIDDEN:66002
+PROG:66010
+[2026-01-17T16:18:06.725Z] setParent called: Child=2494258, Parent=66010
+[2026-01-17T16:21:16.439Z] Starting setupWallpaperMode...
+[2026-01-17T16:21:17.056Z] setupWallpaperMode output: HIDDEN:66002
+PROG:66010
+[2026-01-17T16:21:17.058Z] setParent called: Child=1511566, Parent=66010
+[2026-01-17T16:24:32.563Z] Starting setupWallpaperMode...
+[2026-01-17T16:24:33.215Z] setupWallpaperMode output: PROG:66002
+[2026-01-17T16:24:33.218Z] setParent called: Child=1642638, Parent=66002
+[2026-01-17T16:25:00.045Z] Starting setupWallpaperMode...
+[2026-01-17T16:25:00.673Z] setupWallpaperMode output: PROG:66002
+[2026-01-17T16:25:00.676Z] setParent called: Child=3869826, Parent=66002
+[2026-01-17T16:28:45.935Z] Starting setupWallpaperMode...
+[2026-01-17T16:28:46.665Z] setupWallpaperMode output: PROG:66002
+[2026-01-17T16:28:46.668Z] setParent called: Child=1903584, Parent=66002
+[2026-01-17T16:31:23.548Z] Starting setupWallpaperMode...
+[2026-01-17T16:31:24.088Z] setupWallpaperMode output: PROG:66010
+[2026-01-17T16:31:24.090Z] setParent called: Child=1969260, Parent=66010
+[2026-01-17T16:36:18.266Z] attachToWallpaper called: Child=2034656, Size=1280x720
+[2026-01-17T16:36:19.305Z] attachToWallpaper exit code 0 output: LOG:FoundWorkerW:724132
+SUCCESS:724132
+[2026-01-17T16:39:15.488Z] attachToWallpaper called: Child=3214724, Size=1280x720
+[2026-01-17T16:39:17.853Z] attachToWallpaper exit code 0 output: LOG:FoundWorkerW:0x101D2
+LOG:AttachingChild:0x310D84
+LOG:SetParentResult:0x1000C Error:2
+SUCCESS:66002
+[2026-01-17T16:43:20.600Z] attachToWallpaper called: Child=2165728, Size=1280x720
+[2026-01-17T16:43:23.788Z] attachToWallpaper exit code 0 output: LOG:FoundWorkerW:0xB0CA4
+LOG:AttachingChild:0x210BE0
+LOG:SetParentPerformed:0x1000C
+SUCCESS:724132
+[2026-01-17T16:46:15.760Z] attachToWallpaper called: Child=3279384, Size=1280x720
+[2026-01-17T16:46:18.348Z] attachToWallpaper exit code 0 output: LOG:--- Before 0x052C ---
+LOG:WIN:0xB0CA4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x30B62 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x20A68 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x103C6 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x1036A Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10346 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10348 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F8 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101EE Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D2 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101DA Class:Progman Visible:True Icons:True
+LOG:--- After 0x052C ---
+LOG:WIN:0xB0CA4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x30B62 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x20A68 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x103C6 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x1036A Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10346 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10348 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F8 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101EE Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D2 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101DA Class:Progman Visible:True Icons:True
+LOG:SelectedWorkerW:0x101D2
+LOG:AttachingChild:0x320A18
+LOG:SetParentFrom:0x1000C to:0x101D2
+SUCCESS:66002
+[2026-01-17T16:49:33.739Z] attachToWallpaper called: Child=2035566, Size=1280x720
+[2026-01-17T16:49:38.748Z] attachToWallpaper exit code 0 output: LOG:--- System State ---
+LOG:WIN:0xB0CA4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x30B62 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x20A68 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x103C6 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x1036A Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10346 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10348 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F8 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101EE Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D2 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101DA Class:Progman Visible:True Icons:True
+LOG:SelectedParent:0xB0CA4
+LOG:ConfirmingRendering:TopmostTest...
+LOG:FinalAttachmentTo:0xB0CA4
+LOG:SetParentPerformed:0x1000C
+SUCCESS:724132
+[2026-01-17T16:50:38.634Z] attachToWallpaper called: Child=3607110, Size=1280x720
+[2026-01-17T16:50:41.757Z] attachToWallpaper exit code 0 output: LOG:--- System State ---
+LOG:WIN:0xB0CA4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x30B62 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x20A68 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x103C6 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x1036A Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10346 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10348 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F8 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101EE Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D2 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101DA Class:Progman Visible:True Icons:True
+LOG:SelectedParent:0xB0CA4
+LOG:ConfirmingRendering:TopmostTest...
+LOG:FinalAttachmentTo:0xB0CA4
+LOG:SetParentPerformed:0x1000C
+SUCCESS:724132
+[2026-01-17T16:53:24.849Z] attachToWallpaper called: Child=5508796, Size=1280x720
+[2026-01-17T16:53:27.055Z] attachToWallpaper exit code 0 output: LOG:--- System State ---
+LOG:WIN:0xB0CA4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x30B62 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x20A68 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x103C6 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x1036A Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10346 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x10348 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F8 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101F4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101EE Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D4 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101D2 Class:WorkerW Visible:False Icons:False
+LOG:WIN:0x101DA Class:Progman Visible:True Icons:True
+LOG:SelectedParent:0x101DA (Visible:True)
+LOG:Attached:0x540EBC to:0x101DA
+SUCCESS:66010
+[2026-01-17T16:55:23.801Z] attachToWallpaper called: Child=2953324, Size=1280x720
+[2026-01-17T16:55:25.162Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T16:56:38.893Z] attachToWallpaper called: Child=3215188, Size=1280x720
+[2026-01-17T16:56:39.547Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T16:58:17.763Z] attachToWallpaper called: Child=5705904, Size=1280x720
+[2026-01-17T16:58:18.828Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:16:12.570Z] attachToWallpaper called: Child=1183562, Size=1280x720
+[2026-01-17T17:16:14.001Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:19:12.567Z] attachToWallpaper called: Child=397604, Size=1280x720
+[2026-01-17T17:19:15.028Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:21:02.070Z] attachToWallpaper called: Child=3477332, Size=1280x720
+[2026-01-17T17:21:03.659Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:21:16.386Z] attachToWallpaper called: Child=2231420, Size=1280x720
+[2026-01-17T17:21:16.762Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:24:39.366Z] attachToWallpaper called: Child=6950116, Size=1280x720
+[2026-01-17T17:24:39.679Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:27:16.535Z] attachToWallpaper called: Child=1577200, Size=1280x720
+[2026-01-17T17:27:16.847Z] CSC compilation failed for attachToWallpaper
+[2026-01-17T17:29:36.887Z] attachToWallpaper called: Child=5048856, Size=1280x720
+[2026-01-17T17:29:37.243Z] CSC compilation failed for attachToWallpaper

@@ -1,51 +1,189 @@
 /**
  * Windows API Bindings for Live Wallpaper
- * Uses PowerShell and child_process to interact with Windows desktop
- * No native dependencies required!
+ * Uses C#, PowerShell and child_process to interact with Windows desktop
  */
 
-const { execSync, spawnSync } = require('child_process');
+const { execSync, spawnSync, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-/**
- * Execute PowerShell script from temp file
- */
-function runPowerShellScript(script) {
-    const tempFile = path.join(os.tmpdir(), `wallpaper-script-${Date.now()}.ps1`);
-
+// Debug logger
+function log(msg) {
     try {
-        // Write script to temp file with BOM for UTF-8
+        const logFile = path.join(process.cwd(), 'debug_wp.txt');
+        fs.appendFileSync(logFile, `[${new Date().toISOString()}] ${msg}\n`);
+    } catch (e) { }
+}
+
+/**
+ * Consolidated Wallpaper Setup: Finding WorkerW, Reparenting, and Positioning
+ * all in one C# execution for maximum reliability.
+ */
+async function attachToWallpaper(childHandle, width, height) {
+    log(`attachToWallpaper called: Child=${childHandle}, Size=${width}x${height}`);
+
+    // C# source code for window attachment
+    const csCode = `
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+
+class P {
+    [DllImport("user32.dll")] static extern IntPtr FindWindow(string c, string w);
+    [DllImport("user32.dll")] static extern IntPtr FindWindowEx(IntPtr p, IntPtr a, string c, string w);
+    [DllImport("user32.dll")] static extern IntPtr SendMessageTimeout(IntPtr h, uint m, UIntPtr w, IntPtr l, uint f, uint t, out IntPtr r);
+    [DllImport("user32.dll")] static extern bool EnumWindows(EP e, IntPtr l);
+    [DllImport("user32.dll")] static extern int GetClassName(IntPtr h, StringBuilder s, int n);
+    [DllImport("user32.dll", SetLastError = true)] static extern IntPtr SetParent(IntPtr c, IntPtr p);
+    [DllImport("user32.dll")] static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f);
+    [DllImport("user32.dll")] static extern bool ShowWindow(IntPtr h, int c);
+    [DllImport("user32.dll")] static extern int SetWindowLong(IntPtr h, int i, int v);
+    [DllImport("user32.dll")] static extern bool IsWindowVisible(IntPtr h);
+    [DllImport("user32.dll")] static extern bool GetClientRect(IntPtr h, out RECT r);
+
+    delegate bool EP(IntPtr h, IntPtr l);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
+
+    static void Main() {
+        try {
+            IntPtr progman = FindWindow("Progman", null);
+            if (progman == IntPtr.Zero) return;
+
+            // Trigger WorkerW
+            IntPtr result;
+            SendMessageTimeout(progman, 0x052C, UIntPtr.Zero, IntPtr.Zero, 0, 1000, out result);
+            Thread.Sleep(500);
+
+            IntPtr wallpaperWorkerW = IntPtr.Zero;
+            EnumWindows(new EP((h, l) => {
+                StringBuilder sb = new StringBuilder(256);
+                GetClassName(h, sb, 256);
+                if (sb.ToString() == "WorkerW") {
+                    if (FindWindowEx(h, IntPtr.Zero, "SHELLDLL_DefView", null) == IntPtr.Zero) {
+                        wallpaperWorkerW = h;
+                    }
+                }
+                return true;
+            }), IntPtr.Zero);
+
+            IntPtr target = (wallpaperWorkerW != IntPtr.Zero) ? wallpaperWorkerW : progman;
+            
+            long hVal = long.Parse("${childHandle}");
+            IntPtr child = new IntPtr(hVal);
+            
+            // WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS
+            SetWindowLong(child, -16, 0x40000000 | 0x10000000 | 0x04000000);
+            SetParent(child, target);
+
+            RECT rect;
+            GetClientRect(target, out rect);
+            int w = rect.Right - rect.Left;
+            int h = rect.Bottom - rect.Top;
+            if (w <= 0) { w = ${width}; h = ${height}; }
+
+            // HWND_BOTTOM (1)
+            SetWindowPos(child, new IntPtr(1), 0, 0, w, h, 0x0040 | 0x0010);
+            ShowWindow(child, 5);
+
+            Console.WriteLine("SUCCESS:" + target.ToInt64());
+        } catch (Exception e) {
+            Console.WriteLine("ERR:" + e.Message);
+        }
+    }
+}
+`;
+
+    const tempDir = os.tmpdir();
+    const csFile = path.join(tempDir, `att-${Date.now()}.cs`);
+    const exeFile = path.join(tempDir, `att-${Date.now()}.exe`);
+
+    return new Promise((resolve) => {
+        try {
+            fs.writeFileSync(csFile, csCode, 'utf8');
+            const cscPath = fs.existsSync('C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe')
+                ? 'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe'
+                : 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe';
+
+            if (!fs.existsSync(cscPath)) {
+                log('CSC not found');
+                resolve(null);
+                return;
+            }
+
+            const compileResult = spawnSync(cscPath, ['/nologo', '/optimize', `/out:${exeFile}`, csFile], { windowsHide: true });
+            if (compileResult.status !== 0) {
+                log('CSC compilation failed: ' + compileResult.stderr.toString());
+                resolve(null);
+                return;
+            }
+
+            const childProc = spawn(exeFile, [], { windowsHide: true });
+            let output = '';
+            childProc.stdout.on('data', (data) => output += data.toString());
+            childProc.on('close', (code) => {
+                log('attachToWallpaper exit ' + code + ' output: ' + output.trim());
+                try { fs.unlinkSync(csFile); } catch (e) { }
+                setTimeout(() => { try { fs.unlinkSync(exeFile); } catch (e) { } }, 5000);
+
+                if (output.includes('SUCCESS')) {
+                    const hStr = output.split('SUCCESS:')[1].trim().split(/[\r\n]+/)[0];
+                    resolve(parseInt(hStr, 10));
+                } else {
+                    resolve(null);
+                }
+            });
+        } catch (e) {
+            log('attachToWallpaper error: ' + e.message);
+            resolve(null);
+        }
+    });
+}
+
+/**
+ * Capture a screenshot of the current desktop (with icons)
+ * to be used as a background overlay.
+ */
+async function getDesktopScreenshot(outputPath) {
+    log(`Capturing desktop to ${outputPath}`);
+    try {
+        const script = `
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+$Screen = [System.Windows.Forms.Screen]::PrimaryScreen
+$Width  = $Screen.Bounds.Width
+$Height = $Screen.Bounds.Height
+$Left   = $Screen.Bounds.Left
+$Top    = $Screen.Bounds.Top
+$Bitmap = New-Object System.Drawing.Bitmap($Width, $Height)
+$Graphic = [System.Drawing.Graphics]::FromImage($Bitmap)
+$Graphic.CopyFromScreen($Left, $Top, 0, 0, $Bitmap.Size)
+$Bitmap.Save("${outputPath.replace(/\\/g, '\\\\')}", [System.Drawing.Imaging.ImageFormat]::Png)
+$Graphic.Dispose()
+$Bitmap.Dispose()
+`;
+        const tempFile = path.join(os.tmpdir(), `cap-${Date.now()}.ps1`);
         fs.writeFileSync(tempFile, '\ufeff' + script, 'utf8');
 
-        // Execute script
-        const result = execSync(`powershell -NoProfile -ExecutionPolicy Bypass -File "${tempFile}"`, {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 15000
+        return new Promise((resolve) => {
+            const ps = spawn('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', tempFile], { windowsHide: true });
+            ps.on('close', (code) => {
+                try { fs.unlinkSync(tempFile); } catch (e) { }
+                log(`Capture finished with code ${code}`);
+                resolve(code === 0);
+            });
         });
-
-        return result.trim();
-    } catch (error) {
-        console.error('[Win32] PowerShell error:', error.message);
-        if (error.stdout) console.error('[Win32] stdout:', error.stdout);
-        if (error.stderr) console.error('[Win32] stderr:', error.stderr);
-        return null;
-    } finally {
-        // Cleanup temp file
-        try {
-            if (fs.existsSync(tempFile)) {
-                fs.unlinkSync(tempFile);
-            }
-        } catch (e) {
-            // Ignore cleanup errors
-        }
+    } catch (e) {
+        log('Capture error: ' + e.message);
+        return false;
     }
 }
 
 /**
- * Find the Progman window handle
+ * Legacy support for finding Progman
  */
 function findProgman() {
     try {
@@ -53,348 +191,48 @@ function findProgman() {
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
-
 public class User32Progman {
     [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
     public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 }
 '@
-
 $handle = [User32Progman]::FindWindow("Progman", $null)
 Write-Output $handle.ToInt64()
 `;
-        const result = runPowerShellScript(script);
-        const handle = parseInt(result, 10);
-        console.log('[Win32] Progman handle:', handle);
-        return handle;
-    } catch (error) {
-        console.error('[Win32] Error finding Progman:', error);
-        return 0;
-    }
+        const tempFile = path.join(os.tmpdir(), `prog-${Date.now()}.ps1`);
+        fs.writeFileSync(tempFile, '\ufeff' + script, 'utf8');
+        const result = execSync(`powershell -NoProfile -ExecutionPolicy Bypass -File "${tempFile}"`, { encoding: 'utf8', windowsHide: true });
+        try { fs.unlinkSync(tempFile); } catch (e) { }
+        return parseInt(result, 10);
+    } catch (e) { return 0; }
 }
 
 /**
- * Send message to spawn WorkerW and find the correct one for wallpaper
- * Uses CSC for faster execution
+ * Refresh desktop icons
  */
-function findWorkerW() {
-    const csCode = `
-using System;
-using System.Runtime.InteropServices;
-using System.Text;
-
-class W {
-    [DllImport("user32.dll")] static extern IntPtr FindWindow(string c, string w);
-    [DllImport("user32.dll")] static extern IntPtr FindWindowEx(IntPtr p, IntPtr a, string c, string w);
-    [DllImport("user32.dll")] static extern IntPtr SendMessageTimeout(IntPtr h, uint m, UIntPtr w, IntPtr l, uint f, uint t, out IntPtr r);
-    delegate bool EP(IntPtr h, IntPtr l);
-    [DllImport("user32.dll")] static extern bool EnumWindows(EP e, IntPtr l);
-    [DllImport("user32.dll")] static extern int GetClassName(IntPtr h, StringBuilder s, int n);
-
-    static IntPtr workerW = IntPtr.Zero;
-
-    static void Main() {
-        IntPtr progman = FindWindow("Progman", null);
-        if (progman == IntPtr.Zero) { Console.WriteLine("0"); return; }
-
-        // Send 0x052C to create WorkerW
-        IntPtr r;
-        SendMessageTimeout(progman, 0x052C, UIntPtr.Zero, IntPtr.Zero, 0, 1000, out r);
-        System.Threading.Thread.Sleep(100);
-
-        // Find WorkerW that contains SHELLDLL_DefView
-        EnumWindows((h, l) => {
-            StringBuilder cn = new StringBuilder(256);
-            GetClassName(h, cn, 256);
-            if (cn.ToString() == "WorkerW") {
-                IntPtr sv = FindWindowEx(h, IntPtr.Zero, "SHELLDLL_DefView", null);
-                if (sv != IntPtr.Zero) {
-                    // Found! Get the NEXT WorkerW (empty one behind icons)
-                    workerW = FindWindowEx(IntPtr.Zero, h, "WorkerW", null);
-                    return false;
-                }
-            }
-            return true;
-        }, IntPtr.Zero);
-
-        // If found empty WorkerW, use it
-        if (workerW != IntPtr.Zero) {
-            Console.WriteLine(workerW.ToInt64());
-            return;
-        }
-
-        // Fallback: check if SHELLDLL_DefView is under Progman
-        IntPtr dv = FindWindowEx(progman, IntPtr.Zero, "SHELLDLL_DefView", null);
-        if (dv != IntPtr.Zero) {
-            // Windows 11 style - find any WorkerW
-            EnumWindows((h, l) => {
-                StringBuilder cn = new StringBuilder(256);
-                GetClassName(h, cn, 256);
-                if (cn.ToString() == "WorkerW") {
-                    workerW = h;
-                    return false;
-                }
-                return true;
-            }, IntPtr.Zero);
-
-            if (workerW != IntPtr.Zero) {
-                Console.WriteLine(workerW.ToInt64());
-                return;
-            }
-        }
-
-        // Last resort: use Progman
-        Console.WriteLine(progman.ToInt64());
-    }
-}`;
-
-    const tempDir = os.tmpdir();
-    const csFile = path.join(tempDir, 'fw.cs');
-    const exeFile = path.join(tempDir, 'fw.exe');
-
-    try {
-        fs.writeFileSync(csFile, csCode, 'utf8');
-
-        const cscPath = fs.existsSync('C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe')
-            ? 'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe'
-            : 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe';
-
-        const compileResult = spawnSync(cscPath, ['/nologo', '/optimize', `/out:${exeFile}`, csFile], {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 10000
-        });
-
-        if (compileResult.status !== 0) {
-            console.error('[Win32] CSC compile error:', compileResult.stderr);
-            // Fallback to PowerShell
-            return findWorkerWPowerShell();
-        }
-
-        const runResult = spawnSync(exeFile, [], {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 5000
-        });
-
-        const handle = parseInt(runResult.stdout.trim(), 10);
-        console.log('[Win32] Desktop handle (CSC):', handle);
-
-        if (!handle || handle === 0) {
-            throw new Error('Desktop window not found');
-        }
-
-        return handle;
-
-    } catch (error) {
-        console.error('[Win32] Error finding desktop window:', error);
-        return findWorkerWPowerShell();
-    } finally {
-        try { fs.unlinkSync(csFile); } catch(e) {}
-        try { fs.unlinkSync(exeFile); } catch(e) {}
-    }
-}
-
-/**
- * PowerShell fallback for finding WorkerW
- */
-function findWorkerWPowerShell() {
+function refreshDesktop() {
     try {
         const script = `
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
-public class WF {
-    [DllImport("user32.dll")] public static extern IntPtr FindWindow(string c, string w);
-    [DllImport("user32.dll")] public static extern IntPtr SendMessageTimeout(IntPtr h, uint m, UIntPtr w, IntPtr l, uint f, uint t, out IntPtr r);
+public class User32 {
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvParam, uint fWinIni);
 }
 '@
-$p = [WF]::FindWindow("Progman", $null)
-$r = [IntPtr]::Zero
-[WF]::SendMessageTimeout($p, 0x052C, [UIntPtr]::Zero, [IntPtr]::Zero, 0, 1000, [ref]$r)
-Write-Output $p.ToInt64()
+[User32]::SystemParametersInfo(20, 0, [IntPtr]::Zero, 3)
 `;
-        const result = runPowerShellScript(script);
-        const handle = parseInt(result, 10);
-        console.log('[Win32] Desktop handle (PS fallback):', handle);
-        return handle || 0;
-    } catch (error) {
-        console.error('[Win32] PowerShell fallback error:', error);
-        return 0;
-    }
-}
-
-/**
- * Set window parent using C# script compiled with csc.exe (faster than PowerShell Add-Type)
- */
-function setParent(childHandle, parentHandle) {
-    // Method 1: Try using csc.exe directly (much faster)
-    const cscResult = trySetParentViaCsc(childHandle, parentHandle);
-    if (cscResult !== null) {
-        return cscResult;
-    }
-
-    // Method 2: Try PowerShell as fallback
-    console.log('[Win32] CSC failed, trying PowerShell...');
-    return trySetParentViaPowerShell(childHandle, parentHandle);
-}
-
-function trySetParentViaCsc(childHandle, parentHandle) {
-    const csCode = `
-using System;
-using System.Runtime.InteropServices;
-class P {
-    [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-    static void Main() {
-        try {
-            IntPtr result = SetParent(new IntPtr(${childHandle}), new IntPtr(${parentHandle}));
-            Console.WriteLine(result.ToInt64());
-        } catch (Exception e) {
-            Console.WriteLine("ERROR:" + e.Message);
-        }
-    }
-}`;
-
-    const tempDir = os.tmpdir();
-    const csFile = path.join(tempDir, 'sp.cs');
-    const exeFile = path.join(tempDir, 'sp.exe');
-
-    try {
-        fs.writeFileSync(csFile, csCode, 'utf8');
-
-        // Find csc.exe
-        const frameworkPath = 'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe';
-        const frameworkPath32 = 'C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe';
-
-        let cscPath = fs.existsSync(frameworkPath) ? frameworkPath : frameworkPath32;
-
-        if (!fs.existsSync(cscPath)) {
-            console.log('[Win32] CSC not found');
-            return null;
-        }
-
-        // Compile
-        const compileResult = spawnSync(cscPath, ['/nologo', '/optimize', `/out:${exeFile}`, csFile], {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 10000
-        });
-
-        if (compileResult.status !== 0) {
-            console.log('[Win32] CSC compile error:', compileResult.stderr);
-            return null;
-        }
-
-        // Run
-        const runResult = spawnSync(exeFile, [], {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 5000
-        });
-
-        const output = runResult.stdout.trim();
-        console.log('[Win32] SetParent output:', output);
-
-        if (output.startsWith('ERROR:')) {
-            console.error('[Win32] SetParent error:', output);
-            return null;
-        }
-
-        const result = parseInt(output, 10);
-        console.log('[Win32] SetParent result (CSC):', result);
-        return isNaN(result) ? null : result;
-
-    } catch (error) {
-        console.error('[Win32] CSC method error:', error.message);
-        return null;
-    } finally {
-        try { fs.unlinkSync(csFile); } catch(e) {}
-        try { fs.unlinkSync(exeFile); } catch(e) {}
-    }
-}
-
-function trySetParentViaPowerShell(childHandle, parentHandle) {
-    const scriptContent = `
-Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-public class WinAPI {
-    [DllImport("user32.dll")]
-    public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-}
-"@
-[WinAPI]::SetParent([IntPtr]::new(${childHandle}), [IntPtr]::new(${parentHandle})).ToInt64()
-`;
-
-    const tempFile = path.join(os.tmpdir(), 'setparent.ps1');
-
-    try {
-        fs.writeFileSync(tempFile, scriptContent, 'utf8');
-
-        const result = spawnSync('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', tempFile], {
-            encoding: 'utf8',
-            windowsHide: true,
-            timeout: 30000
-        });
-
-        if (result.status === 0) {
-            const value = parseInt(result.stdout.trim(), 10);
-            console.log('[Win32] SetParent result (PS):', value);
-            return value;
-        } else {
-            console.error('[Win32] PowerShell error:', result.stderr);
-            return 0;
-        }
-    } catch (error) {
-        console.error('[Win32] PowerShell error:', error.message);
-        return 0;
-    } finally {
-        try { fs.unlinkSync(tempFile); } catch(e) {}
-    }
-}
-
-/**
- * Set window position and size to fill parent
- */
-function setWindowPosition(handle, x, y, width, height) {
-    try {
-        const script = `
-Add-Type -TypeDefinition @'
-using System;
-using System.Runtime.InteropServices;
-
-public class User32Position {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-    public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
-    public const uint SWP_NOACTIVATE = 0x0010;
-    public const uint SWP_SHOWWINDOW = 0x0040;
-}
-'@
-
-$hwnd = [IntPtr]::new(${handle})
-
-# Move and resize window
-$result = [User32Position]::MoveWindow($hwnd, ${x}, ${y}, ${width}, ${height}, $true)
-Write-Output $result
-`;
-        const result = runPowerShellScript(script);
-        console.log('[Win32] SetWindowPosition result:', result);
-        return result === 'True';
-    } catch (error) {
-        console.error('[Win32] Error in setWindowPosition:', error);
-        return false;
-    }
+        const tempFile = path.join(os.tmpdir(), `ref-${Date.now()}.ps1`);
+        fs.writeFileSync(tempFile, script, 'utf8');
+        spawn('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', tempFile], { detached: true, windowsHide: true }).unref();
+        setTimeout(() => { try { fs.unlinkSync(tempFile); } catch (e) { } }, 5000);
+        return true;
+    } catch (e) { return false; }
 }
 
 module.exports = {
+    attachToWallpaper,
     findProgman,
-    findWorkerW,
-    setParent,
-    setWindowPosition
+    refreshDesktop
 };

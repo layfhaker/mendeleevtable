@@ -4,6 +4,10 @@
    ========================================= */
 
 const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, Notification } = require('electron');
+
+// Disable hardware acceleration to prevent rendering issues in wallpaper mode
+app.disableHardwareAcceleration();
+
 const path = require('path');
 const fs = require('fs');
 const AutoLaunch = require('auto-launch');
