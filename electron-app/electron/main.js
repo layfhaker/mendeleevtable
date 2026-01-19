@@ -12,7 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const AutoLaunch = require('auto-launch');
 const { setAsWallpaper } = require('./wallpaper-api');
-const liveWallpaper = require('./wallpaper-live');
+const { attach, detach, reset } = require('electron-as-wallpaper');
 
 let mainWindow;
 let tray;
@@ -52,7 +52,7 @@ function createWindow() {
     // IMPORTANT: Don't quit on close if wallpaper is active
     // ========================================
     mainWindow.on('close', (event) => {
-        if (liveWallpaper.isWallpaperActive()) {
+        if (global.isWallpaperActive) {
             // Prevent closing, hide instead
             event.preventDefault();
             mainWindow.hide();
@@ -106,7 +106,7 @@ function createTray() {
  * Update tray context menu
  */
 function updateTrayMenu() {
-    const isWallpaperActive = liveWallpaper.isWallpaperActive();
+    const isWallpaperActive = global.isWallpaperActive || false;
 
     const contextMenu = Menu.buildFromTemplate([
         {
@@ -127,16 +127,25 @@ function updateTrayMenu() {
             checked: isWallpaperActive,
             click: async (menuItem) => {
                 if (menuItem.checked) {
-                    const result = await liveWallpaper.enableLiveWallpaper();
-                    if (!result.success) {
-                        showNotification('Error', result.message);
-                    } else {
-                        showNotification('Success', result.message);
+                    try {
+                        await attach(mainWindow, {
+                            transparent: true,
+                            forwardKeyboardInput: true,
+                            forwardMouseInput: true,
+                        });
+                        global.isWallpaperActive = true;
+                        showNotification('Success', 'Live wallpaper enabled!');
+                    } catch (error) {
+                        showNotification('Error', `Failed to enable live wallpaper: ${error.message}`);
+                        menuItem.checked = false; // Reset checkbox state
                     }
                 } else {
-                    const result = liveWallpaper.disableLiveWallpaper();
-                    if (result.success) {
-                        showNotification('Success', result.message);
+                    try {
+                        await detach(mainWindow);
+                        global.isWallpaperActive = false;
+                        showNotification('Success', 'Live wallpaper disabled.');
+                    } catch (error) {
+                        showNotification('Error', `Failed to disable live wallpaper: ${error.message}`);
                     }
                 }
                 updateTrayMenu();
@@ -145,9 +154,17 @@ function updateTrayMenu() {
         { type: 'separator' },
         {
             label: 'Exit',
-            click: () => {
+            click: async () => {
                 // Cleanup and quit
-                liveWallpaper.cleanup();
+                if (global.isWallpaperActive) {
+                    try {
+                        await detach(mainWindow);
+                        reset(); // Restore original wallpaper
+                    } catch (error) {
+                        console.error('Error detaching wallpaper:', error);
+                    }
+                    global.isWallpaperActive = false;
+                }
                 app.quit();
             }
         }
@@ -188,7 +205,7 @@ app.whenReady().then(() => {
 // Don't quit when all windows closed (tray mode)
 app.on('window-all-closed', (event) => {
     // Keep app running if wallpaper is active
-    if (liveWallpaper.isWallpaperActive()) {
+    if (global.isWallpaperActive) {
         // Don't quit
         return;
     } else if (process.platform !== 'darwin') {
@@ -197,8 +214,16 @@ app.on('window-all-closed', (event) => {
 });
 
 // Cleanup before quit
-app.on('before-quit', () => {
-    liveWallpaper.cleanup();
+app.on('before-quit', async () => {
+    if (global.isWallpaperActive) {
+        try {
+            await detach(mainWindow);
+            reset(); // Restore original wallpaper
+        } catch (error) {
+            console.error('Error detaching wallpaper on quit:', error);
+        }
+        global.isWallpaperActive = false;
+    }
 });
 
 // ========================================
@@ -229,21 +254,47 @@ ipcMain.handle('set-wallpaper', async (event) => {
 
 // Live wallpaper - enable
 ipcMain.handle('enable-live-wallpaper', async (event) => {
-    const result = await liveWallpaper.enableLiveWallpaper();
-    updateTrayMenu();
-    return result;
+    try {
+        await attach(mainWindow, {
+            transparent: true,
+            forwardKeyboardInput: true,
+            forwardMouseInput: true,
+        });
+        global.isWallpaperActive = true;
+        updateTrayMenu();
+        return {
+            success: true,
+            message: 'Live wallpaper enabled!'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: `Failed to enable live wallpaper: ${error.message}`
+        };
+    }
 });
 
 // Live wallpaper - disable
-ipcMain.handle('disable-live-wallpaper', (event) => {
-    const result = liveWallpaper.disableLiveWallpaper();
-    updateTrayMenu();
-    return result;
+ipcMain.handle('disable-live-wallpaper', async (event) => {
+    try {
+        await detach(mainWindow);
+        global.isWallpaperActive = false;
+        updateTrayMenu();
+        return {
+            success: true,
+            message: 'Live wallpaper disabled.'
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: `Failed to disable live wallpaper: ${error.message}`
+        };
+    }
 });
 
 // Live wallpaper - check status
 ipcMain.handle('is-live-wallpaper-active', () => {
-    return liveWallpaper.isWallpaperActive();
+    return global.isWallpaperActive || false;
 });
 
 // Auto-start - enable/disable
