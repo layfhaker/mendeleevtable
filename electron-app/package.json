@@ -9,7 +9,9 @@
     "dev": "set NODE_ENV=development && electron .",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
-    "build:portable": "electron-builder --win portable"
+    "build:portable": "electron-builder --win portable",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --win --linux"
   },
   "keywords": [
     "chemistry",
@@ -62,6 +64,15 @@
       ],
       "icon": "img/icon-512.png",
       "requestedExecutionLevel": "asInvoker"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ],
+      "icon": "img/icon-512.png",
+      "category": "Education"
     },
     "nsis": {
       "oneClick": false,

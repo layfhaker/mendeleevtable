@@ -12,6 +12,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
      * @returns {Promise<{success: boolean, message: string}>}
      */
     setAsWallpaper: async () => {
+        if (process.platform !== 'win32') {
+            return {
+                success: false,
+                message: 'Установка обоев поддерживается только на Windows'
+            };
+        }
+
         try {
             const result = await ipcRenderer.invoke('set-wallpaper');
             return result;

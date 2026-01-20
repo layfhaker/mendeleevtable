@@ -3,6 +3,25 @@
    ========================================= */
 
 /* --- Контейнер периодической таблицы --- */
+.download-btn-large-icon {
+    justify-content:left;
+    width:15vw;
+    height:15vw;
+}
+.download-detailes-all{
+    margin-left: auto; /* Прижмёт к правому краю */
+    align-self: center; /* Выравнивание по вертикали */
+    flex-direction: column;
+}
+.download-card {
+    display:flex;
+    width:auto;
+    flex-direction:row !important;
+    align-items:center;
+}
+.download-detailes {
+    flex-direction: column;
+}
 .periodic-table-container {
     width: 100%;
     height: 100vh;
@@ -121,25 +140,7 @@ body.dark-theme .periodic-table-container.scroll-collapsed {
 body.dark-theme .below-table-content {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
-.download-btn-large-icon {
-    justify-content:left;
-    width:15vw;
-    height:15vw;
-}
-.download-detailes-all{
-    margin-left: auto; /* Прижмёт к правому краю */
-    align-self: center; /* Выравнивание по вертикали */
-    flex-direction: column;
-}
-.download-card {
-    display:flex;
-    width:auto;
-    flex-direction:row !important;
-    align-items:center;
-}
-.download-detailes {
-    flex-direction: column;
-}
+
 
 @media (max-width: 768px) {
     body.scroll-unlocked .below-table-content {

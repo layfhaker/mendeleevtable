@@ -11,7 +11,11 @@ app.disableHardwareAcceleration();
 const path = require('path');
 const fs = require('fs');
 const AutoLaunch = require('auto-launch');
-const { setAsWallpaper } = require('./wallpaper-api');
+let setAsWallpaper = null;
+
+if (process.platform === 'win32') {
+    ({ setAsWallpaper } = require('./wallpaper-api'));
+}
 const { attach, detach, reset } = require('electron-as-wallpaper');
 
 let mainWindow;
@@ -233,6 +237,13 @@ app.on('before-quit', async () => {
 // Static wallpaper (screenshot)
 ipcMain.handle('set-wallpaper', async (event) => {
     try {
+        if (process.platform !== 'win32' || !setAsWallpaper) {
+            return {
+                success: false,
+                message: 'Установка обоев поддерживается только на Windows'
+            };
+        }
+
         const screenshot = await mainWindow.webContents.capturePage();
         const pngBuffer = screenshot.toPNG();
         const tempDir = app.getPath('temp');
