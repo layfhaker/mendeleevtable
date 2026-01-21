@@ -1,6 +1,6 @@
 # AI_CONTEXT.md — Контекст проекта для AI-ассистента
 
-> **Версия:** 0.6.5  
+> **Версия:** 1.0.0  
 > **Обновлено:** Январь 2026  
 > **Назначение:** Быстрое погружение AI в проект без повторных объяснений
 
@@ -17,6 +17,9 @@
 - PWA с оффлайн-режимом
 - Полностью на русском языке
 - **NodeMap** — визуализация архитектуры кода
+- **LaTeX экспорт** — генерация `.tex` по элементу
+- **Electron Windows/Linux** — десктопные сборки
+- **Режим обоев** — только Windows (Electron)
 
 ---
 
@@ -67,9 +70,15 @@ const solubilityData = { cations: [...], anions: [...], rows: [...] };
 ```
 mendeleevtable/
 ├── index.html              # Точка входа, вся HTML-разметка
-├── pwa/
-│   ├── manifest.json       # PWA манифест
-│   └── sw.js               # Service Worker для оффлайна
+├── manifest.json           # PWA манифест
+├── sw.js                   # Service Worker для оффлайна
+│
+├── electron-app/           # Electron приложение
+│   └── electron/           # main.js, preload.js, wallpaper-api.js
+│
+├── latex/                  # LaTeX шаблоны экспорта
+│   ├── element-template.tex
+│   └── preamble.tex
 │
 ├── css/                    # Стили (модульная система)
 │   ├── style.css           # Главный файл (только @import)
@@ -82,18 +91,23 @@ mendeleevtable/
 │   ├── filters.css         # Панель фильтров и поиска
 │   ├── solubility.css      # Таблица растворимости
 │   ├── advanced-modal.css  # Продвинутая модалка веществ
-│   └── nodemap.css         # NodeMap визуализация
+│   ├── nodemap.css         # NodeMap визуализация
+│   └── scroll-collapse.css # Scroll-collapse
 │
 ├── js/
 │   ├── scrypt.js           # 🚀 Модульный загрузчик (entry point)
 │   ├── icons.js            # SVG-спрайт иконок
-│   ├── elements.js         # База данных 40 элементов
+│   ├── elements.js         # База данных 118 элементов
 │   ├── particles.js        # Canvas: анимация фона + 3D атомы
+│   ├── scroll-collapse.js  # Виртуальный скролл и сжатие
+│   ├── wallpaper-handler.js # Обои (Electron/Windows)
 │   │
 │   ├── modules/            # 📦 Основные модули
 │   │   ├── modal.js        # Модальное окно элемента
 │   │   ├── theme.js        # Тёмная тема + волновая анимация
 │   │   ├── calculator.js   # Калькулятор молярной массы
+│   │   ├── balancer.js     # Уравниватель реакций
+│   │   ├── latex-export.js # Экспорт в LaTeX
 │   │   ├── search-filters.js # Поиск и фильтры элементов
 │   │   ├── ui.js           # FAB-меню и UI-функции
 │   │   └── mobile-layout.js # Мобильная адаптация
@@ -105,8 +119,7 @@ mendeleevtable/
 │   │   ├── filters.js      # Фильтрация и выделение
 │   │   ├── search.js       # Поиск веществ
 │   │   ├── modal.js        # Открытие/закрытие модалки
-│   │   ├── advanced-modal.js # Продвинутая модалка
-│   │   └── substances-data.js # База данных о веществах
+│   │   └── advanced-modal.js # Продвинутая модалка
 │   │
 │   └── nodemap/            # 🗺️ Визуализация архитектуры
 │       ├── nodemap-init.js # Инициализация
@@ -162,7 +175,7 @@ const elementsData = {
             fullerene: {...} 
         }
     },
-    // ... ещё 39 элементов (до Zr)
+    // ... ещё 117 элементов (до Og)
 };
 ```
 
@@ -507,11 +520,11 @@ function addDeviceClassToBody() {
 
 ---
 
-## 🚀 Возможности v0.6.5
+## 🚀 Возможности v1.0.0
 
 ### Реализовано:
 - ✅ Интерактивная таблица 118 элементов
-- ✅ Детальная информация по 100 элементам (H–Zr)
+- ✅ Детальная информация по всем 118 элементам
 - ✅ Система аллотропов (основные + дополнительные)
 - ✅ Тёмная тема с волновой анимацией
 - ✅ 3D модели атомов на Canvas
@@ -530,6 +543,10 @@ function addDeviceClassToBody() {
 - ✅ PWA (оффлайн-режим)
 - ✅ **Определение устройств** — автоматическое определение типа устройства для адаптивных стилей
 - ✅ **Адаптация интерфейса** — оптимизированные размеры элементов для iPhone и Android
+- ✅ **LaTeX экспорт** — генерация `.tex` файлов по элементу
+- ✅ **Electron Windows/Linux** — десктопные сборки
+- ✅ **Режим обоев** — только Windows (Electron)
+- ✅ **Оптимизация больших экранов** — адаптивные размеры и отступы
 
 
 ---
@@ -577,12 +594,12 @@ total = Math.round(total * 1000) / 1000;
 - **GitHub:** https://github.com/layfhaker/mendeleevtable
 - **GitHub Pages:** https://layfhaker.github.io/mendeleevtable/
 - **Документация:**
-  - [README.md](README.md) — общая информация
+  - [README.md](../README.md) — общая информация
   - [TODO.md](TODO.md) — задачи и планы
   - [NODEMAP_GUIDE.md](NODEMAP_GUIDE.md) — руководство по NodeMap
-  - [js/nodemap/README.md](js/nodemap/README.md) — техническая документация NodeMap
-  - [js/solubility/README.md](js/solubility/README.md) — модуль растворимости
-  - [js/solubility/MODULES_STRUCTURE.md](js/solubility/MODULES_STRUCTURE.md) — структура модулей
+  - [js/nodemap/README.md](../js/nodemap/README.md) — техническая документация NodeMap
+  - [js/solubility/README.md](../js/solubility/README.md) — модуль растворимости
+  - [js/solubility/MODULES_STRUCTURE.md](../js/solubility/MODULES_STRUCTURE.md) — структура модулей
 
 ---
 

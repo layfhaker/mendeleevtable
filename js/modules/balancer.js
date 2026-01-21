@@ -273,15 +273,18 @@ function positionBalancerPC() {
     // - Снизу: над K (4-й ряд)
 
     // Равные отступы со всех сторон
-    const gap = 0.5;
+    const gap = Math.max(2, Math.round(hRect.width * 0.04));
 
     // Горизонтальные границы
-    const panelLeft = mgRight + gap;
-    const panelWidth = alLeft - mgRight - (gap * 2);
+    const panelLeft = Math.ceil(mgRight + gap);
+    const panelRightLimit = Math.floor(alLeft - gap);
+    const panelWidth = Math.max(0, panelRightLimit - panelLeft);
 
     // Вертикальные границы (равные отступы сверху и снизу)
-    const panelTop = hRect.top + gap;
-    const panelHeight = kRect.top - hRect.top - (gap * 2);
+    const extraTop = Math.min(10, Math.max(0, hRect.top - 6));
+    let panelTop = hRect.top + gap - extraTop;
+    let panelHeight = kRect.top - hRect.top - (gap * 2) + extraTop;
+    const availableAbove = Math.max(0, Math.floor(hRect.top - 8));
 
     // Устанавливаем панель
     panel.style.position = 'fixed';
@@ -305,6 +308,37 @@ function positionBalancerPC() {
         panelHeight: panelHeight,
         gap: gap
     });
+
+    setTimeout(() => {
+        const header = panel.querySelector('.calc-header');
+        const content = panel.querySelector('.balancer-content');
+        const inputRow = panel.querySelector('.balancer-input-row');
+        const result = panel.querySelector('#balancer-result');
+        const examples = panel.querySelector('.balancer-examples');
+
+        if (header && content && inputRow && result) {
+            const contentStyles = getComputedStyle(content);
+            const paddingY = parseFloat(contentStyles.paddingTop) + parseFloat(contentStyles.paddingBottom);
+            const gapY = parseFloat(contentStyles.rowGap || contentStyles.gap || 0);
+            const minContent = inputRow.offsetHeight + result.offsetHeight + paddingY + gapY + 8;
+            const minPanelHeight = header.offsetHeight + minContent + 8;
+
+            if (panelHeight < minPanelHeight) {
+                const extraTop = Math.min(availableAbove, Math.ceil(minPanelHeight - panelHeight));
+                if (extraTop > 0) {
+                    panelHeight += extraTop;
+                    panelTop -= extraTop;
+                    panel.style.top = panelTop + 'px';
+                    panel.style.height = panelHeight + 'px';
+                    panel.style.maxHeight = panelHeight + 'px';
+                }
+            }
+
+            if (examples && examples.style.display === 'none') {
+                examples.style.display = '';
+            }
+        }
+    }, 90);
 
     // Также логируем реальные размеры панели после установки стилей
     setTimeout(() => {

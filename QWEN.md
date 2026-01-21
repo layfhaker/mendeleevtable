@@ -15,8 +15,10 @@ The application is designed as a Progressive Web App (PWA) with offline capabili
 - **Molecular Mass Calculator**: Drag-and-drop calculator for determining compound masses
 - **Search & Filters**: Smart search functionality and category filtering
 - **Dark/Light Themes**: With wave animations and particle effects
+- **LaTeX Export**: Generate `.tex` files with element data and reactions
 - **PWA Support**: Works offline with service worker caching
-- **Electron Desktop App**: With Windows wallpaper integration feature
+- **Electron Desktop App**: Windows/Linux builds with Windows wallpaper integration
+- **Large Screen Optimization**: Adaptive sizing for wide displays
 - **Nodemap Visualization**: Interactive graph visualization of code architecture and dependencies
 
 ### Technology Stack
@@ -51,7 +53,7 @@ mendeleevtable/
 ├── js/                       # JavaScript modules
 │   ├── scrypt.js             # Module loader (entry point)
 │   ├── icons.js              # SVG icon sprite
-│   ├── elements.js           # Elements database (40+ elements)
+│   ├── elements.js           # Elements database (118 elements)
 │   ├── particles.js          # Canvas animations and 3D atoms
 │   ├── scroll-collapse.js    # Virtual scroll and collapse system
 │   ├── wallpaper-handler.js  # Wallpaper functionality (Electron)
@@ -60,6 +62,8 @@ mendeleevtable/
 │   │   ├── modal.js          # Element modal functionality
 │   │   ├── theme.js          # Theme switching
 │   │   ├── calculator.js     # Molecular mass calculator
+│   │   ├── balancer.js       # Reaction balancer
+│   │   ├── latex-export.js   # LaTeX export
 │   │   ├── search-filters.js # Search and filtering
 │   │   ├── ui.js             # FAB menu and UI interactions
 │   │   └── mobile-layout.js  # Mobile responsiveness
@@ -87,6 +91,9 @@ mendeleevtable/
 │   │   └── wallpaper-api.js  # Windows wallpaper API
 │   ├── package.json          # Electron app config
 │   └── README.md             # Electron setup instructions
+├── latex/                    # LaTeX templates
+│   ├── element-template.tex
+│   └── preamble.tex
 ├── img/                      # Image assets
 └── md/                       # Documentation files
 ```
@@ -116,7 +123,12 @@ npm run dev
 
 # Build for production
 npm run build
-# Builds NSIS installer for Windows
+
+# Build Windows installer
+npm run build:win
+
+# Build Linux packages (AppImage/deb/snap)
+npm run build:linux
 ```
 
 ## Development Conventions
@@ -144,6 +156,7 @@ The desktop version includes unique features:
 - **System Tray**: Application continues running in system tray when closed
 - **Auto-start**: Option to launch with Windows
 - **NSIS Installer**: Professional installation package
+ - **Linux Packages**: AppImage / deb / snap builds (without wallpaper integration)
 
 ### Nodemap Visualization
 An innovative feature that automatically analyzes the codebase and creates an interactive graph visualization showing:

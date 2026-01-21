@@ -362,20 +362,22 @@ function positionCalculatorPC() {
     const calcPanel = document.getElementById('calc-panel');
     const mg = document.getElementById('Mg');
     const al = document.getElementById('Al');
-    const container = document.querySelector('.container');
+    const h = document.getElementById('H');
+    const k = document.getElementById('K');
 
-    if (!mg || !al || !container || !calcPanel) return;
+    if (!mg || !al || !h || !k || !calcPanel) return;
 
     const mgRect = mg.getBoundingClientRect();
     const alRect = al.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
+    const hRect = h.getBoundingClientRect();
+    const kRect = k.getBoundingClientRect();
 
-    const left = mgRect.right + 4;
-    const right = alRect.left - 4;
-    const width = right - left;
-    const top = containerRect.top - 20;
-    const rowHeight = mgRect.height + 2;
-    const height = rowHeight * 3.2;
+    const gap = Math.max(2, Math.round(hRect.width * 0.04));
+    const left = Math.ceil(mgRect.right + gap);
+    const right = Math.floor(alRect.left - gap);
+    const width = Math.max(0, right - left);
+    const top = Math.round(hRect.top + gap);
+    const height = Math.max(0, Math.round(kRect.top - hRect.top - (gap * 2)));
 
     calcPanel.style.left = left + 'px';
     calcPanel.style.top = top + 'px';

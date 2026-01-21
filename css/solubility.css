@@ -8,6 +8,8 @@
     --bg-color: #ffffff;
     --text-color: #333333;
     --border-color: #e0e0e0;
+    --solubility-left-gutter: 20px;
+    --solubility-right-gutter: 120px;
 }
 
 body.dark-theme {
@@ -40,12 +42,12 @@ body.dark-theme {
    чтобы переопределить специфичные глюки */
 /* Растягиваем почти на весь экран, но с отступом справа для FAB кнопок */
 .solubility-content {
-    max-width: calc(100vw - 120px);
-    width: calc(100vw - 120px);
+    max-width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter));
+    width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter));
     height: 95vh;
     padding: 0;
     margin-right: auto;
-    margin-left: 20px;
+    margin-left: var(--solubility-left-gutter);
     /* Прижимаем к левому краю с небольшим отступом */
     background-color: var(--sol-bg);
     /* Добавили фон */
@@ -490,8 +492,8 @@ body.dark-theme .chem-color-cell.colorless-solution {
 /* НОВЫЙ БЛОК: Для средних экранов (ноутбуки, мониторы 1920x1080) */
 @media (min-width: 1025px) and (max-width: 1920px) {
     .solubility-content {
-        max-width: calc(100vw - 8vw) !important;
-        width: calc(100vw - 8vw) !important;
+        max-width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter)) !important;
+        width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter)) !important;
         height: 95vh !important;
     }
 
@@ -555,8 +557,8 @@ body.dark-theme .chem-color-cell.colorless-solution {
 /* Для больших экранов (4K и выше) */
 @media (min-width: 1921px) {
     .solubility-content {
-        max-width: calc(100vw - 6vw) !important;
-        width: calc(100vw - 6vw) !important;
+        max-width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter)) !important;
+        width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter)) !important;
         height: 95vh !important;
     }
 
