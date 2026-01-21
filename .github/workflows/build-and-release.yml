@@ -9,11 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-electron:
-    name: Build Electron App
+  build-windows:
+    name: Build Windows App
     runs-on: windows-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
@@ -58,6 +56,68 @@ jobs:
           Write-Host "Build artifacts:"
           Get-ChildItem -Path "electron-app\dist" -Recurse | Select-Object Name, Length
 
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-windows
+          path: electron-app/dist/
+
+  build-linux:
+    name: Build Linux App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Copy project files to electron-app
+        shell: bash
+        run: |
+          mkdir -p electron-app/css electron-app/js electron-app/img
+          cp -R css/* electron-app/css/
+          cp -R js/* electron-app/js/
+          cp -R img/* electron-app/img/
+          cp index.html manifest.json sw.js electron-app/
+
+      - name: Install dependencies
+        working-directory: electron-app
+        run: npm install
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+      - name: Build Linux packages
+        working-directory: electron-app
+        run: npm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-linux
+          path: electron-app/dist/
+
+  release:
+    name: Create GitHub Release
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/artifacts
+
       - name: Determine version
         id: version
         shell: bash
@@ -77,28 +137,31 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            electron-app/dist/*.exe
+            /tmp/artifacts/dist-windows/**/*.exe
+            /tmp/artifacts/dist-linux/**/*.AppImage
+            /tmp/artifacts/dist-linux/**/*.deb
+            /tmp/artifacts/dist-linux/**/*.snap
           tag_name: ${{ steps.version.outputs.tag }}
           name: Release ${{ steps.version.outputs.version }}
           draft: false
           prerelease: ${{ steps.version.outputs.is_prerelease }}
           body: |
-            ## Химический Ассистент v${{ steps.version.outputs.version }}
+            ## ?ñ?ñ‘Øç‘?óñü ?‘?‘?ñ‘?‘'ç?‘' v${{ steps.version.outputs.version }}
 
-            ### Установка
-            Скачайте `.exe` файл и запустите установку.
+            ### ?‘?‘'ø???óø
+            öóø‘Øøü‘'ç `.exe` ‘"øü> ñ úøõ‘?‘?‘'ñ‘'ç ‘?‘?‘'ø???ó‘?.
 
-            ### Возможности
-            - Интерактивная таблица Менделеева (118 элементов)
-            - Таблица растворимости (384 соединения)
-            - Калькулятор молярной массы
-            - Установка обоев рабочего стола Windows
-            - Тёмная тема
-            - PWA-версия
+            ### '?ú????‘?‘'ñ
+            - ??‘'ç‘?øó‘'ñ??ø‘? ‘'ø+>ñ‘Åø ?ç??ç>çç?ø (118 ‘?>ç?ç?‘'?? )
+            - ÷ø+>ñ‘Åø ‘?ø‘?‘'??‘?ñ??‘?‘'ñ (384 ‘??ç?ñ?ç?ñ‘? )
+            - ?ø>‘?ó‘?>‘?‘'?‘? ??>‘?‘???ü ?ø‘?‘?‘<
+            - ?‘?‘'ø???óø ?+?ç? ‘?ø+?‘Øç?? ‘?‘'?>ø Windows
+            - ÷‘'??ø‘? ‘'ç?ø
+            - PWA-?ç‘?‘?ñ‘?
 
-            ### Системные требования
+            ### öñ‘?‘'ç??‘<ç ‘'‘?ç+??ø?ñ‘?
             - Windows 10/11 (64-bit)
-            - ~100 МБ свободного места
+            - ~100 ?' ‘???+?????? ?ç‘?‘'ø
 
             ---
 

@@ -36,6 +36,7 @@
     "electron-as-wallpaper": "^2.0.3"
   },
   "build": {
+    "artifactName": "ChemicalAssistant.${ext}",
     "appId": "com.chemistryassistant.wallpaper",
     "productName": "Chemical Assistant",
     "files": [
@@ -80,7 +81,7 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Chemical Assistant",
-      "artifactName": "ChemicalAssistant-Setup-${version}.exe",
+      "artifactName": "ChemicalAssistant-Setup.exe",
       "perMachine": false,
       "allowElevation": true
     }
