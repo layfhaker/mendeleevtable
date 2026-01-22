@@ -46,11 +46,21 @@ jobs:
           cd electron-app
           npm run build:linux
 
-      - name: Upload artifacts
+      - name: Upload artifacts (Windows)
+        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: dist-${{ runner.os }}
-          path: electron-app/dist/
+          path: electron-app/dist/**/ChemicalAssistant-Setup*.exe
+
+      - name: Upload artifacts (Linux)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ runner.os }}
+          path: |
+            electron-app/dist/**/*.AppImage
+            electron-app/dist/**/*.deb
 
   publish:
     needs: release
@@ -65,7 +75,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            /tmp/artifacts/dist-Windows/**/*.exe
+            /tmp/artifacts/dist-Windows/**/ChemicalAssistant-Setup*.exe
             /tmp/artifacts/dist-Linux/**/*.AppImage
             /tmp/artifacts/dist-Linux/**/*.deb
         env:
