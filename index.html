@@ -1199,6 +1199,16 @@
                         liveWallpaperBtn.classList.remove('active');
                     }
                 }
+                applyWallpaperOptimizations(isWallpaperActive);
+            }
+
+            function applyWallpaperOptimizations(enabled) {
+                if (document.body) {
+                    document.body.classList.toggle('wallpaper-optimized', enabled);
+                }
+                if (typeof window.setWallpaperMode === 'function') {
+                    window.setWallpaperMode(enabled);
+                }
             }
 
             // Settings Modal functions

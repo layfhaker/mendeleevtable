@@ -16,7 +16,26 @@ let setAsWallpaper = null;
 if (process.platform === 'win32') {
     ({ setAsWallpaper } = require('./wallpaper-api'));
 }
-const { attach, detach, reset } = require('electron-as-wallpaper');
+
+let attach = async () => {
+    throw new Error('Live wallpaper is not available for this platform.');
+};
+let detach = async () => {};
+let reset = () => {};
+
+if (process.platform === 'win32') {
+    try {
+        ({ attach, detach, reset } = require('electron-as-wallpaper'));
+    } catch (error) {
+        console.warn('[Wallpaper] electron-as-wallpaper is unavailable:', error.message);
+    }
+} else if (process.platform === 'linux') {
+    try {
+        ({ attach, detach, reset } = require('./wallpaper-linux'));
+    } catch (error) {
+        console.warn('[Wallpaper] Linux wallpaper helper is unavailable:', error.message);
+    }
+}
 
 let mainWindow;
 let tray;
@@ -34,6 +53,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1920,
         height: 1080,
+        frame: false,
+        titleBarStyle: 'hidden',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,

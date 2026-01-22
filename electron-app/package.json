@@ -32,7 +32,9 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
-    "auto-launch": "^5.0.6",
+    "auto-launch": "^5.0.6"
+  },
+  "optionalDependencies": {
     "electron-as-wallpaper": "^2.0.3"
   },
   "build": {

@@ -1,8 +1,8 @@
-/* =========================================
-   MODAL.CSS — Модальное окно элемента
+﻿/* =========================================
+   MODAL.CSS вЂ” РњРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ СЌР»РµРјРµРЅС‚Р°
    ========================================= */
 
-/* --- Фон модального окна --- */
+/* --- Р¤РѕРЅ РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР° --- */
 .modal {
     display: none;
     position: fixed;
@@ -21,7 +21,7 @@
     animation: backdropClose 0.3s cubic-bezier(0.24, 0.45, 1.0, 0.69) forwards;
 }
 
-/* --- Контент модального окна --- */
+/* --- РљРѕРЅС‚РµРЅС‚ РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР° --- */
 .modal-content {
     background-color: #fefefe;
     width: 900px;
@@ -43,7 +43,13 @@
     animation: modalClose 0.3s cubic-bezier(0.4, 0.05, 0.8, 1.0) forwards;
 }
 
-/* --- Кнопка закрытия --- */
+/* --- Wallpaper mode: disable modal animations to reduce jank --- */
+body.wallpaper-optimized .modal,
+body.wallpaper-optimized .modal * {
+    animation: none !important;
+    transition: none !important;
+}
+/* --- РљРЅРѕРїРєР° Р·Р°РєСЂС‹С‚РёСЏ --- */
 .close {
     position: absolute;
     right: 15px;
@@ -60,7 +66,7 @@
     color: #333;
 }
 
-/* --- Заголовок элемента --- */
+/* --- Р—Р°РіРѕР»РѕРІРѕРє СЌР»РµРјРµРЅС‚Р° --- */
 #element-title {
     text-align: center;
     margin: 10px 0 20px 0;
@@ -69,7 +75,7 @@
     flex-shrink: 0;
 }
 
-/* --- Контейнер информации --- */
+/* --- РљРѕРЅС‚РµР№РЅРµСЂ РёРЅС„РѕСЂРјР°С†РёРё --- */
 #element-info {
     flex-grow: 1;
     overflow: hidden;
@@ -83,7 +89,7 @@
 }
 
 /* =========================================
-   ТАБЫ АЛЛОТРОПОВ
+   РўРђР‘Р« РђР›Р›РћРўР РћРџРћР’
    ========================================= */
 #allotrope-tabs-placeholder {
     display: flex;
@@ -116,7 +122,7 @@
     box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
 }
 
-/* Кнопка "+ Ещё" */
+/* РљРЅРѕРїРєР° "+ Р•С‰С‘" */
 .allotrope-tab.more-btn {
     background: #fff3e0;
     border-color: #FF9800;
@@ -132,7 +138,7 @@
     color: white;
 }
 
-/* Дополнительные табы */
+/* Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ С‚Р°Р±С‹ */
 .allotrope-tab.extra-tab {
     background: #fce4ec;
     border-color: #E91E63;
@@ -152,7 +158,7 @@
 }
 
 /* =========================================
-   СЕКЦИИ ИНФОРМАЦИИ
+   РЎР•РљР¦РР РРќР¤РћР РњРђР¦РР
    ========================================= */
 .groups-container {
     display: flex;
@@ -177,7 +183,7 @@
     overflow: hidden;
 }
 
-/* Цвета секций */
+/* Р¦РІРµС‚Р° СЃРµРєС†РёР№ */
 .info-group.basic {
     border-left-color: #2196F3;
     background: #E3F2FD;
@@ -198,7 +204,7 @@
     background: #F3E5F5;
 }
 
-/* Свёрнутая секция */
+/* РЎРІС‘СЂРЅСѓС‚Р°СЏ СЃРµРєС†РёСЏ */
 .info-group.collapsed {
     flex: 0 0 45px;
     max-width: 45px;
@@ -206,7 +212,7 @@
     transition: all 0.2s ease-out;
 }
 
-/* Заголовок секции */
+/* Р—Р°РіРѕР»РѕРІРѕРє СЃРµРєС†РёРё */
 .group-title {
     writing-mode: vertical-lr;
     text-orientation: upright;
@@ -232,7 +238,7 @@
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Контент секции */
+/* РљРѕРЅС‚РµРЅС‚ СЃРµРєС†РёРё */
 .group-content {
     flex: 1 1 auto;
     min-width: 0;
@@ -340,9 +346,9 @@
 }
 
 /* =========================================
-   СКРОЛЛБАРЫ
+   РЎРљР РћР›Р›Р‘РђР Р«
    ========================================= */
-/* Кастомные скроллбары для модального окна */
+/* РљР°СЃС‚РѕРјРЅС‹Рµ СЃРєСЂРѕР»Р»Р±Р°СЂС‹ РґР»СЏ РјРѕРґР°Р»СЊРЅРѕРіРѕ РѕРєРЅР° */
 #element-info::-webkit-scrollbar,
 .group-content::-webkit-scrollbar {
     width: 6px;
@@ -366,7 +372,7 @@
     background: linear-gradient(135deg, #1976D2, #2196F3);
 }
 
-/* Тёмная тема */
+/* РўС‘РјРЅР°СЏ С‚РµРјР° */
 body.dark-theme #element-info::-webkit-scrollbar-track,
 body.dark-theme .group-content::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.03);
@@ -383,7 +389,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 }
 
 /* =========================================
-   АНИМАЦИИ
+   РђРќРРњРђР¦РР
    ========================================= */
 @keyframes fadeInTab {
     from {
@@ -452,7 +458,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 }
 
 /* =========================================
-   АДАПТИВ
+   РђР”РђРџРўРР’
    ========================================= */
 @media (max-width: 1024px) {
     .modal {
@@ -475,14 +481,14 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         max-width: 100%;
         height: auto;
         max-height: 95vh;
-        /* Увеличено с 90vh */
+        /* РЈРІРµР»РёС‡РµРЅРѕ СЃ 90vh */
         background: rgba(255, 255, 255, 0.75);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         border-radius: 20px 20px 0 0;
         padding: 0;
         padding-bottom: env(safe-area-inset-bottom, 20px);
-        /* Для iPhone с чёлкой */
+        /* Р”Р»СЏ iPhone СЃ С‡С‘Р»РєРѕР№ */
         position: relative;
         display: flex;
         flex-direction: column;
@@ -543,7 +549,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         flex: 1;
         display: block;
         padding-bottom: 30px;
-        /* Дополнительный запас для прокрутки */
+        /* Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ Р·Р°РїР°СЃ РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё */
     }
 
     .groups-container {
@@ -552,7 +558,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         gap: 10px;
         height: auto !important;
         padding-bottom: 20px;
-        /* Запас для прокрутки */
+        /* Р—Р°РїР°СЃ РґР»СЏ РїСЂРѕРєСЂСѓС‚РєРё */
     }
 
     .info-group {
@@ -607,7 +613,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* Маленькие телефоны */
+/* РњР°Р»РµРЅСЊРєРёРµ С‚РµР»РµС„РѕРЅС‹ */
 @media (max-width: 480px) {
     .modal-content {
         padding: 55px 10px 10px 10px;
@@ -653,7 +659,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* Горизонтальная ориентация */
+/* Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РѕСЂРёРµРЅС‚Р°С†РёСЏ */
 @media (max-width: 768px) and (orientation: landscape) {
     .modal-content {
         padding: 45px 10px 10px 10px;
@@ -704,35 +710,35 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 }
 
 /* =========================================
-   БОЛЬШИЕ ЭКРАНЫ
+   Р‘РћР›Р¬РЁРР• Р­РљР РђРќР«
    ========================================= */
 @media (min-width: 1400px) {
     .modal-content {
         width: 80vw;
         max-width: 1400px;
         max-height: 85vh;
-        /* Разрешаем модалке быть выше */
+        /* Р Р°Р·СЂРµС€Р°РµРј РјРѕРґР°Р»РєРµ Р±С‹С‚СЊ РІС‹С€Рµ */
     }
 
     .info-group {
         max-width: none;
         flex: 1 1 200px;
         max-height: 60vh;
-        /* Увеличиваем высоту секций (было 350px) */
+        /* РЈРІРµР»РёС‡РёРІР°РµРј РІС‹СЃРѕС‚Сѓ СЃРµРєС†РёР№ (Р±С‹Р»Рѕ 350px) */
     }
 
     .group-title {
         width: 60px;
-        /* Расширяем полоску заголовка */
+        /* Р Р°СЃС€РёСЂСЏРµРј РїРѕР»РѕСЃРєСѓ Р·Р°РіРѕР»РѕРІРєР° */
         min-width: 60px;
         font-size: 16px;
-        /* Увеличиваем шрифт заголовка */
+        /* РЈРІРµР»РёС‡РёРІР°РµРј С€СЂРёС„С‚ Р·Р°РіРѕР»РѕРІРєР° */
     }
 }
 
 @media (min-width: 1900px) {
 
-    /* Для очень больших экранов */
+    /* Р”Р»СЏ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёС… СЌРєСЂР°РЅРѕРІ */
     .modal-content {
         width: 75vw;
         max-width: 1800px;
@@ -741,12 +747,12 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 
     .info-group {
         max-height: 70vh;
-        /* Ещё выше для огромных экранов */
+        /* Р•С‰С‘ РІС‹С€Рµ РґР»СЏ РѕРіСЂРѕРјРЅС‹С… СЌРєСЂР°РЅРѕРІ */
     }
 
     .group-title {
         width: 70px;
-        /* Ещё шире */
+        /* Р•С‰С‘ С€РёСЂРµ */
         min-width: 70px;
         font-size: 18px;
     }
@@ -760,3 +766,4 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         line-height: 1.6;
     }
 }
+

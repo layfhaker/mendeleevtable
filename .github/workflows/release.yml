@@ -21,10 +21,17 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install dependencies (Windows)
+        if: runner.os == 'Windows'
         run: |
           cd electron-app
           npm ci
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cd electron-app
+          npm ci --omit=optional
 
       - name: Build Windows
         if: runner.os == 'Windows'

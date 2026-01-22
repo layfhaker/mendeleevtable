@@ -86,7 +86,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: electron-app
-        run: npm install
+        run: npm install --omit=optional
 
       - name: Install Linux build dependencies
         run: |
