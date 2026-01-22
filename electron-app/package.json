@@ -21,7 +21,10 @@
     "education",
     "electron"
   ],
-  "author": "Chemical Assistant Team",
+  "author": {
+    "name": "Chemical Assistant Team",
+    "email": "support@chemicalassistant.app"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
