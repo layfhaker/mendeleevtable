@@ -42,7 +42,7 @@ jobs:
       - name: Build Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update && sudo apt-get install -y libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libfuse2
+          sudo apt-get update && sudo apt-get install -y libgtk-3-dev libnotify-dev libnss3 libxss1 libasound2t64 libfuse2
           cd electron-app
           npm run build:linux
 
