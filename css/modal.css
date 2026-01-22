@@ -262,6 +262,77 @@
     font-size: 14px;
 }
 
+.electron-config-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(33, 150, 243, 0.12);
+    border: 1px solid rgba(33, 150, 243, 0.2);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.electron-config-row:hover {
+    background: rgba(33, 150, 243, 0.18);
+    box-shadow: 0 4px 10px rgba(33, 150, 243, 0.15);
+    transform: translateY(-1px);
+}
+
+.electron-config-row:focus {
+    outline: 2px solid rgba(33, 150, 243, 0.35);
+    outline-offset: 2px;
+}
+
+.electron-config-value {
+    font-weight: 600;
+    color: #0d47a1;
+}
+
+.electron-config-action {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: rgba(13, 71, 161, 0.12);
+    color: #0d47a1;
+}
+
+.electron-config-row strong {
+    margin-right: 4px;
+}
+
+.electron-config-row .electron-config-action {
+    white-space: nowrap;
+}
+
+.electron-config-row .electron-config-value sup {
+    font-size: 10px;
+}
+
+.electron-config-row:focus-visible {
+    outline: 2px solid rgba(33, 150, 243, 0.6);
+}
+
+.dark-theme .electron-config-row {
+    background: rgba(129, 212, 250, 0.12);
+    border-color: rgba(129, 212, 250, 0.2);
+}
+
+.dark-theme .electron-config-value {
+    color: #90caf9;
+}
+
+.dark-theme .electron-config-action {
+    background: rgba(144, 202, 249, 0.18);
+    color: #bbdefb;
+}
+
 .allo-specific {
     border: none;
     padding: 0;

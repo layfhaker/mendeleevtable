@@ -1,0 +1,424 @@
+/* =========================================
+   ELECTRON-CONFIG.CSS - Electron configuration modal
+   ========================================= */
+
+#electron-config-modal {
+    display: none;
+    position: fixed;
+    z-index: 60000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overscroll-behavior: contain;
+}
+
+.electron-config-content {
+    position: relative;
+    width: min(1100px, 95vw);
+    max-height: 90vh;
+    background: #9bb9e6;
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: electronConfigOpen 0.3s ease-out;
+}
+
+@keyframes electronConfigOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.electron-config-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.2s ease;
+}
+
+.electron-config-close:hover {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.electron-config-header {
+    padding: 18px 30px 10px;
+    padding-right: 70px;
+    background: transparent;
+    color: #f6a623;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-shrink: 0;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.electron-config-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.electron-config-title .icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    color: #ffffff;
+}
+
+.electron-config-subtitle {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-top: 2px;
+    text-align: center;
+    color: #fef5dd;
+}
+
+.electron-config-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 30px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.electron-config-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.electron-config-left {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.electron-config-symbol {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.electron-config-symbol .symbol {
+    font-size: 56px;
+    font-weight: 700;
+    color: #f59e2e;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.electron-config-symbol .number {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.electron-config-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.electron-config-meta .charge {
+    font-size: 15px;
+}
+
+.electron-config-meta .mass {
+    font-size: 15px;
+}
+
+.electron-shells {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-weight: 700;
+    color: #1f2a44;
+}
+
+.electron-shells span {
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+}
+
+.electron-config-right {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.orbital-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-left: calc(var(--step-index) * 18px);
+}
+
+.orbital-label {
+    font-weight: 700;
+    color: #1a1f2b;
+    font-size: 13px;
+}
+
+.orbital-label sup {
+    font-size: 10px;
+}
+
+.orbital-boxes {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.orbital-box {
+    width: 26px;
+    height: 18px;
+    border: 1px solid rgba(38, 50, 56, 0.6);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.orbital-box.filled {
+    border-color: rgba(33, 150, 243, 0.6);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.orbital-arrow {
+    font-size: 12px;
+    line-height: 1;
+    color: #0d2b5b;
+}
+
+.orbital-arrow.down {
+    color: #1565c0;
+}
+
+.electron-config-footer {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.electron-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+}
+
+.electron-meta-row .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(0, 0, 0, 0.55);
+    font-weight: 700;
+}
+
+.electron-meta-row .value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a237e;
+}
+
+.electron-config-empty {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 193, 7, 0.12);
+    color: #5d4037;
+    font-weight: 600;
+}
+
+body.dark-theme #electron-config-modal {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+body.dark-theme .electron-config-content {
+    background: #1f2430;
+}
+
+body.dark-theme .electron-config-header {
+    background: linear-gradient(135deg, #1565c0 0%, #00838f 100%);
+}
+
+body.dark-theme .electron-config-left {
+    background: rgba(33, 150, 243, 0.12);
+}
+
+body.dark-theme .electron-config-meta {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-theme .electron-config-symbol .symbol {
+    color: #bbdefb;
+}
+
+body.dark-theme .electron-config-symbol .number {
+    color: #bbdefb;
+    background: rgba(187, 222, 251, 0.15);
+}
+
+body.dark-theme .electron-shells {
+    color: #e3f2fd;
+}
+
+body.dark-theme .electron-shells span {
+    background: rgba(33, 150, 243, 0.2);
+}
+
+body.dark-theme .electron-config-right {
+    background: rgba(17, 20, 27, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .orbital-label {
+    color: #e0e0e0;
+}
+
+body.dark-theme .orbital-box {
+    background: rgba(12, 14, 18, 0.6);
+    border-color: rgba(187, 222, 251, 0.4);
+}
+
+body.dark-theme .orbital-box.filled {
+    background: rgba(33, 150, 243, 0.18);
+}
+
+body.dark-theme .orbital-arrow {
+    color: #bbdefb;
+}
+
+body.dark-theme .electron-config-footer {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .electron-meta-row .label {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+body.dark-theme .electron-meta-row .value {
+    color: #e3f2fd;
+}
+
+@media (max-width: 900px) {
+    .electron-config-body {
+        grid-template-columns: 1fr;
+    }
+
+    .electron-config-left {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .electron-shells {
+        justify-content: flex-end;
+    }
+
+    .orbital-row {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    #electron-config-modal {
+        padding: 10px;
+    }
+
+    .electron-config-content {
+        width: 100%;
+        max-height: 100%;
+        border-radius: 18px;
+    }
+
+    .electron-config-header {
+        padding: 18px 20px;
+        padding-right: 60px;
+    }
+
+    .electron-config-title {
+        font-size: 20px;
+    }
+
+    .electron-config-main {
+        padding: 18px 18px 22px;
+    }
+}
+
+@media (max-width: 520px) {
+    .electron-config-symbol .symbol {
+        font-size: 40px;
+    }
+
+    .electron-config-right {
+        padding: 12px;
+    }
+
+    .orbital-row {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .orbital-box {
+        width: 22px;
+        height: 16px;
+    }
+}

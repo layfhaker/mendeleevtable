@@ -669,7 +669,7 @@
         <!-- Секция скачивания приложения -->
         <div class="download-app-section">
             <div class="download-card">
-                <a href="https://github.com/layfhaker/mendeleevtable/releases/latest/download/ChemicalAssistant-Setup.exe"
+                <a href="https://github.com/layfhaker/mendeleevtable/releases/download/vnightly-20260120-170417/ChemicalAssistant-Setup-1.0.0.exe"
                     class="download-btn-large" id="download-app-btn" target="_blank" rel="noopener">
                     <div class="download-btn-large-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -699,7 +699,7 @@
 
             <!-- Новая кнопка скачивания для Linux -->
             <div class="download-card">
-                <a href="https://github.com/layfhaker/mendeleevtable/releases/latest/download/ChemicalAssistant.AppImage"
+                <a href="https://github.com/layfhaker/mendeleevtable/releases"
                    class="download-btn-large" id="download-linux-btn" target="_blank" rel="noopener"
                    aria-label="Скачать Linux версию Chemical Assistant">
                     <div class="download-btn-large-icon">
@@ -720,10 +720,10 @@
                         <span>Все функции</span>
                     </div>
                     <div class="download-links">
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases/latest/download/ChemicalAssistant.AppImage"
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases"
                            id="download-linux-appimage" data-asset-ext="appimage" target="_blank" rel="noopener">AppImage</a>
                         <span>|</span>
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases/latest/download/ChemicalAssistant.deb"
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases"
                            id="download-linux-deb" data-asset-ext="deb" target="_blank" rel="noopener">DEB</a>
                         <span>|</span>
                         <a href="https://github.com/layfhaker/mendeleevtable/releases"
@@ -753,6 +753,53 @@
             <div id="allotrope-tabs-placeholder"></div>
 
             <div id="element-info"></div>
+        </div>
+    </div>
+
+    <div id="electron-config-modal" class="modal" aria-hidden="true">
+        <div class="electron-config-content" role="dialog" aria-modal="true" aria-labelledby="electron-config-title">
+            <button id="electron-config-close" class="electron-config-close" aria-label="Закрыть">&times;</button>
+            <div class="electron-config-header">
+                <div>
+                    <div class="electron-config-title" id="electron-config-title">
+                        <span class="icon">&#9883;</span>
+                        <span id="electron-config-heading">Строение атома</span>
+                    </div>
+                    <div class="electron-config-subtitle" id="electron-config-subtitle"></div>
+                </div>
+            </div>
+            <div class="electron-config-main">
+                <div class="electron-config-body">
+                    <div class="electron-config-left">
+                        <div class="electron-config-symbol">
+                            <span class="symbol" id="electron-config-symbol"></span>
+                            <span class="number" id="electron-config-number"></span>
+                        </div>
+                        <div class="electron-config-meta">
+                            <span class="charge" id="electron-config-charge"></span>
+                            <span class="mass" id="electron-config-mass"></span>
+                        </div>
+                        <div class="electron-shells" id="electron-config-shells"></div>
+                    </div>
+                    <div class="electron-config-right">
+                        <div id="electron-config-orbitals"></div>
+                    </div>
+                </div>
+                <div class="electron-config-footer">
+                    <div class="electron-meta-row">
+                        <span class="label">Валентные возможности</span>
+                        <span class="value" id="electron-config-valence"></span>
+                    </div>
+                    <div class="electron-meta-row">
+                        <span class="label">Краткая электронная формула</span>
+                        <span class="value" id="electron-config-short"></span>
+                    </div>
+                    <div class="electron-meta-row">
+                        <span class="label">Полная электронная формула</span>
+                        <span class="value" id="electron-config-full"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

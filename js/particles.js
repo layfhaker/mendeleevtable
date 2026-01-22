@@ -8,8 +8,15 @@ let specificAtomsArray = [];
 let particlesCount = window.innerWidth < 768 ? 15 : 80;
 let atomsCount = window.innerWidth < 768 ? 10 : 25;
 let connectionDistance = 120;
+let mouseRadius = 120;
+let mouseForce = 0.6;
+let interactionMode = 'repel';
+let maxVelocity = 1.4;
+let damping = 0.98;
 
 let wave = { active: false, x: 0, y: 0, radius: 0, maxRadius: 0, toDark: false, ending: false, endTime: 0 };
+let mouse = { x: 0, y: 0, active: false };
+let spawnBurstCount = 2;
 
 // Wallpaper mode settings
 let wallpaperMode = false;
@@ -24,6 +31,7 @@ canvas.height = window.innerHeight;
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    updateInteractionSettings();
     initParticles();
     if (specificAtomsArray.length > 0) {
         const lastAtom = specificAtomsArray[0];
@@ -74,6 +82,91 @@ window.particleSystem = {
     setWallpaperMode: window.setWallpaperMode
 };
 
+function updateInteractionSettings() {
+    const isMobile = window.innerWidth < 768;
+    mouseRadius = isMobile ? 80 : 120;
+    mouseForce = isMobile ? 0.35 : 0.6;
+}
+
+function updateMousePosition(x, y) {
+    mouse.x = x;
+    mouse.y = y;
+    mouse.active = true;
+}
+
+window.addEventListener('mousemove', (event) => {
+    updateMousePosition(event.clientX, event.clientY);
+});
+
+window.addEventListener('mouseleave', () => {
+    mouse.active = false;
+});
+
+window.addEventListener('touchmove', (event) => {
+    if (!event.touches || event.touches.length === 0) return;
+    const touch = event.touches[0];
+    updateMousePosition(touch.clientX, touch.clientY);
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+    mouse.active = false;
+});
+
+function isClickOnUi(target) {
+    if (!target) return false;
+    return Boolean(target.closest(
+        '.element, .modal, .modal-content, .electron-config-content, .advanced-modal-content, ' +
+        '.below-table-content, .fab, .fab-option, button, a, input, textarea, select, label'
+    ));
+}
+
+function spawnParticlesAt(x, y, count) {
+    if (specificAtomsArray.length > 0) return;
+    const spawnCount = Math.max(1, count || spawnBurstCount);
+    for (let i = 0; i < spawnCount; i++) {
+        const particle = new Particle(x, y);
+        particlesArray.push(particle);
+    }
+    if (particlesArray.length > particlesCount * 3) {
+        particlesArray.splice(0, particlesArray.length - particlesCount * 3);
+    }
+}
+
+window.addEventListener('mousedown', (event) => {
+    if (event.button !== 0) return;
+    if (isClickOnUi(event.target)) return;
+    spawnParticlesAt(event.clientX, event.clientY, spawnBurstCount);
+});
+
+function applyMouseInteraction(particle) {
+    if (!mouse.active) return;
+
+    const dx = particle.x - mouse.x;
+    const dy = particle.y - mouse.y;
+    const distanceSq = dx * dx + dy * dy;
+    const radiusSq = mouseRadius * mouseRadius;
+
+    if (distanceSq === 0 || distanceSq > radiusSq) return;
+
+    const distance = Math.sqrt(distanceSq);
+    const strength = mouseForce * (1 - distance / mouseRadius);
+    let forceX = 0;
+    let forceY = 0;
+
+    if (interactionMode === 'attract') {
+        forceX = (-dx / distance) * strength;
+        forceY = (-dy / distance) * strength;
+    } else if (interactionMode === 'vortex') {
+        forceX = (-dy / distance) * strength;
+        forceY = (dx / distance) * strength;
+    } else {
+        forceX = (dx / distance) * strength;
+        forceY = (dy / distance) * strength;
+    }
+
+    particle.directionX += forceX;
+    particle.directionY += forceY;
+}
 
 function createSpecificAtoms(atomicNumber, period) {
     specificAtomsArray = [];
@@ -208,15 +301,32 @@ class SpecificAtom {
 
 // Класс обычной точки (Фон)
 class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+    constructor(x, y) {
+        this.x = typeof x === 'number' ? x : Math.random() * canvas.width;
+        this.y = typeof y === 'number' ? y : Math.random() * canvas.height;
         this.directionX = (Math.random() * 0.4) - 0.2;
         this.directionY = (Math.random() * 0.4) - 0.2;
         this.size = Math.random() * 2 + 1;
     }
 
     update() {
+        applyMouseInteraction(this);
+
+        this.directionX *= damping;
+        this.directionY *= damping;
+
+        const speed = Math.hypot(this.directionX, this.directionY);
+        if (speed > maxVelocity) {
+            const scale = maxVelocity / speed;
+            this.directionX *= scale;
+            this.directionY *= scale;
+        }
+
+        if (speed < 0.05) {
+            this.directionX += (Math.random() * 0.04) - 0.02;
+            this.directionY += (Math.random() * 0.04) - 0.02;
+        }
+
         if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
         if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
         this.x += this.directionX;
@@ -371,6 +481,7 @@ window.updateParticleColors = function() {
 window.initParticles = initParticles;
 
 initParticles();
+updateInteractionSettings();
 
 // После полной загрузки DOM обновляем цвета частиц
 if (document.readyState === 'loading') {

@@ -16,6 +16,7 @@ const criticalScripts = [
 const coreScripts = [
     'js/particles.js',
     'js/modules/modal.js',
+    'js/modules/electron-config.js',
     'js/modules/theme.js',
     'js/modules/search-filters.js',
     'js/modules/ui.js',
@@ -127,6 +128,7 @@ async function init() {
 function initApp() {
     if (typeof initTheme === 'function') initTheme();
     if (typeof initModal === 'function') initModal();
+    if (typeof initElectronConfig === 'function') initElectronConfig();
     if (typeof initSearch === 'function') initSearch();
     if (typeof initUI === 'function') initUI();
     // Nodemap инициализируется сам внутри nodemap-init.js, но теперь он точно загружен

@@ -76,6 +76,15 @@ function renderModalContent(data) {
         ? data.facts.join(' ')
         : (data.facts || '—');
 
+    const previewConfig = typeof window.getElectronConfigPreview === 'function'
+        ? window.getElectronConfigPreview(data)
+        : (data.electronConfigShort || data.electronConfig || '-');
+    const electronConfigRow = `<p class="electron-config-row electron-config-trigger" data-electron-config="true" tabindex="0" role="button" title="Открыть электронную конфигурацию">
+            <strong>Электронная конфигурация:</strong>
+            <span class="electron-config-value">${previewConfig}</span>
+            <span class="electron-config-action">Открыть</span>
+        </p>`;
+
     // Рендерим HTML
     elementInfo.innerHTML = `
         <div class="groups-container">
@@ -88,7 +97,7 @@ function renderModalContent(data) {
                     <p><strong>Группа:</strong> ${data.group || '—'}</p>
                     <p><strong>Блок:</strong> ${data.block || '—'}</p>
                     <p><strong>Категория:</strong> ${data.category || '—'}</p>
-                    <p><strong>Электронная конфигурация:</strong> ${data.electronConfig || '—'}</p>
+                    ${electronConfigRow}
                     <p><strong>Электроотрицательность:</strong> ${data.electronegativity || '—'}</p>
                 </div>
             </section>
@@ -291,6 +300,9 @@ document.querySelectorAll('.element').forEach(el => {
         // Данные элемента
         const symbol = el.dataset.symbol;
         const mainData = elementsData[symbol] || {};
+        if (!mainData.symbol) {
+            mainData.symbol = symbol;
+        }
         elementTitle.innerText = `${mainData.name || symbol} (${symbol})`;
         if (window.spawnAtom) {
             window.spawnAtom(mainData.atomicNumber, mainData.period);
