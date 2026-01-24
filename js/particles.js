@@ -9,10 +9,16 @@ let particlesCount = window.innerWidth < 768 ? 15 : 80;
 let atomsCount = window.innerWidth < 768 ? 10 : 25;
 let connectionDistance = 120;
 let mouseRadius = 120;
+let mouseRadiusRepel = 90;
 let mouseForce = 0.6;
 let interactionMode = 'repel';
 let maxVelocity = 1.4;
 let damping = 0.98;
+let separationRadius = 22;
+let separationStrength = 0.2;
+let separationMaxImpulse = 1.1;
+let collisionKillDistance = 3.2;
+let collisionKillChanceBase = 0.14;
 
 let wave = { active: false, x: 0, y: 0, radius: 0, maxRadius: 0, toDark: false, ending: false, endTime: 0 };
 let mouse = { x: 0, y: 0, active: false };
@@ -85,6 +91,7 @@ window.particleSystem = {
 function updateInteractionSettings() {
     const isMobile = window.innerWidth < 768;
     mouseRadius = isMobile ? 80 : 120;
+    mouseRadiusRepel = isMobile ? 55 : 90;
     mouseForce = isMobile ? 0.35 : 0.6;
 }
 
@@ -144,12 +151,13 @@ function applyMouseInteraction(particle) {
     const dx = particle.x - mouse.x;
     const dy = particle.y - mouse.y;
     const distanceSq = dx * dx + dy * dy;
-    const radiusSq = mouseRadius * mouseRadius;
+    const activeRadius = interactionMode === 'repel' ? mouseRadiusRepel : mouseRadius;
+    const radiusSq = activeRadius * activeRadius;
 
     if (distanceSq === 0 || distanceSq > radiusSq) return;
 
     const distance = Math.sqrt(distanceSq);
-    const strength = mouseForce * (1 - distance / mouseRadius);
+    const strength = mouseForce * (1 - distance / activeRadius);
     let forceX = 0;
     let forceY = 0;
 
@@ -364,6 +372,93 @@ class Particle {
     }
 }
 
+function overcrowdKillThreshold() {
+    return Math.max(160, particlesCount * 2.5);
+}
+
+function applyParticleSeparationAndCull() {
+    const count = particlesArray.length;
+    if (count < 2) return;
+
+    const cellSize = separationRadius;
+    const grid = new Map();
+    const toRemove = new Set();
+
+    const killThreshold = overcrowdKillThreshold();
+    const killEnabled = count > killThreshold;
+    const excess = killEnabled ? (count - killThreshold) : 0;
+    const killChance = killEnabled
+        ? Math.min(0.45, collisionKillChanceBase + (excess / 1200))
+        : 0;
+    const separationRadiusSq = separationRadius * separationRadius;
+    const killDistanceSq = collisionKillDistance * collisionKillDistance;
+
+    for (let i = 0; i < count; i++) {
+        const particle = particlesArray[i];
+        const cellX = Math.floor(particle.x / cellSize);
+        const cellY = Math.floor(particle.y / cellSize);
+
+        for (let offsetX = -1; offsetX <= 1; offsetX++) {
+            for (let offsetY = -1; offsetY <= 1; offsetY++) {
+                const key = `${cellX + offsetX},${cellY + offsetY}`;
+                const bucket = grid.get(key);
+                if (!bucket) continue;
+
+                for (let b = 0; b < bucket.length; b++) {
+                    const j = bucket[b];
+                    if (j >= i) continue;
+                    if (toRemove.has(i) || toRemove.has(j)) continue;
+
+                    const other = particlesArray[j];
+                    let dx = particle.x - other.x;
+                    let dy = particle.y - other.y;
+                    let distanceSq = dx * dx + dy * dy;
+
+                    if (killEnabled && distanceSq < killDistanceSq && Math.random() < killChance) {
+                        const killIndex = Math.random() < 0.5 ? i : j;
+                        toRemove.add(killIndex);
+                        continue;
+                    }
+
+                    if (distanceSq === 0) {
+                        dx = (Math.random() - 0.5) * 0.01;
+                        dy = (Math.random() - 0.5) * 0.01;
+                        distanceSq = dx * dx + dy * dy;
+                    }
+
+                    if (distanceSq < separationRadiusSq) {
+                        const distance = Math.sqrt(distanceSq);
+                        const nx = dx / distance;
+                        const ny = dy / distance;
+                        let impulse = separationStrength * (1 - distance / separationRadius);
+                        if (impulse > separationMaxImpulse) impulse = separationMaxImpulse;
+
+                        particle.directionX += nx * impulse;
+                        particle.directionY += ny * impulse;
+                        other.directionX -= nx * impulse;
+                        other.directionY -= ny * impulse;
+                    }
+                }
+            }
+        }
+
+        const ownKey = `${cellX},${cellY}`;
+        if (!grid.has(ownKey)) {
+            grid.set(ownKey, [i]);
+        } else {
+            grid.get(ownKey).push(i);
+        }
+    }
+
+    if (toRemove.size > 0) {
+        const indices = Array.from(toRemove);
+        indices.sort((a, b) => b - a);
+        for (let k = 0; k < indices.length; k++) {
+            particlesArray.splice(indices[k], 1);
+        }
+    }
+}
+
 function initParticles() {
     particlesArray = [];
     for (let i = 0; i < particlesCount; i++) {
@@ -437,6 +532,7 @@ function animate(currentTime) {
             specificAtomsArray[i].draw();
         }
     } else {
+        applyParticleSeparationAndCull();
         for (let i = 0; i < particlesArray.length; i++) {
             particlesArray[i].update();
             particlesArray[i].draw();

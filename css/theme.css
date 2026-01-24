@@ -78,7 +78,7 @@ body.dark-theme #theme-toggle .icon-sun {
     height: 0;
     border-radius: 50%;
     pointer-events: none;
-    z-index: -2;  /* Понижаем z-index, чтобы волна была позади частиц и не скрывала их */
+    z-index: 0;  /* Волна над фоном и частицами, но под плитками/ UI */
     transform: translate(-50%, -50%);
 }
 
@@ -101,7 +101,7 @@ body.dark-theme #theme-toggle .icon-sun {
    ТЁМНАЯ ТЕМА — БАЗОВЫЕ СТИЛИ
    ========================================= */
 body.dark-theme {
-    background-color: transparent;
+    background-color: #1a1a2e;
 }
 
 body.dark-theme #theme-toggle {

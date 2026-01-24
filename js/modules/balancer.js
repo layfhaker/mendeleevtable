@@ -22,6 +22,9 @@ window.closeBalancer = function (event) {
         panel.classList.remove('active');
         document.body.classList.remove('balancer-active');
     }
+    if (window.mobileLayout && typeof window.mobileLayout.resetTransform === 'function') {
+        window.mobileLayout.resetTransform();
+    }
 
     // Continue with other cleanup immediately (or wait? usually immediate is fine for non-visuals)
 
@@ -95,6 +98,9 @@ window.toggleBalancer = async function (event) {
 
     panel.classList.add('active');
     document.body.classList.add('balancer-active');
+    if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {
+        setTimeout(() => window.mobileLayout.applyTransform(), 50);
+    }
 
     // Disable scroll-collapse system and hide below-table-content
     window.disableScrollCollapseSystem();

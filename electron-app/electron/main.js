@@ -39,6 +39,7 @@ if (process.platform === 'win32') {
 
 let mainWindow;
 let tray;
+let appRootPath;
 
 // Auto-launch configuration
 const autoLauncher = new AutoLaunch({
@@ -50,6 +51,10 @@ const autoLauncher = new AutoLaunch({
  * Create main window
  */
 function createWindow() {
+    appRootPath = app.isPackaged
+        ? path.join(app.getAppPath(), 'app')
+        : path.join(__dirname, '../..');
+
     mainWindow = new BrowserWindow({
         width: 1920,
         height: 1080,
@@ -63,11 +68,11 @@ function createWindow() {
         },
         backgroundColor: '#f0f0f0',
         title: 'Chemical Assistant',
-        icon: path.join(__dirname, '../img/icon-192.png'),
+        icon: path.join(appRootPath, 'img', 'icon-192.png'),
         autoHideMenuBar: true
     });
 
-    mainWindow.loadFile(path.join(__dirname, '../../index.html'));
+    mainWindow.loadFile(path.join(appRootPath, 'index.html'));
 
     if (process.env.NODE_ENV === 'development') {
         mainWindow.webContents.openDevTools();
@@ -100,7 +105,7 @@ function createWindow() {
  */
 function createTray() {
     // Load icon
-    const iconPath = path.join(__dirname, '../img/icon-192.png');
+    const iconPath = path.join(appRootPath, 'img', 'icon-192.png');
     let trayIcon;
 
     try {
@@ -203,7 +208,7 @@ function updateTrayMenu() {
  */
 function showNotification(title, body) {
     if (Notification.isSupported()) {
-        const iconPath = path.join(__dirname, '../img/icon-192.png');
+        const iconPath = path.join(appRootPath, 'img', 'icon-192.png');
         new Notification({
             title: title,
             body: body,

@@ -138,6 +138,9 @@ window.toggleCalc = async function() {
         panel.classList.remove('active');
         document.body.classList.remove('calc-active');
         resetFabPosition();
+        if (window.mobileLayout && typeof window.mobileLayout.resetTransform === 'function') {
+            window.mobileLayout.resetTransform();
+        }
 
         // Восстанавливаем состояние FAB если оно было активно до открытия калькулятора
         if (wasFabActive && fab && window.innerWidth > 1024) {
@@ -151,6 +154,9 @@ window.toggleCalc = async function() {
         }
         panel.classList.add('active');
         document.body.classList.add('calc-active');
+        if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {
+            setTimeout(() => window.mobileLayout.applyTransform(), 50);
+        }
 
         // Позиционируем на ПК
         if (window.innerWidth > 1024 && typeof positionCalculatorPC === 'function') {

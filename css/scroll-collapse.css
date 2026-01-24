@@ -39,6 +39,13 @@
     padding: 0 20px; /* Добавляем отступы по бокам */
 }
 
+@media (max-width: 1024px) {
+    .periodic-table-container {
+        padding-left: calc(0px + env(safe-area-inset-left));
+        padding-right: calc(0px + env(safe-area-inset-right));
+    }
+}
+
 /* --- Состояние сжатия --- */
 .periodic-table-container.scroll-collapsed {
     height: auto; /* Автоматическая высота вместо фиксированной */
@@ -166,4 +173,3 @@ body.electron .below-table-content {
    ТЁМНАЯ ТЕМА — КАСТОМНЫЙ СКРОЛЛБАР (скролл-коллапс)
    ========================================= */
 /* Удалены дублирующие стили скроллбара, так как теперь используются универсальные стили */
-

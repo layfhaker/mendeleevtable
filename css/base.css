@@ -75,8 +75,8 @@ body {
         align-items: center;
         
         /* ВАЖНО: Добавляем var(--sab) к нижнему отступу */
-        /* Было 140px, стало calc(140px + safe-area) */
-        padding: 10px 20px calc(140px + var(--sab)) 20px !important; 
+        /* Убираем боковые отступы на мобилках, оставляем safe-area */
+        padding: 10px calc(0px + var(--sal)) calc(20px + var(--sab)) calc(0px + var(--sar)) !important; 
         
         box-sizing: border-box;
     }
@@ -262,6 +262,11 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
     }
     .periodic-table-container {
         overflow-y: hidden !important;
+    }
+
+    body.calc-active .periodic-table-container,
+    body.balancer-active .periodic-table-container {
+        overflow: visible !important;
     }
 }
 

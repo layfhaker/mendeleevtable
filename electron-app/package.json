@@ -47,13 +47,19 @@
     "files": [
       "electron/**/*",
       "resources/**/*",
-      "index.html",
-      "css/**/*",
-      "js/**/*",
-      "img/**/*",
-      "manifest.json",
-      "sw.js",
-      "node_modules/auto-launch/**/*"
+      "node_modules/auto-launch/**/*",
+      {
+        "from": "..",
+        "to": "app",
+        "filter": [
+          "index.html",
+          "css/**",
+          "js/**",
+          "img/**",
+          "manifest.json",
+          "sw.js"
+        ]
+      }
     ],
     "directories": {
       "output": "dist",

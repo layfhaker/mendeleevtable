@@ -48,16 +48,13 @@
         wrapper.id = 'mobile-table-wrapper';
         
         // ВАЖНО:
-        // 1. align-self: flex-start + margin-right: auto — ЖЕСТКО прижимаем влево, отменяя центрирование родителя.
-        // 2. padding-right: 20px — создает надежный отступ справа внутри скролла.
-        // 3. transform-origin: top left — масштабируем от левого края.
+        // 1. align-self: center — даем контейнеру центрироваться родителем.
+        // 2. transform-origin: top left — масштабируем от левого края.
         wrapper.style.cssText = `
             width: max-content; 
             min-width: 100%; 
             margin: 0; 
-            margin-right: auto; 
-            align-self: flex-start; 
-            padding-right: 20px; 
+            align-self: center; 
             box-sizing: border-box; 
             transform-origin: top left; 
             will-change: transform; 
@@ -107,7 +104,7 @@
                 width: ${tableWidth}px !important;
                 min-width: ${tableWidth}px !important;
                 margin: 0 !important;
-                margin-left: 5px !important; /* Небольшой отступ слева */
+                margin-left: 0 !important;
                 margin-bottom: 10px !important;
             `;
         }
@@ -190,7 +187,14 @@
         const wrapper = document.getElementById('mobile-table-wrapper');
 
         // ИЗМЕНЕНИЕ: Ищем ЛЮБУЮ активную панель (калькулятор или уравнитель)
-        const activePanel = document.querySelector('.calc-panel.active, .balancer-panel.active');
+        let activePanel = document.querySelector('.calc-panel.active, .balancer-panel.active');
+        if (!activePanel) {
+            if (document.body.classList.contains('calc-active')) {
+                activePanel = document.getElementById('calc-panel');
+            } else if (document.body.classList.contains('balancer-active')) {
+                activePanel = document.getElementById('balancer-panel');
+            }
+        }
 
         // Если нет враппера или нет активной панели — выходим
         if (!wrapper || !activePanel) return;
@@ -243,7 +247,7 @@
         applyTableStyles();
         
         requestAnimationFrame(() => {
-            if (document.body.classList.contains('calc-active')) {
+            if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
                 applyCalcActiveTransform();
             }
         });
@@ -257,6 +261,11 @@ if (isMobile()) {
   // После существующих функций добавить:
 function centerTableVertically() {
     if (!isMobile()) return;
+
+    if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
+        applyCalcActiveTransform();
+        return;
+    }
     
     const wrapper = document.getElementById('mobile-table-wrapper');
     if (!wrapper) return;

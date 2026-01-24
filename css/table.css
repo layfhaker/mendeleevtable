@@ -27,6 +27,12 @@
     /* Добавляем отступ снизу для видимости нижней границы */
 }
 
+@media (max-width: 1024px) {
+    .container {
+        margin-right: 0 !important;
+    }
+}
+
 /* --- Элемент таблицы --- */
 .element {
     background-color: #ffffff;
@@ -655,10 +661,13 @@
     }
 
     #mobile-table-wrapper {
-        transform: none !important;
         margin-left: 0 !important;
-        padding-left: 15px !important;
-        align-items: flex-start !important;
+        padding: 0 16px !important;
+        align-items: center !important;
+    }
+    
+    body:not(.calc-active):not(.balancer-active) #mobile-table-wrapper {
+        transform: none !important;
     }
 
     .container {
@@ -685,10 +694,13 @@
     }
 
     #mobile-table-wrapper {
-        transform: none !important;
         margin-left: 0 !important;
-        padding-left: 15px !important;
-        align-items: flex-start !important;
+        padding: 0 16px !important;
+        align-items: center !important;
+    }
+    
+    body:not(.calc-active):not(.balancer-active) #mobile-table-wrapper {
+        transform: none !important;
     }
 
     .container {
