@@ -9,7 +9,7 @@
     --text-color: #333333;
     --border-color: #e0e0e0;
     --solubility-left-gutter: 20px;
-    --solubility-right-gutter: 120px;
+    --solubility-right-gutter: 180px;
 }
 
 body.dark-theme {

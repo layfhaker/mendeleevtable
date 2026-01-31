@@ -18,6 +18,7 @@ const coreScripts = [
     'js/modules/modal.js',
     'js/modules/electron-config.js',
     'js/modules/theme.js',
+    'js/modules/theme-toggle.js',
     'js/modules/search-filters.js',
     'js/modules/ui.js',
     // Интегрируем Nodemap в общий поток:

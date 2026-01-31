@@ -47,14 +47,89 @@
     <script src="js/icons.js"></script>
 
     <canvas id="particles-canvas"></canvas>
-    <button id="theme-toggle" onclick="toggleTheme()" title="Сменить тему" aria-label="Переключить тему">
-        <svg class="icon-moon">
-            <use href="#icon-moon"></use>
-        </svg>
-        <svg class="icon-sun">
-            <use href="#icon-sun"></use>
-        </svg>
-    </button>
+    <div id="theme-toggle" class="chem-toggle" role="switch" aria-checked="false" aria-label="Переключить тему" tabindex="0" title="Сменить тему">
+        <div class="chem-toggle-track">
+            <div class="chem-toggle-scene chem-toggle-scene-periodic" aria-hidden="true">
+                <div class="chem-toggle-scene-content">
+                    <div class="chem-toggle-periodic-bg">
+                        <div class="chem-toggle-energy-wave ct-wave-1"></div>
+                        <div class="chem-toggle-energy-wave ct-wave-2"></div>
+                        <div class="chem-toggle-energy-wave ct-wave-3"></div>
+                    </div>
+
+                    <div class="chem-toggle-grid">
+                        <div class="chem-toggle-element">
+                            <div class="chem-toggle-element-number">1</div>
+                            <div class="chem-toggle-element-symbol">H</div>
+                            <div class="chem-toggle-element-glow"></div>
+                        </div>
+                        <div class="chem-toggle-element">
+                            <div class="chem-toggle-element-number">8</div>
+                            <div class="chem-toggle-element-symbol">O</div>
+                            <div class="chem-toggle-element-glow"></div>
+                        </div>
+                        <div class="chem-toggle-element">
+                            <div class="chem-toggle-element-number">26</div>
+                            <div class="chem-toggle-element-symbol">Fe</div>
+                            <div class="chem-toggle-element-glow"></div>
+                        </div>
+                        <div class="chem-toggle-element">
+                            <div class="chem-toggle-element-number">79</div>
+                            <div class="chem-toggle-element-symbol">Au</div>
+                            <div class="chem-toggle-element-glow"></div>
+                        </div>
+                    </div>
+
+                    <div class="chem-toggle-shell-info">
+                        <div class="chem-toggle-shell-label ct-label-1">K</div>
+                        <div class="chem-toggle-shell-label ct-label-2">L</div>
+                        <div class="chem-toggle-shell-label ct-label-3">M</div>
+                    </div>
+
+                    <div class="chem-toggle-atomic-particles">
+                        <div class="chem-toggle-particle ct-ap1"></div>
+                        <div class="chem-toggle-particle ct-ap2"></div>
+                        <div class="chem-toggle-particle ct-ap3"></div>
+                        <div class="chem-toggle-particle ct-ap4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chem-toggle-thumb chem-toggle-thumb-atom" aria-hidden="true">
+                <div class="chem-toggle-atom">
+                    <div class="chem-toggle-nucleus">
+                        <div class="chem-toggle-proton ct-p1"></div>
+                        <div class="chem-toggle-proton ct-p2"></div>
+                        <div class="chem-toggle-neutron ct-n1"></div>
+                        <div class="chem-toggle-neutron ct-n2"></div>
+                        <div class="chem-toggle-nucleus-glow"></div>
+                    </div>
+                    <div class="chem-toggle-orbit ct-orbit-1">
+                        <div class="chem-toggle-electron ct-e1">
+                            <div class="chem-toggle-electron-trail"></div>
+                        </div>
+                    </div>
+                    <div class="chem-toggle-orbit ct-orbit-2">
+                        <div class="chem-toggle-electron ct-e2">
+                            <div class="chem-toggle-electron-trail"></div>
+                        </div>
+                        <div class="chem-toggle-electron ct-e3">
+                            <div class="chem-toggle-electron-trail"></div>
+                        </div>
+                    </div>
+                    <div class="chem-toggle-orbit ct-orbit-3">
+                        <div class="chem-toggle-electron ct-e4">
+                            <div class="chem-toggle-electron-trail"></div>
+                        </div>
+                        <div class="chem-toggle-electron ct-e5">
+                            <div class="chem-toggle-electron-trail"></div>
+                        </div>
+                    </div>
+                    <div class="chem-toggle-quantum-field"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="periodic-table-container">
         <div class="table-wrapper">

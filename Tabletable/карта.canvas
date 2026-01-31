@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"abd9d476a25872a0","type":"file","file":"Расписание.md","x":-106,"y":-155,"width":400,"height":400},
+		{"id":"accce4f7bb520220","x":-1560,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Понедельник.md"},
+		{"id":"98a784a83f6121bb","x":-1040,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Вторник.md"},
+		{"id":"61a1170d4f3d3532","x":-506,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Среда.md"},
+		{"id":"97d96fcd8062e8df","x":40,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Четверг.md"},
+		{"id":"ac13833e49d21b3d","x":560,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Пятница.md"},
+		{"id":"10b3bc5f629889b7","x":1080,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Суббота.md"},
+		{"id":"796e4dbe3d9c7bef","x":1600,"y":520,"width":400,"height":400,"type":"file","file":"Дни недели/Воскресенье.md"}
+	],
+	"edges":[
+		{"id":"d18bbdd995cf338d","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"accce4f7bb520220","toSide":"top"},
+		{"id":"4bd66ff7c3e40c38","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"98a784a83f6121bb","toSide":"top"},
+		{"id":"ba3f8c0e1c19fdef","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"61a1170d4f3d3532","toSide":"top"},
+		{"id":"85df74db331b16f5","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"97d96fcd8062e8df","toSide":"top"},
+		{"id":"04943084f4c4d062","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"ac13833e49d21b3d","toSide":"top"},
+		{"id":"37a098f79ea20e25","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"10b3bc5f629889b7","toSide":"top"},
+		{"id":"4aec58c2ed1267ac","fromNode":"abd9d476a25872a0","fromSide":"bottom","toNode":"796e4dbe3d9c7bef","toSide":"top"}
+	]
+}

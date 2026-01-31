@@ -1,0 +1,596 @@
+/* =========================================
+   ILLUSTRATED TOGGLE — Chemistry theme switch
+   ========================================= */
+
+#theme-toggle.chem-toggle {
+    --chem-toggle-width: clamp(96px, 12vw, 120px);
+    --chem-toggle-height: clamp(48px, 6vw, 60px);
+    --chem-toggle-base-width: 200px;
+    --chem-toggle-base-height: 100px;
+    --chem-toggle-scene-scale: min(
+        calc(var(--chem-toggle-width) / var(--chem-toggle-base-width)),
+        calc(var(--chem-toggle-height) / var(--chem-toggle-base-height))
+    );
+    --chem-toggle-thumb: calc(var(--chem-toggle-height) * 0.72);
+    --chem-toggle-pad: calc(var(--chem-toggle-height) * 0.11);
+    --chem-toggle-thumb-offset: calc(var(--chem-toggle-height) * 0.15);
+    --chem-toggle-thumb-shift: calc(var(--chem-toggle-width) - var(--chem-toggle-thumb) - (var(--chem-toggle-thumb-offset) * 2));
+
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 5000;
+    width: var(--chem-toggle-width);
+    height: var(--chem-toggle-height);
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: block;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    filter: drop-shadow(0 10px 30px rgba(33, 150, 243, 0.2));
+    transition: transform 0.3s ease, filter 0.3s ease;
+    transform-origin: top right;
+}
+
+#theme-toggle.chem-toggle:hover {
+    filter: drop-shadow(0 15px 40px rgba(33, 150, 243, 0.3));
+    transform: translateY(-2px);
+}
+
+#theme-toggle.chem-toggle:active {
+    transform: translateY(0);
+}
+
+#theme-toggle.chem-toggle:focus-visible {
+    outline: 3px solid #64B5F6;
+    outline-offset: 8px;
+    border-radius: 90px;
+}
+
+#theme-toggle.chem-toggle.spin {
+    animation: none;
+}
+
+body.dark-theme #theme-toggle.chem-toggle {
+    background: transparent;
+    color: inherit;
+}
+
+.chem-toggle-track {
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 4px solid #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        inset 0 2px 8px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chem-toggle-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.chem-toggle-scene-content {
+    width: var(--chem-toggle-base-width);
+    height: var(--chem-toggle-base-height);
+    position: relative;
+    transform: scale(var(--chem-toggle-scene-scale));
+    transform-origin: center;
+}
+
+.chem-toggle-thumb {
+    width: var(--chem-toggle-thumb);
+    height: var(--chem-toggle-thumb);
+    border-radius: 50%;
+    position: absolute;
+    top: var(--chem-toggle-pad);
+    left: var(--chem-toggle-thumb-offset);
+    background: transparent;
+    box-shadow: none;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+
+.chem-toggle.checked .chem-toggle-thumb {
+    transform: translateX(var(--chem-toggle-thumb-shift));
+}
+
+.chem-toggle-thumb.chem-toggle-thumb-atom {
+    display: grid;
+    place-items: center;
+}
+
+/* ============ PERIODIC TABLE SCENE ============ */
+.chem-toggle-scene-periodic {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 40%, #90caf9 70%, #64b5f6 100%);
+    position: relative;
+    overflow: visible;
+    transition: background 0.6s ease;
+}
+
+.chem-toggle.checked .chem-toggle-scene-periodic {
+    background: linear-gradient(135deg, #0a0e27 0%, #1a237e 40%, #283593 70%, #3949ab 100%);
+}
+
+.chem-toggle-periodic-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.chem-toggle-energy-wave {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(255, 193, 7, 0.1), transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: chemEnergyPulse 4s infinite ease-in-out;
+}
+
+.chem-toggle.checked .chem-toggle-energy-wave {
+    background: radial-gradient(ellipse at center, rgba(255, 193, 7, 0.2), transparent 70%);
+}
+
+.ct-wave-1 { top: 20%; animation-delay: 0s; }
+.ct-wave-2 { top: 50%; animation-delay: 1.3s; }
+.ct-wave-3 { top: 80%; animation-delay: 2.6s; }
+
+@keyframes chemEnergyPulse {
+    0% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 0.4; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+.chem-toggle-grid {
+    position: absolute;
+    top: 14%;
+    left: 0%;
+    right: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 54%;
+    height: 72%;
+    z-index: 5;
+    transform: translateX(42%);
+    transition: transform 0.5s ease;
+}
+
+.chem-toggle.checked .chem-toggle-grid {
+    transform: translateX(6%);
+}
+
+.chem-toggle-element {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(210, 230, 255, 0.9));
+    border: 2px solid rgba(30, 136, 229, 0.9);
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.chem-toggle.checked .chem-toggle-element {
+    background: linear-gradient(135deg, rgba(33, 52, 175, 0.9), rgba(19, 28, 90, 0.9));
+    border: 2px solid rgba(144, 202, 249, 0.85);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.chem-toggle-element::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.chem-toggle-element:hover::before {
+    left: 100%;
+}
+
+.chem-toggle.checked .chem-toggle-element:nth-child(3n + 1) {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.8), rgba(255, 152, 0, 0.7));
+    border-color: rgba(255, 193, 7, 1);
+    box-shadow:
+        0 0 12px rgba(255, 193, 7, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.chem-toggle-element-number {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 8px;
+    color: rgba(15, 25, 60, 0.9);
+    font-weight: 600;
+    transition: color 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-element-number {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.chem-toggle.checked .chem-toggle-element:nth-child(3n + 1) .chem-toggle-element-number {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.chem-toggle-element-symbol {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(10, 20, 60, 0.95);
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-element-symbol {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 4px rgba(100, 181, 246, 0.5);
+}
+
+.chem-toggle.checked .chem-toggle-element:nth-child(3n + 1) .chem-toggle-element-symbol {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 193, 7, 1);
+}
+
+.chem-toggle-element-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(100, 181, 246, 0.3), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.chem-toggle-element:hover .chem-toggle-element-glow {
+    opacity: 1;
+}
+
+.chem-toggle-thumb .chem-toggle-atom {
+    position: relative;
+    width: calc(var(--chem-toggle-thumb) * 0.5);
+    height: calc(var(--chem-toggle-thumb) * 0.5);
+}
+
+.chem-toggle-nucleus {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    z-index: 20;
+}
+
+.chem-toggle-proton,
+.chem-toggle-neutron {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: chemNucleusVibrate 2s infinite ease-in-out;
+    transition: all 0.4s ease;
+}
+
+.chem-toggle-proton {
+    background: radial-gradient(circle at 35% 35%, #ff8f00 0%, #ff6f00 100%);
+    box-shadow:
+        0 0 8px rgba(255, 143, 0, 0.8),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.chem-toggle-neutron {
+    background: radial-gradient(circle at 35% 35%, #90a4ae 0%, #78909c 100%);
+    box-shadow:
+        0 0 6px rgba(144, 164, 174, 0.6),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.chem-toggle.checked .chem-toggle-proton {
+    background: radial-gradient(circle at 35% 35%, #ff6f00 0%, #e65100 100%);
+    box-shadow:
+        0 0 12px rgba(255, 111, 0, 1),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.chem-toggle.checked .chem-toggle-neutron {
+    background: radial-gradient(circle at 35% 35%, #78909c 0%, #546e7a 100%);
+    box-shadow:
+        0 0 8px rgba(120, 144, 156, 0.8),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.ct-p1 { top: 2px; left: 2px; animation-delay: 0s; }
+.ct-p2 { top: 8px; left: 8px; animation-delay: 0.5s; }
+.ct-n1 { top: 2px; left: 8px; animation-delay: 0.25s; }
+.ct-n2 { top: 8px; left: 2px; animation-delay: 0.75s; }
+
+@keyframes chemNucleusVibrate {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(0.5px, -0.5px); }
+    50% { transform: translate(-0.5px, 0.5px); }
+    75% { transform: translate(0.5px, 0.5px); }
+}
+
+.chem-toggle-nucleus-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle, rgba(255, 143, 0, 0.3), transparent 70%);
+    border-radius: 50%;
+    animation: chemNucleusGlow 2s infinite ease-in-out;
+    transition: background 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-nucleus-glow {
+    background: radial-gradient(circle, rgba(255, 111, 0, 0.5), transparent 70%);
+}
+
+@keyframes chemNucleusGlow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
+}
+
+.chem-toggle-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1.5px solid rgba(33, 150, 243, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(33, 150, 243, 0.2);
+    transition: all 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-orbit {
+    border-color: rgba(100, 181, 246, 0.4);
+    box-shadow: 0 0 8px rgba(100, 181, 246, 0.3);
+}
+
+.ct-orbit-1 {
+    width: 35px;
+    height: 35px;
+    animation: chemRotateOrbit 4s linear infinite;
+}
+
+.ct-orbit-2 {
+    width: 55px;
+    height: 55px;
+    animation: chemRotateOrbit 6s linear infinite;
+}
+
+.ct-orbit-3 {
+    width: 75px;
+    height: 75px;
+    animation: chemRotateOrbit 8s linear infinite;
+}
+
+.chem-toggle.checked .chem-toggle-orbit {
+    border-width: 2px;
+}
+
+.chem-toggle.checked .chem-toggle-orbit {
+    border-color: rgba(100, 181, 246, 0.7);
+    box-shadow:
+        0 0 12px rgba(100, 181, 246, 0.6),
+        inset 0 0 8px rgba(100, 181, 246, 0.1);
+}
+
+.chem-toggle.checked .ct-orbit-1 { animation-duration: 2s; }
+.chem-toggle.checked .ct-orbit-2 { animation-duration: 3s; }
+.chem-toggle.checked .ct-orbit-3 { animation-duration: 4s; }
+
+@keyframes chemRotateOrbit {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.chem-toggle-electron {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: radial-gradient(circle at 35% 35%, #64b5f6 0%, #2196f3 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 0 8px rgba(33, 150, 243, 0.8),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+    z-index: 15;
+    transition: all 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-electron {
+    background: radial-gradient(circle at 35% 35%, #64b5f6 0%, #1e88e5 100%);
+    box-shadow:
+        0 0 12px rgba(100, 181, 246, 1),
+        inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.chem-toggle-electron-trail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.3), transparent 60%);
+    border-radius: 50%;
+    animation: chemTrailPulse 1s infinite ease-out;
+    transition: background 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-electron-trail {
+    background: radial-gradient(circle, rgba(100, 181, 246, 0.4), transparent 60%);
+}
+
+@keyframes chemTrailPulse {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+.ct-e1 { top: -3.5px; left: 50%; transform: translateX(-50%); }
+.ct-e2 { top: -3.5px; left: 50%; transform: translateX(-50%); }
+.ct-e3 { top: auto; bottom: -3.5px; left: 50%; transform: translateX(-50%); }
+.ct-e4 { top: -3.5px; left: 50%; transform: translateX(-50%); }
+.ct-e5 { top: 50%; right: -3.5px; transform: translateY(-50%); }
+
+.chem-toggle.checked .chem-toggle-electron {
+    animation: chemElectronGlow 1s infinite ease-in-out;
+}
+
+@keyframes chemElectronGlow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.chem-toggle-quantum-field {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.05), transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: chemQuantumField 3s infinite ease-in-out;
+    transition: background 0.4s ease, opacity 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-quantum-field {
+    background: radial-gradient(circle, rgba(186, 104, 200, 0.15), transparent 70%);
+    opacity: 1;
+}
+
+@keyframes chemQuantumField {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.9) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) scale(1.1) rotate(180deg); }
+}
+
+.chem-toggle-shell-info {
+    position: absolute;
+    left: 0%;
+    top: 18%;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.chem-toggle.checked .chem-toggle-shell-info {
+    transform: translateX(6%);
+}
+
+.chem-toggle.checked .chem-toggle-shell-info {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.chem-toggle-shell-label {
+    font-size: 7px;
+    font-weight: 700;
+    color: rgba(255, 152, 0, 0.9);
+    margin-bottom: 14px;
+    text-shadow: 0 0 4px rgba(255, 152, 0, 0.4);
+    padding: 2px 4px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+    border: 1px solid rgba(255, 152, 0, 0.5);
+    transition: all 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-shell-label {
+    color: rgba(255, 193, 7, 0.9);
+    text-shadow: 0 0 6px rgba(255, 193, 7, 0.6);
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 193, 7, 0.4);
+}
+
+.ct-label-1 { animation: chemLabelBlink 2s infinite ease-in-out; animation-delay: 0s; }
+.ct-label-2 { animation: chemLabelBlink 2s infinite ease-in-out; animation-delay: 0.3s; }
+.ct-label-3 { animation: chemLabelBlink 2s infinite ease-in-out; animation-delay: 0.6s; }
+
+@keyframes chemLabelBlink {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.chem-toggle-atomic-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.chem-toggle-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle, rgba(255, 152, 0, 0.6), transparent);
+    border-radius: 50%;
+    animation: chemParticleDrift 6s infinite ease-in-out;
+    transition: background 0.4s ease;
+}
+
+.chem-toggle.checked .chem-toggle-particle {
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.8), transparent);
+}
+
+.ct-ap1 { top: 20%; left: 10%; animation-delay: 0s; }
+.ct-ap2 { top: 70%; left: 20%; animation-delay: 1.5s; }
+.ct-ap3 { top: 40%; right: 15%; animation-delay: 3s; }
+.ct-ap4 { bottom: 20%; right: 25%; animation-delay: 4.5s; }
+
+@keyframes chemParticleDrift {
+    0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+    25% { transform: translate(10px, -10px); opacity: 0.8; }
+    50% { transform: translate(5px, -20px); opacity: 1; }
+    75% { transform: translate(-5px, -10px); opacity: 0.6; }
+}
+
+@media (max-width: 768px) {
+    #theme-toggle.chem-toggle {
+        transform: scale(1);
+    }
+
+    #theme-toggle.chem-toggle:hover {
+        transform: translateY(-2px);
+    }
+}

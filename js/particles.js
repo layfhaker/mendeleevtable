@@ -123,7 +123,7 @@ function isClickOnUi(target) {
     if (!target) return false;
     return Boolean(target.closest(
         '.element, .modal, .modal-content, .electron-config-content, .advanced-modal-content, ' +
-        '.below-table-content, .fab, .fab-option, button, a, input, textarea, select, label'
+        '.below-table-content, .fab, .fab-option, .chem-toggle, #theme-toggle, button, a, input, textarea, select, label'
     ));
 }
 

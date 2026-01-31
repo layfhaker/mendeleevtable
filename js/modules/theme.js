@@ -3,6 +3,7 @@
 // =========================================
 
 let currentThemeTarget = null;
+window.__themeTarget = null;
 let backgroundCircle = null;
 
 function toggleTheme() {
@@ -18,6 +19,7 @@ function toggleTheme() {
     }
 
     currentThemeTarget = targetTheme;
+    window.__themeTarget = currentThemeTarget;
     const toLight = targetTheme === 'light';
 
     // Анимация кнопки
@@ -203,6 +205,7 @@ function toggleTheme() {
         }
 
         currentThemeTarget = null;
+        window.__themeTarget = null;
     }
 
     requestAnimationFrame(animate);

@@ -41,6 +41,43 @@ let mainWindow;
 let tray;
 let appRootPath;
 
+function getAppRootCandidates() {
+    if (app.isPackaged) {
+        const appPath = app.getAppPath();
+        const resourcesPath = process.resourcesPath;
+        return [
+            path.join(appPath, 'app'),
+            appPath,
+            path.join(resourcesPath, 'app'),
+            resourcesPath
+        ];
+    }
+
+    const devRoot = path.join(__dirname, '../..');
+    return [devRoot, path.resolve(devRoot)];
+}
+
+function resolveAppRoot() {
+    const candidates = getAppRootCandidates();
+    for (const candidate of candidates) {
+        try {
+            const indexPath = path.join(candidate, 'index.html');
+            if (fs.existsSync(indexPath)) {
+                return { root: candidate, indexPath };
+            }
+        } catch (error) {
+            // Ignore invalid paths and keep searching.
+        }
+    }
+
+    const fallbackRoot = candidates[0];
+    return {
+        root: fallbackRoot,
+        indexPath: path.join(fallbackRoot, 'index.html'),
+        missing: true
+    };
+}
+
 // Auto-launch configuration
 const autoLauncher = new AutoLaunch({
     name: 'Chemical Assistant',
@@ -51,9 +88,8 @@ const autoLauncher = new AutoLaunch({
  * Create main window
  */
 function createWindow() {
-    appRootPath = app.isPackaged
-        ? path.join(app.getAppPath(), 'app')
-        : path.join(__dirname, '../..');
+    const resolved = resolveAppRoot();
+    appRootPath = resolved.root;
 
     mainWindow = new BrowserWindow({
         width: 1920,
@@ -72,7 +108,54 @@ function createWindow() {
         autoHideMenuBar: true
     });
 
-    mainWindow.loadFile(path.join(appRootPath, 'index.html'));
+    if (!resolved.missing) {
+        mainWindow.loadFile(resolved.indexPath);
+    } else {
+        console.error('[Main] index.html not found in any app root candidate:', getAppRootCandidates());
+        const errorHtml = `
+            <html lang="ru">
+                <head>
+                    <meta charset="UTF-8" />
+                    <title>Chemical Assistant</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 40px; background: #0f172a; color: #e2e8f0; }
+                        code { background: #1e293b; padding: 2px 6px; border-radius: 4px; }
+                        h1 { margin-top: 0; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Не удалось загрузить приложение</h1>
+                    <p>Файл <code>index.html</code> не найден в пакете.</p>
+                    <p>Проверьте, что сборка включает корневые файлы сайта (index.html, css, js, img).</p>
+                </body>
+            </html>
+        `;
+        mainWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`);
+    }
+
+    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
+        if (!isMainFrame) return;
+        console.error('[Main] Failed to load:', { errorCode, errorDescription, validatedURL });
+        const errorHtml = `
+            <html lang="ru">
+                <head>
+                    <meta charset="UTF-8" />
+                    <title>Chemical Assistant</title>
+                    <style>
+                        body { font-family: sans-serif; padding: 40px; background: #0f172a; color: #e2e8f0; }
+                        code { background: #1e293b; padding: 2px 6px; border-radius: 4px; }
+                        h1 { margin-top: 0; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Ошибка загрузки</h1>
+                    <p>Не удалось открыть <code>${validatedURL}</code>.</p>
+                    <p>${errorDescription} (код ${errorCode}).</p>
+                </body>
+            </html>
+        `;
+        mainWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`);
+    });
 
     if (process.env.NODE_ENV === 'development') {
         mainWindow.webContents.openDevTools();
