@@ -20,7 +20,9 @@
     display: none;
     flex-direction: column;
 
-    animation: filtersSlideIn 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+    will-change: transform, opacity;
 
     -ms-overflow-style: auto;
     /* IE and Edge */
@@ -63,17 +65,34 @@ body.dark-theme .filters-panel::-webkit-scrollbar-thumb:hover {
 
 .filters-panel.active {
     display: flex;
+    animation: filtersOpen var(--flip-move-ms) var(--flip-ease) forwards;
 }
 
-@keyframes filtersSlideIn {
+.filters-panel.active.closing {
+    animation: filtersClose var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+@keyframes filtersOpen {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(16px) scale(0.985);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes filtersClose {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
     }
 }
 

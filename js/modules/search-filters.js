@@ -105,7 +105,12 @@ function checkOverlapAndCloseFilters(element) {
     // Закрываем только если есть пересечение
     if (overlap) {
         console.log('[SEARCH] Элемент перекрыт панелью, закрываем фильтры');
-        filtersPanel.classList.remove('active');
+        if (!filtersPanel.classList.contains('closing')) {
+            filtersPanel.classList.add('closing');
+            setTimeout(() => {
+                filtersPanel.classList.remove('active', 'closing');
+            }, 360);
+        }
     } else {
         console.log('[SEARCH] Элемент виден, панель оставляем открытой');
     }
@@ -359,6 +364,7 @@ function clearSearch() {
 // ЛОГИКА ФИЛЬТРОВ
 // =========================================
 function toggleFilters() {
+    const PANEL_ANIM_MS = 360;
     // Проверяем, открыт ли уравниватель
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     if (isBalancerOpen) return;
@@ -382,7 +388,16 @@ function toggleFilters() {
     }
 
     if (panel) {
-        panel.classList.toggle('active');
+        if (panel.classList.contains('active')) {
+            if (panel.classList.contains('closing')) return;
+            panel.classList.add('closing');
+            setTimeout(() => {
+                panel.classList.remove('active', 'closing');
+            }, PANEL_ANIM_MS);
+        } else {
+            panel.classList.remove('closing');
+            panel.classList.add('active');
+        }
     }
 
     // Скрываем FAB только на мобильных устройствах

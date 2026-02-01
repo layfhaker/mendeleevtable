@@ -17,26 +17,44 @@
         border: 2px solid #2196F3;
         border-radius: 8px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+        will-change: transform, opacity;
     }
 
     .calc-panel.active {
         display: flex;
-        animation: fadeInCalc 0.2s ease-out;
+        animation: calcPanelOpen var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    .calc-panel.active.closing {
+        animation: calcPanelClose var(--flip-move-ms) var(--flip-ease) forwards;
     }
 }
 
-@keyframes fadeInCalc {
+@keyframes calcPanelOpen {
     from {
         opacity: 0;
-        transform: scale(0.98);
+        transform: translateY(12px) scale(0.985);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0) scale(1);
     }
 }
 
+@keyframes calcPanelClose {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+    }
+}
 
 
 /* =========================================
@@ -344,12 +362,17 @@ body.dark-theme #calc-result {
 
         z-index: 60000;
         transform: translateY(100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        opacity: 0;
+        will-change: transform, opacity;
     }
 
     .calc-panel.active {
         display: flex;
-        transform: translateY(0);
+        animation: calcSheetOpen var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    .calc-panel.active.closing {
+        animation: calcSheetClose var(--flip-move-ms) var(--flip-ease) forwards;
     }
 
     .calc-atom {
@@ -415,5 +438,29 @@ body.dark-theme #calc-result {
         width: 100% !important;
         touch-action: pan-x;
         /* Подсказка браузеру, что можно свайпать влево-вправо */
+    }
+}
+
+@keyframes calcSheetOpen {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes calcSheetClose {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(100%);
     }
 }

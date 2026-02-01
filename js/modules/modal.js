@@ -1,5 +1,6 @@
 // =========================================
 // МОДУЛЬ: МОДАЛЬНОЕ ОКНО
+// С поддержкой FLIP-анимаций
 // =========================================
 
 // =========================================
@@ -316,7 +317,12 @@ document.querySelectorAll('.element').forEach(el => {
         // Закрываем панель фильтров при открытии модалки элемента
         const filtersPanel = document.getElementById('filters-panel');
         if (filtersPanel && filtersPanel.classList.contains('active')) {
-            filtersPanel.classList.remove('active');
+            if (!filtersPanel.classList.contains('closing')) {
+                filtersPanel.classList.add('closing');
+                setTimeout(() => {
+                    filtersPanel.classList.remove('active', 'closing');
+                }, 360);
+            }
         }
 
         // Блокируем скролл основной страницы
@@ -324,7 +330,7 @@ document.querySelectorAll('.element').forEach(el => {
 
         // Запускаем разлёт элементов ТОЛЬКО если экран широкий (компьютер)
         if (window.innerWidth > 1024) {
-            // Вычисляем координаты для анимации на ПК
+            // Вычисляем координаты для CSS-анимации
             const rect = el.getBoundingClientRect();
             const elementCenterX = rect.left + rect.width / 2;
             const elementCenterY = rect.top + rect.height / 2;
@@ -362,8 +368,11 @@ function closeModal() {
     setTimeout(() => {
         modal.style.display = "none";
         modal.classList.remove('closing');
-    }, 300);
+    }, 360);
 }
+
+// Экспортируем для использования в других модулях
+window.closeModal = closeModal;
 
 closeBtn.onclick = closeModal;
 

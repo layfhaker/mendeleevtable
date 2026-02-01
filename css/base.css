@@ -20,6 +20,13 @@
     --scrollbar-thumb-hover: #1976D2;
     --scrollbar-track: rgba(0, 0, 0, 0.05);
     --scrollbar-radius: 4px;
+
+    /* FlipModalAnimator timings */
+    --flip-move-ms: 360ms;
+    --flip-radius-ms: 360ms;
+    --flip-backdrop-ms: 260ms;
+    --flip-ease: cubic-bezier(0.2, 0.0, 0.0, 1);
+    --flip-backdrop-ease: cubic-bezier(0.2, 0.0, 0.0, 1);
 }
 
 body.dark-theme {

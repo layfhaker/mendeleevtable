@@ -31,13 +31,21 @@ function initAdvancedModeButton() {
 // === ОТКРЫТИЕ/ЗАКРЫТИЕ ===
 function openAdvancedModal(cationFormula, anionFormula) {
     renderAdvancedContent(cationFormula, anionFormula);
+    advancedModal.classList.remove('closing');
     advancedModal.style.display = 'flex';
     document.body.classList.add('advanced-modal-open');
 }
 
 function closeAdvancedModal() {
-    advancedModal.style.display = 'none';
-    document.body.classList.remove('advanced-modal-open');
+    // Добавляем класс для анимации закрытия
+    advancedModal.classList.add('closing');
+
+    // Ждём завершения анимации
+    setTimeout(() => {
+        advancedModal.style.display = 'none';
+        advancedModal.classList.remove('closing');
+        document.body.classList.remove('advanced-modal-open');
+    }, 360);
 }
 
 // === ГЕНЕРАЦИЯ ДАННЫХ ===

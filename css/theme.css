@@ -5,7 +5,7 @@
 /* =========================================
    ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ
    ========================================= */
-#theme-toggle {
+#theme-toggle:not(.chem-toggle) {
    position: fixed;
    top: 20px;
    right: 20px;
@@ -24,7 +24,7 @@
    justify-content: center;
 }
 
-#theme-toggle svg {
+#theme-toggle:not(.chem-toggle) svg {
     width: 28px;
     height: 28px;
     display: block;
@@ -35,35 +35,35 @@
     fill: none;
 }
 
-#theme-toggle:hover {
+#theme-toggle:not(.chem-toggle):hover {
     transform: scale(1.1);
 }
 
-#theme-toggle:active {
+#theme-toggle:not(.chem-toggle):active {
     transform: scale(0.9);
 }
 
-#theme-toggle.spin {
+#theme-toggle:not(.chem-toggle).spin {
     animation: spinIcon 0.4s ease-out;
 }
 
-#theme-toggle .icon-moon {
+#theme-toggle:not(.chem-toggle) .icon-moon {
     display: block !important;
     width: 100%;
     height: 100%;
 }
 
-#theme-toggle .icon-sun {
+#theme-toggle:not(.chem-toggle) .icon-sun {
     display: none !important;
     width: 100%;
     height: 100%;
 }
 
-body.dark-theme #theme-toggle .icon-moon {
+body.dark-theme #theme-toggle:not(.chem-toggle) .icon-moon {
     display: none !important;
 }
 
-body.dark-theme #theme-toggle .icon-sun {
+body.dark-theme #theme-toggle:not(.chem-toggle) .icon-sun {
     display: block !important;
     width: 100%;
     height: 100%;
@@ -104,7 +104,7 @@ body.dark-theme {
     background-color: #1a1a2e;
 }
 
-body.dark-theme #theme-toggle {
+body.dark-theme #theme-toggle:not(.chem-toggle) {
     background: #f0f0f0;
     color: #1a1a2e;
 }
@@ -249,7 +249,7 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
    АДАПТИВ
    ========================================= */
 @media (max-width: 1024px) {
-    #theme-toggle {
+    #theme-toggle:not(.chem-toggle) {
         position: fixed;
         bottom: 20px;
         left: 20px;
@@ -261,7 +261,7 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
     }
 
     /* Увеличиваем SVG иконку для лучшей видимости на iPhone */
-    #theme-toggle svg {
+    #theme-toggle:not(.chem-toggle) svg {
         width: 28px !important;  /* Увеличиваем размер иконки */
         height: 28px !important;
         stroke: currentColor !important;
@@ -272,20 +272,20 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
     }
 
     /* Явно показываем иконку луны на светлой теме */
-    #theme-toggle .icon-moon {
+    #theme-toggle:not(.chem-toggle) .icon-moon {
         display: block !important;
         opacity: 1 !important;
         visibility: visible !important;
     }
 
     /* Явно скрываем иконку солнца на светлой теме */
-    #theme-toggle .icon-sun {
+    #theme-toggle:not(.chem-toggle) .icon-sun {
         display: none !important;
     }
 
     /* Дополнительные стили для обеспечения видимости иконки */
-    #theme-toggle .icon-moon,
-    #theme-toggle .icon-sun {
+    #theme-toggle:not(.chem-toggle) .icon-moon,
+    #theme-toggle:not(.chem-toggle) .icon-sun {
         width: 100% !important;
         height: 100% !important;
         display: flex !important;
@@ -296,7 +296,7 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
     }
 
     /* Дополнительные стили для iPhone - увеличиваем размер иконки темы */
-    body.device-iphone #theme-toggle svg {
+    body.device-iphone #theme-toggle:not(.chem-toggle) svg {
         width: 32px !important;  /* Увеличиваем размер иконки на iPhone */
         height: 32px !important;
         min-width: 32px !important;
@@ -328,7 +328,7 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
 
 /* Горизонтальная ориентация */
 @media (max-width: 768px) and (orientation: landscape) {
-    #theme-toggle {
+    #theme-toggle:not(.chem-toggle) {
         top: 5px;
         left: 5px;
         width: 36px;
@@ -346,12 +346,12 @@ body.dark-theme .element.unknown.to-light { background-color: #cccccc !important
 }
 
 /* Светлая тема — только луна */
-#theme-toggle .icon-sun {
+#theme-toggle:not(.chem-toggle) .icon-sun {
   display: none !important;
 }
 
 /* Тёмная тема — только солнце */
-body.dark-theme #theme-toggle .icon-moon {
+body.dark-theme #theme-toggle:not(.chem-toggle) .icon-moon {
   display: none !important;
 }
 
@@ -359,3 +359,4 @@ body.dark-theme #theme-toggle .icon-moon {
    ТЁМНАЯ ТЕМА — КАСТОМНЫЙ СКРОЛЛБАР
    ========================================= */
 /* Удалены дублирующие стили скроллбара, так как теперь используются универсальные стили */
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -17,26 +17,15 @@
     <meta name="theme-color" content="#2196F3">
 
     <!-- Критичный CSS для калькулятора — должен быть загружен ДО взаимодействия -->
-    <link rel="stylesheet" href="css/calculator.css">
 
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
     <link rel="stylesheet" href="css/style.css?v=5">
-    <link rel="stylesheet" href="css/pdf-export.css">
+
+    <!-- FLIP-анимации для модалок -->
 
 
 
-    <!-- Fallback для Chrome: если preload не сработал, загружаем через JS -->
-    <script>
-        // Fallback для загрузки CSS в Chrome
-        (function () {
-            var links = document.querySelectorAll('link[rel="preload"][as="style"]');
-            links.forEach(function (link) {
-                if (link.rel !== 'stylesheet') {
-                    link.rel = 'stylesheet';
-                }
-            });
-        })();
-    </script>
+    <!-- Fallback для Chrome: логика перенесена в js/scrypt.js -->
 </head>
 
 <body>
@@ -44,7 +33,6 @@
     <script src="js/loader.js"></script>
 
     <!-- Синхронная загрузка SVG иконок для Safari iOS -->
-    <script src="js/icons.js"></script>
 
     <canvas id="particles-canvas"></canvas>
     <div id="theme-toggle" class="chem-toggle" role="switch" aria-checked="false" aria-label="Переключить тему" tabindex="0" title="Сменить тему">
@@ -1182,389 +1170,20 @@
     </div>
 
     <script src="js/scrypt.js"></script>
-    <script src="js/scroll-collapse.js"></script>
-    <script src="js/wallpaper-handler.js"></script>
 
 
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW зарегистрирован!', reg))
-                    .catch(err => console.log('Ошибка SW:', err));
-            });
-        }
-
-    </script>
-
-    <!-- Live Wallpaper & Settings Script (Electron only) -->
-    <script>
-        // Live Wallpaper Toggle
-        (function () {
-            // Check if running in Electron
-            if (!window.electronAPI) {
-                console.log('[Live Wallpaper] Not running in Electron, features disabled');
-                return;
-            }
-
-            console.log('[Live Wallpaper] Electron detected, initializing...');
-
-            // Show Electron-only UI elements
-            const liveWallpaperOption = document.getElementById('live-wallpaper-option');
-            const settingsOption = document.getElementById('settings-option');
-            const statusSpan = document.getElementById('wallpaper-status');
-            const liveWallpaperBtn = document.getElementById('live-wallpaper-btn');
-
-            if (liveWallpaperOption) liveWallpaperOption.style.display = 'flex';
-            if (settingsOption) settingsOption.style.display = 'flex';
-
-            let isWallpaperActive = false;
-
-            // Check initial status
-            window.electronAPI.isLiveWallpaperActive().then(active => {
-                isWallpaperActive = active;
-                updateWallpaperUI();
-            });
-
-            // Global toggle function
-            window.toggleLiveWallpaper = async function () {
-                if (liveWallpaperBtn) liveWallpaperBtn.disabled = true;
-
-                try {
-                    let result;
-
-                    if (!isWallpaperActive) {
-                        // Enable wallpaper
-                        result = await window.electronAPI.enableLiveWallpaper();
-                    } else {
-                        // Disable wallpaper
-                        result = await window.electronAPI.disableLiveWallpaper();
-                    }
-
-                    if (result.success) {
-                        isWallpaperActive = !isWallpaperActive;
-                        updateWallpaperUI();
-                        showAppNotification(result.message, 'success');
-                    } else {
-                        showAppNotification(result.message, 'error');
-                    }
-                } catch (error) {
-                    console.error('[Wallpaper] Error:', error);
-                    showAppNotification('Не удалось переключить обои', 'error');
-                } finally {
-                    if (liveWallpaperBtn) liveWallpaperBtn.disabled = false;
-                }
-            };
-
-            function updateWallpaperUI() {
-                if (statusSpan) {
-                    if (isWallpaperActive) {
-                        statusSpan.textContent = 'ON';
-                        statusSpan.classList.add('active');
-                    } else {
-                        statusSpan.textContent = 'OFF';
-                        statusSpan.classList.remove('active');
-                    }
-                }
-                if (liveWallpaperBtn) {
-                    if (isWallpaperActive) {
-                        liveWallpaperBtn.classList.add('active');
-                    } else {
-                        liveWallpaperBtn.classList.remove('active');
-                    }
-                }
-                applyWallpaperOptimizations(isWallpaperActive);
-            }
-
-            function applyWallpaperOptimizations(enabled) {
-                if (document.body) {
-                    document.body.classList.toggle('wallpaper-optimized', enabled);
-                }
-                if (typeof window.setWallpaperMode === 'function') {
-                    window.setWallpaperMode(enabled);
-                }
-            }
-
-            // Settings Modal functions
-            window.openSettingsModal = function () {
-                const modal = document.getElementById('settings-modal');
-                if (modal) {
-                    modal.style.display = 'block';
-                    loadSettingsState();
-                }
-            };
-
-            window.closeSettingsModal = function () {
-                const modal = document.getElementById('settings-modal');
-                if (modal) {
-                    modal.style.display = 'none';
-                }
-            };
-
-            async function loadSettingsState() {
-                // Load autostart state
-                const autostartCheckbox = document.getElementById('autostart-checkbox');
-                if (autostartCheckbox && window.electronAPI.isAutostartEnabled) {
-                    const enabled = await window.electronAPI.isAutostartEnabled();
-                    autostartCheckbox.checked = enabled;
-                }
-
-                // Load app info
-                const appInfoText = document.getElementById('app-info-text');
-                if (appInfoText && window.electronAPI.getAppInfo) {
-                    const info = await window.electronAPI.getAppInfo();
-                    if (info) {
-                        appInfoText.textContent = `${info.name} v${info.version} (${info.platform} ${info.arch})`;
-                    }
-                }
-            }
-
-            // Autostart toggle handler
-            const autostartCheckbox = document.getElementById('autostart-checkbox');
-            if (autostartCheckbox) {
-                autostartCheckbox.addEventListener('change', async (e) => {
-                    const result = await window.electronAPI.setAutostart(e.target.checked);
-                    if (!result.success) {
-                        showAppNotification('Не удалось изменить настройку автозапуска', 'error');
-                        e.target.checked = !e.target.checked;
-                    } else {
-                        showAppNotification(
-                            e.target.checked ? 'Автозапуск включён' : 'Автозапуск отключён',
-                            'success'
-                        );
-                    }
-                });
-            }
-
-            // Close settings modal on outside click
-            const settingsModal = document.getElementById('settings-modal');
-            if (settingsModal) {
-                settingsModal.addEventListener('click', (e) => {
-                    if (e.target === settingsModal) {
-                        closeSettingsModal();
-                    }
-                });
-            }
-
-            // Notification helper
-            function showAppNotification(message, type) {
-                // Remove existing notifications
-                const existing = document.querySelectorAll('.app-notification');
-                existing.forEach(n => n.remove());
-
-                const notification = document.createElement('div');
-                notification.className = `app-notification ${type}`;
-                notification.textContent = message;
-
-                document.body.appendChild(notification);
-
-                // Auto-remove after 4 seconds
-                setTimeout(() => {
-                    notification.classList.add('fade-out');
-                    setTimeout(() => notification.remove(), 300);
-                }, 4000);
-            }
-
-            console.log('[Live Wallpaper] Initialized successfully');
-        })();
-    </script>
-
-    <style>
-        /* Live Wallpaper & Settings Styles */
-        .wallpaper-status-badge {
-            font-size: 10px;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 10px;
-            background: rgba(150, 150, 150, 0.3);
-            color: var(--text-secondary, #666);
-            margin-left: 4px;
-        }
-
-        .wallpaper-status-badge.active {
-            background: rgba(76, 175, 80, 0.3);
-            color: #4CAF50;
-        }
-
-        .fab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        /* App Notification */
-        .app-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 100000;
-            animation: slideInNotif 0.3s ease;
-            font-size: 14px;
-            max-width: 350px;
-        }
-
-        .app-notification.success {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .app-notification.error {
-            background: #f44336;
-            color: white;
-        }
-
-        .app-notification.fade-out {
-            animation: slideOutNotif 0.3s ease forwards;
-        }
-
-        @keyframes slideInNotif {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutNotif {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-        }
-
-        /* Settings Modal Styles */
-        .settings-modal-content {
-            max-width: 500px;
-        }
-
-        .settings-section {
-            margin: 24px 0;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 8px;
-        }
-
-        [data-theme="dark"] .settings-section,
-        .dark-theme .settings-section {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .settings-section h3 {
-            margin-top: 0;
-            margin-bottom: 16px;
-            font-size: 16px;
-        }
-
-        .switch-label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            gap: 12px;
-        }
-
-        .switch-input {
-            display: none;
-        }
-
-        .switch-slider {
-            position: relative;
-            width: 50px;
-            height: 26px;
-            background: #ccc;
-            border-radius: 26px;
-            transition: 0.3s;
-            flex-shrink: 0;
-        }
-
-        .switch-slider::before {
-            content: '';
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: 0.3s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .switch-input:checked+.switch-slider {
-            background: #667eea;
-        }
-
-        .switch-input:checked+.switch-slider::before {
-            transform: translateX(24px);
-        }
-
-        .switch-text {
-            font-size: 14px;
-        }
-
-        .setting-description {
-            margin-top: 12px;
-            font-size: 13px;
-            color: var(--text-secondary, #666);
-            line-height: 1.5;
-        }
-
-        .info-text {
-            font-size: 14px;
-            color: var(--text-secondary, #666);
-            line-height: 1.6;
-            margin: 8px 0;
-        }
-
-        /* Wallpaper mode optimizations (when running as wallpaper) */
-        body.wallpaper-mode {
-            overflow: hidden;
-        }
-
-        body.wallpaper-mode .fab-container,
-        body.wallpaper-mode .below-table-content,
-        body.wallpaper-mode .download-app-section,
-        body.wallpaper-mode #theme-toggle,
-        body.wallpaper-mode #filters-panel,
-        body.wallpaper-mode #calc-panel,
-        body.wallpaper-mode #balancer-panel,
-        body.wallpaper-mode .modal {
-            display: none !important;
-        }
-    </style>
 
     <!-- KaTeX для формул -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
 
     <!-- html2pdf для генерации PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <!-- Модуль экспорта -->
-    <script src="js/modules/latex-export.js"></script>
 
     <!-- Основные данные и функции -->
-    <script src="js/elements.js"></script>
-    <script src="js/solubility/data.js"></script>
-    <script src="js/solubility/solubility-table.js"></script>
-    <script src="js/solubility/search.js"></script>
 
     <!-- Модуль поиска и фильтров -->
-    <script src="js/modules/search-filters.js"></script>
-
-    <script src="js/fab-animation.js"></script>
 </body>
 
 </html>
+
+

@@ -1,0 +1,171 @@
+﻿/* Live Wallpaper & Settings Styles */
+.wallpaper-status-badge {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(150, 150, 150, 0.3);
+    color: var(--text-secondary, #666);
+    margin-left: 4px;
+}
+
+.wallpaper-status-badge.active {
+    background: rgba(76, 175, 80, 0.3);
+    color: #4CAF50;
+}
+
+.fab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+/* App Notification */
+.app-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100000;
+    animation: slideInNotif 0.3s ease;
+    font-size: 14px;
+    max-width: 350px;
+}
+
+.app-notification.success {
+    background: #4CAF50;
+    color: white;
+}
+
+.app-notification.error {
+    background: #f44336;
+    color: white;
+}
+
+.app-notification.fade-out {
+    animation: slideOutNotif 0.3s ease forwards;
+}
+
+@keyframes slideInNotif {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutNotif {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Settings Modal Styles */
+.settings-modal-content {
+    max-width: 500px;
+}
+
+.settings-section {
+    margin: 24px 0;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+}
+
+[data-theme="dark"] .settings-section,
+.dark-theme .settings-section {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.settings-section h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+.switch-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 12px;
+}
+
+.switch-input {
+    display: none;
+}
+
+.switch-slider {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: #ccc;
+    border-radius: 26px;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.switch-slider::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.switch-input:checked + .switch-slider {
+    background: #667eea;
+}
+
+.switch-input:checked + .switch-slider::before {
+    transform: translateX(24px);
+}
+
+.switch-text {
+    font-size: 14px;
+}
+
+.setting-description {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-secondary, #666);
+    line-height: 1.5;
+}
+
+.info-text {
+    font-size: 14px;
+    color: var(--text-secondary, #666);
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+/* Wallpaper mode optimizations (when running as wallpaper) */
+body.wallpaper-mode {
+    overflow: hidden;
+}
+
+body.wallpaper-mode .fab-container,
+body.wallpaper-mode .below-table-content,
+body.wallpaper-mode .download-app-section,
+body.wallpaper-mode #theme-toggle,
+body.wallpaper-mode #filters-panel,
+body.wallpaper-mode #calc-panel,
+body.wallpaper-mode #balancer-panel,
+body.wallpaper-mode .modal {
+    display: none !important;
+}

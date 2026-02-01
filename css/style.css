@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    STYLE.CSS — Главный файл стилей
    Химический Ассистент v0.4
    ========================================= */
@@ -28,3 +28,8 @@
 @import url('nodemap.css');
 @import url('scroll-collapse.css');
 @import url('illustrated-toggle.css');
+@import url('pdf-export.css');
+@import url('flip-modal.css');
+@import url('live-wallpaper.css');
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+

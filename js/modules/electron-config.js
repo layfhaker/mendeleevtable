@@ -15,6 +15,7 @@ const electronConfigOrbitals = document.getElementById('electron-config-orbitals
 const electronConfigValence = document.getElementById('electron-config-valence');
 const electronConfigShort = document.getElementById('electron-config-short');
 const electronConfigFull = document.getElementById('electron-config-full');
+const ELECTRON_CONFIG_ANIM_MS = 360;
 
 const orbitalCapacityMap = {
     s: 1,
@@ -353,6 +354,7 @@ function renderElectronConfigModal(data) {
 function openElectronConfigModal(data) {
     if (!electronConfigModal) return;
     renderElectronConfigModal(data);
+    electronConfigModal.classList.remove('closing');
     electronConfigModal.style.display = 'flex';
     electronConfigModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('electron-config-open');
@@ -360,9 +362,13 @@ function openElectronConfigModal(data) {
 
 function closeElectronConfigModal() {
     if (!electronConfigModal) return;
-    electronConfigModal.style.display = 'none';
+    electronConfigModal.classList.add('closing');
     electronConfigModal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('electron-config-open');
+    setTimeout(() => {
+        electronConfigModal.style.display = 'none';
+        electronConfigModal.classList.remove('closing');
+        document.body.classList.remove('electron-config-open');
+    }, ELECTRON_CONFIG_ANIM_MS);
 }
 
 function initElectronConfig() {

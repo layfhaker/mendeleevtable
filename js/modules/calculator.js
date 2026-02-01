@@ -320,6 +320,7 @@ function clearCalculator() {
 
 // Переключение калькулятора
 function toggleCalc() {
+    const PANEL_ANIM_MS = 360;
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
@@ -332,15 +333,20 @@ function toggleCalc() {
 
     if (calcPanel.classList.contains('active')) {
         // При закрытии калькулятора не закрываем FAB меню
-        calcPanel.classList.remove('active');
+        if (calcPanel.classList.contains('closing')) return;
+        calcPanel.classList.add('closing');
         document.body.classList.remove('calc-active');
         resetFabPosition();
+        setTimeout(() => {
+            calcPanel.classList.remove('active', 'closing');
+        }, PANEL_ANIM_MS);
     } else {
         // При открытии калькулятора скрываем FAB меню только на мобильных устройствах
         if (window.innerWidth <= 1024 && fab) {
             fab.classList.remove('active');
         }
 
+        calcPanel.classList.remove('closing');
         calcPanel.classList.add('active');
         document.body.classList.add('calc-active');
 

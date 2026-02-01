@@ -8,7 +8,11 @@ function toggleMenu() {
 
     const filtersPanel = document.getElementById('filters-panel');
     if (filtersPanel && filtersPanel.classList.contains('active')) {
-        filtersPanel.classList.remove('active');
+        if (filtersPanel.classList.contains('closing')) return;
+        filtersPanel.classList.add('closing');
+        setTimeout(() => {
+            filtersPanel.classList.remove('active', 'closing');
+        }, 360);
     }
 }
 
@@ -114,6 +118,7 @@ window.initSolubilityDrag = function() {
 
 // 1. Калькулятор
 window.toggleCalc = async function() {
+    const PANEL_ANIM_MS = 360;
     // Проверяем, открыт ли уравниватель
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
@@ -135,7 +140,8 @@ window.toggleCalc = async function() {
     // Переключаем состояние
     if (panel.classList.contains('active')) {
         // Закрываем
-        panel.classList.remove('active');
+        if (panel.classList.contains('closing')) return;
+        panel.classList.add('closing');
         document.body.classList.remove('calc-active');
         resetFabPosition();
         if (window.mobileLayout && typeof window.mobileLayout.resetTransform === 'function') {
@@ -146,12 +152,17 @@ window.toggleCalc = async function() {
         if (wasFabActive && fab && window.innerWidth > 1024) {
             fab.classList.add('active');
         }
+
+        setTimeout(() => {
+            panel.classList.remove('active', 'closing');
+        }, PANEL_ANIM_MS);
     } else {
         // Открываем
         // Не скрываем FAB на ПК, только на мобильных
         if (window.innerWidth <= 1024 && fab) {
             fab.classList.remove('active');
         }
+        panel.classList.remove('closing');
         panel.classList.add('active');
         document.body.classList.add('calc-active');
         if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {

@@ -1,18 +1,17 @@
-// =========================================
-// ГЛАВНЫЙ ФАЙЛ - ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА
-// v2.1 - Исправлена интеграция Nodemap и обертки
+﻿// =========================================
+// MAIN LOADER FILE - OPTIMIZED LOADING
+// v2.2 - loader only
 // =========================================
 
-// === КРИТИЧЕСКИЕ СКРИПТЫ (загружаются сразу) ===
-// icons.js теперь загружается синхронно в HTML (для Safari iOS)
+// === CRITICAL SCRIPTS (load immediately) ===
 const criticalScripts = [
+    'js/icons.js',
     'js/elements.js',
     'js/utils.js',
-    'js/modules/mobile-layout.js',
+    'js/modules/mobile-layout.js'
 ];
 
-// === ОСНОВНЫЕ СКРИПТЫ (после DOMContentLoaded) ===
-// Сюда переносим nodemap, чтобы они грузились строго после ядра
+// === CORE SCRIPTS (after DOMContentLoaded) ===
 const coreScripts = [
     'js/particles.js',
     'js/modules/modal.js',
@@ -21,7 +20,9 @@ const coreScripts = [
     'js/modules/theme-toggle.js',
     'js/modules/search-filters.js',
     'js/modules/ui.js',
-    // Интегрируем Nodemap в общий поток:
+    'js/scroll-collapse.js',
+    'js/wallpaper-handler.js',
+    // Nodemap
     'js/nodemap/nodemap-parser.js',
     'js/nodemap/nodemap-layout.js',
     'js/nodemap/nodemap-canvas.js',
@@ -29,43 +30,35 @@ const coreScripts = [
     'js/nodemap/nodemap-flow-layout.js',
     'js/nodemap/nodemap-flow-canvas.js',
     'js/nodemap/nodemap-modal.js',
-    'js/nodemap/nodemap-init.js'
+    'js/nodemap/nodemap-init.js',
+    // Extras
+    'js/fab-animation.js'
 ];
 
-// === ОТЛОЖЕННЫЕ МОДУЛИ (загружаются по требованию) ===
-const lazyModules = {
-    solubility: [
-        'js/solubility/data.js',
-        'js/solubility/colors.js',
-        'js/solubility/solubility-table.js',
-        'js/solubility/filters.js',
-        'js/solubility/search.js',
-        'js/solubility/modal.js',
-        'js/solubility/advanced-modal.js'
-    ],
-    calculator: [
-        'js/modules/calculator.js'
-    ],
-    balancer: [
-        'js/modules/balancer.js'
-    ],
-};
+// Runtime logic (must load even if some core scripts fail)
+const coreAlways = [
+    'js/modules/app-runtime.js'
+];
 
-// Флаги загрузки
-let solubilityLoaded = false;
-let calculatorLoaded = false;
+// Optional external libraries (do not block the app)
+const optionalScripts = [
+    'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js',
+    'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+];
 
-// Прогресс загрузки
+// Core scripts that depend on optional libs
+const coreAfterOptional = [
+    'js/modules/latex-export.js'
+];
+
+// Loading progress
 let totalScripts = 0;
 let loadedScripts = 0;
 
-// === УТИЛИТЫ ЗАГРУЗКИ ===
 function updateProgress(percent) {
-    // Используем новый красивый лоадер
     if (window.ChemLoader) {
         window.ChemLoader.updateProgress(percent);
-
-        // Скрываем при 100%
         if (percent >= 100) {
             setTimeout(() => {
                 window.ChemLoader.hide();
@@ -76,7 +69,6 @@ function updateProgress(percent) {
 
 function loadScript(src) {
     return new Promise((resolve, reject) => {
-        // Проверяем, не загружен ли уже
         if (document.querySelector(`script[src="${src}"]`)) {
             resolve();
             return;
@@ -100,19 +92,51 @@ async function loadScripts(scripts) {
     }
 }
 
-// === ИНИЦИАЛИЗАЦИЯ ===
+function loadScriptSafe(src) {
+    return new Promise((resolve) => {
+        if (document.querySelector(`script[src="${src}"]`)) {
+            resolve();
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+            loadedScripts++;
+            updateProgress((loadedScripts / totalScripts) * 100);
+            resolve();
+        };
+        script.onerror = () => {
+            console.warn(`Optional script failed to load: ${src}`);
+            loadedScripts++;
+            updateProgress((loadedScripts / totalScripts) * 100);
+            resolve();
+        };
+        document.head.appendChild(script);
+    });
+}
+
+async function loadScriptsSafe(scripts) {
+    for (const src of scripts) {
+        await loadScriptSafe(src);
+    }
+}
+
+window.loadScript = loadScript;
+window.loadScripts = loadScripts;
+
 async function init() {
     try {
-        totalScripts = criticalScripts.length + coreScripts.length;
+        totalScripts = criticalScripts.length + coreScripts.length + coreAlways.length + optionalScripts.length + coreAfterOptional.length;
         loadedScripts = 0;
 
-        // 1. Критические
-        await loadScripts(criticalScripts);
+        await loadScriptsSafe(criticalScripts);
 
-        // 2. Основные (включая UI и Nodemap)
         const runCore = async () => {
-            await loadScripts(coreScripts);
-            initApp();
+            await loadScriptsSafe(coreScripts);
+            await loadScriptsSafe(coreAlways);
+            await loadScriptsSafe(optionalScripts);
+            await loadScriptsSafe(coreAfterOptional);
         };
 
         if (document.readyState === 'loading') {
@@ -121,97 +145,9 @@ async function init() {
             await runCore();
         }
     } catch (error) {
-        console.error('❌ Ошибка загрузки модулей:', error);
+        console.error('Loader error:', error);
         updateProgress(100);
     }
 }
 
-function initApp() {
-    if (typeof initTheme === 'function') initTheme();
-    if (typeof initModal === 'function') initModal();
-    if (typeof initElectronConfig === 'function') initElectronConfig();
-    if (typeof initSearch === 'function') initSearch();
-    if (typeof initUI === 'function') initUI();
-    // Nodemap инициализируется сам внутри nodemap-init.js, но теперь он точно загружен
-
-
-    console.log('✅ Приложение загружено');
-
-    // Скрываем лоадер
-    if (window.ChemLoader) {
-        window.ChemLoader.hide();
-    }
-}
-
-
-// === ЛЕНИВАЯ ЗАГРУЗКА ===
-
-// 1. Растворимость
-async function loadSolubility() {
-    if (solubilityLoaded) return;
-    console.log('⏳ Загрузка модуля растворимости...');
-    try {
-        await loadScripts(lazyModules.solubility);
-        solubilityLoaded = true;
-        if (typeof renderSolubilityTable === 'function') renderSolubilityTable();
-    } catch (error) {
-        console.error('❌ Ошибка загрузки растворимости:', error);
-    }
-}
-
-// 2. Калькулятор
-async function loadCalculator() {
-    if (calculatorLoaded) return;
-    console.log('⏳ Загрузка калькулятора...');
-    try {
-        await loadScripts(lazyModules.calculator);
-        calculatorLoaded = true;
-        if (typeof initCalculator === 'function') initCalculator();
-    } catch (error) {
-        console.error('❌ Ошибка загрузки калькулятора:', error);
-    }
-}
-
-// 3. Уравнитель
-let isBalancerLoading = false;
-
-// Balancer wrappers (actual logic is in balancer.js)
-window.closeBalancerPanel = function(event) {
-    if (typeof window.closeBalancer === 'function') {
-        window.closeBalancer(event);
-    }
-};
-
-window.toggleBalancerPanel = async function(event) {
-    // Load module if not loaded
-    if (window.loadBalancer) await window.loadBalancer();
-
-    if (typeof window.toggleBalancer === 'function') {
-        window.toggleBalancer(event);
-    }
-};
-
-// Function for loading balancer module
-window.loadBalancer = async function() {
-    if (window.balancerLoaded) return;
-
-    if (isBalancerLoading) return;
-    isBalancerLoading = true;
-
-    try {
-        await loadScripts(lazyModules.balancer);
-        window.balancerLoaded = true;
-    } catch (error) {
-        console.error('Ошибка загрузки балансера:', error);
-    } finally {
-        isBalancerLoading = false;
-    }
-};
-
-
-// Экспорты для консоли (если нужно)
-window.loadSolubility = loadSolubility;
-window.loadCalculator = loadCalculator;
-
 init();
-console.log("72 версия")

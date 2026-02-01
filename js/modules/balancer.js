@@ -1,6 +1,7 @@
 // =========================================
 // MODULE: EQUATION BALANCER
 // =========================================
+const BALANCER_ANIM_MS = 360;
 
 /**
  * Close balancer panel
@@ -16,10 +17,14 @@ window.closeBalancer = function (event) {
     if (!panel) return;
 
     if (panel.classList.contains('active')) {
-        panel.classList.remove('active');
+        if (panel.classList.contains('closing')) return;
+        panel.classList.add('closing');
         document.body.classList.remove('balancer-active');
+        setTimeout(() => {
+            panel.classList.remove('active', 'closing');
+        }, BALANCER_ANIM_MS);
     } else {
-        panel.classList.remove('active');
+        panel.classList.remove('active', 'closing');
         document.body.classList.remove('balancer-active');
     }
     if (window.mobileLayout && typeof window.mobileLayout.resetTransform === 'function') {
@@ -96,6 +101,7 @@ window.toggleBalancer = async function (event) {
         fab.classList.remove('active');
     }
 
+    panel.classList.remove('closing');
     panel.classList.add('active');
     document.body.classList.add('balancer-active');
     if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {

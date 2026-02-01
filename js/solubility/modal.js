@@ -35,6 +35,7 @@ window.openSolubility = async function () {
     // 3. Открытие окна
     // ... animation removed for simplicity reversion ...
 
+    modal.classList.remove('closing');
     modal.style.display = 'flex';
     document.body.classList.add('solubility-open');
 
@@ -110,8 +111,15 @@ window.closeSolubility = function () {
     const modal = document.getElementById('solubility-modal');
     if (!modal) return;
 
-    modal.style.display = 'none';
-    document.body.classList.remove('solubility-open');
+    // Добавляем класс для анимации закрытия
+    modal.classList.add('closing');
+
+    // Ждём завершения анимации
+    setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.remove('closing');
+        document.body.classList.remove('solubility-open');
+    }, 360);
 
     // Восстанавливаем интерфейс (сбрасываем стили скрытия)
     const fabContainer = document.getElementById('fab-container');

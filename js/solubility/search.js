@@ -208,7 +208,12 @@ function searchInSolubilityTable(query) {
         // Закрываем панель фильтров
         const filtersPanel = document.getElementById('filters-panel');
         if (filtersPanel && filtersPanel.classList.contains('active')) {
-            filtersPanel.classList.remove('active');
+            if (!filtersPanel.classList.contains('closing')) {
+                filtersPanel.classList.add('closing');
+                setTimeout(() => {
+                    filtersPanel.classList.remove('active', 'closing');
+                }, 360);
+            }
         }
 
         // Выделяем найденное

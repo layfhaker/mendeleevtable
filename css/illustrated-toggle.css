@@ -594,3 +594,13 @@ body.dark-theme #theme-toggle.chem-toggle {
         transform: translateY(-2px);
     }
 }
+
+@media (max-width: 1024px) {
+    #theme-toggle.chem-toggle {
+        top: 20px;
+        right: auto;
+        bottom: auto;
+        left: 20px;
+        transform-origin: top left;
+    }
+}

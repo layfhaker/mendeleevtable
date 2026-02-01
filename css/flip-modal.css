@@ -1,0 +1,310 @@
+/* =========================================
+   FLIP-MODAL.CSS — Улучшенные анимации модалок
+   с backdrop-blur эффектом
+   ========================================= */
+
+/* =========================================
+   ОСНОВНАЯ МОДАЛКА ЭЛЕМЕНТА (#modal)
+   ========================================= */
+
+/* Backdrop blur для основной модалки */
+#modal {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition:
+        backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease),
+        -webkit-backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease);
+}
+
+#modal[style*="display: flex"],
+#modal[style*="display:flex"] {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Улучшенная анимация открытия модалки */
+#modal .modal-content {
+    animation: modalOpenEnhanced var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+#modal.closing .modal-content {
+    animation: modalCloseEnhanced var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+@keyframes modalOpenEnhanced {
+    0% {
+        opacity: 0;
+        transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(0.3);
+        border-radius: 24px;
+    }
+    60% {
+        opacity: 1;
+        border-radius: 16px;
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+        border-radius: 12px;
+    }
+}
+
+@keyframes modalCloseEnhanced {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(0.3);
+    }
+}
+
+/* =========================================
+   ТАБЛИЦА РАСТВОРИМОСТИ (#solubility-modal)
+   ========================================= */
+
+#solubility-modal {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition:
+        backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease),
+        -webkit-backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease);
+}
+
+#solubility-modal[style*="display: flex"],
+#solubility-modal[style*="display:flex"] {
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+#solubility-modal .modal-content.solubility-content {
+    animation: slideUpModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+#solubility-modal.closing .modal-content.solubility-content {
+    animation: slideDownModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+/* =========================================
+   ПРОДВИНУТЫЙ РЕЖИМ (#advanced-substance-modal)
+   ========================================= */
+
+#advanced-substance-modal {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition:
+        backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease),
+        -webkit-backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease);
+}
+
+#advanced-substance-modal[style*="display: flex"],
+#advanced-substance-modal[style*="display:flex"] {
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+#advanced-substance-modal .advanced-modal-content {
+    animation: scaleInModal var(--flip-move-ms) var(--flip-ease) forwards;
+    transform-origin: center center;
+}
+
+#advanced-substance-modal.closing .advanced-modal-content {
+    animation: scaleOutModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+/* =========================================
+   ЭЛЕКТРОННАЯ КОНФИГУРАЦИЯ (#electron-config-modal)
+   ========================================= */
+
+#electron-config-modal {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition:
+        backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease),
+        -webkit-backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease);
+}
+
+#electron-config-modal[style*="display: flex"],
+#electron-config-modal[style*="display:flex"] {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#electron-config-modal .electron-config-content {
+    animation: expandModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+#electron-config-modal.closing .electron-config-content {
+    animation: collapseModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+/* =========================================
+   ОБЩИЕ АНИМАЦИИ
+   ========================================= */
+
+@keyframes slideUpModal {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideDownModal {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+}
+
+@keyframes scaleInModal {
+    0% {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleOutModal {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+}
+
+@keyframes expandModal {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(15px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes collapseModal {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+    }
+}
+
+/* =========================================
+   МОБИЛЬНЫЕ УСТРОЙСТВА
+   ========================================= */
+
+@media (max-width: 1024px) {
+    /* На мобильных модалка выезжает снизу */
+    #solubility-modal .modal-content.solubility-content {
+        animation: slideUpMobile var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    #solubility-modal.closing .modal-content.solubility-content {
+        animation: slideDownMobile var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    /* Основная модалка тоже выезжает снизу */
+    #modal .modal-content {
+        animation: slideUpMobile var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    #modal.closing .modal-content {
+        animation: slideDownMobile var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+
+    @keyframes slideUpMobile {
+        0% {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDownMobile {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+    }
+}
+
+/* =========================================
+   ТЁМНАЯ ТЕМА
+   ========================================= */
+
+.dark-theme #modal,
+.dark-theme #solubility-modal,
+.dark-theme #advanced-substance-modal,
+.dark-theme #electron-config-modal {
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+/* =========================================
+   ОТКЛЮЧЕНИЕ АНИМАЦИЙ
+   ========================================= */
+
+/* Режим обоев — убираем всё для производительности */
+body.wallpaper-optimized #modal,
+body.wallpaper-optimized #solubility-modal,
+body.wallpaper-optimized #advanced-substance-modal,
+body.wallpaper-optimized #electron-config-modal {
+    animation: none !important;
+    transition: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+body.wallpaper-optimized #modal .modal-content,
+body.wallpaper-optimized #solubility-modal .modal-content,
+body.wallpaper-optimized #advanced-substance-modal .advanced-modal-content,
+body.wallpaper-optimized #electron-config-modal .electron-config-content {
+    animation: none !important;
+}
+
+/* Пользователи с настройкой reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    #modal,
+    #solubility-modal,
+    #advanced-substance-modal,
+    #electron-config-modal {
+        transition-duration: 0.01ms !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    #modal .modal-content,
+    #solubility-modal .modal-content,
+    #advanced-substance-modal .advanced-modal-content,
+    #electron-config-modal .electron-config-content {
+        animation: none !important;
+    }
+}

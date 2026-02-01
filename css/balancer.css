@@ -14,19 +14,47 @@
     border: 2px solid #2196F3;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    display: flex;
+    display: none;
     flex-direction: column;
     z-index: 1000;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(16px) scale(0.985);
+    will-change: transform, opacity;
     pointer-events: none; /* Fixes zombie hitbox issue */
 }
 
 .balancer-panel.active {
-    opacity: 1;
-    transform: translateY(0);
+    display: flex;
+    animation: balancerOpen var(--flip-move-ms) var(--flip-ease) forwards;
     pointer-events: auto; /* Enable pointer events when active */
+}
+
+.balancer-panel.active.closing {
+    animation: balancerClose var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+@keyframes balancerOpen {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes balancerClose {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
+    }
 }
 
 
@@ -287,9 +315,8 @@ body.dark-theme .ex-chips button:hover {
         border-radius: 20px 20px 0 0;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
 
-        display: flex;
+        display: none;
         flex-direction: column;
-        visibility: hidden;
         opacity: 0;
         pointer-events: none;
 
@@ -298,16 +325,41 @@ body.dark-theme .ex-chips button:hover {
 
         z-index: 60000;
         transform: translateY(100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1),
-                    opacity 0.3s ease,
-                    visibility 0.3s;
+        will-change: transform, opacity;
     }
 
     .balancer-panel.active {
-        visibility: visible;
-        opacity: 1;
+        display: flex;
+        animation: balancerSheetOpen var(--flip-move-ms) var(--flip-ease) forwards;
         pointer-events: auto;
+    }
+
+    .balancer-panel.active.closing {
+        animation: balancerSheetClose var(--flip-move-ms) var(--flip-ease) forwards;
+    }
+}
+
+@keyframes balancerSheetOpen {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes balancerSheetClose {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(100%);
     }
 }
 
