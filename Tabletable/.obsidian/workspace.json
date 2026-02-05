@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Дни недели/Четверг.md",
+                "file": "Дни недели/Вторник.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Четверг"
+              "title": "Вторник"
             }
           }
         ]
@@ -34,19 +34,6 @@
         "id": "31338e8ffa10644f",
         "type": "tabs",
         "children": [
-          {
-            "id": "0bb74f2b5b9c5af6",
-            "type": "leaf",
-            "state": {
-              "type": "file-explorer",
-              "state": {
-                "sortOrder": "alphabetical",
-                "autoReveal": false
-              },
-              "icon": "lucide-folder-closed",
-              "title": "Files"
-            }
-          },
           {
             "id": "72a31c62cfe1e9ab",
             "type": "leaf",
@@ -72,6 +59,19 @@
               "state": {},
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "ffad7883a1490b51",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           }
         ]
@@ -185,18 +185,18 @@
   },
   "active": "18a9145604ae8a40",
   "lastOpenFiles": [
+    "Дни недели/Понедельник.md",
+    "Дни недели/Вторник.md",
+    "Дни недели/Четверг.md",
     "В планах.md",
     "В очереди.md",
     "451 градус по Фаренгейту.md",
-    "Дни недели/Вторник.md",
     "Расписание.md",
     "Чтение.md",
     "карта.canvas",
     "Дни недели/Суббота.md",
     "Дни недели/Пятница.md",
-    "Дни недели/Четверг.md",
     "Дни недели/Среда.md",
-    "Дни недели/Понедельник.md",
     "Дни недели/Воскресенье.md",
     "Проект.md",
     "Дни недели",

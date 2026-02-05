@@ -184,8 +184,9 @@ window.toggleSolubility = async function() {
 
     // ШАГ 1: Проверяем состояние
     const modal = document.getElementById('solubility-modal');
+    const isCurrentlyVisible = modal ? (getComputedStyle(modal).display !== 'none') : false;
     // Если модалки нет или она скрыта -> значит мы ОТКРЫВАЕМ
-    const isOpening = !modal || modal.style.display === 'none' || modal.style.display === '';
+    const isOpening = !modal || !isCurrentlyVisible;
 
     // Проверяем, мобильное ли это устройство (как в mobile-layout.js)
     const isMobile = window.innerWidth <= 1024;
@@ -204,12 +205,14 @@ window.toggleSolubility = async function() {
 
     // ШАГ 4: Логика открытия/закрытия
     if (modal) {
-        const currentlyVisible = modal.style.display === 'block' || modal.style.display === 'flex';
-
-        if (!currentlyVisible) {
+        if (!isCurrentlyVisible) {
             // Открываем
-            modal.style.display = 'flex';
-            document.body.classList.add('solubility-open');
+            if (typeof openSolubility === 'function') {
+                await openSolubility();
+            } else {
+                modal.style.display = 'flex';
+                document.body.classList.add('solubility-open');
+            }
 
             // Если мы на ПК (isMobile === false), кнопки скрывать не нужно,
             // но на всякий случай убедимся, что они видны (если вдруг остались скрыты с прошлого раза)
@@ -231,8 +234,12 @@ window.toggleSolubility = async function() {
             if (typeof closeSolubility === 'function') {
                 closeSolubility();
             } else {
-                modal.style.display = 'none';
-                document.body.classList.remove('solubility-open');
+                modal.classList.add('closing');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modal.classList.remove('closing');
+                    document.body.classList.remove('solubility-open');
+                }, 360);
 
                 // Возвращаем кнопки (на случай если модуль не прогрузился)
                 const fab = document.getElementById('fab-container');

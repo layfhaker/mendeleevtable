@@ -451,10 +451,14 @@ function resetFilters() {
     }
 }
 
-// Находим все кнопки фильтров и вешаем клик
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+// Делегирование кликов для фильтров элементов (устойчиво к замене HTML)
+const categoriesSection = document.getElementById('categories-section');
+if (categoriesSection) {
+    categoriesSection.addEventListener('click', (event) => {
+        const btn = event.target.closest('.filter-btn');
+        if (!btn) return;
         const filterType = btn.dataset.filter;
+        if (!filterType) return; // игнорируем кнопки растворимости/цветов
 
         if (btn.classList.contains('active')) {
             btn.classList.remove('active');
@@ -467,7 +471,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 
         applyCategoryFilter(filterType);
     });
-});
+}
 
 function applyCategoryFilter(categoryClass) {
     // Используем более общий селектор для всех элементов с классом element
