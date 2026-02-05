@@ -142,7 +142,8 @@ function getColorName(color) {
             '#7fbf7f': 'Зелёный',
             '#6aa9ff': 'Голубой',
             '#48d1cc': 'Сине-зелёный',
-            '#50c878': 'Зелёный'
+            '#50c878': 'Зелёный',
+            '#8a2be2': '\u0424\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439'
         };
 
         if (hexMap[color]) return hexMap[color];

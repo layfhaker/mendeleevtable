@@ -273,11 +273,11 @@
   },
   {
     "key": "Ag+-Br-",
-    "value": "#fffacd"
+    "value": "#fffdd0"
   },
   {
     "key": "Ag+-I-",
-    "value": "#ffd700"
+    "value": "#fff9b0"
   },
   {
     "key": "Pb2+-I-",
@@ -377,7 +377,7 @@
   },
   {
     "key": "Ni2+-SO42-",
-    "value": "#90ee90"
+    "value": "#48d1cc"
   },
   {
     "key": "Ni2+-Cl-",
@@ -385,11 +385,11 @@
   },
   {
     "key": "Ni2+-NO3-",
-    "value": "#90ee90"
+    "value": "#50c878"
   },
   {
     "key": "Cr3+-OH-",
-    "value": "#7fffd4"
+    "value": "#7fbf7f"
   },
   {
     "key": "Cr3+-Cl-",
@@ -405,7 +405,7 @@
   },
   {
     "key": "Co2+-OH-",
-    "value": "#ff69b4"
+    "value": "#6aa9ff"
   },
   {
     "key": "Co2+-Cl-",
@@ -425,7 +425,7 @@
   },
   {
     "key": "Mn2+-S2-",
-    "value": "#ffb6c1"
+    "value": "#8b4513"
   },
   {
     "key": "K+-MnO4-",
@@ -469,7 +469,7 @@
   },
   {
     "key": "Cu2+-CH3COO-",
-    "value": "#87ceeb"
+    "value": "#48d1cc"
   },
   {
     "key": "Cu2+-PO43-",
@@ -493,7 +493,7 @@
   },
   {
     "key": "Co2+-PO43-",
-    "value": "#ff69b4"
+    "value": "#8a2be2"
   },
   {
     "key": "Co2+-CH3COO-",
