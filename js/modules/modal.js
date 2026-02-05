@@ -253,7 +253,17 @@ function scatterElements() {
     document.body.classList.add('elements-scattered');
     document.body.classList.remove('elements-returning');
 
-    document.querySelectorAll('.element').forEach(el => {
+    const elements = document.querySelectorAll('.element');
+
+    elements.forEach(el => {
+        el.style.setProperty('transition', 'transform 0.5s cubic-bezier(0.5, 0.9, 0.5, 1.0)', 'important');
+        if (!el.style.transform) {
+            el.style.transform = 'translate(0, 0)';
+        }
+    });
+
+    requestAnimationFrame(() => {
+        elements.forEach(el => {
         const rect = el.getBoundingClientRect();
         const elCenterX = rect.left + rect.width / 2;
         const elCenterY = rect.top + rect.height / 2;
@@ -271,6 +281,7 @@ function scatterElements() {
         const moveY = dirY * randomOffset + (Math.random() - 0.5) * 50;
 
         el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
     });
 }
 
@@ -278,13 +289,19 @@ function returnElements() {
     document.body.classList.remove('elements-scattered');
     document.body.classList.add('elements-returning');
 
-    document.querySelectorAll('.element').forEach(el => {
+    const elements = document.querySelectorAll('.element');
+    elements.forEach(el => {
+        el.style.setProperty('transition', 'transform 0.3s cubic-bezier(0.4, 0.05, 0.8, 1.0)', 'important');
         el.style.transform = 'translate(0, 0)';
     });
 
     setTimeout(() => {
         document.body.classList.remove('elements-returning');
-    }, 300);
+        elements.forEach(el => {
+            el.style.removeProperty('transform');
+            el.style.removeProperty('transition');
+        });
+    }, 320);
 }
 
 // =========================================

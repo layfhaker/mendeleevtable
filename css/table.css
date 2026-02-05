@@ -725,6 +725,7 @@
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+    position: relative;
 }
 
 .periodic-table-container::-webkit-scrollbar {

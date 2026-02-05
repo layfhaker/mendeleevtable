@@ -103,6 +103,8 @@ window.openSolubility = async function () {
         }
     }
 
+    setupSolubilityPanHints();
+
     // ПРИНУДИТЕЛЬНАЯ ПРИВЯЗКА СОБЫТИЙ ЗАКРЫТИЯ
     bindCloseEvents();
 };
@@ -180,3 +182,56 @@ function bindCloseEvents() {
 
 // Запускаем привязку событий сразу при загрузке скрипта
 bindCloseEvents();
+
+function setupSolubilityPanHints() {
+    const content = document.querySelector('.solubility-content');
+    const wrapper = document.querySelector('.solubility-wrapper');
+    if (!content || !wrapper) return;
+
+    let hints = content.querySelector('.pan-hints--solubility');
+    if (!hints) {
+        hints = document.createElement('div');
+        hints.className = 'pan-hints pan-hints--solubility';
+        hints.innerHTML = `
+            <div class="pan-hint pan-hint--left"></div>
+            <div class="pan-hint pan-hint--right"></div>
+            <div class="pan-hint pan-hint--top"></div>
+            <div class="pan-hint pan-hint--bottom"></div>
+        `;
+        content.appendChild(hints);
+    }
+
+    const left = hints.querySelector('.pan-hint--left');
+    const right = hints.querySelector('.pan-hint--right');
+    const top = hints.querySelector('.pan-hint--top');
+    const bottom = hints.querySelector('.pan-hint--bottom');
+
+    const update = () => {
+        const maxX = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+        const maxY = Math.max(0, wrapper.scrollHeight - wrapper.clientHeight);
+        const x = wrapper.scrollLeft;
+        const y = wrapper.scrollTop;
+
+        left.classList.toggle('is-visible', x > 2);
+        right.classList.toggle('is-visible', x < maxX - 2);
+        top.classList.toggle('is-visible', y > 2);
+        bottom.classList.toggle('is-visible', y < maxY - 2);
+    };
+
+    wrapper.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    if (!sessionStorage.getItem('solubilityPanHintShown')) {
+        sessionStorage.setItem('solubilityPanHintShown', '1');
+        setTimeout(() => {
+            const maxX = Math.max(0, wrapper.scrollWidth - wrapper.clientWidth);
+            if (maxX > 0) {
+                wrapper.scrollLeft += 10;
+                setTimeout(() => {
+                    wrapper.scrollLeft -= 10;
+                }, 220);
+            }
+        }, 400);
+    }
+}

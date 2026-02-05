@@ -451,27 +451,27 @@ function resetFilters() {
     }
 }
 
-// Делегирование кликов для фильтров элементов (устойчиво к замене HTML)
-const categoriesSection = document.getElementById('categories-section');
-if (categoriesSection) {
-    categoriesSection.addEventListener('click', (event) => {
-        const btn = event.target.closest('.filter-btn');
-        if (!btn) return;
-        const filterType = btn.dataset.filter;
-        if (!filterType) return; // игнорируем кнопки растворимости/цветов
+// Делегирование кликов для фильтров элементов (устойчиво к замене HTML и мобилкам)
+document.addEventListener('click', (event) => {
+    const btn = event.target.closest('.filter-btn');
+    if (!btn) return;
+    const filterType = btn.dataset.filter;
+    if (!filterType) return; // игнорируем кнопки растворимости/цветов
 
-        if (btn.classList.contains('active')) {
-            btn.classList.remove('active');
-            resetTableDisplay();
-            return;
-        }
+    // Если открыта таблица растворимости — не трогаем фильтры элементов
+    if (document.body.classList.contains('solubility-open')) return;
 
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        resetTableDisplay();
+        return;
+    }
 
-        applyCategoryFilter(filterType);
-    });
-}
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    applyCategoryFilter(filterType);
+});
 
 function applyCategoryFilter(categoryClass) {
     // Используем более общий селектор для всех элементов с классом element

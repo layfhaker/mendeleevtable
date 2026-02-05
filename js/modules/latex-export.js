@@ -1,17 +1,17 @@
 // =========================================
-// МОДУЛЬ: ЭКСПОРТ ЭЛЕМЕНТА В PDF И LATEX
+// РњРћР”РЈР›Р¬: Р­РљРЎРџРћР Рў Р­Р›Р•РњР•РќРўРђ Р’ PDF Р LATEX
 // =========================================
 
 /**
- * Нормализация формулы (убираем индексы для поиска)
+ * РќРѕСЂРјР°Р»РёР·Р°С†РёСЏ С„РѕСЂРјСѓР»С‹ (СѓР±РёСЂР°РµРј РёРЅРґРµРєСЃС‹ РґР»СЏ РїРѕРёСЃРєР°)
  */
 function normalizeFormula(formula) {
-    return formula.replace(/[⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]/g, (match) => {
+    return formula.replace(/[вЃєвЃ»вЃ°В№ВІВівЃґвЃµвЃ¶вЃ·вЃёвЃ№в‚Ђв‚Ѓв‚‚в‚ѓв‚„в‚…в‚†в‚‡в‚€в‚‰]/g, (match) => {
         const map = {
-            '⁺': '+', '⁻': '-', '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
-            '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
-            '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
-            '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9'
+            'вЃє': '+', 'вЃ»': '-', 'вЃ°': '0', 'В№': '1', 'ВІ': '2', 'Ві': '3', 'вЃґ': '4',
+            'вЃµ': '5', 'вЃ¶': '6', 'вЃ·': '7', 'вЃё': '8', 'вЃ№': '9',
+            'в‚Ђ': '0', 'в‚Ѓ': '1', 'в‚‚': '2', 'в‚ѓ': '3', 'в‚„': '4',
+            'в‚…': '5', 'в‚†': '6', 'в‚‡': '7', 'в‚€': '8', 'в‚‰': '9'
         };
         return map[match] || match;
     });
@@ -19,7 +19,7 @@ function normalizeFormula(formula) {
 
 function getElementCompounds(symbol) {
     if (!window.solubilityData) {
-        console.error('Данные таблицы растворимости не загружены');
+        console.error('Р”Р°РЅРЅС‹Рµ С‚Р°Р±Р»РёС†С‹ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РЅРµ Р·Р°РіСЂСѓР¶РµРЅС‹');
         return [];
     }
 
@@ -33,17 +33,24 @@ function getElementCompounds(symbol) {
         return exceptions[exceptionKey] !== undefined ? exceptions[exceptionKey] : (defaults[anionKey] || "R");
     };
 
-    const getCompoundColor = (cationFormula, anionFormula) => {
+    const getCompoundColor = (cationFormula, anionFormula, solubility) => {
         const cationKey = normalizeFormula(cationFormula);
         const anionKey = normalizeFormula(anionFormula);
-        const key = `${cationKey}-${anionKey}`;
-        if (window.substanceColors && window.substanceColors[key]) {
-            const color = window.substanceColors[key];
-            if (color === 'colorless') return 'Бесцветный раствор';
-            if (color === 'white') return 'Белый';
+        const key = cationKey + '-' + anionKey;
+        const colorDb = (typeof substanceColors !== 'undefined' ? substanceColors : window.substanceColors);
+        if (colorDb && colorDb[key]) {
+            const color = colorDb[key];
+            if (color === 'colorless') return '\u0411\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439 \u0440\u0430\u0441\u0442\u0432\u043e\u0440';
+            if (color === 'white') return '\u0411\u0435\u043b\u044b\u0439';
             return color;
         }
-        return '—';
+        if (solubility === 'R') {
+            if (anionKey === 'MnO4-') return '#8b008b';
+            if (anionKey === 'CrO42-') return '#ffff00';
+            if (anionKey === 'Cr2O72-') return '#ff8c00';
+            return '\u0411\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439 \u0440\u0430\u0441\u0442\u0432\u043e\u0440';
+        }
+        return '\u2014';
     };
 
     const getDecompositionReaction = (cationFormula, anionFormula) => {
@@ -52,8 +59,8 @@ function getElementCompounds(symbol) {
         const key = `${cationKey}-${anionKey}`;
         if (window.decompositionReactions && window.decompositionReactions[key]) {
             return {
-                equation: window.decompositionReactions[key].equation || '—',
-                description: window.decompositionReactions[key].description || '—'
+                equation: window.decompositionReactions[key].equation || 'вЂ”',
+                description: window.decompositionReactions[key].description || 'вЂ”'
             };
         }
         return null;
@@ -67,7 +74,7 @@ function getElementCompounds(symbol) {
                     cation: cation.f,
                     anion: anion.f,
                     solubility: getSolubility(cation.f, anion.f),
-                    color: getCompoundColor(cation.f, anion.f),
+                    color: null,
                     decomposition: getDecompositionReaction(cation.f, anion.f)
                 });
             });
@@ -82,21 +89,25 @@ function getElementCompounds(symbol) {
                     cation: cation.f,
                     anion: anion.f,
                     solubility: getSolubility(cation.f, anion.f),
-                    color: getCompoundColor(cation.f, anion.f),
+                    color: null,
                     decomposition: getDecompositionReaction(cation.f, anion.f)
                 });
             });
         }
     });
 
+    compounds.forEach((compound) => {
+        compound.color = getCompoundColor(compound.cation, compound.anion, compound.solubility);
+    });
+
     return compounds;
 }
 
 /**
- * Рендерит формулу в красивый HTML с помощью KaTeX
+ * Р РµРЅРґРµСЂРёС‚ С„РѕСЂРјСѓР»Сѓ РІ РєСЂР°СЃРёРІС‹Р№ HTML СЃ РїРѕРјРѕС‰СЊСЋ KaTeX
  */
 function renderFormula(formula) {
-    if (!formula) return '—';
+    if (!formula) return 'вЂ”';
     try {
         return katex.renderToString(`\\ce{${formula}}`, {
             throwOnError: false,
@@ -107,8 +118,38 @@ function renderFormula(formula) {
     }
 }
 
+function safeValue(value, fallback = 'вЂ”') {
+    if (value === null || value === undefined) return fallback;
+    if (typeof value === 'number' && Number.isNaN(value)) return fallback;
+    if (typeof value === 'string' && value.trim().toLowerCase() === 'null') return fallback;
+    const str = String(value).trim();
+    return str.length === 0 ? fallback : str;
+}
+
+function toSuperscript(text) {
+    const map = {
+        '0': 'вЃ°', '1': 'В№', '2': 'ВІ', '3': 'Ві', '4': 'вЃґ',
+        '5': 'вЃµ', '6': 'вЃ¶', '7': 'вЃ·', '8': 'вЃё', '9': 'вЃ№'
+    };
+    return String(text).split('').map(ch => map[ch] || ch).join('');
+}
+
+function formatElectronConfigForPDF(config) {
+    if (!config) return 'вЂ”';
+    let str = String(config);
+    str = str.replace(/<sup>(\d+)<\/sup>/gi, (_, digits) => toSuperscript(digits));
+    str = str.replace(/<[^>]*>/g, '');
+    return safeValue(str, 'вЂ”');
+}
+
+function getCategoryLabel(data) {
+    const category = (data && data.category) ? String(data.category) : '';
+    if (category) return category;
+    return 'вЂ”';
+}
+
 /**
- * Генерирует HTML секцию для аллотропов
+ * Р“РµРЅРµСЂРёСЂСѓРµС‚ HTML СЃРµРєС†РёСЋ РґР»СЏ Р°Р»Р»РѕС‚СЂРѕРїРѕРІ
  */
 function generateAllotropesHTML(data) {
     if (!data.allotropes && !data.extraAllotropes) return '';
@@ -122,13 +163,13 @@ function generateAllotropesHTML(data) {
 
     return `
         <div class="pdf-section">
-            <h2 class="pdf-subtitle" style="color: #E91E63;">Аллотропные модификации</h2>
+            <h2 class="pdf-subtitle" style="color: #D36A8E;">РђР»Р»РѕС‚СЂРѕРїРЅС‹Рµ РјРѕРґРёС„РёРєР°С†РёРё</h2>
             <table class="pdf-table">
                 <thead>
-                    <tr style="background-color: #E91E63;">
-                        <th>Название</th>
-                        <th>Свойства</th>
-                        <th>Структура</th>
+                        <tr style="background-color: #D36A8E;">
+                        <th>РќР°Р·РІР°РЅРёРµ</th>
+                        <th>РЎРІРѕР№СЃС‚РІР°</th>
+                        <th>РЎС‚СЂСѓРєС‚СѓСЂР°</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,12 +180,12 @@ function generateAllotropesHTML(data) {
                                 <span style="font-size: smaller; color: #666;">${allo.alloDiscoveryYear || ''}</span>
                             </td>
                             <td>
-                                ${allo.density ? `<div>ρ: ${allo.density}</div>` : ''}
-                                ${allo.meltingPoint ? `<div>Tₘ: ${allo.meltingPoint}</div>` : ''}
+                                ${allo.density ? `<div>ПЃ: ${allo.density}</div>` : ''}
+                                ${allo.meltingPoint ? `<div>Tв‚: ${allo.meltingPoint}</div>` : ''}
                                 ${allo.color ? `<div>${allo.color}</div>` : ''}
                             </td>
                             <td>
-                                ${allo.structure || '—'}<br>
+                                ${allo.structure || 'вЂ”'}<br>
                                 <span style="font-size: smaller; font-style: italic;">${allo.alloFacts || ''}</span>
                             </td>
                         </tr>
@@ -156,23 +197,133 @@ function generateAllotropesHTML(data) {
 }
 
 /**
- * Генерирует HTML шаблон для экспорта
+ * Р“РµРЅРµСЂРёСЂСѓРµС‚ HTML С€Р°Р±Р»РѕРЅ РґР»СЏ СЌРєСЃРїРѕСЂС‚Р°
  */
 function generatePDFTemplate(data, compounds) {
-    const solubilityText = { 'R': 'Растворим', 'M': 'Малорастворим', 'N': 'Нерастворим', 'D': 'Разлагается', 'O': 'Не существует' };
+    const solubilityText = { 'R': 'Р Р°СЃС‚РІРѕСЂРёРј', 'M': 'РњР°Р»РѕСЂР°СЃС‚РІРѕСЂРёРј', 'N': 'РќРµСЂР°СЃС‚РІРѕСЂРёРј', 'D': 'Р Р°Р·Р»Р°РіР°РµС‚СЃСЏ', 'O': 'РќРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚' };
+    const elementName = safeValue(data.name || data.symbol);
+    const elementSymbol = safeValue(data.symbol);
+    const elementNumber = safeValue(data.atomicNumber);
+    const elementCategory = getCategoryLabel(data);
+    const periodValue = safeValue(data.period);
+    const groupValue = safeValue(data.group, data && data.category && /Р°РєС‚РёРЅРѕРёРґ/i.test(data.category) ? 'Р°РєС‚РёРЅРѕРёРґС‹' : 'вЂ”');
+    const electronConfigText = formatElectronConfigForPDF(data.electronConfigFull || data.electronConfig);
+
+    const colorNameToHex = {
+    "\u0431\u0435\u043b\u044b\u0439": "#ffffff",
+    "\u0431\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439": "#f0f8ff",
+    "\u0447\u0451\u0440\u043d\u044b\u0439": "#000000",
+    "\u043a\u0440\u0430\u0441\u043d\u044b\u0439": "#ff0000",
+    "\u0441\u0438\u043d\u0438\u0439": "#1e88e5",
+    "\u0433\u043e\u043b\u0443\u0431\u043e\u0439": "#81d4fa",
+    "\u0437\u0435\u043b\u0451\u043d\u044b\u0439": "#43a047",
+    "\u0437\u0435\u043b\u0435\u043d\u044b\u0439": "#43a047",
+    "\u0436\u0451\u043b\u0442\u044b\u0439": "#fdd835",
+    "\u0436\u0435\u043b\u0442\u044b\u0439": "#fdd835",
+    "\u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439": "#fb8c00",
+    "\u0444\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439": "#8e24aa",
+    "\u0440\u043e\u0437\u043e\u0432\u044b\u0439": "#ec407a",
+    "\u0431\u0443\u0440\u044b\u0439": "#8d6e63",
+    "\u043a\u043e\u0440\u0438\u0447\u043d\u0435\u0432\u044b\u0439": "#8d6e63",
+    "\u043a\u0440\u0435\u043c\u043e\u0432\u044b\u0439": "#fffdd0",
+    "\u0431\u043b\u0435\u0434\u043d\u043e-\u0436\u0451\u043b\u0442\u044b\u0439": "#fff9b0",
+    "\u0441\u0438\u043d\u0435-\u0437\u0435\u043b\u0451\u043d\u044b\u0439": "#48d1cc"
+};
+
+const hexToColorName = Object.keys(colorNameToHex).reduce((acc, name) => {
+    acc[colorNameToHex[name].toLowerCase()] = name;
+    return acc;
+}, {});
+
+const normalizeColorValue = (value) => {
+    if (!value) return null;
+    if (typeof value === 'object' && value.color) value = value.color;
+    if (typeof value !== 'string') return null;
+    const raw = value.trim();
+    if (!raw) return null;
+    const lower = raw.toLowerCase();
+    if (lower === 'colorless' || lower === '\u0431\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439 \u0440\u0430\u0441\u0442\u0432\u043e\u0440' || lower === '\u0431\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439') return '#f0f8ff';
+    if (lower === 'white' || lower === '\u0431\u0435\u043b\u044b\u0439') return '#ffffff';
+    if (lower.startsWith('#')) return lower;
+    if (lower.startsWith('rgb')) return lower;
+    return colorNameToHex[lower] || null;
+};
+
+const hexToRgb = (hex) => {
+    const value = hex.replace('#', '').trim();
+    if (value.length === 3) {
+        const r = parseInt(value[0] + value[0], 16);
+        const g = parseInt(value[1] + value[1], 16);
+        const b = parseInt(value[2] + value[2], 16);
+        return { r, g, b };
+    }
+    if (value.length === 6) {
+        const r = parseInt(value.slice(0, 2), 16);
+        const g = parseInt(value.slice(2, 4), 16);
+        const b = parseInt(value.slice(4, 6), 16);
+        return { r, g, b };
+    }
+    return null;
+};
+
+const approximateColorNameFromHex = (hex) => {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return '\u0426\u0432\u0435\u0442\u043d\u043e\u0439';
+    const { r, g, b } = rgb;
+    if (r > 235 && g > 235 && b > 235) return '\u0411\u0435\u043b\u044b\u0439';
+    if (r < 40 && g < 40 && b < 40) return '\u0427\u0451\u0440\u043d\u044b\u0439';
+    if (r > 200 && g > 200 && b < 120) return '\u0416\u0451\u043b\u0442\u044b\u0439';
+    if (r > 200 && g > 120 && b < 80) return '\u041e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439';
+    if (r > 160 && g < 90 && b < 90) return '\u041a\u0440\u0430\u0441\u043d\u044b\u0439';
+    if (b > 150 && r < 100 && g < 120) return '\u0421\u0438\u043d\u0438\u0439';
+    if (g > 150 && r < 120 && b < 120) return '\u0417\u0435\u043b\u0451\u043d\u044b\u0439';
+    if (r > 150 && b > 150 && g < 120) return '\u0424\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439';
+    return '\u0426\u0432\u0435\u0442\u043d\u043e\u0439';
+};
+
+const describeColorValue = (value) => {
+    if (!value) return '\u2014';
+    if (typeof value === 'string') {
+        const raw = value.trim();
+        if (!raw) return '\u2014';
+        const lower = raw.toLowerCase();
+        if (lower === 'colorless') return '\u0411\u0435\u0441\u0446\u0432\u0435\u0442\u043d\u044b\u0439 \u0440\u0430\u0441\u0442\u0432\u043e\u0440';
+        if (lower === 'white') return '\u0411\u0435\u043b\u044b\u0439';
+        if (lower.startsWith('#')) {
+            const mapped = hexToColorName[lower];
+            if (mapped) {
+                return mapped.charAt(0).toUpperCase() + mapped.slice(1);
+            }
+            return approximateColorNameFromHex(lower);
+        }
+        if (lower.startsWith('rgb')) return '\u0426\u0432\u0435\u0442\u043d\u043e\u0439';
+    }
+    return safeValue(value);
+};
+
+const renderColorSwatch = (value) => {
+        const hex = normalizeColorValue(value);
+        const label = describeColorValue(value);
+        if (!hex) return label;
+        const border = (hex === '#ffffff' || hex === '#f0f8ff') ? 'border:1px solid #ccc;' : '';
+        return `<span style="display:inline-flex;align-items:center;gap:6px;">
+            <span style="width:10px;height:10px;border-radius:50%;background:${hex};${border}"></span>
+            <span>${label}</span>
+        </span>`;
+    };
 
     let compoundsHTML = '';
     if (compounds.length > 0) {
         compoundsHTML = `
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #9c27b0;">Соединения из таблицы растворимости</h2>
+                <h2 class="pdf-subtitle" style="color: #7E57C2;">РЎРѕРµРґРёРЅРµРЅРёСЏ РёР· С‚Р°Р±Р»РёС†С‹ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё</h2>
                 <table class="pdf-table compounds-table">
                     <thead>
-                        <tr style="background-color: #9c27b0;">
-                            <th>Формула</th>
-                            <th>Растворимость</th>
-                            <th>Цвет</th>
-                            <th>Реакция</th>
+                        <tr style="background-color: #7E57C2;">
+                            <th>Р¤РѕСЂРјСѓР»Р°</th>
+                            <th>Р Р°СЃС‚РІРѕСЂРёРјРѕСЃС‚СЊ</th>
+                            <th>Р¦РІРµС‚</th>
+                            <th>Р РµР°РєС†РёСЏ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -180,8 +331,8 @@ function generatePDFTemplate(data, compounds) {
                             <tr class="${i % 2 === 0 ? 'even' : 'odd'}">
                                 <td>${renderFormula(c.cation)} + ${renderFormula(c.anion)}</td>
                                 <td>${solubilityText[c.solubility] || c.solubility}</td>
-                                <td>${c.color.startsWith('#') ? `<span style="color:${c.color}">●</span> Цветной` : c.color}</td>
-                                <td>${c.decomposition ? renderFormula(c.decomposition.equation) : '—'}</td>
+                                <td>${renderColorSwatch(c.color)}</td>
+                                <td>${c.decomposition ? renderFormula(c.decomposition.equation) : 'вЂ”'}</td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -192,43 +343,52 @@ function generatePDFTemplate(data, compounds) {
 
     return `
         <div class="pdf-container">
-            <h1 class="pdf-title">${data.name || data.symbol} (${data.symbol})</h1>
-            <p class="pdf-meta">Сгенерировано: ${new Date().toLocaleDateString('ru-RU')}</p>
+            <div class="pdf-hero">
+                <div class="pdf-hero-symbol">${elementSymbol}</div>
+                <div class="pdf-hero-meta">
+                    <h1 class="pdf-title">${elementName} (${elementSymbol})</h1>
+                    <div class="pdf-hero-row">
+                        <span class="pdf-hero-badge">в„– ${elementNumber}</span>
+                        <span class="pdf-hero-type">${elementCategory}</span>
+                    </div>
+                </div>
+            </div>
+            <p class="pdf-meta">РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРѕ: ${new Date().toLocaleDateString('ru-RU')}</p>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #2196F3;">Базовая информация</h2>
+                <h2 class="pdf-subtitle" style="color: #4A90E2;">Р‘Р°Р·РѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ</h2>
                 <table class="pdf-table">
-                    <thead><tr style="background-color: #2196F3;"><th>Свойство</th><th>Значение</th></tr></thead>
+                    <thead><tr style="background-color: #4A90E2;"><th>РЎРІРѕР№СЃС‚РІРѕ</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr></thead>
                     <tbody>
-                        <tr><td>Атомный номер</td><td>${data.atomicNumber}</td></tr>
-                        <tr><td>Атомная масса</td><td>${data.atomicMass}</td></tr>
-                        <tr><td>Период/Группа</td><td>${data.period} / ${data.group}</td></tr>
-                        <tr><td>Электронная конфигурация</td><td>${renderFormula(data.electronConfig)}</td></tr>
-                        <tr><td>Электроотрицательность</td><td>${data.electronegativity}</td></tr>
+                        <tr><td>РђС‚РѕРјРЅС‹Р№ РЅРѕРјРµСЂ</td><td>${elementNumber}</td></tr>
+                        <tr><td>РђС‚РѕРјРЅР°СЏ РјР°СЃСЃР°</td><td>${safeValue(data.atomicMass)}</td></tr>
+                        <tr><td>РџРµСЂРёРѕРґ/Р“СЂСѓРїРїР°</td><td>${periodValue} / ${groupValue}</td></tr>
+                        <tr><td>Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ</td><td>${electronConfigText}</td></tr>
+                        <tr><td>Р­Р»РµРєС‚СЂРѕРѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕСЃС‚СЊ</td><td>${safeValue(data.electronegativity)}</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #4CAF50;">Физические свойства</h2>
+                <h2 class="pdf-subtitle" style="color: #4C9A74;">Р¤РёР·РёС‡РµСЃРєРёРµ СЃРІРѕР№СЃС‚РІР°</h2>
                 <table class="pdf-table">
-                    <thead><tr style="background-color: #4CAF50;"><th>Свойство</th><th>Значение</th></tr></thead>
+                    <thead><tr style="background-color: #4C9A74;"><th>РЎРІРѕР№СЃС‚РІРѕ</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr></thead>
                     <tbody>
-                        <tr><td>Плотность</td><td>${data.density || '—'}</td></tr>
-                        <tr><td>Температура плавления</td><td>${data.meltingPoint || '—'}</td></tr>
-                        <tr><td>Температура кипения</td><td>${data.boilingPoint || '—'}</td></tr>
-                        <tr><td>Состояние (20°C)</td><td>${data.state || '—'}</td></tr>
-                        <tr><td>Цвет</td><td>${data.color || '—'}</td></tr>
+                        <tr><td>РџР»РѕС‚РЅРѕСЃС‚СЊ</td><td>${safeValue(data.density)}</td></tr>
+                        <tr><td>РўРµРјРїРµСЂР°С‚СѓСЂР° РїР»Р°РІР»РµРЅРёСЏ</td><td>${safeValue(data.meltingPoint)}</td></tr>
+                        <tr><td>РўРµРјРїРµСЂР°С‚СѓСЂР° РєРёРїРµРЅРёСЏ</td><td>${safeValue(data.boilingPoint)}</td></tr>
+                        <tr><td>РЎРѕСЃС‚РѕСЏРЅРёРµ (20В°C)</td><td>${safeValue(data.state)}</td></tr>
+                        <tr><td>Р¦РІРµС‚</td><td>${safeValue(data.color)}</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #FF9800;">История и факты</h2>
+                <h2 class="pdf-subtitle" style="color: #C98A3A;">РСЃС‚РѕСЂРёСЏ Рё С„Р°РєС‚С‹</h2>
                 <div class="pdf-text-block">
-                    <p><strong>Открытие:</strong> ${data.discoveryYear || '—'} (${data.discoverer || '—'})</p>
-                    <p><strong>Происхождение названия:</strong> ${data.nameOrigin || '—'}</p>
-                    ${data.facts ? `<p><strong>Факты:</strong> ${Array.isArray(data.facts) ? data.facts.join(' ') : data.facts}</p>` : ''}
+                    <p><strong>РћС‚РєСЂС‹С‚РёРµ:</strong> ${safeValue(data.discoveryYear)} (${safeValue(data.discoverer)})</p>
+                    <p><strong>РџСЂРѕРёСЃС…РѕР¶РґРµРЅРёРµ РЅР°Р·РІР°РЅРёСЏ:</strong> ${safeValue(data.nameOrigin)}</p>
+                    ${data.facts ? `<p><strong>Р¤Р°РєС‚С‹:</strong> ${Array.isArray(data.facts) ? data.facts.join(' ') : data.facts}</p>` : ''}
                 </div>
             </div>
 
@@ -239,7 +399,13 @@ function generatePDFTemplate(data, compounds) {
             
             <style>
                 .pdf-container { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; }
-                .pdf-title { text-align: center; color: #2196F3; border-bottom: 2px solid #2196F3; padding-bottom: 10px; }
+                .pdf-hero { display: flex; align-items: center; gap: 16px; }
+                .pdf-hero-symbol { font-size: 46px; font-weight: bold; color: #2B5C91; border: 2px solid #2B5C91; border-radius: 12px; padding: 6px 12px; min-width: 72px; text-align: center; }
+                .pdf-hero-meta { flex: 1; }
+                .pdf-hero-row { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
+                .pdf-hero-badge { display: inline-block; padding: 3px 8px; border-radius: 10px; background: #e9f0f8; color: #2B5C91; font-size: 12px; font-weight: 600; }
+                .pdf-hero-type { color: #555; font-size: 12px; }
+                .pdf-title { text-align: left; color: #2B5C91; border-bottom: 2px solid #2B5C91; padding-bottom: 6px; margin: 0; }
                 .pdf-meta { text-align: center; color: #666; font-size: 10px; margin-bottom: 30px; }
                 .pdf-subtitle { font-size: 16px; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
                 .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
@@ -253,11 +419,11 @@ function generatePDFTemplate(data, compounds) {
 }
 
 /**
- * ГЛАВНАЯ ФУНКЦИЯ: Экспорт в PDF (Client-side)
+ * Р“Р›РђР’РќРђРЇ Р¤РЈРќРљР¦РРЇ: Р­РєСЃРїРѕСЂС‚ РІ PDF (Client-side)
  */
 async function exportElementToPDF(elementData) {
     try {
-        // Показываем глобальный лоадер
+        // РџРѕРєР°Р·С‹РІР°РµРј РіР»РѕР±Р°Р»СЊРЅС‹Р№ Р»РѕР°РґРµСЂ
         if (window.ChemLoader && window.ChemLoader.show) {
             window.ChemLoader.show();
         }
@@ -267,15 +433,24 @@ async function exportElementToPDF(elementData) {
             button.classList.add('loading');
         }
 
+        // Р“Р°СЂР°РЅС‚РёСЂСѓРµРј Р·Р°РіСЂСѓР·РєСѓ РґР°РЅРЅС‹С… СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РґР»СЏ СЃРїРёСЃРєР° СЃРѕРµРґРёРЅРµРЅРёР№
+        if (typeof window.loadSolubility === 'function') {
+            try {
+                await window.loadSolubility();
+            } catch (e) {
+                console.warn('РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РґР»СЏ PDF:', e);
+            }
+        }
+
         const compounds = getElementCompounds(elementData.symbol);
         const htmlContent = generatePDFTemplate(elementData, compounds);
 
-        // Создаем временный контейнер
+        // РЎРѕР·РґР°РµРј РІСЂРµРјРµРЅРЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ
         const container = document.createElement('div');
         container.innerHTML = htmlContent;
         document.body.appendChild(container);
 
-        // Опции для html2pdf
+        // РћРїС†РёРё РґР»СЏ html2pdf
         const opt = {
             margin: 10,
             filename: `${elementData.symbol}_${elementData.name}.pdf`,
@@ -284,14 +459,14 @@ async function exportElementToPDF(elementData) {
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Генерация
+        // Р“РµРЅРµСЂР°С†РёСЏ
         await html2pdf().set(opt).from(container).save();
 
-        // Очистка
+        // РћС‡РёСЃС‚РєР°
         document.body.removeChild(container);
 
-        // Восстановление кнопки
-        // Восстановление кнопки
+        // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РєРЅРѕРїРєРё
+        // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РєРЅРѕРїРєРё
         if (button) {
             button.classList.remove('loading');
         }
@@ -300,13 +475,14 @@ async function exportElementToPDF(elementData) {
             document.querySelector('.pdf-export-icon-btn').classList.remove('loading');
         }
     } finally {
-        // Скрываем глобальный лоадер
+        // РЎРєСЂС‹РІР°РµРј РіР»РѕР±Р°Р»СЊРЅС‹Р№ Р»РѕР°РґРµСЂ
         if (window.ChemLoader && window.ChemLoader.hide) {
             window.ChemLoader.hide();
         }
     }
 }
 
-// Сохраняем совместимость имен
-window.exportElementToLaTeX = exportElementToPDF; // Теперь это PDF экспорт
+// РЎРѕС…СЂР°РЅСЏРµРј СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚СЊ РёРјРµРЅ
+window.exportElementToLaTeX = exportElementToPDF; // РўРµРїРµСЂСЊ СЌС‚Рѕ PDF СЌРєСЃРїРѕСЂС‚
 window.generateElementPDF = exportElementToPDF;
+

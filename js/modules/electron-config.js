@@ -373,6 +373,7 @@ function closeElectronConfigModal() {
 
 function initElectronConfig() {
     const elementInfo = document.getElementById('element-info');
+    const content = document.querySelector('.electron-config-content');
 
     if (elementInfo) {
         elementInfo.addEventListener('click', (event) => {
@@ -402,6 +403,14 @@ function initElectronConfig() {
                 closeElectronConfigModal();
             }
         });
+    }
+
+    if (content) {
+        const handleScroll = () => {
+            content.classList.toggle('compact-header', content.scrollTop > 16);
+        };
+        content.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
     }
 
     document.addEventListener('keydown', (event) => {

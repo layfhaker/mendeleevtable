@@ -195,6 +195,76 @@ body.dark-theme ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(135deg, #42A5F5, #64B5F6);
 }
 
+/* =========================================
+   Панорамные подсказки (градиенты)
+   ========================================= */
+.pan-hints {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.pan-hint {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 200ms ease;
+}
+
+.pan-hint.is-visible {
+    opacity: 1;
+}
+
+.pan-hint--left,
+.pan-hint--right {
+    top: 0;
+    bottom: 0;
+    width: 36px;
+}
+
+.pan-hint--top,
+.pan-hint--bottom {
+    left: 0;
+    right: 0;
+    height: 28px;
+}
+
+.pan-hint--left {
+    left: 0;
+    background: linear-gradient(90deg, rgba(240, 240, 240, 0.9), rgba(240, 240, 240, 0));
+}
+
+.pan-hint--right {
+    right: 0;
+    background: linear-gradient(270deg, rgba(240, 240, 240, 0.9), rgba(240, 240, 240, 0));
+}
+
+.pan-hint--top {
+    top: 0;
+    background: linear-gradient(180deg, rgba(240, 240, 240, 0.9), rgba(240, 240, 240, 0));
+}
+
+.pan-hint--bottom {
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(240, 240, 240, 0.9), rgba(240, 240, 240, 0));
+}
+
+body.dark-theme .pan-hint--left {
+    background: linear-gradient(90deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0));
+}
+
+body.dark-theme .pan-hint--right {
+    background: linear-gradient(270deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0));
+}
+
+body.dark-theme .pan-hint--top {
+    background: linear-gradient(180deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0));
+}
+
+body.dark-theme .pan-hint--bottom {
+    background: linear-gradient(0deg, rgba(15, 15, 15, 0.9), rgba(15, 15, 15, 0));
+}
+
 /* Запрет выделения и grab курсор только на ДЕСКТОПЕ */
 @media (min-width: 1025px) {
     html, body {

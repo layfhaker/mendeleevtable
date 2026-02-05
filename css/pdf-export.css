@@ -5,7 +5,7 @@
 
 .pdf-export-icon-btn {
     position: absolute;
-    right: 55px;
+    right: 70px;
     /* Отступ слева от крестика (он right: 15px) */
     top: 10px;
     /* На одном уровне с крестиком */
@@ -77,7 +77,7 @@ body.dark .pdf-export-icon-btn:hover {
 /* Адаптив для маленьких экранов */
 @media (max-width: 480px) {
     .pdf-export-icon-btn {
-        right: 50px;
+        right: 60px;
         top: 12px;
         width: 32px;
         height: 32px;

@@ -1,0 +1,538 @@
+[
+  {
+    "key": "Ag+-Cl-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-Cl-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-Br-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-SO42-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-SO42-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-SO42-",
+    "value": "white"
+  },
+  {
+    "key": "Sr2+-SO42-",
+    "value": "white"
+  },
+  {
+    "key": "Ag+-SO42-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Mg2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Sr2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Zn2+-CO32-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Mg2+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Zn2+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Al3+-PO43-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-SiO32-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-SiO32-",
+    "value": "white"
+  },
+  {
+    "key": "Mg2+-SiO32-",
+    "value": "white"
+  },
+  {
+    "key": "Zn2+-SiO32-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-SO32-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-SO32-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-SO32-",
+    "value": "white"
+  },
+  {
+    "key": "Al3+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Zn2+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Mg2+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Sn2+-OH-",
+    "value": "white"
+  },
+  {
+    "key": "Zn2+-S2-",
+    "value": "white"
+  },
+  {
+    "key": "Ca2+-F-",
+    "value": "white"
+  },
+  {
+    "key": "Ba2+-F-",
+    "value": "white"
+  },
+  {
+    "key": "Mg2+-F-",
+    "value": "white"
+  },
+  {
+    "key": "Sr2+-F-",
+    "value": "white"
+  },
+  {
+    "key": "Pb2+-F-",
+    "value": "white"
+  },
+  {
+    "key": "Na+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "K+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ca2+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ba2+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Mg2+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Zn2+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Pb2+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Al3+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ag+-NO3-",
+    "value": "colorless"
+  },
+  {
+    "key": "Na+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "K+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ca2+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ba2+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Mg2+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Zn2+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Al3+-Cl-",
+    "value": "colorless"
+  },
+  {
+    "key": "Na+-SO42-",
+    "value": "colorless"
+  },
+  {
+    "key": "K+-SO42-",
+    "value": "colorless"
+  },
+  {
+    "key": "Mg2+-SO42-",
+    "value": "colorless"
+  },
+  {
+    "key": "Zn2+-SO42-",
+    "value": "colorless"
+  },
+  {
+    "key": "Al3+-SO42-",
+    "value": "colorless"
+  },
+  {
+    "key": "Na+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "K+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ca2+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ba2+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Mg2+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Zn2+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Pb2+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Al3+-CH3COO-",
+    "value": "colorless"
+  },
+  {
+    "key": "Ag+-Br-",
+    "value": "#fffacd"
+  },
+  {
+    "key": "Ag+-I-",
+    "value": "#ffd700"
+  },
+  {
+    "key": "Pb2+-I-",
+    "value": "#ffd700"
+  },
+  {
+    "key": "Hg2+-I-",
+    "value": "#ff4500"
+  },
+  {
+    "key": "Ag+-PO43-",
+    "value": "#ffff00"
+  },
+  {
+    "key": "Cd2+-S2-",
+    "value": "#ffff00"
+  },
+  {
+    "key": "Ba2+-CrO42-",
+    "value": "#ffff00"
+  },
+  {
+    "key": "Pb2+-CrO42-",
+    "value": "#ffff00"
+  },
+  {
+    "key": "Sr2+-CrO42-",
+    "value": "#fff9b0"
+  },
+  {
+    "key": "Ca2+-CrO42-",
+    "value": "#ffff00"
+  },
+  {
+    "key": "Ag+-CrO42-",
+    "value": "#8b0000"
+  },
+  {
+    "key": "K+-Cr2O72-",
+    "value": "#ff8c00"
+  },
+  {
+    "key": "Na+-Cr2O72-",
+    "value": "#ff8c00"
+  },
+  {
+    "key": "NH4+-Cr2O72-",
+    "value": "#ff8c00"
+  },
+  {
+    "key": "Ag+-Cr2O72-",
+    "value": "#dc143c"
+  },
+  {
+    "key": "Pb2+-Cr2O72-",
+    "value": "#ff4500"
+  },
+  {
+    "key": "Fe3+-Cl-",
+    "value": "#cd853f"
+  },
+  {
+    "key": "Fe3+-SO42-",
+    "value": "#cd853f"
+  },
+  {
+    "key": "Fe3+-NO3-",
+    "value": "#cd853f"
+  },
+  {
+    "key": "Cu2+-OH-",
+    "value": "#87ceeb"
+  },
+  {
+    "key": "Cu2+-SO42-",
+    "value": "#87ceeb"
+  },
+  {
+    "key": "Cu2+-NO3-",
+    "value": "#87ceeb"
+  },
+  {
+    "key": "Cu2+-Cl-",
+    "value": "#48d1cc"
+  },
+  {
+    "key": "Cu2+-CO32-",
+    "value": "#228b22"
+  },
+  {
+    "key": "Fe2+-OH-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-OH-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-SO42-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-Cl-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-NO3-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Cr3+-OH-",
+    "value": "#7fffd4"
+  },
+  {
+    "key": "Cr3+-Cl-",
+    "value": "#228b22"
+  },
+  {
+    "key": "Fe3+-OH-",
+    "value": "#8b4513"
+  },
+  {
+    "key": "Sn2+-S2-",
+    "value": "#8b4513"
+  },
+  {
+    "key": "Co2+-OH-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Co2+-Cl-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Co2+-NO3-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Co2+-SO42-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Mn2+-SO42-",
+    "value": "#ffb6c1"
+  },
+  {
+    "key": "Mn2+-S2-",
+    "value": "#ffb6c1"
+  },
+  {
+    "key": "K+-MnO4-",
+    "value": "#8b008b"
+  },
+  {
+    "key": "Na+-MnO4-",
+    "value": "#8b008b"
+  },
+  {
+    "key": "Cr3+-SO42-",
+    "value": "#228b22"
+  },
+  {
+    "key": "Ag+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Pb2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Cu2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Fe2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Ni2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Co2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Hg2+-S2-",
+    "value": "#000000"
+  },
+  {
+    "key": "Cu2+-CH3COO-",
+    "value": "#87ceeb"
+  },
+  {
+    "key": "Cu2+-PO43-",
+    "value": "#87ceeb"
+  },
+  {
+    "key": "Ni2+-CO32-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-PO43-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Ni2+-CH3COO-",
+    "value": "#90ee90"
+  },
+  {
+    "key": "Co2+-CO32-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Co2+-PO43-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Co2+-CH3COO-",
+    "value": "#ff69b4"
+  },
+  {
+    "key": "Cr3+-NO3-",
+    "value": "#228b22"
+  },
+  {
+    "key": "Cr3+-CH3COO-",
+    "value": "#228b22"
+  },
+  {
+    "key": "Fe2+-SO42-",
+    "value": "#98fb98"
+  },
+  {
+    "key": "Fe2+-Cl-",
+    "value": "#98fb98"
+  },
+  {
+    "key": "Fe2+-NO3-",
+    "value": "#98fb98"
+  },
+  {
+    "key": "Fe2+-CO32-",
+    "value": "#778899"
+  },
+  {
+    "key": "Mn2+-Cl-",
+    "value": "#ffb6c1"
+  },
+  {
+    "key": "Mn2+-NO3-",
+    "value": "#ffb6c1"
+  },
+  {
+    "key": "Mn2+-CH3COO-",
+    "value": "#ffb6c1"
+  }
+]

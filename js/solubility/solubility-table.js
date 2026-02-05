@@ -99,8 +99,20 @@ function renderSolubilityTable() {
                     }
                 }
                 else if (solubility === 'R') {
-                    // Растворимо, но нет в базе → бесцветный раствор
-                    td.classList.add('chem-color-cell', 'colorless-solution', 'light-bg');
+                    // Растворимо, но нет в базе → пробуем анионные цвета (MnO4-, CrO4(2-), Cr2O7(2-))
+                    if (anionKey === 'MnO4-') {
+                        td.classList.add('chem-color-cell', 'light-bg');
+                        td.style.backgroundColor = '#8b008b';
+                    } else if (anionKey === 'CrO42-') {
+                        td.classList.add('chem-color-cell', 'light-bg');
+                        td.style.backgroundColor = '#ffff00';
+                    } else if (anionKey === 'Cr2O72-') {
+                        td.classList.add('chem-color-cell', 'light-bg');
+                        td.style.backgroundColor = '#ff8c00';
+                    } else {
+                        // Растворимо, но нет в базе → бесцветный раствор
+                        td.classList.add('chem-color-cell', 'colorless-solution', 'light-bg');
+                    }
                 }
                 else if (solubility === 'N' || solubility === 'M') {
                     // Нерастворимо/малорастворимо, но нет в базе → белый осадок

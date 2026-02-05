@@ -51,6 +51,20 @@ body.dark-theme {
     /* Прижимаем к левому краю с небольшим отступом */
     background-color: var(--sol-bg);
     /* Добавили фон */
+    position: relative;
+}
+
+/* Мобильные: разрешаем вертикальный скролл внутри таблицы растворимости */
+@media (max-width: 1024px) {
+    body.solubility-open .solubility-content {
+        touch-action: pan-y !important;
+    }
+
+    body.solubility-open .solubility-wrapper {
+        touch-action: pan-x pan-y !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
 }
 
 /* --- ШАПКА (Название + Крестик) --- */

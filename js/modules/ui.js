@@ -106,11 +106,81 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = e.pageY;
         window.scrollTo(winScrollLeft - (x - winStartX) * 1.5, winScrollTop - (y - winStartY) * 1.5);
     });
+
+    initPanHints();
 });
 
 window.initSolubilityDrag = function() {
     initDragScroll('.solubility-wrapper');
 };
+
+// =========================================
+// Панорамные подсказки (градиенты + микро-сдвиг)
+// =========================================
+function initPanHints() {
+    const tableContainer = document.querySelector('.periodic-table-container');
+    if (tableContainer) {
+        const hints = buildPanHints(tableContainer, 'table');
+
+        const update = () => {
+            const maxX = Math.max(0, document.documentElement.scrollWidth - window.innerWidth);
+            const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            const locked = document.body.classList.contains('scroll-locked');
+            const x = window.scrollX;
+            const y = window.scrollY;
+
+            setHintVisible(hints.left, locked && x > 2);
+            setHintVisible(hints.right, locked && x < maxX - 2);
+            setHintVisible(hints.top, locked && y > 2);
+            setHintVisible(hints.bottom, locked && y < maxY - 2);
+        };
+
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+
+        // Микро-анимация 1 раз за сессию
+        if (!sessionStorage.getItem('tablePanHintShown')) {
+            sessionStorage.setItem('tablePanHintShown', '1');
+            setTimeout(() => {
+                const maxX = Math.max(0, document.documentElement.scrollWidth - window.innerWidth);
+                if (maxX > 0) {
+                    window.scrollBy({ left: 10, behavior: 'smooth' });
+                    setTimeout(() => {
+                        window.scrollBy({ left: -10, behavior: 'smooth' });
+                    }, 220);
+                }
+            }, 450);
+        }
+    }
+}
+
+function buildPanHints(container, prefix) {
+    const hints = document.createElement('div');
+    hints.className = `pan-hints pan-hints--${prefix}`;
+
+    const left = document.createElement('div');
+    left.className = 'pan-hint pan-hint--left';
+    const right = document.createElement('div');
+    right.className = 'pan-hint pan-hint--right';
+    const top = document.createElement('div');
+    top.className = 'pan-hint pan-hint--top';
+    const bottom = document.createElement('div');
+    bottom.className = 'pan-hint pan-hint--bottom';
+
+    hints.appendChild(left);
+    hints.appendChild(right);
+    hints.appendChild(top);
+    hints.appendChild(bottom);
+    container.appendChild(hints);
+
+    return { left, right, top, bottom };
+}
+
+function setHintVisible(el, visible) {
+    if (!el) return;
+    el.classList.toggle('is-visible', Boolean(visible));
+}
 
 // =========================================
 // ОБЕРТКИ ДЛЯ ЛЕНИВОЙ ЗАГРУЗКИ (FIX)

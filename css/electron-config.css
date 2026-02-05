@@ -5,7 +5,7 @@
 #electron-config-modal {
     display: none;
     position: fixed;
-    z-index: 60000;
+    z-index: 120000;
     left: 0;
     top: 0;
     width: 100%;
@@ -46,16 +46,16 @@
 
 .electron-config-close {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
     font-size: 26px;
-    line-height: 1;
+    line-height: 44px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -65,7 +65,7 @@
 }
 
 .electron-config-close:hover {
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 1);
 }
 
 .electron-config-header {
@@ -108,6 +108,27 @@
     margin-top: 2px;
     text-align: center;
     color: #fef5dd;
+}
+
+.electron-config-content.compact-header .electron-config-header {
+    padding: 10px 22px 6px;
+    padding-right: 58px;
+}
+
+.electron-config-content.compact-header .electron-config-title {
+    font-size: 20px;
+    gap: 8px;
+}
+
+.electron-config-content.compact-header .electron-config-title .icon {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.electron-config-content.compact-header .electron-config-subtitle {
+    font-size: 12px;
 }
 
 .electron-config-main {
