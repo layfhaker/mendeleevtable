@@ -1,0 +1,5391 @@
+window.REACTIONS_DB = {
+  "meta": {
+    "title": "БД неорганической химии для ЕГЭ",
+    "version": "2.0",
+    "source": "ФИПИ — кодификатор, навигатор, открытый банк заданий (2026)",
+    "sections": "2.1–2.5 Неорганическая химия",
+    "notes": "Полное покрытие: 160 эталонных реакций по всем 35 правилам, 64 исключения"
+  },
+  "elements": [
+    {
+      "symbol": "H",
+      "name_ru": "Водород",
+      "group": 1,
+      "period": 1,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        -1,
+        0,
+        1
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "He",
+      "name_ru": "Гелий",
+      "group": 18,
+      "period": 1,
+      "valence_common": [],
+      "oxidation_states": [
+        0
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Li",
+      "name_ru": "Литий",
+      "group": 1,
+      "period": 2,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        0,
+        1
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Be",
+      "name_ru": "Бериллий",
+      "group": 2,
+      "period": 2,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    },
+    {
+      "symbol": "B",
+      "name_ru": "Бор",
+      "group": 13,
+      "period": 2,
+      "valence_common": [
+        3
+      ],
+      "oxidation_states": [
+        0,
+        3
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "C",
+      "name_ru": "Углерод",
+      "group": 14,
+      "period": 2,
+      "valence_common": [
+        2,
+        4
+      ],
+      "oxidation_states": [
+        -4,
+        -2,
+        0,
+        2,
+        4
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "N",
+      "name_ru": "Азот",
+      "group": 15,
+      "period": 2,
+      "valence_common": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "oxidation_states": [
+        -3,
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "O",
+      "name_ru": "Кислород",
+      "group": 16,
+      "period": 2,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        -2,
+        -1,
+        0
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "F",
+      "name_ru": "Фтор",
+      "group": 17,
+      "period": 2,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        -1,
+        0
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Na",
+      "name_ru": "Натрий",
+      "group": 1,
+      "period": 3,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        0,
+        1
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Mg",
+      "name_ru": "Магний",
+      "group": 2,
+      "period": 3,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Al",
+      "name_ru": "Алюминий",
+      "group": 13,
+      "period": 3,
+      "valence_common": [
+        3
+      ],
+      "oxidation_states": [
+        0,
+        3
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    },
+    {
+      "symbol": "Si",
+      "name_ru": "Кремний",
+      "group": 14,
+      "period": 3,
+      "valence_common": [
+        4
+      ],
+      "oxidation_states": [
+        -4,
+        0,
+        2,
+        4
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "P",
+      "name_ru": "Фосфор",
+      "group": 15,
+      "period": 3,
+      "valence_common": [
+        3,
+        5
+      ],
+      "oxidation_states": [
+        -3,
+        0,
+        3,
+        5
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "S",
+      "name_ru": "Сера",
+      "group": 16,
+      "period": 3,
+      "valence_common": [
+        2,
+        4,
+        6
+      ],
+      "oxidation_states": [
+        -2,
+        0,
+        2,
+        4,
+        6
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Cl",
+      "name_ru": "Хлор",
+      "group": 17,
+      "period": 3,
+      "valence_common": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "oxidation_states": [
+        -1,
+        0,
+        1,
+        3,
+        5,
+        7
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "K",
+      "name_ru": "Калий",
+      "group": 1,
+      "period": 4,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        0,
+        1
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Ca",
+      "name_ru": "Кальций",
+      "group": 2,
+      "period": 4,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Cr",
+      "name_ru": "Хром",
+      "group": 6,
+      "period": 4,
+      "valence_common": [
+        2,
+        3,
+        6
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    },
+    {
+      "symbol": "Mn",
+      "name_ru": "Марганец",
+      "group": 7,
+      "period": 4,
+      "valence_common": [
+        2,
+        4,
+        6,
+        7
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Fe",
+      "name_ru": "Железо",
+      "group": 8,
+      "period": 4,
+      "valence_common": [
+        2,
+        3
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Co",
+      "name_ru": "Кобальт",
+      "group": 9,
+      "period": 4,
+      "valence_common": [
+        2,
+        3
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        3
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Ni",
+      "name_ru": "Никель",
+      "group": 10,
+      "period": 4,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Cu",
+      "name_ru": "Медь",
+      "group": 11,
+      "period": 4,
+      "valence_common": [
+        1,
+        2
+      ],
+      "oxidation_states": [
+        0,
+        1,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Zn",
+      "name_ru": "Цинк",
+      "group": 12,
+      "period": 4,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    },
+    {
+      "symbol": "Br",
+      "name_ru": "Бром",
+      "group": 17,
+      "period": 4,
+      "valence_common": [
+        1,
+        3,
+        5
+      ],
+      "oxidation_states": [
+        -1,
+        0,
+        1,
+        3,
+        5
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Ag",
+      "name_ru": "Серебро",
+      "group": 11,
+      "period": 5,
+      "valence_common": [
+        1
+      ],
+      "oxidation_states": [
+        0,
+        1
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Sn",
+      "name_ru": "Олово",
+      "group": 14,
+      "period": 5,
+      "valence_common": [
+        2,
+        4
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        4
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    },
+    {
+      "symbol": "I",
+      "name_ru": "Иод",
+      "group": 17,
+      "period": 5,
+      "valence_common": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "oxidation_states": [
+        -1,
+        0,
+        1,
+        3,
+        5,
+        7
+      ],
+      "is_metal": false,
+      "is_nonmetal": true,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Ba",
+      "name_ru": "Барий",
+      "group": 2,
+      "period": 6,
+      "valence_common": [
+        2
+      ],
+      "oxidation_states": [
+        0,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Pt",
+      "name_ru": "Платина",
+      "group": 10,
+      "period": 6,
+      "valence_common": [
+        2,
+        4
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        4
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Au",
+      "name_ru": "Золото",
+      "group": 11,
+      "period": 6,
+      "valence_common": [
+        1,
+        3
+      ],
+      "oxidation_states": [
+        0,
+        1,
+        3
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Hg",
+      "name_ru": "Ртуть",
+      "group": 12,
+      "period": 6,
+      "valence_common": [
+        1,
+        2
+      ],
+      "oxidation_states": [
+        0,
+        1,
+        2
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": false
+    },
+    {
+      "symbol": "Pb",
+      "name_ru": "Свинец",
+      "group": 14,
+      "period": 6,
+      "valence_common": [
+        2,
+        4
+      ],
+      "oxidation_states": [
+        0,
+        2,
+        4
+      ],
+      "is_metal": true,
+      "is_nonmetal": false,
+      "is_amphoteric_element": true
+    }
+  ],
+  "activity_series": [
+    {
+      "element": "Li",
+      "rank": 1
+    },
+    {
+      "element": "K",
+      "rank": 2
+    },
+    {
+      "element": "Ba",
+      "rank": 3
+    },
+    {
+      "element": "Ca",
+      "rank": 4
+    },
+    {
+      "element": "Na",
+      "rank": 5
+    },
+    {
+      "element": "Mg",
+      "rank": 6
+    },
+    {
+      "element": "Al",
+      "rank": 7
+    },
+    {
+      "element": "Mn",
+      "rank": 8
+    },
+    {
+      "element": "Zn",
+      "rank": 9
+    },
+    {
+      "element": "Cr",
+      "rank": 10
+    },
+    {
+      "element": "Fe",
+      "rank": 11
+    },
+    {
+      "element": "Co",
+      "rank": 12
+    },
+    {
+      "element": "Ni",
+      "rank": 13
+    },
+    {
+      "element": "Sn",
+      "rank": 14
+    },
+    {
+      "element": "Pb",
+      "rank": 15
+    },
+    {
+      "element": "H",
+      "rank": 16
+    },
+    {
+      "element": "Cu",
+      "rank": 17
+    },
+    {
+      "element": "Hg",
+      "rank": 18
+    },
+    {
+      "element": "Ag",
+      "rank": 19
+    },
+    {
+      "element": "Pt",
+      "rank": 20
+    },
+    {
+      "element": "Au",
+      "rank": 21
+    }
+  ],
+  "substances": [
+    {
+      "formula": "HCl",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null
+    },
+    {
+      "formula": "HBr",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null
+    },
+    {
+      "formula": "HI",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null
+    },
+    {
+      "formula": "HNO3",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null,
+      "notes": "Кислота-окислитель: реагирует с металлами после H в ряду активности"
+    },
+    {
+      "formula": "H2SO4",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null,
+      "notes": "Конц. — окислитель; разб. — обычная кислота"
+    },
+    {
+      "formula": "HClO4",
+      "type": "acid",
+      "is_strong_acid": true,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "strong",
+      "base_strength": null
+    },
+    {
+      "formula": "H2CO3",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null,
+      "notes": "Нестойкая: разлагается на CO2 + H2O"
+    },
+    {
+      "formula": "H2SO3",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null,
+      "notes": "Нестойкая: разлагается на SO2 + H2O"
+    },
+    {
+      "formula": "H2S",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null
+    },
+    {
+      "formula": "HF",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null,
+      "notes": "Растворяет стекло (SiO2)"
+    },
+    {
+      "formula": "H3PO4",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null
+    },
+    {
+      "formula": "HNO2",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": true,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null
+    },
+    {
+      "formula": "H2SiO3",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": "weak",
+      "base_strength": null,
+      "notes": "Нерастворима — образуется как осадок"
+    },
+    {
+      "formula": "HClO",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null
+    },
+    {
+      "formula": "CH3COOH",
+      "type": "acid",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": "weak",
+      "base_strength": null
+    },
+    {
+      "formula": "NaOH",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": true,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": null,
+      "base_strength": "strong"
+    },
+    {
+      "formula": "KOH",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": true,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": null,
+      "base_strength": "strong"
+    },
+    {
+      "formula": "Ca(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": true,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "slightly",
+      "acid_strength": null,
+      "base_strength": "strong"
+    },
+    {
+      "formula": "Ba(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": true,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": null,
+      "base_strength": "strong"
+    },
+    {
+      "formula": "LiOH",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": true,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": null,
+      "base_strength": "strong"
+    },
+    {
+      "formula": "Mg(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Fe(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Fe(OH)3",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Cu(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Al(OH)3",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Zn(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Be(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Cr(OH)3",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Sn(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "Pb(OH)2",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "acid_strength": null,
+      "base_strength": "weak"
+    },
+    {
+      "formula": "NH3·H2O",
+      "type": "base",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "soluble",
+      "acid_strength": null,
+      "base_strength": "weak",
+      "notes": "Гидрат аммиака — слабое основание"
+    },
+    {
+      "formula": "Na2O",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "K2O",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "CaO",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "BaO",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "MgO",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "FeO",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "Fe2O3",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "notes": "Слабоамфотерный, реагирует с конц. щелочами при сплавлении"
+    },
+    {
+      "formula": "CuO",
+      "type": "oxide",
+      "subtype": "basic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "Al2O3",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "ZnO",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "BeO",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "Cr2O3",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "PbO",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "SnO",
+      "type": "oxide",
+      "subtype": "amphoteric",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": true,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble"
+    },
+    {
+      "formula": "CO2",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "SO2",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "SO3",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "P2O5",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "N2O5",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "N2O3",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "SiO2",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "notes": "Не реагирует с водой; реагирует с HF, щелочами при сплавлении"
+    },
+    {
+      "formula": "CrO3",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "reacts_with_water",
+      "notes": "Кислотный оксид хрома(VI), сильный окислитель"
+    },
+    {
+      "formula": "Mn2O7",
+      "type": "oxide",
+      "subtype": "acidic",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "reacts_with_water"
+    },
+    {
+      "formula": "CO",
+      "type": "oxide",
+      "subtype": "non_salt_forming",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": true,
+      "solubility": "insoluble",
+      "notes": "Несолеобразующий оксид"
+    },
+    {
+      "formula": "NO",
+      "type": "oxide",
+      "subtype": "non_salt_forming",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "notes": "Несолеобразующий оксид"
+    },
+    {
+      "formula": "NO2",
+      "type": "oxide",
+      "subtype": "mixed",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": true,
+      "is_reducer": false,
+      "solubility": "reacts_with_water",
+      "notes": "Смешанный оксид: NO2 + H2O → HNO3 + HNO2"
+    },
+    {
+      "formula": "N2O",
+      "type": "oxide",
+      "subtype": "non_salt_forming",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "notes": "Несолеобразующий оксид"
+    },
+    {
+      "formula": "Fe3O4",
+      "type": "oxide",
+      "subtype": "mixed",
+      "is_strong_acid": false,
+      "is_strong_base": false,
+      "is_amphoteric": false,
+      "is_oxidizer": false,
+      "is_reducer": false,
+      "solubility": "insoluble",
+      "notes": "FeO·Fe2O3 — смешанный оксид"
+    }
+  ],
+  "ions": [
+    {
+      "ion": "Na+",
+      "charge": 1,
+      "type": "cation",
+      "qualitative_test": "Окрашивание пламени в жёлтый цвет"
+    },
+    {
+      "ion": "K+",
+      "charge": 1,
+      "type": "cation",
+      "qualitative_test": "Окрашивание пламени в фиолетовый цвет"
+    },
+    {
+      "ion": "Ca2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Окрашивание пламени в кирпично-красный; CaSO4↓ с H2SO4"
+    },
+    {
+      "ion": "Ba2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Окрашивание пламени в жёлто-зелёный; BaSO4↓ с H2SO4 или Na2SO4"
+    },
+    {
+      "ion": "Cu2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Голубой цвет раствора; Cu(OH)2↓ голубой с NaOH; тёмно-синий с избытком NH3"
+    },
+    {
+      "ion": "Fe2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Зеленоватый цвет раствора; Fe(OH)2↓ зелёный → бурый на воздухе; синий осадок с K3[Fe(CN)6] (турнбулева синь)"
+    },
+    {
+      "ion": "Fe3+",
+      "charge": 3,
+      "type": "cation",
+      "qualitative_test": "Жёлто-бурый цвет раствора; Fe(OH)3↓ бурый; ярко-красный/кровяно-красный с KSCN; синий осадок с K4[Fe(CN)6] (берлинская лазурь)"
+    },
+    {
+      "ion": "Al3+",
+      "charge": 3,
+      "type": "cation",
+      "qualitative_test": "Al(OH)3↓ белый студенистый — растворяется в NaOH и HCl"
+    },
+    {
+      "ion": "Zn2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Zn(OH)2↓ белый — растворяется в NaOH и HCl (амфотерный)"
+    },
+    {
+      "ion": "Ag+",
+      "charge": 1,
+      "type": "cation",
+      "qualitative_test": "AgCl↓ белый творожистый (с HCl или NaCl); темнеет на свету"
+    },
+    {
+      "ion": "Pb2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "PbI2↓ жёлтый (с KI); PbS↓ чёрный (с Na2S); PbSO4↓ белый"
+    },
+    {
+      "ion": "NH4+",
+      "charge": 1,
+      "type": "cation",
+      "qualitative_test": "При нагревании со щёлочью — запах NH3; индикаторная бумажка синеет"
+    },
+    {
+      "ion": "H+",
+      "charge": 1,
+      "type": "cation",
+      "qualitative_test": "Лакмус — красный; метилоранж — розовый"
+    },
+    {
+      "ion": "Cr3+",
+      "charge": 3,
+      "type": "cation",
+      "qualitative_test": "Зелёный/фиолетовый раствор; Cr(OH)3↓ серо-зелёный — амфотерный"
+    },
+    {
+      "ion": "Mn2+",
+      "charge": 2,
+      "type": "cation",
+      "qualitative_test": "Бледно-розовый раствор; MnO4⁻ (фиолетовый) при окислении"
+    },
+    {
+      "ion": "Cl-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "AgCl↓ белый творожистый (+ AgNO3); не растворяется в HNO3"
+    },
+    {
+      "ion": "Br-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "AgBr↓ бледно-жёлтый (+ AgNO3); не растворяется в HNO3"
+    },
+    {
+      "ion": "I-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "AgI↓ жёлтый (+ AgNO3); крахмал синеет при окислении I⁻ → I2"
+    },
+    {
+      "ion": "SO4 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "BaSO4↓ белый (+ BaCl2); не растворяется в HNO3"
+    },
+    {
+      "ion": "SO3 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "BaSO3↓ белый (+ BaCl2); растворяется в HCl с выделением SO2↑"
+    },
+    {
+      "ion": "CO3 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "CO2↑ при действии кислот (помутнение известковой воды)"
+    },
+    {
+      "ion": "SiO3 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "H2SiO3↓ белый студенистый при подкислении"
+    },
+    {
+      "ion": "PO4 3-",
+      "charge": -3,
+      "type": "anion",
+      "qualitative_test": "Ag3PO4↓ жёлтый (+ AgNO3)"
+    },
+    {
+      "ion": "NO3-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "Бурый газ NO2 при нагревании с конц. H2SO4 и Cu; кольцевая проба с FeSO4"
+    },
+    {
+      "ion": "S2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "Запах H2S (тухлые яйца); PbS↓ чёрный (+ Pb(NO3)2); CuS↓ чёрный"
+    },
+    {
+      "ion": "OH-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "Фенолфталеин — малиновый; лакмус — синий"
+    },
+    {
+      "ion": "CrO4 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "Жёлтый раствор; BaCrO4↓ жёлтый; PbCrO4↓ жёлтый"
+    },
+    {
+      "ion": "Cr2O7 2-",
+      "charge": -2,
+      "type": "anion",
+      "qualitative_test": "Оранжевый раствор; переход в CrO4²⁻ (жёлтый) в щелочной среде"
+    },
+    {
+      "ion": "MnO4-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "Фиолетовый/малиновый раствор (перманганат)"
+    },
+    {
+      "ion": "F-",
+      "charge": -1,
+      "type": "anion",
+      "qualitative_test": "CaF2↓ белый (+ CaCl2); растворяет стекло (SiO2 + 4HF → SiF4 + 2H2O)"
+    }
+  ],
+  "solubility_table": {
+    "_legend": "S=растворима, IS=нерастворима, SS=малорастворима, D=разлагается водой, -=не существует",
+    "cations": [
+      "Li+",
+      "Na+",
+      "K+",
+      "NH4+",
+      "Ba2+",
+      "Ca2+",
+      "Mg2+",
+      "Sr2+",
+      "Al3+",
+      "Cr3+",
+      "Fe2+",
+      "Fe3+",
+      "Mn2+",
+      "Zn2+",
+      "Cu2+",
+      "Ag+",
+      "Pb2+",
+      "Sn2+",
+      "Hg2+",
+      "Ni2+",
+      "Co2+"
+    ],
+    "anions": {
+      "OH-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "SS",
+        "IS",
+        "SS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS"
+      ],
+      "Cl-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "SS",
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      "Br-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "SS",
+        "S",
+        "SS",
+        "S",
+        "S"
+      ],
+      "I-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "-",
+        "S",
+        "S",
+        "-",
+        "IS",
+        "IS",
+        "S",
+        "IS",
+        "S",
+        "S"
+      ],
+      "NO3-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      "CH3COO-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "-",
+        "S",
+        "-",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "-",
+        "-",
+        "S",
+        "S"
+      ],
+      "S2-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "-",
+        "-",
+        "-",
+        "D",
+        "-",
+        "IS",
+        "IS",
+        "-",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS"
+      ],
+      "SO4 2-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "SS",
+        "S",
+        "IS",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "SS",
+        "IS",
+        "S",
+        "S",
+        "S",
+        "S"
+      ],
+      "SO3 2-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "-",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "IS"
+      ],
+      "CO3 2-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "-",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "IS"
+      ],
+      "SiO3 2-": [
+        "S",
+        "S",
+        "S",
+        "-",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "-",
+        "IS",
+        "IS",
+        "-",
+        "-",
+        "IS",
+        "-",
+        "-",
+        "-",
+        "IS"
+      ],
+      "PO4 3-": [
+        "IS",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS",
+        "IS"
+      ],
+      "CrO4 2-": [
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "SS",
+        "S",
+        "SS",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "S",
+        "IS",
+        "IS",
+        "IS",
+        "S",
+        "IS",
+        "S",
+        "S"
+      ]
+    }
+  },
+  "reaction_rules": [
+    {
+      "rule_id": "R01",
+      "name": "Металл + кислота (неокислитель)",
+      "class": "redox",
+      "trigger": "metal + acid (non-oxidizing) in solution",
+      "constraints": [
+        "Металл стоит до H в ряду активности",
+        "Кислота — неокислитель (HCl, H2SO4 разб., HBr, HI и др.)",
+        "Образуется соль с минимальной валентностью металла (Fe → Fe2+)"
+      ],
+      "products_pattern": "соль + H2↑",
+      "conditions": [
+        "раствор",
+        "обычные условия"
+      ],
+      "examples": [
+        "Zn + 2HCl → ZnCl2 + H2↑",
+        "Fe + H2SO4(разб) → FeSO4 + H2↑",
+        "Mg + 2HCl → MgCl2 + H2↑"
+      ]
+    },
+    {
+      "rule_id": "R02",
+      "name": "Металл + HNO3 (разбавленная)",
+      "class": "redox",
+      "trigger": "metal + HNO3 dilute",
+      "constraints": [
+        "Любой металл кроме Au, Pt (они не реагируют)",
+        "Активные (до Al включительно): продукт восстановления — NH4NO3 или N2O",
+        "Средней активности (Mn–Pb): продукт — NO",
+        "Малоактивные (Cu, Ag, Hg): продукт — NO",
+        "Металл даёт высшую валентность (Fe → Fe3+)"
+      ],
+      "products_pattern": "нитрат металла(макс. с.о.) + продукт_восстановления + H2O",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "3Cu + 8HNO3(разб) → 3Cu(NO3)2 + 2NO↑ + 4H2O",
+        "8Al + 30HNO3(разб) → 8Al(NO3)3 + 3NH4NO3 + 9H2O",
+        "Fe + 4HNO3(разб) → Fe(NO3)3 + NO↑ + 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R03",
+      "name": "Металл + HNO3 (концентрированная)",
+      "class": "redox",
+      "trigger": "metal + HNO3 concentrated",
+      "constraints": [
+        "Au, Pt не реагируют",
+        "Fe, Al, Cr — пассивация на холоду (не реагируют с конц. HNO3 без нагрева)",
+        "Остальные: продукт восстановления — NO2",
+        "Металл даёт высшую валентность"
+      ],
+      "products_pattern": "нитрат металла(макс. с.о.) + NO2↑ + H2O",
+      "conditions": [
+        "конц. кислота"
+      ],
+      "examples": [
+        "Cu + 4HNO3(конц) → Cu(NO3)2 + 2NO2↑ + 2H2O",
+        "Ag + 2HNO3(конц) → AgNO3 + NO2↑ + H2O"
+      ]
+    },
+    {
+      "rule_id": "R04",
+      "name": "Металл + H2SO4 (концентрированная)",
+      "class": "redox",
+      "trigger": "metal + H2SO4 concentrated",
+      "constraints": [
+        "Au, Pt не реагируют",
+        "Fe, Al, Cr — пассивация на холоду",
+        "Активные металлы (Li–Zn): продукт — H2S или S",
+        "Средней активности и малоактивные (Fe при нагреве, Cu): продукт — SO2",
+        "Металл даёт высшую валентность"
+      ],
+      "products_pattern": "сульфат металла(макс. с.о.) + продукт_восстановления + H2O",
+      "conditions": [
+        "конц. кислота",
+        "нагрев для пассивируемых"
+      ],
+      "examples": [
+        "Cu + 2H2SO4(конц) →(t°) CuSO4 + SO2↑ + 2H2O",
+        "2Fe + 6H2SO4(конц) →(t°) Fe2(SO4)3 + 3SO2↑ + 6H2O",
+        "4Mg + 5H2SO4(конц) → 4MgSO4 + H2S↑ + 4H2O"
+      ]
+    },
+    {
+      "rule_id": "R05",
+      "name": "Соль + кислота → новая соль + новая кислота",
+      "class": "exchange",
+      "trigger": "salt + acid in solution",
+      "constraints": [
+        "Реакция идёт, если образуется: (1) осадок, (2) газ, (3) слабый электролит (слабая кислота, вода)",
+        "Более сильная кислота вытесняет более слабую",
+        "Нерастворимые соли не реагируют с кислотами, кроме случаев образования газа или комплекса"
+      ],
+      "products_pattern": "новая соль + новая кислота (или газ + H2O при нестойкой кислоте)",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Na2CO3 + 2HCl → 2NaCl + CO2↑ + H2O",
+        "BaCl2 + H2SO4 → BaSO4↓ + 2HCl",
+        "Na2SiO3 + 2HCl → 2NaCl + H2SiO3↓",
+        "Na2S + 2HCl → 2NaCl + H2S↑",
+        "Na2SO3 + 2HCl → 2NaCl + SO2↑ + H2O"
+      ]
+    },
+    {
+      "rule_id": "R06",
+      "name": "Соль + щёлочь → новая соль + новое основание",
+      "class": "exchange",
+      "trigger": "salt + alkali in solution",
+      "constraints": [
+        "Реакция идёт, если образуется нерастворимый гидроксид (осадок)",
+        "Или если образуется NH3↑ (при нагревании с солями аммония)",
+        "Обе исходные соли должны быть растворимы"
+      ],
+      "products_pattern": "новая соль + гидроксид↓ (или NH3↑ + H2O)",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "CuSO4 + 2NaOH → Cu(OH)2↓ + Na2SO4",
+        "FeCl3 + 3NaOH → Fe(OH)3↓ + 3NaCl",
+        "NH4Cl + NaOH →(t°) NaCl + NH3↑ + H2O",
+        "AlCl3 + 3NaOH → Al(OH)3↓ + 3NaCl"
+      ]
+    },
+    {
+      "rule_id": "R07",
+      "name": "Соль + соль → две новые соли",
+      "class": "exchange",
+      "trigger": "salt + salt in solution",
+      "constraints": [
+        "Реакция идёт при образовании осадка",
+        "Обе исходные соли должны быть растворимы"
+      ],
+      "products_pattern": "новая соль 1 + новая соль 2 (одна — осадок)",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "AgNO3 + NaCl → AgCl↓ + NaNO3",
+        "BaCl2 + Na2SO4 → BaSO4↓ + 2NaCl",
+        "Pb(NO3)2 + 2KI → PbI2↓ + 2KNO3"
+      ]
+    },
+    {
+      "rule_id": "R08",
+      "name": "Металл + соль → новый металл + новая соль",
+      "class": "redox",
+      "trigger": "metal + salt in solution",
+      "constraints": [
+        "Металл‑вытеснитель активнее металла в соли (левее в ряду активности)",
+        "Щелочные и ЩЗ-металлы НЕ вытесняют из растворов солей — они реагируют с водой",
+        "Соль должна быть растворима",
+        "Образующаяся соль тоже растворима"
+      ],
+      "products_pattern": "новая соль + выделенный металл",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Fe + CuSO4 → FeSO4 + Cu↓",
+        "Zn + CuSO4 → ZnSO4 + Cu↓",
+        "Cu + 2AgNO3 → Cu(NO3)2 + 2Ag↓"
+      ]
+    },
+    {
+      "rule_id": "R09",
+      "name": "Основный оксид + кислотный оксид → соль",
+      "class": "acid-base",
+      "trigger": "basic oxide + acidic oxide",
+      "constraints": [
+        "Оба оксида должны быть солеобразующими",
+        "Обычно при нагревании или сплавлении"
+      ],
+      "products_pattern": "соль",
+      "conditions": [
+        "нагрев или сплавление"
+      ],
+      "examples": [
+        "CaO + CO2 → CaCO3",
+        "Na2O + SO3 → Na2SO4",
+        "CaO + SiO2 →(t°) CaSiO3"
+      ]
+    },
+    {
+      "rule_id": "R10",
+      "name": "Основный оксид + кислота → соль + вода",
+      "class": "acid-base",
+      "trigger": "basic oxide + acid",
+      "constraints": [
+        "Реакция идёт практически всегда"
+      ],
+      "products_pattern": "соль + H2O",
+      "conditions": [
+        "раствор или нагрев"
+      ],
+      "examples": [
+        "CuO + 2HCl → CuCl2 + H2O",
+        "Fe2O3 + 3H2SO4 → Fe2(SO4)3 + 3H2O",
+        "Na2O + 2HCl → 2NaCl + H2O"
+      ]
+    },
+    {
+      "rule_id": "R11",
+      "name": "Основный оксид + вода → щёлочь",
+      "class": "acid-base",
+      "trigger": "basic oxide (of active metal) + H2O",
+      "constraints": [
+        "Только оксиды щелочных и ЩЗ-металлов (Li2O, Na2O, K2O, CaO, BaO, SrO)",
+        "MgO, FeO, CuO — НЕ реагируют с водой"
+      ],
+      "products_pattern": "щёлочь",
+      "conditions": [
+        "обычные"
+      ],
+      "examples": [
+        "Na2O + H2O → 2NaOH",
+        "CaO + H2O → Ca(OH)2",
+        "BaO + H2O → Ba(OH)2"
+      ]
+    },
+    {
+      "rule_id": "R12",
+      "name": "Кислотный оксид + щёлочь → соль + вода",
+      "class": "acid-base",
+      "trigger": "acidic oxide + alkali",
+      "constraints": [
+        "Реакция идёт практически всегда",
+        "При избытке CO2/SO2 образуется кислая соль"
+      ],
+      "products_pattern": "соль + H2O (или кислая соль + H2O при избытке оксида)",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "CO2 + 2NaOH → Na2CO3 + H2O",
+        "CO2(изб.) + NaOH → NaHCO3",
+        "SO2 + 2NaOH → Na2SO3 + H2O",
+        "SiO2 + 2NaOH →(t°,сплавл.) Na2SiO3 + H2O"
+      ]
+    },
+    {
+      "rule_id": "R13",
+      "name": "Кислотный оксид + вода → кислота",
+      "class": "acid-base",
+      "trigger": "acidic oxide + H2O",
+      "constraints": [
+        "Реакция идёт для большинства кислотных оксидов",
+        "ИСКЛЮЧЕНИЕ: SiO2 не реагирует с водой!"
+      ],
+      "products_pattern": "кислота",
+      "conditions": [
+        "обычные"
+      ],
+      "examples": [
+        "SO3 + H2O → H2SO4",
+        "CO2 + H2O ⇌ H2CO3",
+        "P2O5 + 3H2O → 2H3PO4",
+        "N2O5 + H2O → 2HNO3",
+        "SO2 + H2O ⇌ H2SO3"
+      ]
+    },
+    {
+      "rule_id": "R14",
+      "name": "Основание + кислота → соль + вода (нейтрализация)",
+      "class": "acid-base",
+      "trigger": "base + acid",
+      "constraints": [
+        "Реакция идёт практически всегда",
+        "Нерастворимые основания реагируют с кислотами"
+      ],
+      "products_pattern": "соль + H2O",
+      "conditions": [
+        "раствор или нагрев"
+      ],
+      "examples": [
+        "NaOH + HCl → NaCl + H2O",
+        "Cu(OH)2 + 2HCl → CuCl2 + 2H2O",
+        "Fe(OH)3 + 3HNO3 → Fe(NO3)3 + 3H2O",
+        "Ca(OH)2 + 2HCl → CaCl2 + 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R15",
+      "name": "Амфотерный оксид/гидроксид + кислота",
+      "class": "acid-base",
+      "trigger": "amphoteric oxide/hydroxide + acid",
+      "constraints": [
+        "Реагируют как основные: дают соль + вода"
+      ],
+      "products_pattern": "соль + H2O",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Al2O3 + 6HCl → 2AlCl3 + 3H2O",
+        "Al(OH)3 + 3HCl → AlCl3 + 3H2O",
+        "ZnO + 2HCl → ZnCl2 + H2O",
+        "Zn(OH)2 + 2HCl → ZnCl2 + 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R16",
+      "name": "Амфотерный оксид/гидроксид + щёлочь (раствор)",
+      "class": "acid-base",
+      "trigger": "amphoteric oxide/hydroxide + alkali in solution",
+      "constraints": [
+        "В растворе образуются комплексные соли — гидроксокомплексы",
+        "Или тетрагидроксоалюминат, тетрагидроксоцинкат и т.п."
+      ],
+      "products_pattern": "комплексная соль (гидроксокомплекс)",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Al(OH)3 + NaOH → Na[Al(OH)4] (тетрагидроксоалюминат натрия)",
+        "Al2O3 + 2NaOH + 3H2O → 2Na[Al(OH)4]",
+        "Zn(OH)2 + 2NaOH → Na2[Zn(OH)4]",
+        "ZnO + 2NaOH + H2O → Na2[Zn(OH)4]",
+        "Cr(OH)3 + NaOH → Na[Cr(OH)4]",
+        "Be(OH)2 + 2NaOH → Na2[Be(OH)4]"
+      ]
+    },
+    {
+      "rule_id": "R17",
+      "name": "Амфотерный оксид/гидроксид + щёлочь (сплавление)",
+      "class": "acid-base",
+      "trigger": "amphoteric oxide/hydroxide + alkali (fusion)",
+      "constraints": [
+        "При сплавлении образуются простые соли (алюминаты, цинкаты и т.п.)"
+      ],
+      "products_pattern": "соль-мета (алюминат, цинкат и т.п.) + H2O",
+      "conditions": [
+        "сплавление",
+        "нагрев"
+      ],
+      "examples": [
+        "Al2O3 + 2NaOH →(сплавл.) 2NaAlO2 + H2O",
+        "ZnO + 2NaOH →(сплавл.) Na2ZnO2 + H2O",
+        "Al(OH)3 + NaOH →(сплавл.) NaAlO2 + 2H2O",
+        "Cr2O3 + 2NaOH →(сплавл.) 2NaCrO2 + H2O"
+      ]
+    },
+    {
+      "rule_id": "R18",
+      "name": "Щелочной/ЩЗ-металл + вода",
+      "class": "redox",
+      "trigger": "alkali/alkaline earth metal + H2O",
+      "constraints": [
+        "Li, Na, K, Rb, Cs — бурно реагируют",
+        "Ca, Sr, Ba — реагируют, менее бурно",
+        "Mg — только при нагревании (или очень медленно с горячей водой)",
+        "Al — не реагирует (оксидная плёнка); без плёнки — реагирует",
+        "Fe, Cu и далее — не реагируют"
+      ],
+      "products_pattern": "щёлочь + H2↑",
+      "conditions": [
+        "обычные (для щелочных), нагрев (для Mg)"
+      ],
+      "examples": [
+        "2Na + 2H2O → 2NaOH + H2↑",
+        "Ca + 2H2O → Ca(OH)2 + H2↑",
+        "2K + 2H2O → 2KOH + H2↑",
+        "Ba + 2H2O → Ba(OH)2 + H2↑"
+      ]
+    },
+    {
+      "rule_id": "R19",
+      "name": "Металл + O2 (горение/окисление)",
+      "class": "redox",
+      "trigger": "metal + O2",
+      "constraints": [
+        "Щелочные: Li → Li2O, Na → Na2O2 (пероксид), K → KO2 (надпероксид)",
+        "Остальные — обычные оксиды",
+        "Fe горит в O2 → Fe3O4 (а не Fe2O3)",
+        "Cu при нагревании → CuO (при высокой t°: Cu2O)"
+      ],
+      "products_pattern": "оксид (или пероксид для Na, надпероксид для K)",
+      "conditions": [
+        "нагрев/поджиг или обычные для активных"
+      ],
+      "examples": [
+        "4Li + O2 → 2Li2O",
+        "2Na + O2 → Na2O2",
+        "4Al + 3O2 → 2Al2O3",
+        "3Fe + 2O2 → Fe3O4",
+        "2Cu + O2 →(t°) 2CuO",
+        "2Mg + O2 → 2MgO"
+      ]
+    },
+    {
+      "rule_id": "R20",
+      "name": "Термическое разложение нитратов",
+      "class": "thermal",
+      "trigger": "nitrate + heat",
+      "constraints": [
+        "Группа 1 — нитраты щелочных металлов (до Mg): → нитрит + O2",
+        "Группа 2 — нитраты от Mg до Cu: → оксид металла + NO2 + O2",
+        "Группа 3 — нитраты после Cu (Ag, Hg, Au): → металл + NO2 + O2",
+        "NH4NO3 → N2O + 2H2O"
+      ],
+      "products_pattern": "зависит от активности металла (см. constraints)",
+      "conditions": [
+        "нагрев"
+      ],
+      "examples": [
+        "2NaNO3 →(t°) 2NaNO2 + O2↑",
+        "2Cu(NO3)2 →(t°) 2CuO + 4NO2↑ + O2↑",
+        "2AgNO3 →(t°) 2Ag + 2NO2↑ + O2↑",
+        "2Fe(NO3)3 →(t°) Fe2O3 + 6NO2↑ + 3/2 O2↑",
+        "NH4NO3 →(t°) N2O↑ + 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R21",
+      "name": "Термическое разложение карбонатов",
+      "class": "thermal",
+      "trigger": "carbonate + heat",
+      "constraints": [
+        "Карбонаты щелочных металлов (Na2CO3, K2CO3) НЕ разлагаются при нагревании",
+        "Остальные карбонаты → оксид + CO2",
+        "Гидрокарбонаты все разлагаются при нагревании → карбонат + CO2 + H2O"
+      ],
+      "products_pattern": "оксид металла + CO2↑ (или карбонат + CO2 + H2O для гидрокарбонатов)",
+      "conditions": [
+        "нагрев"
+      ],
+      "examples": [
+        "CaCO3 →(t°) CaO + CO2↑",
+        "MgCO3 →(t°) MgO + CO2↑",
+        "FeCO3 →(t°) FeO + CO2↑",
+        "2NaHCO3 →(t°) Na2CO3 + CO2↑ + H2O",
+        "Ca(HCO3)2 →(t°) CaCO3 + CO2↑ + H2O"
+      ]
+    },
+    {
+      "rule_id": "R22",
+      "name": "Термическое разложение гидроксидов",
+      "class": "thermal",
+      "trigger": "insoluble hydroxide + heat",
+      "constraints": [
+        "Щёлочи (NaOH, KOH, Ba(OH)2) НЕ разлагаются при обычном нагревании",
+        "Нерастворимые основания → оксид + H2O",
+        "Амфотерные гидроксиды тоже разлагаются"
+      ],
+      "products_pattern": "оксид + H2O",
+      "conditions": [
+        "нагрев"
+      ],
+      "examples": [
+        "Cu(OH)2 →(t°) CuO + H2O",
+        "2Fe(OH)3 →(t°) Fe2O3 + 3H2O",
+        "2Al(OH)3 →(t°) Al2O3 + 3H2O",
+        "Mg(OH)2 →(t°) MgO + H2O",
+        "Zn(OH)2 →(t°) ZnO + H2O"
+      ]
+    },
+    {
+      "rule_id": "R23",
+      "name": "Гидролиз солей",
+      "class": "hydrolysis",
+      "trigger": "salt in solution (water)",
+      "constraints": [
+        "Сильная кислота + сильное основание → гидролиза нет (pH ≈ 7)",
+        "Сильная кислота + слабое основание → гидролиз по катиону (pH < 7, кислая среда)",
+        "Слабая кислота + сильное основание → гидролиз по аниону (pH > 7, щелочная среда)",
+        "Слабая кислота + слабое основание → гидролиз по обоим ионам (pH зависит от соотношения Ka и Kb)",
+        "Совместный гидролиз (взаимный): Al2(SO4)3 + Na2CO3 → не сосуществуют в растворе"
+      ],
+      "products_pattern": "кислая/основная среда; при совместном — осадок + газ",
+      "conditions": [
+        "раствор"
+      ],
+      "examples_by_type": {
+        "no_hydrolysis": [
+          "NaCl (NaOH+HCl)",
+          "KNO3 (KOH+HNO3)",
+          "BaCl2"
+        ],
+        "by_cation": [
+          "CuSO4 → Cu(OH)2↓ потенциально, pH<7",
+          "FeCl3 → кислая среда",
+          "NH4Cl → кислая среда",
+          "AlCl3 → кислая среда"
+        ],
+        "by_anion": [
+          "Na2CO3 → щелочная среда",
+          "K2S → щелочная среда",
+          "Na2SiO3 → щелочная среда",
+          "CH3COONa → щелочная среда"
+        ],
+        "mutual": [
+          "Al2(CO3)3 — не существует в растворе: Al(OH)3↓ + CO2↑",
+          "Cr2(CO3)3 — не существует",
+          "Fe2(CO3)3 — не существует",
+          "Al2S3 + H2O → Al(OH)3↓ + H2S↑"
+        ]
+      }
+    },
+    {
+      "rule_id": "R24",
+      "name": "Галогены — вытеснение из солей",
+      "class": "redox",
+      "trigger": "halogen + halide salt",
+      "constraints": [
+        "Более активный галоген вытесняет менее активный: F2 > Cl2 > Br2 > I2",
+        "Cl2 вытесняет Br⁻ и I⁻",
+        "Br2 вытесняет I⁻",
+        "F2 вытесняет все"
+      ],
+      "products_pattern": "новая соль + свободный галоген",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Cl2 + 2KBr → 2KCl + Br2",
+        "Cl2 + 2KI → 2KCl + I2",
+        "Br2 + 2KI → 2KBr + I2"
+      ]
+    },
+    {
+      "rule_id": "R25",
+      "name": "Неметалл + O2 (горение неметаллов)",
+      "class": "redox",
+      "trigger": "nonmetal + O2",
+      "constraints": [
+        "S → SO2 (в избытке O2 с катализатором → SO3)",
+        "C → CO2 (при недостатке O2 → CO)",
+        "P → P2O5",
+        "N2 + O2 → 2NO (только при высокой t° или электрическом разряде)",
+        "Si + O2 → SiO2",
+        "H2 + O2 → H2O"
+      ],
+      "products_pattern": "оксид неметалла",
+      "conditions": [
+        "нагрев/поджиг"
+      ],
+      "examples": [
+        "S + O2 → SO2",
+        "C + O2 → CO2",
+        "4P + 5O2 → 2P2O5",
+        "N2 + O2 ⇌ 2NO (t°>3000°C или электрический разряд)",
+        "2H2 + O2 → 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R26",
+      "name": "Кислая соль + щёлочь → средняя соль + вода",
+      "class": "acid-base",
+      "trigger": "acid salt + alkali",
+      "constraints": [
+        "Кислая соль нейтрализуется щёлочью до средней соли"
+      ],
+      "products_pattern": "средняя соль + H2O",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "NaHCO3 + NaOH → Na2CO3 + H2O",
+        "Ca(HCO3)2 + Ca(OH)2 → 2CaCO3↓ + 2H2O",
+        "NaHSO4 + NaOH → Na2SO4 + H2O",
+        "KHSO3 + KOH → K2SO3 + H2O"
+      ]
+    },
+    {
+      "rule_id": "R27",
+      "name": "Средняя соль + кислота → кислая соль",
+      "class": "acid-base",
+      "trigger": "normal salt + excess acid (of same acid)",
+      "constraints": [
+        "Соль многоосновной кислоты + избыток той же кислоты → кислая соль",
+        "Только для многоосновных кислот (H2CO3, H2SO4, H3PO4 и др.)"
+      ],
+      "products_pattern": "кислая соль",
+      "conditions": [
+        "раствор, избыток кислоты"
+      ],
+      "examples": [
+        "Na2CO3 + CO2 + H2O → 2NaHCO3",
+        "Na2SO4 + H2SO4 → 2NaHSO4",
+        "Na3PO4 + H3PO4 → 3NaH2PO4 (при достаточном избытке)"
+      ]
+    },
+    {
+      "rule_id": "R28",
+      "name": "Окислительно‑восстановительные реакции с KMnO4",
+      "class": "redox",
+      "trigger": "KMnO4 as oxidizer",
+      "constraints": [
+        "Кислая среда: Mn⁷⁺ → Mn²⁺ (обесцвечивание)",
+        "Нейтральная среда: Mn⁷⁺ → MnO2↓ (бурый осадок)",
+        "Щелочная среда: Mn⁷⁺ → MnO4²⁻ (зелёный раствор, манганат)"
+      ],
+      "products_pattern": "зависит от среды (см. constraints)",
+      "conditions": [
+        "зависит от pH"
+      ],
+      "examples": [
+        "2KMnO4 + 5Na2SO3 + 3H2SO4 → 2MnSO4 + 5Na2SO4 + K2SO4 + 3H2O",
+        "2KMnO4 + 3Na2SO3 + H2O → 2MnO2↓ + 3Na2SO4 + 2KOH"
+      ]
+    },
+    {
+      "rule_id": "R29",
+      "name": "Окислительно‑восстановительные реакции с K2Cr2O7 / K2CrO4",
+      "class": "redox",
+      "trigger": "dichromate/chromate as oxidizer",
+      "constraints": [
+        "Кислая среда: Cr2O7²⁻ (оранжевый) → Cr³⁺ (зелёный)",
+        "Щелочная среда: CrO4²⁻ (жёлтый) не восстанавливается обычно",
+        "Хроматы ↔ дихроматы: в щёлочи — CrO4²⁻, в кислоте — Cr2O7²⁻"
+      ],
+      "products_pattern": "Cr³⁺ соль + продукт окисления + H2O",
+      "conditions": [
+        "кислая среда"
+      ],
+      "examples": [
+        "K2Cr2O7 + 3H2S + 4H2SO4 → Cr2(SO4)3 + 3S↓ + K2SO4 + 7H2O",
+        "K2Cr2O7 + 6FeSO4 + 7H2SO4 → Cr2(SO4)3 + 3Fe2(SO4)3 + K2SO4 + 7H2O"
+      ]
+    },
+    {
+      "rule_id": "R30",
+      "name": "Электролиз расплавов",
+      "class": "redox",
+      "trigger": "electrolysis of melt",
+      "constraints": [
+        "Расплав соли → металл на катоде + неметалл на аноде",
+        "Расплав щёлочи → металл на катоде + O2 + H2O на аноде",
+        "Активные металлы получают только электролизом расплавов"
+      ],
+      "products_pattern": "металл + неметалл (или O2)",
+      "conditions": [
+        "электролиз, расплав"
+      ],
+      "examples": [
+        "2NaCl →(электролиз расплава) 2Na + Cl2↑",
+        "2Al2O3 →(электролиз расплава, криолит) 4Al + 3O2↑",
+        "4NaOH →(электролиз расплава) 4Na + O2↑ + 2H2O",
+        "MgCl2 →(электролиз расплава) Mg + Cl2↑"
+      ]
+    },
+    {
+      "rule_id": "R31",
+      "name": "Электролиз растворов",
+      "class": "redox",
+      "trigger": "electrolysis of solution",
+      "constraints": [
+        "Катод: если металл после Al в ряду активности → выделяется металл; если до Al → выделяется H2; Al и активнее — H2",
+        "Анод (инертный): бескислородные анионы (Cl⁻, Br⁻, I⁻, S²⁻) → окисляются; кислородсодержащие (SO4²⁻, NO3⁻, PO4³⁻) → O2 + H⁺; OH⁻ → O2 + H2O; F⁻ → O2 (F не окисляется)",
+        "Анод (растворимый, Cu/Ag): сам анод растворяется"
+      ],
+      "products_pattern": "зависит от ряда активности и типа аниона",
+      "conditions": [
+        "электролиз, раствор, инертный/растворимый анод"
+      ],
+      "examples": [
+        "2CuSO4 + 2H2O →(электр.) 2Cu + O2↑ + 2H2SO4",
+        "2NaCl + 2H2O →(электр.) 2NaOH + H2↑ + Cl2↑",
+        "2H2O →(электр.) 2H2↑ + O2↑",
+        "4AgNO3 + 2H2O →(электр.) 4Ag + O2↑ + 4HNO3"
+      ]
+    },
+    {
+      "rule_id": "R32",
+      "name": "Концентрированная H2SO4 — водоотнимающее свойство",
+      "class": "special",
+      "trigger": "conc. H2SO4 + organic/hydrate",
+      "constraints": [
+        "Обугливает сахар (C12H22O11 → 12C + 11H2O)",
+        "Отнимает воду у кристаллогидратов",
+        "Разлагает HBr, HI (окисляет их): H2SO4(конц) + HBr → SO2 + Br2 + H2O"
+      ],
+      "products_pattern": "вода + обезвоженный/окисленный продукт",
+      "conditions": [
+        "конц. кислота"
+      ],
+      "examples": [
+        "C12H22O11 + H2SO4(конц) → 12C + 11H2O (обугливание)",
+        "CuSO4·5H2O + H2SO4(конц) → CuSO4 + H2SO4·5H2O (условно)"
+      ]
+    },
+    {
+      "rule_id": "R33",
+      "name": "Царская водка (HNO3 + HCl = 3:1)",
+      "class": "redox",
+      "trigger": "aqua regia + noble metal",
+      "constraints": [
+        "Растворяет Au и Pt",
+        "Au + HNO3 + 4HCl → H[AuCl4] + NO↑ + 2H2O",
+        "3Pt + 4HNO3 + 18HCl → 3H2[PtCl6] + 4NO↑ + 8H2O"
+      ],
+      "products_pattern": "хлорокомплекс + NO↑ + H2O",
+      "conditions": [
+        "смесь конц. кислот"
+      ],
+      "examples": [
+        "Au + HNO3 + 4HCl → H[AuCl4] + NO↑ + 2H2O"
+      ]
+    },
+    {
+      "rule_id": "R34",
+      "name": "Получение кремниевой кислоты",
+      "class": "exchange",
+      "trigger": "silicate + strong acid",
+      "constraints": [
+        "Силикаты + кислота → H2SiO3↓ (нерастворимый гель)"
+      ],
+      "products_pattern": "H2SiO3↓ + соль",
+      "conditions": [
+        "раствор"
+      ],
+      "examples": [
+        "Na2SiO3 + 2HCl → 2NaCl + H2SiO3↓"
+      ]
+    },
+    {
+      "rule_id": "R35",
+      "name": "Разложение термически нестойких кислот",
+      "class": "thermal",
+      "trigger": "unstable acid",
+      "constraints": [
+        "H2CO3 → CO2 + H2O (при образовании сразу разлагается)",
+        "H2SO3 → SO2 + H2O",
+        "HNO2 → (не всегда, при нагревании) → NO + NO2 + H2O",
+        "H2SiO3 →(t°) SiO2 + H2O"
+      ],
+      "products_pattern": "оксид + H2O",
+      "conditions": [
+        "обычные (для H2CO3, H2SO3) или нагрев"
+      ],
+      "examples": [
+        "H2CO3 → CO2↑ + H2O",
+        "H2SO3 → SO2↑ + H2O",
+        "H2SiO3 →(t°) SiO2 + H2O"
+      ]
+    }
+  ],
+  "rule_exceptions": [
+    {
+      "exception_id": "E01",
+      "rule_id": "R01",
+      "description": "Металлы после H не реагируют с обычными кислотами",
+      "forbidden_substances": [
+        "Cu",
+        "Ag",
+        "Au",
+        "Pt",
+        "Hg"
+      ],
+      "reason": "Стоят после H в ряду активности — не способны вытеснить H2 из кислот",
+      "priority": 1
+    },
+    {
+      "exception_id": "E02",
+      "rule_id": "R01",
+      "description": "Pb + H2SO4(разб) — реакция останавливается",
+      "forbidden_pattern": "Pb + H2SO4(разб)",
+      "reason": "PbSO4 нерастворим — покрывает поверхность свинца защитной плёнкой",
+      "priority": 2
+    },
+    {
+      "exception_id": "E03",
+      "rule_id": "R01",
+      "description": "Fe с обычными кислотами даёт Fe²⁺, а не Fe³⁺",
+      "forbidden_pattern": "Fe + HCl → FeCl3",
+      "reason": "С неокислительными кислотами Fe окисляется только до +2. FeCl3 получается с Cl2, HNO3 и др. окислителями",
+      "priority": 1
+    },
+    {
+      "exception_id": "E04",
+      "rule_id": "R01",
+      "description": "Pb + HCl — реакция замедляется из-за нерастворимости PbCl2",
+      "forbidden_pattern": "Pb + HCl (холодный разбавленный)",
+      "reason": "PbCl2 малорастворим — плёнка замедляет реакцию (идёт при нагревании)",
+      "priority": 3
+    },
+    {
+      "exception_id": "E05",
+      "rule_id": "R02",
+      "description": "Au, Pt не реагируют с HNO3",
+      "forbidden_substances": [
+        "Au",
+        "Pt"
+      ],
+      "reason": "Благородные металлы — не растворяются даже в кислотах-окислителях (кроме царской водки)",
+      "priority": 1
+    },
+    {
+      "exception_id": "E06",
+      "rule_id": "R02",
+      "description": "Очень разбавленная HNO3 с активными металлами → NH4NO3",
+      "forbidden_pattern": "Al/Zn/Mg + HNO3(оч.разб) → NO",
+      "reason": "При сильном разбавлении N⁵⁺ восстанавливается глубже: до NH4⁺, а не до NO",
+      "priority": 2
+    },
+    {
+      "exception_id": "E07",
+      "rule_id": "R03",
+      "description": "Пассивация Fe, Al, Cr холодной конц. HNO3",
+      "forbidden_pattern": "Fe/Al/Cr + HNO3(конц, холодная)",
+      "reason": "Образование защитной оксидной плёнки. При нагревании реакция идёт",
+      "priority": 1
+    },
+    {
+      "exception_id": "E08",
+      "rule_id": "R03",
+      "description": "Au, Pt не реагируют с конц. HNO3",
+      "forbidden_substances": [
+        "Au",
+        "Pt"
+      ],
+      "reason": "Благородные металлы",
+      "priority": 1
+    },
+    {
+      "exception_id": "E09",
+      "rule_id": "R04",
+      "description": "Пассивация Fe, Al, Cr холодной конц. H2SO4",
+      "forbidden_pattern": "Fe/Al/Cr + H2SO4(конц, холодная)",
+      "reason": "Аналогично HNO3 конц. — защитная плёнка. При нагревании реакция идёт",
+      "priority": 1
+    },
+    {
+      "exception_id": "E10",
+      "rule_id": "R04",
+      "description": "Au, Pt не реагируют с конц. H2SO4",
+      "forbidden_substances": [
+        "Au",
+        "Pt"
+      ],
+      "reason": "Благородные металлы",
+      "priority": 1
+    },
+    {
+      "exception_id": "E11",
+      "rule_id": "R05",
+      "description": "BaSO4 не реагирует с кислотами",
+      "forbidden_pattern": "BaSO4 + HCl/HNO3",
+      "reason": "BaSO4 крайне нерастворим — нет условий для реакции обмена",
+      "priority": 1
+    },
+    {
+      "exception_id": "E12",
+      "rule_id": "R05",
+      "description": "AgCl не реагирует с разбавленными кислотами",
+      "forbidden_pattern": "AgCl + HNO3(разб)",
+      "reason": "AgCl нерастворим, нет признака реакции",
+      "priority": 1
+    },
+    {
+      "exception_id": "E13",
+      "rule_id": "R05",
+      "description": "CaCO3 + избыток CO2 + H2O → кислая соль",
+      "forbidden_pattern": "CaCO3 + H2CO3 → стандартный обмен",
+      "reason": "Образуется Ca(HCO3)2 (растворимый) — не стандартный обмен, а образование кислой соли",
+      "priority": 2
+    },
+    {
+      "exception_id": "E14",
+      "rule_id": "R05",
+      "description": "PbSO4 не реагирует с H2SO4",
+      "forbidden_pattern": "PbSO4 + H2SO4",
+      "reason": "PbSO4 нерастворим — нет признака реакции",
+      "priority": 1
+    },
+    {
+      "exception_id": "E15",
+      "rule_id": "R06",
+      "description": "Нерастворимая соль не реагирует с щёлочью в растворе",
+      "forbidden_pattern": "BaSO4/AgCl + NaOH",
+      "reason": "Для реакции обмена оба исходных вещества должны быть в ионном виде",
+      "priority": 1
+    },
+    {
+      "exception_id": "E16",
+      "rule_id": "R06",
+      "description": "AlCl3 + избыток NaOH → растворение осадка",
+      "forbidden_pattern": "AlCl3 + NaOH(избыток) → Al(OH)3↓",
+      "reason": "При избытке NaOH: Al(OH)3 растворяется → Na[Al(OH)4]. Осадок выпадает только при недостатке щёлочи",
+      "priority": 2
+    },
+    {
+      "exception_id": "E17",
+      "rule_id": "R06",
+      "description": "ZnCl2 + избыток NaOH → растворение осадка",
+      "forbidden_pattern": "ZnCl2 + NaOH(избыток) → Zn(OH)2↓",
+      "reason": "Аналогично Al: Zn(OH)2 растворяется в избытке щёлочи → Na2[Zn(OH)4]",
+      "priority": 2
+    },
+    {
+      "exception_id": "E18",
+      "rule_id": "R07",
+      "description": "Обе соли должны быть растворимы",
+      "forbidden_pattern": "BaSO4 + Na2CO3 (раствор)",
+      "reason": "Нерастворимая соль не даёт ионов в растворе — реакция не идёт",
+      "priority": 1
+    },
+    {
+      "exception_id": "E19",
+      "rule_id": "R07",
+      "description": "Нет осадка — реакция не идёт",
+      "forbidden_pattern": "NaCl + KNO3",
+      "reason": "Все четыре возможных продукта растворимы — нет признака реакции",
+      "priority": 1
+    },
+    {
+      "exception_id": "E20",
+      "rule_id": "R08",
+      "description": "Щелочные/ЩЗ-металлы не вытесняют из растворов солей",
+      "forbidden_pattern": "Na/K/Ca/Ba + CuSO4(раствор) → Cu",
+      "reason": "Щелочные и ЩЗ-металлы реагируют с ВОДОЙ раствора: Na + H2O → NaOH + H2, а потом NaOH + CuSO4 → Cu(OH)2↓",
+      "priority": 1
+    },
+    {
+      "exception_id": "E21",
+      "rule_id": "R08",
+      "description": "Fe + FeCl3 — не вытеснение, а восстановление",
+      "forbidden_pattern": "Fe + FeCl3 → Fe + Fe",
+      "reason": "Fe + 2FeCl3 → 3FeCl2 — это ОВР: Fe⁰ восстанавливает Fe³⁺ до Fe²⁺, металл не выделяется",
+      "priority": 2
+    },
+    {
+      "exception_id": "E22",
+      "rule_id": "R08",
+      "description": "Металл не вытесняет из нерастворимой соли",
+      "forbidden_pattern": "Zn + PbSO4",
+      "reason": "PbSO4 нерастворим — ионы Pb²⁺ не в растворе",
+      "priority": 1
+    },
+    {
+      "exception_id": "E23",
+      "rule_id": "R11",
+      "description": "MgO, FeO, CuO, Al2O3 не реагируют с водой",
+      "forbidden_substances": [
+        "MgO",
+        "FeO",
+        "CuO",
+        "Al2O3",
+        "Fe2O3",
+        "ZnO",
+        "Cr2O3"
+      ],
+      "reason": "Только оксиды щелочных и ЩЗ-металлов (Li, Na, K, Ca, Sr, Ba) реагируют с водой",
+      "priority": 1
+    },
+    {
+      "exception_id": "E24",
+      "rule_id": "R13",
+      "description": "SiO2 не реагирует с водой",
+      "forbidden_substances": [
+        "SiO2"
+      ],
+      "reason": "Кремниевая кислота получается только из силикатов + кислота, а не из SiO2 + H2O",
+      "priority": 1
+    },
+    {
+      "exception_id": "E25",
+      "rule_id": "R12",
+      "description": "SiO2 + NaOH только при сплавлении",
+      "forbidden_pattern": "SiO2 + NaOH(раствор, без нагрева)",
+      "reason": "SiO2 — твёрдый, высокотугоплавкий; реагирует со щёлочью только при сплавлении/длительном кипячении",
+      "priority": 2
+    },
+    {
+      "exception_id": "E26",
+      "rule_id": "R18",
+      "description": "Al не реагирует с водой из-за оксидной плёнки",
+      "forbidden_pattern": "Al + H2O (обычные условия)",
+      "reason": "Прочная плёнка Al2O3 защищает поверхность. Без плёнки (амальгамирование) — реагирует бурно",
+      "priority": 1
+    },
+    {
+      "exception_id": "E27",
+      "rule_id": "R18",
+      "description": "Fe, Cu и менее активные не реагируют с водой",
+      "forbidden_pattern": "Fe/Cu/Ag/... + H2O",
+      "reason": "Металлы после Mg (кроме ЩЗ) не реагируют с водой при обычных условиях",
+      "priority": 1
+    },
+    {
+      "exception_id": "E28",
+      "rule_id": "R18",
+      "description": "Mg реагирует с водой только при нагревании",
+      "forbidden_pattern": "Mg + H2O (холодная)",
+      "reason": "При обычных условиях — крайне медленно; при нагревании: Mg + 2H2O → Mg(OH)2 + H2↑",
+      "priority": 2
+    },
+    {
+      "exception_id": "E29",
+      "rule_id": "R19",
+      "description": "Na горит в O2 → Na2O2, а не Na2O",
+      "forbidden_pattern": "2Na + O2 → Na2O (при горении)",
+      "reason": "При горении в избытке O2: Na → Na2O2 (пероксид). Na2O получается только при недостатке O2 или при 2Na + Na2O2",
+      "priority": 1
+    },
+    {
+      "exception_id": "E30",
+      "rule_id": "R19",
+      "description": "K горит в O2 → KO2 (надпероксид)",
+      "forbidden_pattern": "K + O2 → K2O (при горении)",
+      "reason": "K образует надпероксид KO2 при горении, а не обычный оксид",
+      "priority": 1
+    },
+    {
+      "exception_id": "E31",
+      "rule_id": "R19",
+      "description": "Fe горит в O2 → Fe3O4, а не Fe2O3",
+      "forbidden_pattern": "Fe + O2 → Fe2O3 (горение)",
+      "reason": "При горении в чистом O2: 3Fe + 2O2 → Fe3O4 (смешанный оксид FeO·Fe2O3)",
+      "priority": 1
+    },
+    {
+      "exception_id": "E32",
+      "rule_id": "R20",
+      "description": "Нитраты щелочных металлов → нитриты (не оксиды!)",
+      "forbidden_pattern": "NaNO3 →(t°) Na2O + ...",
+      "reason": "Группа 1: только до нитрита! NaNO3 → NaNO2 + O2. Оксид НЕ образуется",
+      "priority": 1
+    },
+    {
+      "exception_id": "E33",
+      "rule_id": "R20",
+      "description": "NH4NO3 — особый случай (не содержит металла)",
+      "forbidden_pattern": "NH4NO3 → оксид + NO2 + O2",
+      "reason": "NH4NO3 → N2O + 2H2O при 200°C; при быстром нагреве (>300°C) — взрыв: 2NH4NO3 → 2N2 + 4H2O + O2",
+      "priority": 1
+    },
+    {
+      "exception_id": "E34",
+      "rule_id": "R20",
+      "description": "NH4NO2 — разлагается на N2 + 2H2O",
+      "forbidden_pattern": "NH4NO2 → оксид + ...",
+      "reason": "Нитрит аммония: NH4NO2 →(t°) N2↑ + 2H2O (лабораторное получение N2)",
+      "priority": 2
+    },
+    {
+      "exception_id": "E35",
+      "rule_id": "R20",
+      "description": "LiNO3 разлагается как группа 2 (не как группа 1)",
+      "forbidden_pattern": "LiNO3 → LiNO2 + O2",
+      "reason": "Li — исключение среди щелочных: 4LiNO3 → 2Li2O + 4NO2 + O2 (как нитраты группы 2)",
+      "priority": 2
+    },
+    {
+      "exception_id": "E36",
+      "rule_id": "R21",
+      "description": "Na2CO3 и K2CO3 НЕ разлагаются при нагревании",
+      "forbidden_pattern": "Na2CO3/K2CO3 →(t°) оксид + CO2",
+      "reason": "Карбонаты щелочных металлов (кроме Li2CO3) термически устойчивы",
+      "priority": 1
+    },
+    {
+      "exception_id": "E37",
+      "rule_id": "R21",
+      "description": "Li2CO3 разлагается при нагревании (исключение среди щелочных)",
+      "forbidden_pattern": "Li2CO3 — устойчив при нагревании",
+      "reason": "Li2CO3 →(t°) Li2O + CO2 — Li ведёт себя как ЩЗ-металл (диагональное сходство с Mg)",
+      "priority": 2
+    },
+    {
+      "exception_id": "E38",
+      "rule_id": "R22",
+      "description": "Щёлочи не разлагаются при нагревании",
+      "forbidden_pattern": "NaOH/KOH/Ba(OH)2/Ca(OH)2 →(t°) оксид + H2O",
+      "reason": "Гидроксиды щелочных и ЩЗ-металлов термически устойчивы (не считая дегидратацию Ca(OH)2 при ~580°C)",
+      "priority": 1
+    },
+    {
+      "exception_id": "E39",
+      "rule_id": "R22",
+      "description": "Fe(OH)2 на воздухе при нагревании → Fe2O3, а не FeO",
+      "forbidden_pattern": "Fe(OH)2 →(t°, воздух) FeO + H2O",
+      "reason": "На воздухе: 4Fe(OH)2 + O2 → 2Fe2O3 + 4H2O. FeO получается только без доступа воздуха",
+      "priority": 2
+    },
+    {
+      "exception_id": "E40",
+      "rule_id": "R23",
+      "description": "Al2(CO3)3 не существует в растворе",
+      "forbidden_pattern": "Al2(CO3)3 (водный раствор)",
+      "reason": "Полный взаимный гидролиз: Al³⁺ + CO3²⁻ + H2O → Al(OH)3↓ + CO2↑",
+      "priority": 1
+    },
+    {
+      "exception_id": "E41",
+      "rule_id": "R23",
+      "description": "Al2S3 полностью гидролизуется в воде",
+      "forbidden_pattern": "Al2S3 (водный раствор)",
+      "reason": "Al2S3 + 6H2O → 2Al(OH)3↓ + 3H2S↑ — необратимый гидролиз",
+      "priority": 1
+    },
+    {
+      "exception_id": "E42",
+      "rule_id": "R23",
+      "description": "Fe2(CO3)3 не существует в растворе",
+      "forbidden_pattern": "Fe2(CO3)3 (водный раствор)",
+      "reason": "Полный взаимный гидролиз: Fe³⁺ + CO3²⁻ → Fe(OH)3↓ + CO2↑",
+      "priority": 1
+    },
+    {
+      "exception_id": "E43",
+      "rule_id": "R23",
+      "description": "Cr2(CO3)3 не существует в растворе",
+      "forbidden_pattern": "Cr2(CO3)3 (водный раствор)",
+      "reason": "Полный взаимный гидролиз: Cr³⁺ + CO3²⁻ → Cr(OH)3↓ + CO2↑",
+      "priority": 1
+    },
+    {
+      "exception_id": "E44",
+      "rule_id": "R23",
+      "description": "Al2(SiO3)3 не существует в растворе",
+      "forbidden_pattern": "Al2(SiO3)3 (водный раствор)",
+      "reason": "Полный гидролиз: Al(OH)3↓ + H2SiO3↓",
+      "priority": 1
+    },
+    {
+      "exception_id": "E45",
+      "rule_id": "R23",
+      "description": "Fe2S3 частично — ОВР при гидролизе",
+      "forbidden_pattern": "Fe2S3 + H2O → Fe(OH)3 + H2S (только)",
+      "reason": "Fe³⁺ окисляет S²⁻: 2Fe³⁺ + S²⁻ → 2Fe²⁺ + S↓ (наряду с гидролизом)",
+      "priority": 2
+    },
+    {
+      "exception_id": "E46",
+      "rule_id": "R24",
+      "description": "I2 не вытесняет Cl⁻ или Br⁻",
+      "forbidden_pattern": "I2 + NaCl/NaBr",
+      "reason": "I2 — наименее активный из Cl2, Br2, I2; не вытесняет более активные галогены",
+      "priority": 1
+    },
+    {
+      "exception_id": "E47",
+      "rule_id": "R24",
+      "description": "F2 + H2O → реакция с водой, не только вытеснение из солей",
+      "forbidden_pattern": "F2 + NaCl(раствор) → только NaF + Cl2",
+      "reason": "F2 реагирует с водой раствора: 2F2 + 2H2O → 4HF + O2. В растворе — побочная реакция",
+      "priority": 2
+    },
+    {
+      "exception_id": "E48",
+      "rule_id": "R25",
+      "description": "N2 + O2 → только при t° > 3000°C или электрическом разряде",
+      "forbidden_pattern": "N2 + O2 → 2NO (обычные условия)",
+      "reason": "N≡N связь очень прочная (945 кДж/моль). Реакция эндотермическая, идёт только при экстремальных условиях",
+      "priority": 1
+    },
+    {
+      "exception_id": "E49",
+      "rule_id": "R26",
+      "description": "NaHSO4 — кислая соль, но сильный электролит",
+      "forbidden_pattern": "NaHSO4 — слабая кислота в растворе",
+      "reason": "NaHSO4 полностью диссоциирует: Na⁺ + H⁺ + SO4²⁻. По свойствам аналогичен H2SO4(разб) в реакциях обмена",
+      "priority": 2
+    },
+    {
+      "exception_id": "E50",
+      "rule_id": "R28",
+      "description": "KMnO4 в разных средах даёт разные продукты",
+      "forbidden_pattern": "KMnO4 всегда → Mn²⁺",
+      "reason": "Кислая: Mn²⁺; нейтральная: MnO2; щелочная: MnO4²⁻. Нельзя использовать один шаблон для всех сред",
+      "priority": 1
+    },
+    {
+      "exception_id": "E51",
+      "rule_id": "R29",
+      "description": "Хроматы и дихроматы — равновесие зависит от pH",
+      "forbidden_pattern": "K2CrO4 — всегда жёлтый, K2Cr2O7 — всегда оранжевый",
+      "reason": "2CrO4²⁻ + 2H⁺ ⇌ Cr2O7²⁻ + H2O. В щёлочи — хромат (жёлтый), в кислоте — дихромат (оранжевый)",
+      "priority": 1
+    },
+    {
+      "exception_id": "E52",
+      "rule_id": "R30",
+      "description": "Электролиз расплава NaOH — на аноде O2, а не OH",
+      "forbidden_pattern": "4NaOH(расплав) → 4Na + 2H2 + O2",
+      "reason": "На аноде: 4OH⁻ → O2 + 2H2O + 4e⁻. H2 НЕ выделяется на катоде из расплава щёлочи — только Na",
+      "priority": 2
+    },
+    {
+      "exception_id": "E53",
+      "rule_id": "R31",
+      "description": "F⁻ не окисляется на аноде",
+      "forbidden_pattern": "NaF(раствор, электролиз) → Na + F2",
+      "reason": "F⁻ имеет слишком высокий электродный потенциал. Вместо F2 окисляется вода → O2",
+      "priority": 1
+    },
+    {
+      "exception_id": "E54",
+      "rule_id": "R31",
+      "description": "Активные металлы (Li–Al) не выделяются при электролизе растворов",
+      "forbidden_pattern": "NaCl(раствор, электролиз) → Na + Cl2",
+      "reason": "На катоде: 2H2O + 2e⁻ → H2 + 2OH⁻ (вода восстанавливается вместо Na⁺). Na получают только из расплава",
+      "priority": 1
+    },
+    {
+      "exception_id": "E55",
+      "rule_id": "R31",
+      "description": "Кислородсодержащие анионы не окисляются на аноде",
+      "forbidden_pattern": "Na2SO4(раствор) → Na + SO4...",
+      "reason": "SO4²⁻, NO3⁻, PO4³⁻ не разряжаются. Окисляется вода: 2H2O → O2 + 4H⁺ + 4e⁻",
+      "priority": 1
+    },
+    {
+      "exception_id": "E56",
+      "rule_id": "R32",
+      "description": "Конц. H2SO4 окисляет HBr и HI",
+      "forbidden_pattern": "NaBr + H2SO4(конц) → NaHSO4 + HBr (только)",
+      "reason": "Конц. H2SO4 окисляет Br⁻ → Br2 и I⁻ → I2. С NaCl — обычный обмен (HCl не окисляется)",
+      "priority": 1
+    },
+    {
+      "exception_id": "E57",
+      "rule_id": "R33",
+      "description": "Ag не растворяется в царской водке",
+      "forbidden_pattern": "Ag + HNO3 + HCl (царская водка) → растворение",
+      "reason": "Ag покрывается плёнкой AgCl↓ (нерастворим), которая защищает поверхность. Ag растворяется в HNO3 отдельно",
+      "priority": 2
+    },
+    {
+      "exception_id": "E58",
+      "rule_id": "R14",
+      "description": "Многоосновная кислота + недостаток основания → кислая соль",
+      "forbidden_pattern": "NaOH(недост.) + H2SO4 → Na2SO4 + H2O (всегда)",
+      "reason": "При недостатке NaOH: NaOH + H2SO4 → NaHSO4 + H2O (кислая соль, а не средняя)",
+      "priority": 2
+    },
+    {
+      "exception_id": "E59",
+      "rule_id": "R14",
+      "description": "Основание + избыток многоосновной кислоты → кислая соль",
+      "forbidden_pattern": "Ca(OH)2 + 2H3PO4 → Ca3(PO4)2 (всегда)",
+      "reason": "Зависит от мольного соотношения: при избытке кислоты → Ca(H2PO4)2 или CaHPO4",
+      "priority": 2
+    },
+    {
+      "exception_id": "E60",
+      "rule_id": "R16",
+      "description": "Fe2O3 — слабоамфотерный, реагирует со щёлочью только при сплавлении",
+      "forbidden_pattern": "Fe2O3 + NaOH(раствор) → Na[Fe(OH)4]",
+      "reason": "Fe2O3 — пограничный случай. В растворе практически не реагирует. При сплавлении: Fe2O3 + 2NaOH → 2NaFeO2 + H2O",
+      "priority": 2
+    },
+    {
+      "exception_id": "E61",
+      "rule_id": "R09",
+      "description": "Несолеобразующие оксиды не реагируют с основными оксидами",
+      "forbidden_pattern": "CaO + CO / CaO + NO / CaO + N2O",
+      "reason": "CO, NO, N2O — несолеобразующие оксиды: им не соответствуют кислоты, они не реагируют с основными оксидами",
+      "priority": 1
+    },
+    {
+      "exception_id": "E62",
+      "rule_id": "R12",
+      "description": "Несолеобразующие оксиды не реагируют со щёлочью",
+      "forbidden_pattern": "CO + NaOH / NO + NaOH / N2O + NaOH",
+      "reason": "CO, NO, N2O — не кислотные оксиды, не реагируют со щелочами в стандартных условиях",
+      "priority": 1
+    },
+    {
+      "exception_id": "E63",
+      "rule_id": "R12",
+      "description": "NO2 + NaOH — реакция диспропорционирования",
+      "forbidden_pattern": "NO2 + NaOH → стандартная кислотный оксид + щёлочь",
+      "reason": "2NO2 + 2NaOH → NaNO3 + NaNO2 + H2O — это не стандартная реакция кислотного оксида: образуются ДВЕ соли",
+      "priority": 2
+    },
+    {
+      "exception_id": "E64",
+      "rule_id": "R15",
+      "description": "Амфотерный гидроксид при нагревании теряет воду, а не реагирует с кислотой",
+      "forbidden_pattern": "Al(OH)3 + HCl при прокаливании → AlCl3",
+      "reason": "При сильном нагревании Al(OH)3 → Al2O3 + H2O (разложение), а не солеобразование. Реакция с кислотой — только в растворе",
+      "priority": 3
+    }
+  ],
+  "reaction_examples": [
+    {
+      "example_id": "EX001",
+      "rule_id": "R01",
+      "reactants": "Zn + 2HCl",
+      "products": "ZnCl2 + H2↑",
+      "equation": "Zn + 2HCl → ZnCl2 + H2↑",
+      "notes": "Zn до H в ряду, HCl — неокислитель"
+    },
+    {
+      "example_id": "EX002",
+      "rule_id": "R01",
+      "reactants": "Fe + H2SO4(разб)",
+      "products": "FeSO4 + H2↑",
+      "equation": "Fe + H2SO4(разб) → FeSO4 + H2↑",
+      "notes": "Fe → Fe²⁺ (НЕ Fe³⁺) с обычными кислотами"
+    },
+    {
+      "example_id": "EX003",
+      "rule_id": "R01",
+      "reactants": "Mg + 2HCl",
+      "products": "MgCl2 + H2↑",
+      "equation": "Mg + 2HCl → MgCl2 + H2↑",
+      "notes": "Активный металл + соляная кислота"
+    },
+    {
+      "example_id": "EX004",
+      "rule_id": "R01",
+      "reactants": "Al + 3HCl",
+      "products": "AlCl3 + H2↑",
+      "equation": "2Al + 6HCl → 2AlCl3 + 3H2↑",
+      "notes": "Al до H, кислота-неокислитель"
+    },
+    {
+      "example_id": "EX005",
+      "rule_id": "R01",
+      "reactants": "Mn + H2SO4(разб)",
+      "products": "MnSO4 + H2↑",
+      "equation": "Mn + H2SO4(разб) → MnSO4 + H2↑",
+      "notes": "Mn до H в ряду"
+    },
+    {
+      "example_id": "EX006",
+      "rule_id": "R02",
+      "reactants": "3Cu + 8HNO3(разб)",
+      "products": "3Cu(NO3)2 + 2NO↑ + 4H2O",
+      "equation": "3Cu + 8HNO3(разб) → 3Cu(NO3)2 + 2NO↑ + 4H2O",
+      "notes": "Cu после H, но HNO3-окислитель; продукт — NO"
+    },
+    {
+      "example_id": "EX007",
+      "rule_id": "R02",
+      "reactants": "Fe + 4HNO3(разб)",
+      "products": "Fe(NO3)3 + NO↑ + 2H2O",
+      "equation": "Fe + 4HNO3(разб) → Fe(NO3)3 + NO↑ + 2H2O",
+      "notes": "Fe → Fe³⁺ с HNO3 (окислитель!), продукт — NO"
+    },
+    {
+      "example_id": "EX008",
+      "rule_id": "R02",
+      "reactants": "8Al + 30HNO3(оч.разб)",
+      "products": "8Al(NO3)3 + 3NH4NO3 + 9H2O",
+      "equation": "8Al + 30HNO3(оч.разб) → 8Al(NO3)3 + 3NH4NO3 + 9H2O",
+      "notes": "Активный металл + очень разб. HNO3 → NH4NO3"
+    },
+    {
+      "example_id": "EX009",
+      "rule_id": "R02",
+      "reactants": "3Ag + 4HNO3(разб)",
+      "products": "3AgNO3 + NO↑ + 2H2O",
+      "equation": "3Ag + 4HNO3(разб) → 3AgNO3 + NO↑ + 2H2O",
+      "notes": "Малоактивный металл + разб. HNO3 → NO"
+    },
+    {
+      "example_id": "EX010",
+      "rule_id": "R03",
+      "reactants": "Cu + 4HNO3(конц)",
+      "products": "Cu(NO3)2 + 2NO2↑ + 2H2O",
+      "equation": "Cu + 4HNO3(конц) → Cu(NO3)2 + 2NO2↑ + 2H2O",
+      "notes": "Конц. HNO3 → NO2 (бурый газ)"
+    },
+    {
+      "example_id": "EX011",
+      "rule_id": "R03",
+      "reactants": "Ag + 2HNO3(конц)",
+      "products": "AgNO3 + NO2↑ + H2O",
+      "equation": "Ag + 2HNO3(конц) → AgNO3 + NO2↑ + H2O",
+      "notes": "Ag + конц. HNO3 → NO2"
+    },
+    {
+      "example_id": "EX012",
+      "rule_id": "R03",
+      "reactants": "Zn + 4HNO3(конц)",
+      "products": "Zn(NO3)2 + 2NO2↑ + 2H2O",
+      "equation": "Zn + 4HNO3(конц) → Zn(NO3)2 + 2NO2↑ + 2H2O",
+      "notes": "Zn с конц. HNO3"
+    },
+    {
+      "example_id": "EX013",
+      "rule_id": "R04",
+      "reactants": "Cu + 2H2SO4(конц)",
+      "products": "CuSO4 + SO2↑ + 2H2O",
+      "equation": "Cu + 2H2SO4(конц) →(t°) CuSO4 + SO2↑ + 2H2O",
+      "notes": "Малоактивный металл + конц. H2SO4 → SO2"
+    },
+    {
+      "example_id": "EX014",
+      "rule_id": "R04",
+      "reactants": "2Fe + 6H2SO4(конц)",
+      "products": "Fe2(SO4)3 + 3SO2↑ + 6H2O",
+      "equation": "2Fe + 6H2SO4(конц) →(t°) Fe2(SO4)3 + 3SO2↑ + 6H2O",
+      "notes": "Fe при нагреве с конц. H2SO4 → Fe³⁺ + SO2"
+    },
+    {
+      "example_id": "EX015",
+      "rule_id": "R04",
+      "reactants": "4Mg + 5H2SO4(конц)",
+      "products": "4MgSO4 + H2S↑ + 4H2O",
+      "equation": "4Mg + 5H2SO4(конц) → 4MgSO4 + H2S↑ + 4H2O",
+      "notes": "Активный металл + конц. H2SO4 → H2S"
+    },
+    {
+      "example_id": "EX016",
+      "rule_id": "R04",
+      "reactants": "Zn + 2H2SO4(конц)",
+      "products": "ZnSO4 + SO2↑ + 2H2O",
+      "equation": "Zn + 2H2SO4(конц) →(t°) ZnSO4 + SO2↑ + 2H2O",
+      "notes": "Zn — пограничный, с конц. H2SO4 даёт SO2 или S в зависимости от условий"
+    },
+    {
+      "example_id": "EX017",
+      "rule_id": "R05",
+      "reactants": "Na2CO3 + 2HCl",
+      "products": "2NaCl + CO2↑ + H2O",
+      "equation": "Na2CO3 + 2HCl → 2NaCl + CO2↑ + H2O",
+      "notes": "Карбонат + кислота → газ CO2"
+    },
+    {
+      "example_id": "EX018",
+      "rule_id": "R05",
+      "reactants": "BaCl2 + H2SO4",
+      "products": "BaSO4↓ + 2HCl",
+      "equation": "BaCl2 + H2SO4 → BaSO4↓ + 2HCl",
+      "notes": "Образуется осадок BaSO4"
+    },
+    {
+      "example_id": "EX019",
+      "rule_id": "R05",
+      "reactants": "Na2SiO3 + 2HCl",
+      "products": "2NaCl + H2SiO3↓",
+      "equation": "Na2SiO3 + 2HCl → 2NaCl + H2SiO3↓",
+      "notes": "Нерастворимая кремниевая кислота — осадок"
+    },
+    {
+      "example_id": "EX020",
+      "rule_id": "R05",
+      "reactants": "Na2S + 2HCl",
+      "products": "2NaCl + H2S↑",
+      "equation": "Na2S + 2HCl → 2NaCl + H2S↑",
+      "notes": "Газ H2S с запахом тухлых яиц"
+    },
+    {
+      "example_id": "EX021",
+      "rule_id": "R05",
+      "reactants": "Na2SO3 + 2HCl",
+      "products": "2NaCl + SO2↑ + H2O",
+      "equation": "Na2SO3 + 2HCl → 2NaCl + SO2↑ + H2O",
+      "notes": "Сульфит + кислота → SO2 (нестойкая H2SO3)"
+    },
+    {
+      "example_id": "EX022",
+      "rule_id": "R05",
+      "reactants": "FeS + 2HCl",
+      "products": "FeCl2 + H2S↑",
+      "equation": "FeS + 2HCl → FeCl2 + H2S↑",
+      "notes": "Нерастворимый сульфид реагирует с HCl, т.к. образуется газ"
+    },
+    {
+      "example_id": "EX023",
+      "rule_id": "R06",
+      "reactants": "CuSO4 + 2NaOH",
+      "products": "Cu(OH)2↓ + Na2SO4",
+      "equation": "CuSO4 + 2NaOH → Cu(OH)2↓ + Na2SO4",
+      "notes": "Голубой осадок Cu(OH)2"
+    },
+    {
+      "example_id": "EX024",
+      "rule_id": "R06",
+      "reactants": "FeCl3 + 3NaOH",
+      "products": "Fe(OH)3↓ + 3NaCl",
+      "equation": "FeCl3 + 3NaOH → Fe(OH)3↓ + 3NaCl",
+      "notes": "Бурый осадок Fe(OH)3"
+    },
+    {
+      "example_id": "EX025",
+      "rule_id": "R06",
+      "reactants": "FeSO4 + 2NaOH",
+      "products": "Fe(OH)2↓ + Na2SO4",
+      "equation": "FeSO4 + 2NaOH → Fe(OH)2↓ + Na2SO4",
+      "notes": "Зеленоватый осадок Fe(OH)2, буреет на воздухе"
+    },
+    {
+      "example_id": "EX026",
+      "rule_id": "R06",
+      "reactants": "NH4Cl + NaOH",
+      "products": "NaCl + NH3↑ + H2O",
+      "equation": "NH4Cl + NaOH →(t°) NaCl + NH3↑ + H2O",
+      "notes": "Качественная реакция на NH4⁺ — запах аммиака"
+    },
+    {
+      "example_id": "EX027",
+      "rule_id": "R06",
+      "reactants": "MgCl2 + 2NaOH",
+      "products": "Mg(OH)2↓ + 2NaCl",
+      "equation": "MgCl2 + 2NaOH → Mg(OH)2↓ + 2NaCl",
+      "notes": "Белый осадок Mg(OH)2"
+    },
+    {
+      "example_id": "EX028",
+      "rule_id": "R07",
+      "reactants": "AgNO3 + NaCl",
+      "products": "AgCl↓ + NaNO3",
+      "equation": "AgNO3 + NaCl → AgCl↓ + NaNO3",
+      "notes": "Качественная реакция на Cl⁻ — белый творожистый осадок"
+    },
+    {
+      "example_id": "EX029",
+      "rule_id": "R07",
+      "reactants": "BaCl2 + Na2SO4",
+      "products": "BaSO4↓ + 2NaCl",
+      "equation": "BaCl2 + Na2SO4 → BaSO4↓ + 2NaCl",
+      "notes": "Качественная реакция на SO4²⁻ — белый осадок BaSO4"
+    },
+    {
+      "example_id": "EX030",
+      "rule_id": "R07",
+      "reactants": "Pb(NO3)2 + 2KI",
+      "products": "PbI2↓ + 2KNO3",
+      "equation": "Pb(NO3)2 + 2KI → PbI2↓ + 2KNO3",
+      "notes": "Ярко-жёлтый осадок PbI2 — качественная реакция на Pb²⁺"
+    },
+    {
+      "example_id": "EX031",
+      "rule_id": "R07",
+      "reactants": "CaCl2 + Na2CO3",
+      "products": "CaCO3↓ + 2NaCl",
+      "equation": "CaCl2 + Na2CO3 → CaCO3↓ + 2NaCl",
+      "notes": "Белый осадок CaCO3"
+    },
+    {
+      "example_id": "EX032",
+      "rule_id": "R08",
+      "reactants": "Fe + CuSO4",
+      "products": "FeSO4 + Cu",
+      "equation": "Fe + CuSO4 → FeSO4 + Cu↓",
+      "notes": "Fe активнее Cu — вытесняет Cu из раствора"
+    },
+    {
+      "example_id": "EX033",
+      "rule_id": "R08",
+      "reactants": "Zn + CuSO4",
+      "products": "ZnSO4 + Cu",
+      "equation": "Zn + CuSO4 → ZnSO4 + Cu↓",
+      "notes": "Zn активнее Cu"
+    },
+    {
+      "example_id": "EX034",
+      "rule_id": "R08",
+      "reactants": "Cu + 2AgNO3",
+      "products": "Cu(NO3)2 + 2Ag",
+      "equation": "Cu + 2AgNO3 → Cu(NO3)2 + 2Ag↓",
+      "notes": "Cu активнее Ag — серебро выделяется"
+    },
+    {
+      "example_id": "EX035",
+      "rule_id": "R08",
+      "reactants": "Zn + Pb(NO3)2",
+      "products": "Zn(NO3)2 + Pb",
+      "equation": "Zn + Pb(NO3)2 → Zn(NO3)2 + Pb↓",
+      "notes": "Zn активнее Pb"
+    },
+    {
+      "example_id": "EX036",
+      "rule_id": "R09",
+      "reactants": "CaO + CO2",
+      "products": "CaCO3",
+      "equation": "CaO + CO2 → CaCO3",
+      "notes": "Основный + кислотный оксид → соль"
+    },
+    {
+      "example_id": "EX037",
+      "rule_id": "R09",
+      "reactants": "Na2O + SO3",
+      "products": "Na2SO4",
+      "equation": "Na2O + SO3 → Na2SO4",
+      "notes": "Основный + кислотный оксид"
+    },
+    {
+      "example_id": "EX038",
+      "rule_id": "R09",
+      "reactants": "CaO + SiO2",
+      "products": "CaSiO3",
+      "equation": "CaO + SiO2 →(t°) CaSiO3",
+      "notes": "При сплавлении — получение силиката"
+    },
+    {
+      "example_id": "EX039",
+      "rule_id": "R09",
+      "reactants": "BaO + CO2",
+      "products": "BaCO3",
+      "equation": "BaO + CO2 → BaCO3",
+      "notes": "Основный + кислотный оксид"
+    },
+    {
+      "example_id": "EX040",
+      "rule_id": "R10",
+      "reactants": "CuO + 2HCl",
+      "products": "CuCl2 + H2O",
+      "equation": "CuO + 2HCl → CuCl2 + H2O",
+      "notes": "Основный оксид + кислота → соль + вода"
+    },
+    {
+      "example_id": "EX041",
+      "rule_id": "R10",
+      "reactants": "Fe2O3 + 3H2SO4",
+      "products": "Fe2(SO4)3 + 3H2O",
+      "equation": "Fe2O3 + 3H2SO4 → Fe2(SO4)3 + 3H2O",
+      "notes": "Fe2O3 + кислота → соль Fe³⁺"
+    },
+    {
+      "example_id": "EX042",
+      "rule_id": "R10",
+      "reactants": "MgO + 2HNO3",
+      "products": "Mg(NO3)2 + H2O",
+      "equation": "MgO + 2HNO3 → Mg(NO3)2 + H2O",
+      "notes": "Основный оксид + кислота"
+    },
+    {
+      "example_id": "EX043",
+      "rule_id": "R11",
+      "reactants": "Na2O + H2O",
+      "products": "2NaOH",
+      "equation": "Na2O + H2O → 2NaOH",
+      "notes": "Оксид щелочного металла + вода → щёлочь"
+    },
+    {
+      "example_id": "EX044",
+      "rule_id": "R11",
+      "reactants": "CaO + H2O",
+      "products": "Ca(OH)2",
+      "equation": "CaO + H2O → Ca(OH)2",
+      "notes": "Гашение извести — получение гашёной извести"
+    },
+    {
+      "example_id": "EX045",
+      "rule_id": "R11",
+      "reactants": "BaO + H2O",
+      "products": "Ba(OH)2",
+      "equation": "BaO + H2O → Ba(OH)2",
+      "notes": "Оксид ЩЗ-металла + вода → щёлочь"
+    },
+    {
+      "example_id": "EX046",
+      "rule_id": "R11",
+      "reactants": "K2O + H2O",
+      "products": "2KOH",
+      "equation": "K2O + H2O → 2KOH",
+      "notes": "Оксид щелочного металла"
+    },
+    {
+      "example_id": "EX047",
+      "rule_id": "R12",
+      "reactants": "CO2 + 2NaOH",
+      "products": "Na2CO3 + H2O",
+      "equation": "CO2 + 2NaOH → Na2CO3 + H2O",
+      "notes": "Избыток щёлочи → средняя соль"
+    },
+    {
+      "example_id": "EX048",
+      "rule_id": "R12",
+      "reactants": "CO2(изб.) + NaOH",
+      "products": "NaHCO3",
+      "equation": "CO2 + NaOH → NaHCO3",
+      "notes": "Избыток CO2 → кислая соль"
+    },
+    {
+      "example_id": "EX049",
+      "rule_id": "R12",
+      "reactants": "SO2 + 2NaOH",
+      "products": "Na2SO3 + H2O",
+      "equation": "SO2 + 2NaOH → Na2SO3 + H2O",
+      "notes": "Кислотный оксид + щёлочь"
+    },
+    {
+      "example_id": "EX050",
+      "rule_id": "R12",
+      "reactants": "SiO2 + 2NaOH(сплавл.)",
+      "products": "Na2SiO3 + H2O",
+      "equation": "SiO2 + 2NaOH →(t°,сплавл.) Na2SiO3 + H2O",
+      "notes": "SiO2 реагирует только при сплавлении"
+    },
+    {
+      "example_id": "EX051",
+      "rule_id": "R12",
+      "reactants": "P2O5 + 6NaOH",
+      "products": "2Na3PO4 + 3H2O",
+      "equation": "P2O5 + 6NaOH → 2Na3PO4 + 3H2O",
+      "notes": "Кислотный оксид + щёлочь"
+    },
+    {
+      "example_id": "EX052",
+      "rule_id": "R13",
+      "reactants": "SO3 + H2O",
+      "products": "H2SO4",
+      "equation": "SO3 + H2O → H2SO4",
+      "notes": "Кислотный оксид + вода → кислота"
+    },
+    {
+      "example_id": "EX053",
+      "rule_id": "R13",
+      "reactants": "CO2 + H2O",
+      "products": "H2CO3",
+      "equation": "CO2 + H2O ⇌ H2CO3",
+      "notes": "Обратимая реакция — H2CO3 нестойкая"
+    },
+    {
+      "example_id": "EX054",
+      "rule_id": "R13",
+      "reactants": "P2O5 + 3H2O",
+      "products": "2H3PO4",
+      "equation": "P2O5 + 3H2O → 2H3PO4",
+      "notes": "P2O5 — осушитель, жадно поглощает воду"
+    },
+    {
+      "example_id": "EX055",
+      "rule_id": "R13",
+      "reactants": "N2O5 + H2O",
+      "products": "2HNO3",
+      "equation": "N2O5 + H2O → 2HNO3",
+      "notes": "Кислотный оксид азота(V)"
+    },
+    {
+      "example_id": "EX056",
+      "rule_id": "R14",
+      "reactants": "NaOH + HCl",
+      "products": "NaCl + H2O",
+      "equation": "NaOH + HCl → NaCl + H2O",
+      "notes": "Нейтрализация — щёлочь + кислота"
+    },
+    {
+      "example_id": "EX057",
+      "rule_id": "R14",
+      "reactants": "Cu(OH)2 + 2HCl",
+      "products": "CuCl2 + 2H2O",
+      "equation": "Cu(OH)2 + 2HCl → CuCl2 + 2H2O",
+      "notes": "Нерастворимое основание + кислота"
+    },
+    {
+      "example_id": "EX058",
+      "rule_id": "R14",
+      "reactants": "Fe(OH)3 + 3HNO3",
+      "products": "Fe(NO3)3 + 3H2O",
+      "equation": "Fe(OH)3 + 3HNO3 → Fe(NO3)3 + 3H2O",
+      "notes": "Нерастворимое основание + кислота"
+    },
+    {
+      "example_id": "EX059",
+      "rule_id": "R14",
+      "reactants": "Ba(OH)2 + H2SO4",
+      "products": "BaSO4↓ + 2H2O",
+      "equation": "Ba(OH)2 + H2SO4 → BaSO4↓ + 2H2O",
+      "notes": "Осадок BaSO4 + вода"
+    },
+    {
+      "example_id": "EX060",
+      "rule_id": "R15",
+      "reactants": "Al2O3 + 6HCl",
+      "products": "2AlCl3 + 3H2O",
+      "equation": "Al2O3 + 6HCl → 2AlCl3 + 3H2O",
+      "notes": "Амфотерный оксид + кислота → соль + вода"
+    },
+    {
+      "example_id": "EX061",
+      "rule_id": "R15",
+      "reactants": "ZnO + 2HCl",
+      "products": "ZnCl2 + H2O",
+      "equation": "ZnO + 2HCl → ZnCl2 + H2O",
+      "notes": "Амфотерный оксид + кислота"
+    },
+    {
+      "example_id": "EX062",
+      "rule_id": "R15",
+      "reactants": "Al(OH)3 + 3HCl",
+      "products": "AlCl3 + 3H2O",
+      "equation": "Al(OH)3 + 3HCl → AlCl3 + 3H2O",
+      "notes": "Амфотерный гидроксид + кислота"
+    },
+    {
+      "example_id": "EX063",
+      "rule_id": "R15",
+      "reactants": "Zn(OH)2 + H2SO4",
+      "products": "ZnSO4 + 2H2O",
+      "equation": "Zn(OH)2 + H2SO4 → ZnSO4 + 2H2O",
+      "notes": "Амфотерный гидроксид + кислота"
+    },
+    {
+      "example_id": "EX064",
+      "rule_id": "R15",
+      "reactants": "Cr(OH)3 + 3HCl",
+      "products": "CrCl3 + 3H2O",
+      "equation": "Cr(OH)3 + 3HCl → CrCl3 + 3H2O",
+      "notes": "Амфотерный гидроксид хрома(III) + кислота"
+    },
+    {
+      "example_id": "EX065",
+      "rule_id": "R16",
+      "reactants": "Al(OH)3 + NaOH(р-р)",
+      "products": "Na[Al(OH)4]",
+      "equation": "Al(OH)3 + NaOH → Na[Al(OH)4]",
+      "notes": "В растворе → тетрагидроксоалюминат"
+    },
+    {
+      "example_id": "EX066",
+      "rule_id": "R16",
+      "reactants": "Zn(OH)2 + 2NaOH(р-р)",
+      "products": "Na2[Zn(OH)4]",
+      "equation": "Zn(OH)2 + 2NaOH → Na2[Zn(OH)4]",
+      "notes": "В растворе → тетрагидроксоцинкат"
+    },
+    {
+      "example_id": "EX067",
+      "rule_id": "R16",
+      "reactants": "Al2O3 + 2NaOH + 3H2O",
+      "products": "2Na[Al(OH)4]",
+      "equation": "Al2O3 + 2NaOH + 3H2O → 2Na[Al(OH)4]",
+      "notes": "Амфотерный оксид в растворе щёлочи"
+    },
+    {
+      "example_id": "EX068",
+      "rule_id": "R16",
+      "reactants": "Cr(OH)3 + NaOH(р-р)",
+      "products": "Na[Cr(OH)4]",
+      "equation": "Cr(OH)3 + NaOH → Na[Cr(OH)4]",
+      "notes": "Амфотерный гидроксид хрома(III)"
+    },
+    {
+      "example_id": "EX069",
+      "rule_id": "R16",
+      "reactants": "Be(OH)2 + 2NaOH(р-р)",
+      "products": "Na2[Be(OH)4]",
+      "equation": "Be(OH)2 + 2NaOH → Na2[Be(OH)4]",
+      "notes": "Амфотерный гидроксид бериллия"
+    },
+    {
+      "example_id": "EX070",
+      "rule_id": "R16",
+      "reactants": "ZnO + 2NaOH + H2O",
+      "products": "Na2[Zn(OH)4]",
+      "equation": "ZnO + 2NaOH + H2O → Na2[Zn(OH)4]",
+      "notes": "Амфотерный оксид в растворе"
+    },
+    {
+      "example_id": "EX071",
+      "rule_id": "R17",
+      "reactants": "Al2O3 + 2NaOH(сплавл.)",
+      "products": "2NaAlO2 + H2O",
+      "equation": "Al2O3 + 2NaOH →(сплавл.) 2NaAlO2 + H2O",
+      "notes": "При сплавлении → алюминат натрия"
+    },
+    {
+      "example_id": "EX072",
+      "rule_id": "R17",
+      "reactants": "ZnO + 2NaOH(сплавл.)",
+      "products": "Na2ZnO2 + H2O",
+      "equation": "ZnO + 2NaOH →(сплавл.) Na2ZnO2 + H2O",
+      "notes": "При сплавлении → цинкат натрия"
+    },
+    {
+      "example_id": "EX073",
+      "rule_id": "R17",
+      "reactants": "Cr2O3 + 2NaOH(сплавл.)",
+      "products": "2NaCrO2 + H2O",
+      "equation": "Cr2O3 + 2NaOH →(сплавл.) 2NaCrO2 + H2O",
+      "notes": "При сплавлении → хромит натрия"
+    },
+    {
+      "example_id": "EX074",
+      "rule_id": "R17",
+      "reactants": "Al(OH)3 + NaOH(сплавл.)",
+      "products": "NaAlO2 + 2H2O",
+      "equation": "Al(OH)3 + NaOH →(сплавл.) NaAlO2 + 2H2O",
+      "notes": "При сплавлении → алюминат"
+    },
+    {
+      "example_id": "EX075",
+      "rule_id": "R18",
+      "reactants": "2Na + 2H2O",
+      "products": "2NaOH + H2↑",
+      "equation": "2Na + 2H2O → 2NaOH + H2↑",
+      "notes": "Бурная реакция натрия с водой"
+    },
+    {
+      "example_id": "EX076",
+      "rule_id": "R18",
+      "reactants": "Ca + 2H2O",
+      "products": "Ca(OH)2 + H2↑",
+      "equation": "Ca + 2H2O → Ca(OH)2 + H2↑",
+      "notes": "ЩЗ-металл + вода"
+    },
+    {
+      "example_id": "EX077",
+      "rule_id": "R18",
+      "reactants": "2K + 2H2O",
+      "products": "2KOH + H2↑",
+      "equation": "2K + 2H2O → 2KOH + H2↑",
+      "notes": "Очень бурная реакция (загорается на воде)"
+    },
+    {
+      "example_id": "EX078",
+      "rule_id": "R18",
+      "reactants": "Ba + 2H2O",
+      "products": "Ba(OH)2 + H2↑",
+      "equation": "Ba + 2H2O → Ba(OH)2 + H2↑",
+      "notes": "ЩЗ-металл + вода"
+    },
+    {
+      "example_id": "EX079",
+      "rule_id": "R19",
+      "reactants": "4Al + 3O2",
+      "products": "2Al2O3",
+      "equation": "4Al + 3O2 → 2Al2O3",
+      "notes": "Горение алюминия — яркая вспышка"
+    },
+    {
+      "example_id": "EX080",
+      "rule_id": "R19",
+      "reactants": "3Fe + 2O2",
+      "products": "Fe3O4",
+      "equation": "3Fe + 2O2 → Fe3O4",
+      "notes": "Горение железа → Fe3O4 (а не Fe2O3!)"
+    },
+    {
+      "example_id": "EX081",
+      "rule_id": "R19",
+      "reactants": "2Na + O2",
+      "products": "Na2O2",
+      "equation": "2Na + O2 → Na2O2",
+      "notes": "Натрий горит в O2 → пероксид (не обычный оксид!)"
+    },
+    {
+      "example_id": "EX082",
+      "rule_id": "R19",
+      "reactants": "2Cu + O2",
+      "products": "2CuO",
+      "equation": "2Cu + O2 →(t°) 2CuO",
+      "notes": "Медь при нагревании → чёрный CuO"
+    },
+    {
+      "example_id": "EX083",
+      "rule_id": "R19",
+      "reactants": "2Mg + O2",
+      "products": "2MgO",
+      "equation": "2Mg + O2 → 2MgO",
+      "notes": "Горение магния — ослепительно-белое пламя"
+    },
+    {
+      "example_id": "EX084",
+      "rule_id": "R19",
+      "reactants": "4Li + O2",
+      "products": "2Li2O",
+      "equation": "4Li + O2 → 2Li2O",
+      "notes": "Li — единственный щелочной, дающий обычный оксид Li2O"
+    },
+    {
+      "example_id": "EX085",
+      "rule_id": "R20",
+      "reactants": "2NaNO3",
+      "products": "2NaNO2 + O2↑",
+      "equation": "2NaNO3 →(t°) 2NaNO2 + O2↑",
+      "notes": "Группа 1: щелочной металл → нитрит + O2"
+    },
+    {
+      "example_id": "EX086",
+      "rule_id": "R20",
+      "reactants": "2KNO3",
+      "products": "2KNO2 + O2↑",
+      "equation": "2KNO3 →(t°) 2KNO2 + O2↑",
+      "notes": "Группа 1"
+    },
+    {
+      "example_id": "EX087",
+      "rule_id": "R20",
+      "reactants": "2Cu(NO3)2",
+      "products": "2CuO + 4NO2↑ + O2↑",
+      "equation": "2Cu(NO3)2 →(t°) 2CuO + 4NO2↑ + O2↑",
+      "notes": "Группа 2: металл средней активности → оксид + NO2 + O2"
+    },
+    {
+      "example_id": "EX088",
+      "rule_id": "R20",
+      "reactants": "4Fe(NO3)3",
+      "products": "2Fe2O3 + 12NO2↑ + 3O2↑",
+      "equation": "4Fe(NO3)3 →(t°) 2Fe2O3 + 12NO2↑ + 3O2↑",
+      "notes": "Группа 2: Fe(NO3)3 → Fe2O3"
+    },
+    {
+      "example_id": "EX089",
+      "rule_id": "R20",
+      "reactants": "2Zn(NO3)2",
+      "products": "2ZnO + 4NO2↑ + O2↑",
+      "equation": "2Zn(NO3)2 →(t°) 2ZnO + 4NO2↑ + O2↑",
+      "notes": "Группа 2: Zn → ZnO"
+    },
+    {
+      "example_id": "EX090",
+      "rule_id": "R20",
+      "reactants": "2AgNO3",
+      "products": "2Ag + 2NO2↑ + O2↑",
+      "equation": "2AgNO3 →(t°) 2Ag + 2NO2↑ + O2↑",
+      "notes": "Группа 3: малоактивный металл → свободный металл"
+    },
+    {
+      "example_id": "EX091",
+      "rule_id": "R20",
+      "reactants": "Hg(NO3)2",
+      "products": "Hg + 2NO2↑ + O2↑",
+      "equation": "Hg(NO3)2 →(t°) Hg + 2NO2↑ + O2↑",
+      "notes": "Группа 3: Hg — малоактивный"
+    },
+    {
+      "example_id": "EX092",
+      "rule_id": "R20",
+      "reactants": "NH4NO3",
+      "products": "N2O↑ + 2H2O",
+      "equation": "NH4NO3 →(t°) N2O↑ + 2H2O",
+      "notes": "Особый случай — нитрат аммония"
+    },
+    {
+      "example_id": "EX093",
+      "rule_id": "R21",
+      "reactants": "CaCO3",
+      "products": "CaO + CO2↑",
+      "equation": "CaCO3 →(t°) CaO + CO2↑",
+      "notes": "Обжиг известняка"
+    },
+    {
+      "example_id": "EX094",
+      "rule_id": "R21",
+      "reactants": "MgCO3",
+      "products": "MgO + CO2↑",
+      "equation": "MgCO3 →(t°) MgO + CO2↑",
+      "notes": "Карбонат ЩЗ-металла разлагается"
+    },
+    {
+      "example_id": "EX095",
+      "rule_id": "R21",
+      "reactants": "FeCO3",
+      "products": "FeO + CO2↑",
+      "equation": "FeCO3 →(t°) FeO + CO2↑",
+      "notes": "Карбонат железа(II)"
+    },
+    {
+      "example_id": "EX096",
+      "rule_id": "R21",
+      "reactants": "ZnCO3",
+      "products": "ZnO + CO2↑",
+      "equation": "ZnCO3 →(t°) ZnO + CO2↑",
+      "notes": "Карбонат цинка"
+    },
+    {
+      "example_id": "EX097",
+      "rule_id": "R21",
+      "reactants": "2NaHCO3",
+      "products": "Na2CO3 + CO2↑ + H2O",
+      "equation": "2NaHCO3 →(t°) Na2CO3 + CO2↑ + H2O",
+      "notes": "Гидрокарбонат разлагается при нагревании"
+    },
+    {
+      "example_id": "EX098",
+      "rule_id": "R21",
+      "reactants": "Ca(HCO3)2",
+      "products": "CaCO3↓ + CO2↑ + H2O",
+      "equation": "Ca(HCO3)2 →(t°) CaCO3↓ + CO2↑ + H2O",
+      "notes": "Кипячение жёсткой воды — удаление временной жёсткости"
+    },
+    {
+      "example_id": "EX099",
+      "rule_id": "R21",
+      "reactants": "BaCO3",
+      "products": "BaO + CO2↑",
+      "equation": "BaCO3 →(t°) BaO + CO2↑",
+      "notes": "Карбонат бария разлагается (в отличие от Na2CO3, K2CO3)"
+    },
+    {
+      "example_id": "EX100",
+      "rule_id": "R22",
+      "reactants": "Cu(OH)2",
+      "products": "CuO + H2O",
+      "equation": "Cu(OH)2 →(t°) CuO + H2O",
+      "notes": "Чёрный CuO"
+    },
+    {
+      "example_id": "EX101",
+      "rule_id": "R22",
+      "reactants": "2Fe(OH)3",
+      "products": "Fe2O3 + 3H2O",
+      "equation": "2Fe(OH)3 →(t°) Fe2O3 + 3H2O",
+      "notes": "Бурый Fe(OH)3 → красно-бурый Fe2O3"
+    },
+    {
+      "example_id": "EX102",
+      "rule_id": "R22",
+      "reactants": "2Al(OH)3",
+      "products": "Al2O3 + 3H2O",
+      "equation": "2Al(OH)3 →(t°) Al2O3 + 3H2O",
+      "notes": "Амфотерный гидроксид тоже разлагается"
+    },
+    {
+      "example_id": "EX103",
+      "rule_id": "R22",
+      "reactants": "Mg(OH)2",
+      "products": "MgO + H2O",
+      "equation": "Mg(OH)2 →(t°) MgO + H2O",
+      "notes": "Нерастворимое основание → оксид"
+    },
+    {
+      "example_id": "EX104",
+      "rule_id": "R22",
+      "reactants": "Zn(OH)2",
+      "products": "ZnO + H2O",
+      "equation": "Zn(OH)2 →(t°) ZnO + H2O",
+      "notes": "Амфотерный гидроксид → оксид"
+    },
+    {
+      "example_id": "EX105",
+      "rule_id": "R22",
+      "reactants": "Fe(OH)2",
+      "products": "FeO + H2O",
+      "equation": "Fe(OH)2 →(t°) FeO + H2O",
+      "notes": "Fe(OH)2 → FeO (без доступа воздуха)"
+    },
+    {
+      "example_id": "EX106",
+      "rule_id": "R23",
+      "reactants": "Na2CO3 + H2O",
+      "products": "NaHCO3 + NaOH (ступенчато)",
+      "equation": "Na2CO3 + H2O ⇌ NaHCO3 + NaOH (1-я ступень)",
+      "notes": "Гидролиз по аниону: слабая кислота + сильное основание → pH > 7"
+    },
+    {
+      "example_id": "EX107",
+      "rule_id": "R23",
+      "reactants": "FeCl3 + H2O",
+      "products": "FeOHCl2 + HCl (ступенчато)",
+      "equation": "FeCl3 + H2O ⇌ FeOHCl2 + HCl (1-я ступень)",
+      "notes": "Гидролиз по катиону: сильная кислота + слабое основание → pH < 7"
+    },
+    {
+      "example_id": "EX108",
+      "rule_id": "R23",
+      "reactants": "Al2(SO4)3 + 3Na2CO3 + 3H2O",
+      "products": "2Al(OH)3↓ + 3CO2↑ + 3Na2SO4",
+      "equation": "Al2(SO4)3 + 3Na2CO3 + 3H2O → 2Al(OH)3↓ + 3CO2↑ + 3Na2SO4",
+      "notes": "Совместный (необратимый) гидролиз: Al³⁺ и CO3²⁻ не сосуществуют"
+    },
+    {
+      "example_id": "EX109",
+      "rule_id": "R23",
+      "reactants": "NH4Cl + H2O",
+      "products": "NH3·H2O + HCl (ступенчато)",
+      "equation": "NH4Cl + H2O ⇌ NH3·H2O + HCl (схема)",
+      "notes": "Гидролиз по катиону: pH < 7"
+    },
+    {
+      "example_id": "EX110",
+      "rule_id": "R23",
+      "reactants": "Al2S3 + 6H2O",
+      "products": "2Al(OH)3↓ + 3H2S↑",
+      "equation": "Al2S3 + 6H2O → 2Al(OH)3↓ + 3H2S↑",
+      "notes": "Полный необратимый гидролиз"
+    },
+    {
+      "example_id": "EX111",
+      "rule_id": "R23",
+      "reactants": "K2S + H2O",
+      "products": "KHS + KOH (ступенчато)",
+      "equation": "K2S + H2O ⇌ KHS + KOH (1-я ступень)",
+      "notes": "Гидролиз по аниону: pH > 7"
+    },
+    {
+      "example_id": "EX112",
+      "rule_id": "R24",
+      "reactants": "Cl2 + 2KBr",
+      "products": "2KCl + Br2",
+      "equation": "Cl2 + 2KBr → 2KCl + Br2",
+      "notes": "Cl2 активнее Br2 → вытесняет бром"
+    },
+    {
+      "example_id": "EX113",
+      "rule_id": "R24",
+      "reactants": "Cl2 + 2KI",
+      "products": "2KCl + I2",
+      "equation": "Cl2 + 2KI → 2KCl + I2",
+      "notes": "Cl2 вытесняет I2 (раствор буреет)"
+    },
+    {
+      "example_id": "EX114",
+      "rule_id": "R24",
+      "reactants": "Br2 + 2KI",
+      "products": "2KBr + I2",
+      "equation": "Br2 + 2KI → 2KBr + I2",
+      "notes": "Br2 активнее I2"
+    },
+    {
+      "example_id": "EX115",
+      "rule_id": "R24",
+      "reactants": "F2 + 2NaCl",
+      "products": "2NaF + Cl2↑",
+      "equation": "F2 + 2NaCl → 2NaF + Cl2↑",
+      "notes": "F2 — самый активный галоген"
+    },
+    {
+      "example_id": "EX116",
+      "rule_id": "R25",
+      "reactants": "S + O2",
+      "products": "SO2",
+      "equation": "S + O2 → SO2",
+      "notes": "Горение серы → SO2 (сернистый газ)"
+    },
+    {
+      "example_id": "EX117",
+      "rule_id": "R25",
+      "reactants": "C + O2",
+      "products": "CO2",
+      "equation": "C + O2 → CO2",
+      "notes": "Полное сгорание углерода"
+    },
+    {
+      "example_id": "EX118",
+      "rule_id": "R25",
+      "reactants": "2C + O2(недост.)",
+      "products": "2CO",
+      "equation": "2C + O2(недост.) → 2CO",
+      "notes": "Неполное сгорание → угарный газ"
+    },
+    {
+      "example_id": "EX119",
+      "rule_id": "R25",
+      "reactants": "4P + 5O2",
+      "products": "2P2O5",
+      "equation": "4P + 5O2 → 2P2O5",
+      "notes": "Горение фосфора → белый дым P2O5"
+    },
+    {
+      "example_id": "EX120",
+      "rule_id": "R25",
+      "reactants": "2H2 + O2",
+      "products": "2H2O",
+      "equation": "2H2 + O2 → 2H2O",
+      "notes": "Горение водорода"
+    },
+    {
+      "example_id": "EX121",
+      "rule_id": "R25",
+      "reactants": "N2 + O2",
+      "products": "2NO",
+      "equation": "N2 + O2 ⇌ 2NO (t° > 3000°C)",
+      "notes": "Только при очень высокой температуре или электрическом разряде"
+    },
+    {
+      "example_id": "EX122",
+      "rule_id": "R25",
+      "reactants": "Si + O2",
+      "products": "SiO2",
+      "equation": "Si + O2 → SiO2",
+      "notes": "Горение кремния"
+    },
+    {
+      "example_id": "EX123",
+      "rule_id": "R26",
+      "reactants": "NaHCO3 + NaOH",
+      "products": "Na2CO3 + H2O",
+      "equation": "NaHCO3 + NaOH → Na2CO3 + H2O",
+      "notes": "Кислая соль + щёлочь → средняя соль"
+    },
+    {
+      "example_id": "EX124",
+      "rule_id": "R26",
+      "reactants": "Ca(HCO3)2 + Ca(OH)2",
+      "products": "2CaCO3↓ + 2H2O",
+      "equation": "Ca(HCO3)2 + Ca(OH)2 → 2CaCO3↓ + 2H2O",
+      "notes": "Устранение временной жёсткости воды"
+    },
+    {
+      "example_id": "EX125",
+      "rule_id": "R26",
+      "reactants": "NaHSO4 + NaOH",
+      "products": "Na2SO4 + H2O",
+      "equation": "NaHSO4 + NaOH → Na2SO4 + H2O",
+      "notes": "Кислая соль + щёлочь"
+    },
+    {
+      "example_id": "EX126",
+      "rule_id": "R26",
+      "reactants": "KHSO3 + KOH",
+      "products": "K2SO3 + H2O",
+      "equation": "KHSO3 + KOH → K2SO3 + H2O",
+      "notes": "Кислая соль + щёлочь → средняя соль"
+    },
+    {
+      "example_id": "EX127",
+      "rule_id": "R26",
+      "reactants": "NaH2PO4 + 2NaOH",
+      "products": "Na3PO4 + 2H2O",
+      "equation": "NaH2PO4 + 2NaOH → Na3PO4 + 2H2O",
+      "notes": "Дигидрофосфат + избыток щёлочи → фосфат"
+    },
+    {
+      "example_id": "EX128",
+      "rule_id": "R27",
+      "reactants": "Na2CO3 + CO2 + H2O",
+      "products": "2NaHCO3",
+      "equation": "Na2CO3 + CO2 + H2O → 2NaHCO3",
+      "notes": "Избыток CO2 → кислая соль"
+    },
+    {
+      "example_id": "EX129",
+      "rule_id": "R27",
+      "reactants": "Na2SO4 + H2SO4",
+      "products": "2NaHSO4",
+      "equation": "Na2SO4 + H2SO4 → 2NaHSO4",
+      "notes": "Средняя соль + избыток кислоты → кислая соль"
+    },
+    {
+      "example_id": "EX130",
+      "rule_id": "R27",
+      "reactants": "Na3PO4 + 2H3PO4",
+      "products": "3NaH2PO4",
+      "equation": "Na3PO4 + 2H3PO4 → 3NaH2PO4",
+      "notes": "Избыток фосфорной кислоты → дигидрофосфат"
+    },
+    {
+      "example_id": "EX131",
+      "rule_id": "R27",
+      "reactants": "Na2SO3 + SO2 + H2O",
+      "products": "2NaHSO3",
+      "equation": "Na2SO3 + SO2 + H2O → 2NaHSO3",
+      "notes": "Избыток SO2 → гидросульфит"
+    },
+    {
+      "example_id": "EX132",
+      "rule_id": "R28",
+      "reactants": "2KMnO4 + 5Na2SO3 + 3H2SO4",
+      "products": "2MnSO4 + 5Na2SO4 + K2SO4 + 3H2O",
+      "equation": "2KMnO4 + 5Na2SO3 + 3H2SO4 → 2MnSO4 + 5Na2SO4 + K2SO4 + 3H2O",
+      "notes": "Кислая среда: Mn⁷⁺ → Mn²⁺ (обесцвечивание)"
+    },
+    {
+      "example_id": "EX133",
+      "rule_id": "R28",
+      "reactants": "2KMnO4 + 3Na2SO3 + H2O",
+      "products": "2MnO2↓ + 3Na2SO4 + 2KOH",
+      "equation": "2KMnO4 + 3Na2SO3 + H2O → 2MnO2↓ + 3Na2SO4 + 2KOH",
+      "notes": "Нейтральная среда: Mn⁷⁺ → Mn⁴⁺ (MnO2 — бурый осадок)"
+    },
+    {
+      "example_id": "EX134",
+      "rule_id": "R28",
+      "reactants": "2KMnO4 + Na2SO3 + 2KOH",
+      "products": "2K2MnO4 + Na2SO4 + H2O",
+      "equation": "2KMnO4 + Na2SO3 + 2KOH → 2K2MnO4 + Na2SO4 + H2O",
+      "notes": "Щелочная среда: Mn⁷⁺ → Mn⁶⁺ (манганат — зелёный)"
+    },
+    {
+      "example_id": "EX135",
+      "rule_id": "R28",
+      "reactants": "2KMnO4 + 5H2O2 + 3H2SO4",
+      "products": "2MnSO4 + 5O2↑ + K2SO4 + 8H2O",
+      "equation": "2KMnO4 + 5H2O2 + 3H2SO4 → 2MnSO4 + 5O2↑ + K2SO4 + 8H2O",
+      "notes": "H2O2 — восстановитель в кислой среде с KMnO4"
+    },
+    {
+      "example_id": "EX136",
+      "rule_id": "R29",
+      "reactants": "K2Cr2O7 + 3H2S + 4H2SO4",
+      "products": "Cr2(SO4)3 + 3S↓ + K2SO4 + 7H2O",
+      "equation": "K2Cr2O7 + 3H2S + 4H2SO4 → Cr2(SO4)3 + 3S↓ + K2SO4 + 7H2O",
+      "notes": "Дихромат в кислой среде: Cr⁶⁺ → Cr³⁺ (оранж. → зелён.)"
+    },
+    {
+      "example_id": "EX137",
+      "rule_id": "R29",
+      "reactants": "K2Cr2O7 + 6FeSO4 + 7H2SO4",
+      "products": "Cr2(SO4)3 + 3Fe2(SO4)3 + K2SO4 + 7H2O",
+      "equation": "K2Cr2O7 + 6FeSO4 + 7H2SO4 → Cr2(SO4)3 + 3Fe2(SO4)3 + K2SO4 + 7H2O",
+      "notes": "Fe²⁺ → Fe³⁺, Cr⁶⁺ → Cr³⁺"
+    },
+    {
+      "example_id": "EX138",
+      "rule_id": "R29",
+      "reactants": "K2Cr2O7 + 3Na2SO3 + 4H2SO4",
+      "products": "Cr2(SO4)3 + 3Na2SO4 + K2SO4 + 4H2O",
+      "equation": "K2Cr2O7 + 3Na2SO3 + 4H2SO4 → Cr2(SO4)3 + 3Na2SO4 + K2SO4 + 4H2O",
+      "notes": "Сульфит окисляется до сульфата"
+    },
+    {
+      "example_id": "EX139",
+      "rule_id": "R29",
+      "reactants": "2CrO4²⁻ + 2H⁺",
+      "products": "Cr2O7²⁻ + H2O",
+      "equation": "2K2CrO4 + H2SO4 → K2Cr2O7 + K2SO4 + H2O",
+      "notes": "Хромат ↔ дихромат: в кислоте — Cr2O7²⁻ (оранжевый)"
+    },
+    {
+      "example_id": "EX140",
+      "rule_id": "R30",
+      "reactants": "2NaCl (расплав, электролиз)",
+      "products": "2Na + Cl2↑",
+      "equation": "2NaCl →(электр. расплава) 2Na + Cl2↑",
+      "notes": "Электролиз расплава — получение натрия"
+    },
+    {
+      "example_id": "EX141",
+      "rule_id": "R30",
+      "reactants": "2Al2O3 (расплав в криолите)",
+      "products": "4Al + 3O2↑",
+      "equation": "2Al2O3 →(электр. расплава, криолит) 4Al + 3O2↑",
+      "notes": "Промышленное получение алюминия (процесс Холла—Эру)"
+    },
+    {
+      "example_id": "EX142",
+      "rule_id": "R30",
+      "reactants": "MgCl2 (расплав)",
+      "products": "Mg + Cl2↑",
+      "equation": "MgCl2 →(электр. расплава) Mg + Cl2↑",
+      "notes": "Получение магния электролизом расплава"
+    },
+    {
+      "example_id": "EX143",
+      "rule_id": "R30",
+      "reactants": "4NaOH (расплав)",
+      "products": "4Na + O2↑ + 2H2O",
+      "equation": "4NaOH →(электр. расплава) 4Na + O2↑ + 2H2O",
+      "notes": "Электролиз расплава щёлочи"
+    },
+    {
+      "example_id": "EX144",
+      "rule_id": "R31",
+      "reactants": "2CuSO4 + 2H2O (электролиз р-ра)",
+      "products": "2Cu + O2↑ + 2H2SO4",
+      "equation": "2CuSO4 + 2H2O →(электр.) 2Cu + O2↑ + 2H2SO4",
+      "notes": "Cu после Al → выделяется на катоде; SO4²⁻ — O2 на аноде"
+    },
+    {
+      "example_id": "EX145",
+      "rule_id": "R31",
+      "reactants": "2NaCl + 2H2O (электролиз р-ра)",
+      "products": "2NaOH + H2↑ + Cl2↑",
+      "equation": "2NaCl + 2H2O →(электр.) 2NaOH + H2↑ + Cl2↑",
+      "notes": "Na активнее Al → H2 на катоде; Cl⁻ → Cl2 на аноде"
+    },
+    {
+      "example_id": "EX146",
+      "rule_id": "R31",
+      "reactants": "4AgNO3 + 2H2O (электролиз р-ра)",
+      "products": "4Ag + O2↑ + 4HNO3",
+      "equation": "4AgNO3 + 2H2O →(электр.) 4Ag + O2↑ + 4HNO3",
+      "notes": "Ag — малоактивный → выделяется на катоде"
+    },
+    {
+      "example_id": "EX147",
+      "rule_id": "R31",
+      "reactants": "2H2O (электролиз)",
+      "products": "2H2↑ + O2↑",
+      "equation": "2H2O →(электр.) 2H2↑ + O2↑",
+      "notes": "Электролиз воды (с добавлением электролита)"
+    },
+    {
+      "example_id": "EX148",
+      "rule_id": "R31",
+      "reactants": "2KBr + 2H2O (электролиз р-ра)",
+      "products": "2KOH + H2↑ + Br2",
+      "equation": "2KBr + 2H2O →(электр.) 2KOH + H2↑ + Br2",
+      "notes": "K → H2; Br⁻ → Br2"
+    },
+    {
+      "example_id": "EX149",
+      "rule_id": "R32",
+      "reactants": "C12H22O11 + H2SO4(конц)",
+      "products": "12C + 11H2O + ...",
+      "equation": "C12H22O11 →(H2SO4 конц) 12C + 11H2O",
+      "notes": "Обугливание сахара — водоотнимающее свойство"
+    },
+    {
+      "example_id": "EX150",
+      "rule_id": "R32",
+      "reactants": "H2SO4(конц) + 2HBr",
+      "products": "SO2↑ + Br2 + 2H2O",
+      "equation": "H2SO4(конц) + 2HBr → SO2↑ + Br2 + 2H2O",
+      "notes": "Конц. H2SO4 окисляет HBr"
+    },
+    {
+      "example_id": "EX151",
+      "rule_id": "R32",
+      "reactants": "H2SO4(конц) + 8HI",
+      "products": "H2S↑ + 4I2 + 4H2O",
+      "equation": "H2SO4(конц) + 8HI → H2S↑ + 4I2 + 4H2O",
+      "notes": "Конц. H2SO4 окисляет HI (более сильный восстановитель → H2S)"
+    },
+    {
+      "example_id": "EX152",
+      "rule_id": "R33",
+      "reactants": "Au + HNO3 + 4HCl",
+      "products": "H[AuCl4] + NO↑ + 2H2O",
+      "equation": "Au + HNO3 + 4HCl → H[AuCl4] + NO↑ + 2H2O",
+      "notes": "Царская водка растворяет золото"
+    },
+    {
+      "example_id": "EX153",
+      "rule_id": "R33",
+      "reactants": "3Pt + 4HNO3 + 18HCl",
+      "products": "3H2[PtCl6] + 4NO↑ + 8H2O",
+      "equation": "3Pt + 4HNO3 + 18HCl → 3H2[PtCl6] + 4NO↑ + 8H2O",
+      "notes": "Царская водка растворяет платину"
+    },
+    {
+      "example_id": "EX154",
+      "rule_id": "R34",
+      "reactants": "Na2SiO3 + 2HCl",
+      "products": "2NaCl + H2SiO3↓",
+      "equation": "Na2SiO3 + 2HCl → 2NaCl + H2SiO3↓",
+      "notes": "Получение нерастворимой кремниевой кислоты"
+    },
+    {
+      "example_id": "EX155",
+      "rule_id": "R34",
+      "reactants": "K2SiO3 + H2SO4",
+      "products": "K2SO4 + H2SiO3↓",
+      "equation": "K2SiO3 + H2SO4 → K2SO4 + H2SiO3↓",
+      "notes": "Силикат + кислота → студенистый осадок"
+    },
+    {
+      "example_id": "EX156",
+      "rule_id": "R35",
+      "reactants": "H2CO3",
+      "products": "CO2↑ + H2O",
+      "equation": "H2CO3 → CO2↑ + H2O",
+      "notes": "Нестойкая угольная кислота — разлагается сразу при образовании"
+    },
+    {
+      "example_id": "EX157",
+      "rule_id": "R35",
+      "reactants": "H2SO3",
+      "products": "SO2↑ + H2O",
+      "equation": "H2SO3 → SO2↑ + H2O",
+      "notes": "Нестойкая сернистая кислота"
+    },
+    {
+      "example_id": "EX158",
+      "rule_id": "R35",
+      "reactants": "H2SiO3",
+      "products": "SiO2 + H2O",
+      "equation": "H2SiO3 →(t°) SiO2 + H2O",
+      "notes": "Разложение кремниевой кислоты при нагревании"
+    },
+    {
+      "example_id": "EX159",
+      "rule_id": "R35",
+      "reactants": "AgOH",
+      "products": "Ag2O + H2O",
+      "equation": "2AgOH → Ag2O + H2O",
+      "notes": "AgOH нестоек — моментально разлагается на оксид серебра"
+    },
+    {
+      "example_id": "EX160",
+      "rule_id": "R35",
+      "reactants": "HNO2 (нагрев)",
+      "products": "NO + NO2 + H2O",
+      "equation": "3HNO2 →(t°) HNO3 + 2NO↑ + H2O (диспропорционирование)",
+      "notes": "Нестойкая азотистая кислота при нагревании диспропорционирует"
+    },
+    {
+      "example_id": "EX161",
+      "rule_id": "R99",
+      "reactants": "Fe + Cl2",
+      "products": "FeCl3",
+      "equation": "2Fe + 3Cl2 → 2FeCl3",
+      "notes": "Синтез соли при взаимодействии металла с галогеном"
+    },
+    {
+      "example_id": "EX162",
+      "rule_id": "R99",
+      "reactants": "Al + O2",
+      "products": "Al2O3",
+      "equation": "4Al + 3O2 → 2Al2O3",
+      "notes": "Синтез оксида металла"
+    },
+    {
+      "example_id": "EX163",
+      "rule_id": "R99",
+      "reactants": "CH4 + O2",
+      "products": "CO2 + H2O",
+      "equation": "CH4 + 2O2 → CO2 + 2H2O",
+      "notes": "Полное окисление (горение)"
+    }
+  ],
+  "substance_classes": [
+    {
+      "formula": "Na2O",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "K2O",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "CaO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "BaO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "MgO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "FeO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "Fe2O3",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "CuO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "Cu2O",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "Li2O",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "MnO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "NiO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "CoO",
+      "class": "oxide",
+      "subclass": "basic"
+    },
+    {
+      "formula": "Al2O3",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "ZnO",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "BeO",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "Cr2O3",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "PbO",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "SnO",
+      "class": "oxide",
+      "subclass": "amphoteric"
+    },
+    {
+      "formula": "Fe2O3",
+      "class": "oxide",
+      "subclass": "amphoteric_weak",
+      "notes": "Слабоамфотерный — реагирует со щёлочью только при сплавлении"
+    },
+    {
+      "formula": "MnO2",
+      "class": "oxide",
+      "subclass": "amphoteric_weak"
+    },
+    {
+      "formula": "CO2",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "SO2",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "SO3",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "P2O5",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "N2O5",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "N2O3",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "SiO2",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "CrO3",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "Mn2O7",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "Cl2O7",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "Cl2O",
+      "class": "oxide",
+      "subclass": "acidic"
+    },
+    {
+      "formula": "CO",
+      "class": "oxide",
+      "subclass": "non_salt_forming"
+    },
+    {
+      "formula": "NO",
+      "class": "oxide",
+      "subclass": "non_salt_forming"
+    },
+    {
+      "formula": "N2O",
+      "class": "oxide",
+      "subclass": "non_salt_forming"
+    },
+    {
+      "formula": "SiO",
+      "class": "oxide",
+      "subclass": "non_salt_forming"
+    },
+    {
+      "formula": "HCl",
+      "class": "acid",
+      "subclass": "strong, monobasic, oxygen-free"
+    },
+    {
+      "formula": "HBr",
+      "class": "acid",
+      "subclass": "strong, monobasic, oxygen-free"
+    },
+    {
+      "formula": "HI",
+      "class": "acid",
+      "subclass": "strong, monobasic, oxygen-free"
+    },
+    {
+      "formula": "HF",
+      "class": "acid",
+      "subclass": "weak, monobasic, oxygen-free"
+    },
+    {
+      "formula": "H2S",
+      "class": "acid",
+      "subclass": "weak, dibasic, oxygen-free"
+    },
+    {
+      "formula": "HNO3",
+      "class": "acid",
+      "subclass": "strong, monobasic, oxygen-containing"
+    },
+    {
+      "formula": "HNO2",
+      "class": "acid",
+      "subclass": "weak, monobasic, oxygen-containing"
+    },
+    {
+      "formula": "H2SO4",
+      "class": "acid",
+      "subclass": "strong, dibasic, oxygen-containing"
+    },
+    {
+      "formula": "H2SO3",
+      "class": "acid",
+      "subclass": "weak, dibasic, oxygen-containing"
+    },
+    {
+      "formula": "H2CO3",
+      "class": "acid",
+      "subclass": "weak, dibasic, oxygen-containing"
+    },
+    {
+      "formula": "H3PO4",
+      "class": "acid",
+      "subclass": "weak, tribasic, oxygen-containing"
+    },
+    {
+      "formula": "H2SiO3",
+      "class": "acid",
+      "subclass": "weak, dibasic, oxygen-containing, insoluble"
+    },
+    {
+      "formula": "HClO4",
+      "class": "acid",
+      "subclass": "strong, monobasic, oxygen-containing"
+    },
+    {
+      "formula": "HClO",
+      "class": "acid",
+      "subclass": "weak, monobasic, oxygen-containing"
+    },
+    {
+      "formula": "CH3COOH",
+      "class": "acid",
+      "subclass": "weak, monobasic, oxygen-containing, organic"
+    },
+    {
+      "formula": "NaOH",
+      "class": "base",
+      "subclass": "strong (alkali)"
+    },
+    {
+      "formula": "KOH",
+      "class": "base",
+      "subclass": "strong (alkali)"
+    },
+    {
+      "formula": "LiOH",
+      "class": "base",
+      "subclass": "strong (alkali)"
+    },
+    {
+      "formula": "Ca(OH)2",
+      "class": "base",
+      "subclass": "strong (alkali), slightly soluble"
+    },
+    {
+      "formula": "Ba(OH)2",
+      "class": "base",
+      "subclass": "strong (alkali)"
+    },
+    {
+      "formula": "Sr(OH)2",
+      "class": "base",
+      "subclass": "strong (alkali)"
+    },
+    {
+      "formula": "Mg(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Cu(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Fe(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Fe(OH)3",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Mn(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Ni(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Co(OH)2",
+      "class": "base",
+      "subclass": "weak, insoluble"
+    },
+    {
+      "formula": "Al(OH)3",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "Zn(OH)2",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "Be(OH)2",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "Cr(OH)3",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "Sn(OH)2",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "Pb(OH)2",
+      "class": "base",
+      "subclass": "amphoteric, insoluble"
+    },
+    {
+      "formula": "NH3·H2O",
+      "class": "base",
+      "subclass": "weak, soluble"
+    }
+  ],
+  "acid_oxide_pairs": [
+    {
+      "oxide": "CO2",
+      "acid": "H2CO3"
+    },
+    {
+      "oxide": "SO2",
+      "acid": "H2SO3"
+    },
+    {
+      "oxide": "SO3",
+      "acid": "H2SO4"
+    },
+    {
+      "oxide": "P2O5",
+      "acid": "H3PO4"
+    },
+    {
+      "oxide": "N2O5",
+      "acid": "HNO3"
+    },
+    {
+      "oxide": "N2O3",
+      "acid": "HNO2"
+    },
+    {
+      "oxide": "SiO2",
+      "acid": "H2SiO3",
+      "notes": "SiO2 не реагирует с водой напрямую"
+    },
+    {
+      "oxide": "CrO3",
+      "acid": "H2CrO4 / H2Cr2O7"
+    },
+    {
+      "oxide": "Mn2O7",
+      "acid": "HMnO4"
+    },
+    {
+      "oxide": "Cl2O7",
+      "acid": "HClO4"
+    },
+    {
+      "oxide": "Cl2O",
+      "acid": "HClO"
+    }
+  ],
+  "metal_oxide_pairs": [
+    {
+      "metal": "Na",
+      "oxide": "Na2O",
+      "hydroxide": "NaOH"
+    },
+    {
+      "metal": "K",
+      "oxide": "K2O",
+      "hydroxide": "KOH"
+    },
+    {
+      "metal": "Li",
+      "oxide": "Li2O",
+      "hydroxide": "LiOH"
+    },
+    {
+      "metal": "Ca",
+      "oxide": "CaO",
+      "hydroxide": "Ca(OH)2"
+    },
+    {
+      "metal": "Ba",
+      "oxide": "BaO",
+      "hydroxide": "Ba(OH)2"
+    },
+    {
+      "metal": "Mg",
+      "oxide": "MgO",
+      "hydroxide": "Mg(OH)2"
+    },
+    {
+      "metal": "Al",
+      "oxide": "Al2O3",
+      "hydroxide": "Al(OH)3"
+    },
+    {
+      "metal": "Zn",
+      "oxide": "ZnO",
+      "hydroxide": "Zn(OH)2"
+    },
+    {
+      "metal": "Fe(II)",
+      "oxide": "FeO",
+      "hydroxide": "Fe(OH)2"
+    },
+    {
+      "metal": "Fe(III)",
+      "oxide": "Fe2O3",
+      "hydroxide": "Fe(OH)3"
+    },
+    {
+      "metal": "Cu(II)",
+      "oxide": "CuO",
+      "hydroxide": "Cu(OH)2"
+    },
+    {
+      "metal": "Cr(III)",
+      "oxide": "Cr2O3",
+      "hydroxide": "Cr(OH)3"
+    },
+    {
+      "metal": "Mn(II)",
+      "oxide": "MnO",
+      "hydroxide": "Mn(OH)2"
+    },
+    {
+      "metal": "Pb(II)",
+      "oxide": "PbO",
+      "hydroxide": "Pb(OH)2"
+    },
+    {
+      "metal": "Ag",
+      "oxide": "Ag2O",
+      "hydroxide": null,
+      "notes": "AgOH нестоек, сразу разлагается на Ag2O + H2O"
+    }
+  ],
+  "genetic_chains": {
+    "description": "Типовые генетические цепочки превращений для ЕГЭ",
+    "metal_chain": "Металл → Основный оксид → Основание (щёлочь) → Соль",
+    "metal_chain_example": "Ca → CaO → Ca(OH)2 → CaCl2",
+    "nonmetal_chain": "Неметалл → Кислотный оксид → Кислота → Соль",
+    "nonmetal_chain_example": "S → SO2 → SO3 → H2SO4 → Na2SO4",
+    "amphoteric_chain": "Амфотерный металл → Амфотерный оксид → Амфотерный гидроксид → Соль (с кислотой ИЛИ со щёлочью)",
+    "amphoteric_chain_example": "Al → Al2O3 → Al(OH)3 → AlCl3 или Na[Al(OH)4]",
+    "salt_transformations": [
+      "Средняя соль + избыток кислоты → Кислая соль",
+      "Кислая соль + щёлочь → Средняя соль",
+      "Средняя соль + щёлочь → Основная соль (для 2+ и 3+ металлов)",
+      "Основная соль + кислота → Средняя соль"
+    ]
+  },
+  "qualitative_reactions_summary": [
+    {
+      "target": "CO3²⁻",
+      "reagent": "любая кислота",
+      "sign": "CO2↑ (помутнение Ca(OH)2)"
+    },
+    {
+      "target": "SO4²⁻",
+      "reagent": "BaCl2 или Ba(NO3)2",
+      "sign": "BaSO4↓ белый, не раств. в HNO3"
+    },
+    {
+      "target": "SO3²⁻",
+      "reagent": "BaCl2, затем HCl",
+      "sign": "BaSO3↓ белый → растворяется в HCl с выделением SO2↑"
+    },
+    {
+      "target": "Cl⁻",
+      "reagent": "AgNO3",
+      "sign": "AgCl↓ белый творожистый, не раств. в HNO3"
+    },
+    {
+      "target": "Br⁻",
+      "reagent": "AgNO3",
+      "sign": "AgBr↓ бледно-жёлтый"
+    },
+    {
+      "target": "I⁻",
+      "reagent": "AgNO3 или крахмал+окислитель",
+      "sign": "AgI↓ жёлтый; синее окрашивание крахмала"
+    },
+    {
+      "target": "PO4³⁻",
+      "reagent": "AgNO3",
+      "sign": "Ag3PO4↓ жёлтый"
+    },
+    {
+      "target": "S²⁻",
+      "reagent": "Pb(NO3)2 или Cu(NO3)2",
+      "sign": "PbS↓ чёрный; CuS↓ чёрный; запах H2S"
+    },
+    {
+      "target": "NH4⁺",
+      "reagent": "NaOH (нагрев)",
+      "sign": "NH3↑ (запах, посинение влажной лакмусовой бумажки)"
+    },
+    {
+      "target": "Fe²⁺",
+      "reagent": "NaOH или K3[Fe(CN)6]",
+      "sign": "Fe(OH)2↓ зелёный → бурый; турнбулева синь"
+    },
+    {
+      "target": "Fe³⁺",
+      "reagent": "NaOH или KSCN или K4[Fe(CN)6]",
+      "sign": "Fe(OH)3↓ бурый; кроваво-красный с KSCN; берлинская лазурь"
+    },
+    {
+      "target": "Cu²⁺",
+      "reagent": "NaOH",
+      "sign": "Cu(OH)2↓ голубой"
+    },
+    {
+      "target": "Al³⁺",
+      "reagent": "NaOH (избыток)",
+      "sign": "Al(OH)3↓ белый студенистый → растворяется в избытке NaOH"
+    },
+    {
+      "target": "Ba²⁺",
+      "reagent": "H2SO4 или Na2SO4",
+      "sign": "BaSO4↓ белый"
+    },
+    {
+      "target": "Ca²⁺",
+      "reagent": "Na2CO3 или (NH4)2C2O4",
+      "sign": "CaCO3↓ белый; CaC2O4↓ белый"
+    },
+    {
+      "target": "Ag⁺",
+      "reagent": "HCl или NaCl",
+      "sign": "AgCl↓ белый творожистый"
+    },
+    {
+      "target": "Pb²⁺",
+      "reagent": "KI",
+      "sign": "PbI2↓ ярко-жёлтый"
+    },
+    {
+      "target": "H⁺ (кислая среда)",
+      "reagent": "индикатор",
+      "sign": "лакмус → красный; метилоранж → розовый"
+    },
+    {
+      "target": "OH⁻ (щелочная среда)",
+      "reagent": "индикатор",
+      "sign": "лакмус → синий; фенолфталеин → малиновый"
+    },
+    {
+      "target": "Na⁺",
+      "reagent": "пламя",
+      "sign": "жёлтое окрашивание"
+    },
+    {
+      "target": "K⁺",
+      "reagent": "пламя",
+      "sign": "фиолетовое окрашивание"
+    },
+    {
+      "target": "Ca²⁺",
+      "reagent": "пламя",
+      "sign": "кирпично-красное окрашивание"
+    },
+    {
+      "target": "Ba²⁺",
+      "reagent": "пламя",
+      "sign": "жёлто-зелёное окрашивание"
+    },
+    {
+      "target": "Li⁺",
+      "reagent": "пламя",
+      "sign": "карминово-красное окрашивание"
+    },
+    {
+      "target": "Cu²⁺",
+      "reagent": "пламя",
+      "sign": "зелёное окрашивание"
+    },
+    {
+      "target": "Sr²⁺",
+      "reagent": "пламя",
+      "sign": "карминово-красное окрашивание"
+    },
+    {
+      "target": "NO3⁻",
+      "reagent": "Cu + H2SO4(конц) при нагревании",
+      "sign": "бурый газ NO2↑"
+    },
+    {
+      "target": "SiO3²⁻",
+      "reagent": "любая сильная кислота",
+      "sign": "H2SiO3↓ белый студенистый гель"
+    }
+  ],
+  "hydrolysis_reference": {
+    "no_hydrolysis_examples": [
+      {
+        "salt": "NaCl",
+        "acid": "HCl (strong)",
+        "base": "NaOH (strong)",
+        "pH": "≈7"
+      },
+      {
+        "salt": "KNO3",
+        "acid": "HNO3 (strong)",
+        "base": "KOH (strong)",
+        "pH": "≈7"
+      },
+      {
+        "salt": "BaCl2",
+        "acid": "HCl (strong)",
+        "base": "Ba(OH)2 (strong)",
+        "pH": "≈7"
+      },
+      {
+        "salt": "Na2SO4",
+        "acid": "H2SO4 (strong)",
+        "base": "NaOH (strong)",
+        "pH": "≈7"
+      },
+      {
+        "salt": "CaCl2",
+        "acid": "HCl (strong)",
+        "base": "Ca(OH)2 (strong)",
+        "pH": "≈7"
+      }
+    ],
+    "by_cation_examples": [
+      {
+        "salt": "NH4Cl",
+        "acid": "HCl (strong)",
+        "base": "NH3·H2O (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "CuSO4",
+        "acid": "H2SO4 (strong)",
+        "base": "Cu(OH)2 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "FeCl3",
+        "acid": "HCl (strong)",
+        "base": "Fe(OH)3 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "AlCl3",
+        "acid": "HCl (strong)",
+        "base": "Al(OH)3 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "ZnSO4",
+        "acid": "H2SO4 (strong)",
+        "base": "Zn(OH)2 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "Fe2(SO4)3",
+        "acid": "H2SO4 (strong)",
+        "base": "Fe(OH)3 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      },
+      {
+        "salt": "Cr(NO3)3",
+        "acid": "HNO3 (strong)",
+        "base": "Cr(OH)3 (weak)",
+        "pH": "<7",
+        "environment": "кислая"
+      }
+    ],
+    "by_anion_examples": [
+      {
+        "salt": "Na2CO3",
+        "acid": "H2CO3 (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "K2S",
+        "acid": "H2S (weak)",
+        "base": "KOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "Na2SiO3",
+        "acid": "H2SiO3 (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "CH3COONa",
+        "acid": "CH3COOH (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "Na3PO4",
+        "acid": "H3PO4 (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "Na2SO3",
+        "acid": "H2SO3 (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "NaF",
+        "acid": "HF (weak)",
+        "base": "NaOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      },
+      {
+        "salt": "KNO2",
+        "acid": "HNO2 (weak)",
+        "base": "KOH (strong)",
+        "pH": ">7",
+        "environment": "щелочная"
+      }
+    ],
+    "mutual_hydrolysis_examples": [
+      {
+        "salt": "CH3COONH4",
+        "acid": "CH3COOH (weak)",
+        "base": "NH3·H2O (weak)",
+        "pH": "≈7",
+        "notes": "Ka ≈ Kb — почти нейтральная"
+      },
+      {
+        "salt": "(NH4)2CO3",
+        "acid": "H2CO3 (weak)",
+        "base": "NH3·H2O (weak)",
+        "pH": ">7",
+        "notes": "Kb(NH3) > Ka(H2CO3) — слабощелочная"
+      },
+      {
+        "salt": "NH4F",
+        "acid": "HF (weak)",
+        "base": "NH3·H2O (weak)",
+        "pH": "≈7",
+        "notes": "Ka(HF) ≈ Kb(NH3)"
+      }
+    ],
+    "irreversible_hydrolysis": [
+      {
+        "combination": "Al³⁺ + CO3²⁻",
+        "result": "Al(OH)3↓ + CO2↑",
+        "notes": "Al2(CO3)3 не существует в растворе"
+      },
+      {
+        "combination": "Al³⁺ + S²⁻",
+        "result": "Al(OH)3↓ + H2S↑",
+        "notes": "Al2S3 полностью гидролизуется"
+      },
+      {
+        "combination": "Fe³⁺ + CO3²⁻",
+        "result": "Fe(OH)3↓ + CO2↑",
+        "notes": "Fe2(CO3)3 не существует в растворе"
+      },
+      {
+        "combination": "Cr³⁺ + CO3²⁻",
+        "result": "Cr(OH)3↓ + CO2↑",
+        "notes": "Cr2(CO3)3 не существует в растворе"
+      },
+      {
+        "combination": "Al³⁺ + SiO3²⁻",
+        "result": "Al(OH)3↓ + H2SiO3↓",
+        "notes": "Двойной осадок"
+      },
+      {
+        "combination": "Fe³⁺ + S²⁻",
+        "result": "Fe(OH)3↓ + H2S↑ + S↓",
+        "notes": "Частично ОВР: Fe³⁺ окисляет S²⁻"
+      }
+    ]
+  },
+  "electrochemistry_reference": {
+    "cathode_rules": [
+      {
+        "condition": "Активные металлы (Li → Al)",
+        "product": "H2↑ (вода восстанавливается)",
+        "notes": "Металл не выделяется из раствора"
+      },
+      {
+        "condition": "Металлы средней активности (Mn → Pb)",
+        "product": "Металл + H2 (совместное)",
+        "notes": "Частичное выделение металла и водорода"
+      },
+      {
+        "condition": "Малоактивные металлы (Cu → Au)",
+        "product": "Металл",
+        "notes": "Металл выделяется полностью"
+      },
+      {
+        "condition": "H⁺ из кислоты",
+        "product": "H2↑",
+        "notes": "В кислых растворах"
+      }
+    ],
+    "anode_rules_inert": [
+      {
+        "condition": "Cl⁻, Br⁻, I⁻, S²⁻",
+        "product": "Cl2↑, Br2, I2, S",
+        "notes": "Бескислородные анионы окисляются"
+      },
+      {
+        "condition": "F⁻",
+        "product": "O2↑ (вода окисляется)",
+        "notes": "F⁻ не окисляется на аноде"
+      },
+      {
+        "condition": "SO4²⁻, NO3⁻, PO4³⁻, CO3²⁻",
+        "product": "O2↑ (вода окисляется)",
+        "notes": "Кислородсодержащие анионы не окисляются"
+      },
+      {
+        "condition": "OH⁻",
+        "product": "O2↑",
+        "notes": "4OH⁻ → O2 + 2H2O + 4e"
+      }
+    ]
+  }
+}
+;

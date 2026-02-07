@@ -377,7 +377,12 @@ body.dark-theme .pan-hint--bottom {
       max-height: 90vh !important;
       height: 90vh !important;
     }
-    
+
+    /* Модалка "Реакции" - размер как у таблицы растворимости */
+    #reactions-modal .modal-content {
+      max-height: 90vh !important;
+      height: 90vh !important;
+    }    
     /* Панель уравнителя - оптимальное расположение */
     .balancer-panel {
       width: 90% !important;

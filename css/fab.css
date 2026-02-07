@@ -15,6 +15,13 @@
     pointer-events: none;
 }
 
+@media (max-width: 1024px) {
+    body.reactions-open .fab-container {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
 /* --- Главная кнопка --- */
 .fab-main {
     width: 60px;

@@ -10,6 +10,35 @@ console.log('[SEARCH-FILTERS] searchInSolubilityTable доступен:', typeof
 // ЛОГИКА ПОИСКА
 // =========================================
 let currentSearchTerm = '';
+let defaultCategoriesHTML = '';
+
+function isSolubilityModalOpen() {
+    const modal = document.getElementById('solubility-modal');
+    if (!modal) return false;
+    return getComputedStyle(modal).display !== 'none';
+}
+
+function captureDefaultCategoriesHTML() {
+    const categoriesSection = document.getElementById('categories-section');
+    if (!categoriesSection) return;
+    if (!defaultCategoriesHTML) {
+        defaultCategoriesHTML = categoriesSection.innerHTML;
+    }
+}
+
+window.restoreElementFiltersSafe = function () {
+    const categoriesSection = document.getElementById('categories-section');
+    if (!categoriesSection) return;
+    captureDefaultCategoriesHTML();
+    if (!defaultCategoriesHTML) return;
+    categoriesSection.innerHTML = defaultCategoriesHTML;
+    document.querySelectorAll('#categories-section .filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+    });
+};
 
 function performSearch() {
     const input = document.getElementById('element-search');
@@ -20,8 +49,7 @@ function performSearch() {
     }
 
     // 0. Если открыта таблица растворимости - ищем ТОЛЬКО в ней
-    const solubilityModal = document.getElementById('solubility-modal');
-    const isSolubilityOpen = solubilityModal && getComputedStyle(solubilityModal).display !== 'none';
+    const isSolubilityOpen = isSolubilityModalOpen();
 
     if (isSolubilityOpen && typeof searchInSolubilityTable === 'function') {
         console.log('[SEARCH] Таблица растворимости открыта, ищем в ней:', query);
@@ -339,6 +367,7 @@ function clearSearch() {
     }
 
     function setupSearch() {
+        captureDefaultCategoriesHTML();
         const searchInput = document.getElementById('element-search');
         const clearBtn = document.querySelector('.search-clear');
 
@@ -373,7 +402,7 @@ function toggleFilters() {
     const fab = document.getElementById('fab-container');
 
     // Проверяем, открыта ли таблица растворимости
-    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const isSolubilityOpen = isSolubilityModalOpen();
 
     if (isSolubilityOpen) {
         // Если открыта таблица растворимости, устанавливаем фильтры для растворимости
@@ -416,7 +445,7 @@ function resetFilters() {
     if (searchResults) searchResults.innerHTML = '';
 
     // Проверяем, открыта ли таблица растворимости
-    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const isSolubilityOpen = isSolubilityModalOpen();
 
     if (isSolubilityOpen) {
         // Если открыта таблица растворимости, сбрасываем фильтры для неё
@@ -459,7 +488,7 @@ document.addEventListener('click', (event) => {
     if (!filterType) return; // игнорируем кнопки растворимости/цветов
 
     // Если открыта таблица растворимости — не трогаем фильтры элементов
-    if (document.body.classList.contains('solubility-open')) return;
+    if (isSolubilityModalOpen()) return;
 
     if (btn.classList.contains('active')) {
         btn.classList.remove('active');

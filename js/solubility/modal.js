@@ -3,15 +3,16 @@
 // =========================================
 
 // Объявляем функции глобально для доступа из HTML
-window.toggleSolubility = async function () {
-    const modal = document.getElementById('solubility-modal');
-    // Проверяем, открыто ли окно
-    if (modal && (getComputedStyle(modal).display === 'flex' || getComputedStyle(modal).display === 'block')) {
-        closeSolubility();
-    } else {
-        await openSolubility();
-    }
-};
+if (!window.toggleSolubility) {
+    window.toggleSolubility = async function () {
+        const modal = document.getElementById('solubility-modal');
+        if (modal && (getComputedStyle(modal).display === 'flex' || getComputedStyle(modal).display === 'block')) {
+            closeSolubility();
+        } else {
+            await openSolubility();
+        }
+    };
+}
 
 window.openSolubility = async function () {
     // 1. Загрузка модуля растворимости, если он еще не загружен
@@ -113,6 +114,9 @@ window.closeSolubility = function () {
     const modal = document.getElementById('solubility-modal');
     if (!modal) return;
 
+    // Снимаем флаг сразу, чтобы фильтры элементов не оставались заблокированными
+    document.body.classList.remove('solubility-open');
+
     // Добавляем класс для анимации закрытия
     modal.classList.add('closing');
 
@@ -120,7 +124,6 @@ window.closeSolubility = function () {
     setTimeout(() => {
         modal.style.display = 'none';
         modal.classList.remove('closing');
-        document.body.classList.remove('solubility-open');
     }, 360);
 
     // Восстанавливаем интерфейс (сбрасываем стили скрытия)
@@ -151,45 +154,69 @@ window.closeSolubility = function () {
             resetTableDisplay();
         }
     }
+    if (typeof window.restoreElementFiltersSafe === 'function') {
+        window.restoreElementFiltersSafe();
+    }
 };
 
 // Функция для надежной привязки закрытия
 function bindCloseEvents() {
     const closeButtons = document.querySelectorAll('.close-solubility');
     closeButtons.forEach(btn => {
-        btn.onclick = function (e) {
+        if (btn.dataset.boundClose === '1') return;
+        btn.dataset.boundClose = '1';
+        btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             closeSolubility();
-        };
-        // Добавляем поддержку тач-событий для мобильных
-        btn.ontouchstart = function (e) {
+        });
+        btn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             closeSolubility();
-        };
+        });
     });
 
     const modal = document.getElementById('solubility-modal');
-    if (modal) {
-        modal.onclick = function (e) {
-            if (e.target === modal) {
-                closeSolubility();
-            }
+    if (modal && modal.dataset.boundBackdrop !== '1') {
+        modal.dataset.boundBackdrop = '1';
+        const onBackdrop = (e) => {
+            if (e.target.closest('.modal-content')) return;
+            closeSolubility();
         };
+        modal.addEventListener('click', onBackdrop);
+        modal.addEventListener('pointerdown', onBackdrop, true);
     }
 }
 
 // Запускаем привязку событий сразу при загрузке скрипта
 bindCloseEvents();
-
+// Глобальный клик по фону (надежнее, чем обработчик на модалке)
+if (!window.__solubilityBackdropListener) {
+    window.__solubilityBackdropListener = true;
+    document.addEventListener('pointerdown', (e) => {
+        const modal = document.getElementById('solubility-modal');
+        if (!modal) return;
+        const isOpen = getComputedStyle(modal).display !== 'none';
+        if (!isOpen) return;
+        // Не закрываем модалку при взаимодействии с FAB или панелью фильтров
+        if (e.target.closest('.fab-container') || e.target.closest('#filters-panel')) return;
+        if (e.target.closest('.modal-content')) return;
+        closeSolubility();
+    }, true);
+}
 function setupSolubilityPanHints() {
     const content = document.querySelector('.solubility-content');
     const wrapper = document.querySelector('.solubility-wrapper');
     if (!content || !wrapper) return;
 
-    let hints = content.querySelector('.pan-hints--solubility');
+    let hints = wrapper.querySelector('.pan-hints--solubility');
     if (!hints) {
+        const existingInContent = content.querySelector('.pan-hints--solubility');
+        if (existingInContent) {
+            hints = existingInContent;
+            wrapper.appendChild(hints);
+        } else {
         hints = document.createElement('div');
         hints.className = 'pan-hints pan-hints--solubility';
         hints.innerHTML = `
@@ -198,7 +225,8 @@ function setupSolubilityPanHints() {
             <div class="pan-hint pan-hint--top"></div>
             <div class="pan-hint pan-hint--bottom"></div>
         `;
-        content.appendChild(hints);
+        wrapper.appendChild(hints);
+        }
     }
 
     const left = hints.querySelector('.pan-hint--left');

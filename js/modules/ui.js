@@ -303,6 +303,17 @@ window.toggleSolubility = async function() {
             // Закрываем
             if (typeof closeSolubility === 'function') {
                 closeSolubility();
+                // Доп. страховка: если тело/фильтры не восстановились
+                document.body.classList.remove('solubility-open');
+                if (typeof restoreElementFilters === 'function') {
+                    restoreElementFilters();
+                }
+                if (typeof window.restoreElementFiltersSafe === 'function') {
+                    window.restoreElementFiltersSafe();
+                }
+                if (typeof resetTableDisplay === 'function') {
+                    resetTableDisplay();
+                }
             } else {
                 modal.classList.add('closing');
                 setTimeout(() => {
@@ -321,12 +332,84 @@ window.toggleSolubility = async function() {
     }
 };
 
+// 3. Реакции (большая модалка)
+window.toggleReactionsModal = function() {
+    const modal = document.getElementById('reactions-modal');
+    if (!modal) return;
+    bindReactionsBackdrop();
+
+    const isCalcOpen = document.body.classList.contains('calc-active');
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isCalcOpen || isBalancerOpen || isSolubilityOpen || isFiltersOpen) {
+        return;
+    }
+
+    const isCurrentlyVisible = getComputedStyle(modal).display !== 'none';
+    const isMobile = window.innerWidth <= 1024;
+
+    if (!isCurrentlyVisible) {
+        modal.style.display = 'flex';
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.dataset.reactionsScroll = String(scrollY);
+        document.body.classList.add('reactions-open');
+        document.documentElement.classList.add('reactions-open');
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
+
+        if (isMobile) {
+            const fab = document.getElementById('fab-container');
+            const themeBtn = document.getElementById('theme-toggle');
+            if (fab) fab.style.display = 'none';
+            if (themeBtn) themeBtn.style.display = 'none';
+        }
+    } else {
+        if (modal.classList.contains('closing')) return;
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+            document.body.classList.remove('reactions-open');
+            document.documentElement.classList.remove('reactions-open');
+            const savedScroll = parseInt(document.body.dataset.reactionsScroll || '0', 10);
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            delete document.body.dataset.reactionsScroll;
+            window.scrollTo(0, isNaN(savedScroll) ? 0 : savedScroll);
+
+            const fab = document.getElementById('fab-container');
+            const themeBtn = document.getElementById('theme-toggle');
+            if (fab) fab.style.display = '';
+            if (themeBtn) themeBtn.style.display = '';
+        }, 360);
+    }
+};
+
 function initUI() {
     // Пустая заглушка, если нужна будет доп. логика
 }
 
 window.initUI = initUI;
 
+function bindReactionsBackdrop() {
+    const modal = document.getElementById('reactions-modal');
+    if (!modal || modal.dataset.boundBackdrop === '1') return;
+    modal.dataset.boundBackdrop = '1';
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            window.toggleReactionsModal();
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    bindReactionsBackdrop();
+});
 // Блокировка вертикального скролла на мобильных
 function lockVerticalScroll() {
     if (window.innerWidth <= 1024) {

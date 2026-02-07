@@ -137,6 +137,10 @@ function restoreElementFilters() {
 
     // Reattach event handlers to the restored buttons
     document.querySelectorAll('#categories-section .filter-btn').forEach(btn => {
+        // Сбрасываем флаг, т.к. он мог сохраниться в HTML
+        if (btn.dataset.handlerAttached) {
+            delete btn.dataset.handlerAttached;
+        }
         // Check if handler is already attached
         if (!btn.dataset.handlerAttached) {
             btn.addEventListener('click', function() {

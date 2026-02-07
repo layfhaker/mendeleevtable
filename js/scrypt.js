@@ -20,6 +20,8 @@ const coreScripts = [
     'js/modules/theme-toggle.js',
     'js/modules/search-filters.js',
     'js/modules/ui.js',
+    'js/reactions-db.js',
+    'js/modules/reactions.js',
     'js/scroll-collapse.js',
     'js/wallpaper-handler.js',
     // Nodemap

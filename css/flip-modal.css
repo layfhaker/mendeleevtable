@@ -86,6 +86,31 @@
 }
 
 /* =========================================
+   РЕАКЦИИ (#reactions-modal)
+   ========================================= */
+
+#reactions-modal {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition:
+        backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease),
+        -webkit-backdrop-filter var(--flip-backdrop-ms) var(--flip-backdrop-ease);
+}
+
+#reactions-modal[style*="display: flex"],
+#reactions-modal[style*="display:flex"] {
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+#reactions-modal .modal-content.solubility-content {
+    animation: slideUpModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+
+#reactions-modal.closing .modal-content.solubility-content {
+    animation: slideDownModal var(--flip-move-ms) var(--flip-ease) forwards;
+}
+/* =========================================
    ПРОДВИНУТЫЙ РЕЖИМ (#advanced-substance-modal)
    ========================================= */
 
