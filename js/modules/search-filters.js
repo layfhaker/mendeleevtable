@@ -13,9 +13,10 @@ let currentSearchTerm = '';
 let defaultCategoriesHTML = '';
 
 function isSolubilityModalOpen() {
-    const modal = document.getElementById('solubility-modal');
-    if (!modal) return false;
-    return getComputedStyle(modal).display !== 'none';
+    // Проверяем через класс на body, а не через display модалки,
+    // т.к. модалка скрывается с задержкой 360ms (анимация),
+    // а класс снимается сразу при закрытии
+    return document.body.classList.contains('solubility-open');
 }
 
 function captureDefaultCategoriesHTML() {
@@ -25,6 +26,34 @@ function captureDefaultCategoriesHTML() {
         defaultCategoriesHTML = categoriesSection.innerHTML;
     }
 }
+
+function applyCategoryFilterFromButton(btn, event) {
+    if (!btn) return;
+    if (event) event.stopPropagation();
+    if (isSolubilityModalOpen()) return;
+
+    const filterType = btn.dataset.filter;
+    if (!filterType) return;
+
+    if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        resetTableDisplay();
+        return;
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyCategoryFilter(filterType);
+}
+
+function attachCategoryFilterHandlers() {
+    document.querySelectorAll('#categories-section .filter-btn[data-filter]').forEach(btn => {
+        btn.onclick = (e) => applyCategoryFilterFromButton(btn, e);
+    });
+}
+
+window.attachCategoryFilterHandlers = attachCategoryFilterHandlers;
+window.applyCategoryFilterFromButton = applyCategoryFilterFromButton;
 
 window.restoreElementFiltersSafe = function () {
     const categoriesSection = document.getElementById('categories-section');
@@ -38,6 +67,7 @@ window.restoreElementFiltersSafe = function () {
         btn.style.borderColor = '';
         btn.style.color = '';
     });
+    attachCategoryFilterHandlers();
 };
 
 function performSearch() {
@@ -368,6 +398,7 @@ function clearSearch() {
 
     function setupSearch() {
         captureDefaultCategoriesHTML();
+        attachCategoryFilterHandlers();
         const searchInput = document.getElementById('element-search');
         const clearBtn = document.querySelector('.search-clear');
 
@@ -411,7 +442,9 @@ function toggleFilters() {
         }
     } else {
         // В противном случае, восстанавливаем фильтры элементов
-        if (typeof restoreElementFilters === 'function') {
+        if (typeof window.restoreElementFiltersSafe === 'function') {
+            window.restoreElementFiltersSafe();
+        } else if (typeof restoreElementFilters === 'function') {
             restoreElementFilters();
         }
     }
@@ -484,6 +517,10 @@ function resetFilters() {
 document.addEventListener('click', (event) => {
     const btn = event.target.closest('.filter-btn');
     if (!btn) return;
+    // Категории обрабатываются через прямой onclick
+    if (btn.dataset.filter) return;
+    // Клики по категориям обрабатываются делегированным обработчиком секции
+    if (btn.closest('#categories-section')) return;
     const filterType = btn.dataset.filter;
     if (!filterType) return; // игнорируем кнопки растворимости/цветов
 

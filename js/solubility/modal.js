@@ -146,16 +146,17 @@ window.closeSolubility = function () {
     if (searchBtn) searchBtn.classList.remove('active');
 
     if (typeof clearTableSelection === 'function') clearTableSelection();
-    if (typeof restoreElementFilters === 'function') {
-        restoreElementFilters();
 
-        // Also reset the main table display to ensure filters are properly cleared
-        if (typeof resetTableDisplay === 'function') {
-            resetTableDisplay();
-        }
-    }
+    // Восстанавливаем фильтры элементов (единственный вызов, чтобы избежать дублирования обработчиков)
     if (typeof window.restoreElementFiltersSafe === 'function') {
         window.restoreElementFiltersSafe();
+    } else if (typeof restoreElementFilters === 'function') {
+        restoreElementFilters();
+    }
+
+    // Сбрасываем отображение таблицы элементов
+    if (typeof resetTableDisplay === 'function') {
+        resetTableDisplay();
     }
 };
 

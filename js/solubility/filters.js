@@ -135,35 +135,18 @@ function restoreElementFilters() {
     if (!categoriesSection || !originalCategoriesHTML) return;
     categoriesSection.innerHTML = originalCategoriesHTML;
 
-    // Reattach event handlers to the restored buttons
+    // Сбрасываем active-состояние у восстановленных кнопок
     document.querySelectorAll('#categories-section .filter-btn').forEach(btn => {
-        // Сбрасываем флаг, т.к. он мог сохраниться в HTML
-        if (btn.dataset.handlerAttached) {
-            delete btn.dataset.handlerAttached;
-        }
-        // Check if handler is already attached
-        if (!btn.dataset.handlerAttached) {
-            btn.addEventListener('click', function() {
-                const filterType = this.dataset.filter;
-
-                if (this.classList.contains('active')) {
-                    this.classList.remove('active');
-                    resetTableDisplay();
-                    // Also reset solubility table display if needed
-                    if (typeof resetSolubilityTableDisplay === 'function') {
-                        resetSolubilityTableDisplay();
-                    }
-                } else {
-                    document.querySelectorAll('#categories-section .filter-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    applyCategoryFilter(filterType);
-                }
-            });
-
-            // Mark that handler is attached
-            btn.dataset.handlerAttached = 'true';
-        }
+        btn.classList.remove('active');
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
     });
+
+    // Переподключаем обработчики через единую функцию из search-filters.js
+    if (typeof window.attachCategoryFilterHandlers === 'function') {
+        window.attachCategoryFilterHandlers();
+    }
 }
 
 
