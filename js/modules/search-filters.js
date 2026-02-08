@@ -425,6 +425,8 @@ function clearSearch() {
 // =========================================
 function toggleFilters() {
     const PANEL_ANIM_MS = 360;
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    if (isElementModalOpen) return;
     // Проверяем, открыт ли уравниватель
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     if (isBalancerOpen) return;

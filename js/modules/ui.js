@@ -189,13 +189,14 @@ function setHintVisible(el, visible) {
 // 1. Калькулятор
 window.toggleCalc = async function() {
     const PANEL_ANIM_MS = 360;
+    const isElementModalOpen = document.body.classList.contains('modal-open');
     // Проверяем, открыт ли уравниватель
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
 
-    if (isSolubilityOpen || isFiltersOpen || isBalancerOpen) {
+    if (isElementModalOpen || isSolubilityOpen || isFiltersOpen || isBalancerOpen) {
         return;
     }
     // Загружаем модуль если ещё не загружен
@@ -248,6 +249,8 @@ window.toggleCalc = async function() {
 
 // 2. Растворимость (То, чего не хватало!)
 window.toggleSolubility = async function() {
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    if (isElementModalOpen) return;
     // Проверяем, открыт ли уравниватель
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     if (isBalancerOpen) return;
@@ -338,13 +341,14 @@ window.toggleReactionsModal = function() {
     if (!modal) return;
     bindReactionsBackdrop();
 
+    const isElementModalOpen = document.body.classList.contains('modal-open');
     const isCalcOpen = document.body.classList.contains('calc-active');
     const isBalancerOpen = document.body.classList.contains('balancer-active');
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
 
-    if (isCalcOpen || isBalancerOpen || isSolubilityOpen || isFiltersOpen) {
+    if (isElementModalOpen || isCalcOpen || isBalancerOpen || isSolubilityOpen || isFiltersOpen) {
         return;
     }
 

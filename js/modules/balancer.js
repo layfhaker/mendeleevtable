@@ -81,12 +81,13 @@ window.toggleBalancer = async function (event) {
     }
 
     // Check for conflicts
+    const isElementModalOpen = document.body.classList.contains('modal-open');
     const isSolubilityOpen = document.body.classList.contains('solubility-open');
     const filtersPanel = document.getElementById('filters-panel');
     const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
     const isCalcOpen = document.body.classList.contains('calc-active');
 
-    if (isSolubilityOpen || isFiltersOpen || isCalcOpen) return;
+    if (isElementModalOpen || isSolubilityOpen || isFiltersOpen || isCalcOpen) return;
 
     // Save scroll position
     document.body.dataset.savedScrollY = window.scrollY || window.pageYOffset;

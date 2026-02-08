@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-02-08T12:13:00.028Z",
+  "etalon_direct": {
+    "total": 195,
+    "passed": 195,
+    "failed": 0,
+    "pass_rate": 1
+  },
+  "etalon_swap": {
+    "total": 161,
+    "passed": 161,
+    "failed": 0,
+    "pass_rate": 1
+  },
+  "top_fail_rules": [],
+  "failure_samples": [],
+  "all_results_count": 356
+}
