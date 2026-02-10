@@ -182,6 +182,56 @@
         return null;
     }
 
+    function parseRomanNumeral(raw) {
+        const map = { I: 1, V: 5, X: 10 };
+        const text = String(raw || '').trim().toUpperCase();
+        if (!/^[IVX]+$/.test(text)) return null;
+        let total = 0;
+        for (let i = 0; i < text.length; i++) {
+            const cur = map[text[i]] || 0;
+            const next = map[text[i + 1]] || 0;
+            total += cur < next ? -cur : cur;
+        }
+        return total > 0 ? total : null;
+    }
+
+    function parseOxidationStateFromLabel(label) {
+        const match = String(label || '').match(/\(([^)]+)\)\s*$/);
+        if (!match) return null;
+        const token = match[1].trim();
+        if (/^\d+$/.test(token)) {
+            const n = parseInt(token, 10);
+            return n > 0 ? n : null;
+        }
+        return parseRomanNumeral(token);
+    }
+
+    function mergeSubclassTags(prev, next) {
+        const list = [];
+        String(prev || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .forEach((s) => list.push(s));
+        String(next || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .forEach((s) => {
+                if (!list.includes(s)) list.push(s);
+            });
+        return list.join(', ');
+    }
+
+    function inferCationChargeFromOxide(oxideFormula, metalSymbol) {
+        const counts = parseFormulaCounts(oxideFormula);
+        const mCount = counts[metalSymbol] || 0;
+        const oCount = counts.O || 0;
+        if (!mCount || !oCount) return null;
+        const charge = (2 * oCount) / mCount;
+        return Number.isInteger(charge) && charge > 0 ? charge : null;
+    }
+
     function buildDataMaps(data) {
         if (!data) return null;
         const classMap = new Map();
@@ -191,6 +241,7 @@
         const metalOxideMap = new Map();
         const metalToOxideMap = new Map();
         const metalToHydroxideMap = new Map();
+        const metalToOxideByChargeMap = new Map();
         const elementMap = new Map();
         const activityMap = new Map();
         const solubilityMap = new Map();
@@ -204,16 +255,22 @@
 
         (data.substance_classes || []).forEach((item) => {
             if (!item.formula) return;
-            classMap.set(item.formula, { class: item.class, subclass: item.subclass, info: item });
-            if (item.class === 'oxide' && item.subclass) {
-                oxideSubclassMap.set(item.formula, item.subclass);
+            const prev = classMap.get(item.formula);
+            const subclass = prev && prev.class === item.class
+                ? mergeSubclassTags(prev.subclass, item.subclass)
+                : item.subclass;
+            classMap.set(item.formula, { class: item.class, subclass, info: item });
+            if (item.class === 'oxide' && subclass) {
+                oxideSubclassMap.set(item.formula, subclass);
             }
         });
 
         (data.acid_oxide_pairs || []).forEach((pair) => {
             if (pair.oxide && pair.acid) {
-                acidOxideMap.set(pair.acid, pair.oxide);
-                oxideToAcidMap.set(pair.oxide, pair.acid);
+                const acids = splitAlternatives(pair.acid);
+                if (!acids.length) return;
+                acids.forEach((acid) => acidOxideMap.set(acid, pair.oxide));
+                oxideToAcidMap.set(pair.oxide, acids[0]);
             }
         });
 
@@ -223,8 +280,18 @@
             metalOxideMap.set(pair.oxide, metalInfo);
             if (pair.metal) {
                 const metalSymbol = pair.metal.replace(/\(.*\)$/, '');
-                metalToOxideMap.set(metalSymbol, pair.oxide);
-                if (pair.hydroxide) metalToHydroxideMap.set(metalSymbol, pair.hydroxide);
+                if (!metalToOxideMap.has(metalSymbol)) {
+                    metalToOxideMap.set(metalSymbol, pair.oxide);
+                }
+                if (pair.hydroxide && !metalToHydroxideMap.has(metalSymbol)) {
+                    metalToHydroxideMap.set(metalSymbol, pair.hydroxide);
+                }
+
+                const explicitCharge = parseOxidationStateFromLabel(pair.metal);
+                const inferredCharge = explicitCharge || inferCationChargeFromOxide(pair.oxide, metalSymbol) || getIonCharge(metalSymbol, 'cation', 'min');
+                if (inferredCharge) {
+                    metalToOxideByChargeMap.set(`${metalSymbol}|${inferredCharge}`, pair.oxide);
+                }
             }
         });
 
@@ -260,6 +327,7 @@
             metalOxideMap,
             metalToOxideMap,
             metalToHydroxideMap,
+            metalToOxideByChargeMap,
             elementMap,
             activityMap,
             solubilityMap,
@@ -285,8 +353,9 @@
 
     function parseAcid(formula) {
         if (!formula || formula === 'H2O') return null;
-        if (!/^H/.test(formula)) return null;
-        const match = formula.match(/^H(\d*)(.+)$/);
+        const normalized = splitAlternatives(String(formula))[0] || String(formula);
+        if (!/^H/.test(normalized)) return null;
+        const match = normalized.match(/^H(\d*)(.+)$/);
         if (!match) return null;
         const hCount = match[1] ? parseInt(match[1], 10) : 1;
         const anionFormula = match[2];
@@ -333,6 +402,10 @@
         return ion.replace(/\s+/g, '');
     }
 
+    function escapeRegExp(text) {
+        return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
     function getSolubility(cationFormula, cationCharge, anionFormula, anionCharge) {
         if (!dataMaps || !dataMaps.solubilityMap) return null;
         const cationKey = normalizeIonKey(`${cationFormula}${Math.abs(cationCharge)}+`.replace('1+', '+'));
@@ -367,7 +440,8 @@
             'H2PO4', 'HSO4', 'HSO3', 'HCO3', 'PO4', 'SO4', 'SO3', 'CO3', 'NO3', 'NO2', 'ClO4', 'SiO3', 'Cl', 'Br', 'I', 'F', 'S'
         ])).sort((a, b) => b.length - a.length);
         for (const anion of anionKeys) {
-            const anionPattern = new RegExp(`^(.*)(${anion})(\\d*)$`);
+            const safeAnion = escapeRegExp(anion);
+            const anionPattern = new RegExp(`^(.*)(${safeAnion})(\\d*)$`);
             const match = normalized.match(anionPattern);
             if (match) {
                 const catPart = match[1];
@@ -378,7 +452,8 @@
                 const cationCandidates = resolveCationCandidates(catPart);
                 for (const cationFormula of cationCandidates) {
                     let cationCharge = getIonCharge(cationFormula, 'cation', 'min');
-                    const catSubMatch = String(catPart).match(new RegExp(`^${cationFormula}(\\d*)$`));
+                    const safeCation = escapeRegExp(cationFormula);
+                    const catSubMatch = String(catPart).match(new RegExp(`^${safeCation}(\\d*)$`));
                     const cationSub = catSubMatch && catSubMatch[1] ? parseInt(catSubMatch[1], 10) : 1;
                     const inferredCharge = (Math.abs(anionCharge) * anionSub) / cationSub;
                     if ((!cationCharge || ['Fe', 'Cr', 'Cu', 'Sn', 'Pb', 'Mn', 'Co', 'Ni'].includes(cationFormula)) && Number.isInteger(inferredCharge) && inferredCharge > 0) {
@@ -388,7 +463,7 @@
                     return { cationFormula, anionFormula: anion, cationCharge, anionCharge };
                 }
             }
-            const complexMatch = normalized.match(new RegExp(`^(.*)\\(${anion}\\)(\\d*)$`));
+            const complexMatch = normalized.match(new RegExp(`^(.*)\\(${safeAnion}\\)(\\d*)$`));
             if (complexMatch) {
                 const catPart = complexMatch[1];
                 const anionSub = complexMatch[2] ? parseInt(complexMatch[2], 10) : 1;
@@ -398,7 +473,8 @@
                 const cationCandidates = resolveCationCandidates(catPart);
                 for (const cationFormula of cationCandidates) {
                     let cationCharge = getIonCharge(cationFormula, 'cation', 'min');
-                    const catSubMatch = String(catPart).match(new RegExp(`^${cationFormula}(\\d*)$`));
+                    const safeCation = escapeRegExp(cationFormula);
+                    const catSubMatch = String(catPart).match(new RegExp(`^${safeCation}(\\d*)$`));
                     const cationSub = catSubMatch && catSubMatch[1] ? parseInt(catSubMatch[1], 10) : 1;
                     const inferredCharge = (Math.abs(anionCharge) * anionSub) / cationSub;
                     if ((!cationCharge || ['Fe', 'Cr', 'Cu', 'Sn', 'Pb', 'Mn', 'Co', 'Ni'].includes(cationFormula)) && Number.isInteger(inferredCharge) && inferredCharge > 0) {
@@ -567,7 +643,35 @@
 
     function hasHeatingCondition(raw) {
         const text = String(raw || '').toLowerCase();
-        return /(нагрев|t°|темп|°c|\bt\b)/.test(text);
+        return /(нагрев|t°|темп|°c|\bt\b|heat|hot)/.test(text);
+    }
+
+    function hasConditionHint(raw) {
+        const text = String(raw || '').toLowerCase();
+        return /(конц|разб|оч\.|изб|недост|дефиц|сплав|нагрев|холод|пар|кат|раствор|расплав|горяч|электрол|электр|conc|dilut|excess|deficit|limited|heat|steam|catalyst|electrolysis|electro|solution|molten|melt|fusion|splav|spalv)/.test(text);
+    }
+
+    function hasExcessOn(raw, species) {
+        const rawText = String(raw || '').toLowerCase();
+        const text = normalizeRawInput(raw).toLowerCase();
+        const key = species ? normalizeRawInput(species).toLowerCase() : '';
+        if (!/(изб|excess)/.test(rawText) && !text.includes('изб') && !text.includes('excess')) return false;
+        if (!key) return true;
+
+        const escapedSpecies = String(species || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&').toLowerCase();
+        if (escapedSpecies) {
+            const taggedPattern = new RegExp(`${escapedSpecies}\\([^)]*(изб|excess)`);
+            if (taggedPattern.test(rawText)) return true;
+        }
+
+        return text.includes(`изб${key}`)
+            || text.includes(`excess${key}`)
+            || text.includes(`${key}изб`)
+            || text.includes(`${key}excess`);
+    }
+
+    function hasDeficitCondition(raw) {
+        return hasKeyword(raw, ['недост', 'дефиц', 'limited', 'deficit']);
     }
 
     function isLikelyOrganicAcid(formula) {
@@ -596,7 +700,7 @@
             if (!acid || !base) return null;
 
             const anionCharge = getIonCharge(acid.anionFormula, 'anion', 'min');
-            const cationCharge = base.ohCount || getIonCharge(base.cationFormula, 'cation', 'min');
+            const cationCharge = getIonCharge(base.cationFormula, 'cation', 'min') || base.ohCount;
             if (!anionCharge || !cationCharge) return null;
 
             const salt = buildSaltFormula(base.cationFormula, cationCharge, acid.anionFormula, anionCharge);
@@ -692,7 +796,10 @@
             if (info.kind !== 'oxide') return null;
             const base = parseBase(baseStr);
             if (!base) return null;
-            if (oxideStr === 'CO2' && ['NaOH', 'KOH'].includes(baseStr) && hasKeyword(rawInput, ['изб'])) {
+            if (oxideStr === 'SiO2' && !hasKeyword(rawInput, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv']) && !hasHeatingCondition(rawInput)) {
+                return null;
+            }
+            if (oxideStr === 'CO2' && ['NaOH', 'KOH'].includes(baseStr) && hasKeyword(rawInput, ['изб', 'excess'])) {
                 const c = baseStr.startsWith('K') ? 'K' : 'Na';
                 return `CO2 + ${baseStr} → ${c}HCO3`;
             }
@@ -753,7 +860,7 @@
     }
 
     function ruleAmphotericBase(tokens, rawInput) {
-        if (hasKeyword(rawInput, ['сплав', 'сплавл'])) return null;
+        if (hasKeyword(rawInput, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv'])) return null;
         if (tokens.length !== 2) return null;
         const a = normalizeToken(tokens[0], { stripConditions: true });
         const b = normalizeToken(tokens[1], { stripConditions: true });
@@ -811,7 +918,7 @@
         return tryPair(a, b) || tryPair(b, a);
     }
 
-    function ruleMetalOxygen(tokens) {
+    function ruleMetalOxygen(tokens, rawInput) {
         if (!dataMaps) return null;
         if (tokens.length !== 2) return null;
         const a = normalizeToken(tokens[0], { stripConditions: true });
@@ -820,7 +927,17 @@
             if (classifyFormula(metalStr).kind !== 'metal') return null;
             if (oxygenStr !== 'O2') return null;
             if (metalStr === 'Fe') return '3Fe + 2O2 \u2192 Fe3O4';
-            if (metalStr === 'Na') return '2Na + O2 \u2192 Na2O2';
+            const oxygenDeficit = hasKeyword(rawInput, ['недост', 'дефиц', 'огранич', 'малоo2', 'deficit', 'limited']);
+            if (metalStr === 'Li') return '4Li + O2 \u2192 2Li2O';
+            if (metalStr === 'Na') {
+                return oxygenDeficit ? '4Na + O2 \u2192 2Na2O' : '2Na + O2 \u2192 Na2O2';
+            }
+            if (metalStr === 'K') {
+                return oxygenDeficit ? '4K + O2 \u2192 2K2O' : '2K + O2 \u2192 2KO2';
+            }
+            if (metalStr === 'Rb' || metalStr === 'Cs') {
+                return oxygenDeficit ? `4${metalStr} + O2 \u2192 2${metalStr}2O` : `${metalStr} + O2 \u2192 ${metalStr}O2`;
+            }
             const oxide = dataMaps.metalToOxideMap.get(metalStr);
             if (!oxide) return null;
             const counts = parseFormulaCounts(oxide);
@@ -925,7 +1042,16 @@
             const anionCharge = getIonCharge(acid.anionFormula, 'anion', 'min');
             if (!cationCharge || !anionCharge) return null;
             const salt = buildSaltFormula(metalStr, cationCharge, acid.anionFormula, anionCharge);
-            return `${metalStr} + ${acidStr} \u2192 ${salt} + H2\u2191`;
+
+            const g = gcd(Math.abs(cationCharge), Math.abs(anionCharge));
+            const saltCationSub = Math.abs(anionCharge) / g;
+            const saltAnionSub = Math.abs(cationCharge) / g;
+            const saltCoeff = (saltAnionSub * acid.hCount) % 2 === 0 ? 1 : 2;
+            const metalCoeff = saltCoeff * saltCationSub;
+            const acidCoeff = saltCoeff * saltAnionSub;
+            const h2Coeff = (acidCoeff * acid.hCount) / 2;
+
+            return `${formatCoeff(metalCoeff)}${metalStr} + ${formatCoeff(acidCoeff)}${acidStr} \u2192 ${formatCoeff(saltCoeff)}${salt} + ${formatCoeff(h2Coeff)}H2\u2191`;
         };
         return tryPair(a, b) || tryPair(b, a);
     }
@@ -1004,7 +1130,7 @@
 
     function ruleAmphotericFusion(tokens, rawInput) {
         if (tokens.length !== 2) return null;
-        if (!hasKeyword(rawInput, ['сплав', 'сплавл'])) return null;
+        if (!hasKeyword(rawInput, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv'])) return null;
         const a = normalizeToken(tokens[0], { stripConditions: true });
         const b = normalizeToken(tokens[1], { stripConditions: true });
         const tryPair = (amphStr, baseStr) => {
@@ -1012,8 +1138,15 @@
             const map = {
                 'Al2O3': 'NaAlO2',
                 'ZnO': 'Na2ZnO2',
+                'Zn(OH)2': 'Na2ZnO2',
+                'BeO': 'Na2BeO2',
+                'Be(OH)2': 'Na2BeO2',
                 'Al(OH)3': 'NaAlO2',
-                'Cr2O3': 'NaCrO2'
+                'Cr2O3': 'NaCrO2',
+                'PbO': 'Na2PbO2',
+                'Pb(OH)2': 'Na2PbO2',
+                'SnO': 'Na2SnO2',
+                'Sn(OH)2': 'Na2SnO2'
             };
             if (!map[amphStr]) return null;
             const salt = baseStr.startsWith('K') ? map[amphStr].replace(/^Na/, 'K') : map[amphStr];
@@ -1023,7 +1156,7 @@
     }
 
     function ruleAmphotericInAlkali(tokens, rawInput) {
-        if (hasKeyword(rawInput, ['сплав', 'сплавл'])) return null;
+        if (hasKeyword(rawInput, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv'])) return null;
         const joined = normalizeRawInput(tokens.join('+'));
         const hasNaOH = joined.includes('NaOH');
         const hasKOH = joined.includes('KOH');
@@ -1078,7 +1211,10 @@
             if (!['NaOH', 'KOH'].includes(alkali)) return null;
             const m = alkali.startsWith('K') ? 'K' : 'Na';
             const normalizedRaw = normalizeRawInput(rawInput);
-            const isHot = hasKeyword(rawInput, ['гор', 't', 'нагрев']) || (normalizedRaw.includes('3Cl2') && normalizedRaw.includes('6NaOH'));
+            const isHot = hasHeatingCondition(rawInput)
+                || hasKeyword(rawInput, ['горяч', 'гор.'])
+                || ((normalizedRaw.includes('3Cl2') || normalizedRaw.includes(`3${halogen}`))
+                    && (normalizedRaw.includes('6NaOH') || normalizedRaw.includes('6KOH')));
             if (isHot) {
                 return `3${halogen} + 6${alkali} \u2192 5${m}${halogen.replace('2', '')} + ${m}${halogen.replace('2', '')}O3 + 3H2O`;
             }
@@ -1091,7 +1227,12 @@
         if (tokens.length !== 1) return null;
         const saltStr = normalizeToken(tokens[0], { stripConditions: true });
         if (!saltStr.includes('NO3')) return null;
-        if (saltStr === 'NH4NO3') return 'NH4NO3 \u2192 N2O\u2191 + 2H2O';
+        if (saltStr === 'NH4NO3') {
+            if (hasKeyword(rawInput, ['сильн', 'оченьсильн', 'взрыв', 'strongheat'])) {
+                return '2NH4NO3 \u2192 2N2\u2191 + O2\u2191 + 4H2O';
+            }
+            return 'NH4NO3 \u2192 N2O\u2191 + 2H2O';
+        }
         const salt = detectSalt(saltStr);
         if (!salt) return null;
         const cation = salt.cationFormula;
@@ -1102,7 +1243,8 @@
         if (['Ag', 'Hg'].includes(cation)) {
             return `${saltStr} \u2192 ${cation} + NO2\u2191 + O2\u2191`;
         }
-        const oxide = dataMaps.metalToOxideMap.get(cation);
+        const oxide = dataMaps.metalToOxideByChargeMap.get(`${cation}|${salt.cationCharge}`)
+            || dataMaps.metalToOxideMap.get(cation);
         if (oxide) {
             return `${saltStr} \u2192 ${oxide} + NO2\u2191 + O2\u2191`;
         }
@@ -1123,7 +1265,8 @@
         if (!salt) return null;
         if (['Na', 'K', 'Rb', 'Cs'].includes(salt.cationFormula)) return null;
         if (saltStr === 'FeCO3') return 'FeCO3 → FeO + CO2↑';
-        const oxide = dataMaps.metalToOxideMap.get(salt.cationFormula);
+        const oxide = dataMaps.metalToOxideByChargeMap.get(`${salt.cationFormula}|${salt.cationCharge}`)
+            || dataMaps.metalToOxideMap.get(salt.cationFormula);
         if (oxide) {
             return `${saltStr} \u2192 ${oxide} + CO2\u2191`;
         }
@@ -1140,7 +1283,8 @@
         const base = parseBase(baseStr);
         if (!base) return null;
         if (baseStr === 'Fe(OH)2') return 'Fe(OH)2 → FeO + H2O';
-        const oxide = dataMaps.metalToOxideMap.get(base.cationFormula);
+        const oxide = dataMaps.metalToOxideByChargeMap.get(`${base.cationFormula}|${base.ohCount}`)
+            || dataMaps.metalToOxideMap.get(base.cationFormula);
         if (oxide) return `${baseStr} \u2192 ${oxide} + H2O`;
         return null;
     }
@@ -1175,8 +1319,10 @@
             return `${saltStr} + 2H2O \u21cc ${acid} + ${base}`;
         }
         if (weakAcid) {
+            if (Math.abs(salt.anionCharge) <= 1) return null;
             const acidSalt = buildSaltFormula(salt.cationFormula, salt.cationCharge, `H${salt.anionFormula}`, salt.anionCharge + 1);
-            return `${saltStr} + H2O \u21cc ${acidSalt} + NaOH`.replace('NaOH', buildSaltFormula(salt.cationFormula, salt.cationCharge, 'OH', -1));
+            const hydroxide = buildSaltFormula(salt.cationFormula, salt.cationCharge, 'OH', -1);
+            return `${saltStr} + H2O \u21cc ${acidSalt} + ${hydroxide}`;
         }
         if (weakBase) {
             const basicSalt = buildSaltFormula(`H`, 1, salt.anionFormula, salt.anionCharge);
@@ -1275,36 +1421,134 @@
         return null;
     }
 
+    function inferElectrolysisMode(tokens, rawInput) {
+        const isMelt = hasKeyword(rawInput, ['расплав', 'molten', 'melt']);
+        const isAq = hasKeyword(rawInput, ['раствор', 'р-р', 'рра', 'aq', 'водн', 'solution']) || hasAllReactants(tokens, ['H2O']);
+        if (isMelt) return 'melt';
+        if (isAq) return 'aq';
+        return 'aq';
+    }
+
+    function buildMoltenHydroxideElectrolysis(baseFormula) {
+        const base = parseBase(baseFormula);
+        if (!base) return null;
+        const n = base.ohCount || 1;
+        const a = 4;
+        const metalCoeff = a;
+        const oxygenCoeff = (a * n) / 4;
+        const waterCoeff = (a * n) / 2;
+        const g = gcd(gcd(metalCoeff, oxygenCoeff), waterCoeff);
+        const leftCoeff = a / g;
+        const mCoeff = metalCoeff / g;
+        const oCoeff = oxygenCoeff / g;
+        const wCoeff = waterCoeff / g;
+        return `${formatCoeff(leftCoeff)}${baseFormula} \u2192 ${formatCoeff(mCoeff)}${base.cationFormula} + ${formatCoeff(oCoeff)}O2\u2191 + ${formatCoeff(wCoeff)}H2O`;
+    }
+
+    function classifyElectroAnion(anionFormula) {
+        if (['Cl', 'Br', 'I'].includes(anionFormula)) return 'halide';
+        if (anionFormula === 'F') return 'fluoride';
+        if (anionFormula === 'S') return 'sulfide';
+        if (anionFormula === 'OH') return 'hydroxide';
+        return 'oxygen';
+    }
+
+    function inferAqCathodeProduct(cationFormula) {
+        if (cationFormula === 'H' || cationFormula === 'NH4') return 'H2';
+        const rankAl = dataMaps?.activityMap?.get('Al');
+        const rank = dataMaps?.activityMap?.get(cationFormula);
+        if (rankAl && rank && rank > rankAl) return cationFormula;
+        return 'H2';
+    }
+
     function ruleElectrolysis(tokens, rawInput) {
-        if (!hasKeyword(rawInput, ['элект', 'электролиз', 'расплав'])) return null;
-        const joined = normalizeRawInput(tokens.join('+'));
-        if (joined.includes('NaCl') && hasKeyword(rawInput, ['раствор', 'р-р', 'рра'])) {
-            return '2NaCl + 2H2O \u2192 2NaOH + H2\u2191 + Cl2\u2191';
-        }
-        if (joined.includes('AgNO3') && hasKeyword(rawInput, ['раствор', 'р-р', 'рра'])) {
-            return '4AgNO3 + 2H2O \u2192 4Ag + O2\u2191 + 4HNO3';
-        }
-        if (joined.includes('KBr') && hasKeyword(rawInput, ['раствор', 'р-р', 'рра'])) {
-            return '2KBr + 2H2O \u2192 2KOH + H2\u2191 + Br2';
-        }
-        if (joined.includes('NaCl')) {
-            return '2NaCl \u2192 2Na + Cl2\u2191';
-        }
-        if (joined.includes('Al2O3')) {
-            return '2Al2O3 \u2192 4Al + 3O2\u2191';
-        }
-        if (joined.includes('NaOH') && hasKeyword(rawInput, ['расплав'])) {
-            return '4NaOH \u2192 4Na + O2\u2191 + 2H2O';
-        }
-        if (joined.includes('MgCl2')) {
-            return 'MgCl2 \u2192 Mg + Cl2\u2191';
-        }
-        if (joined.includes('CuSO4')) {
-            return '2CuSO4 + 2H2O \u2192 2Cu + O2\u2191 + 2H2SO4';
-        }
-        if (joined.includes('H2O')) {
+        if (!hasKeyword(rawInput, ['элект', 'электролиз', 'electrolysis', 'electro'])) return null;
+        const normalizedTokens = (tokens || []).map((t) => normalizeToken(t, { stripConditions: true }));
+        const joined = normalizeRawInput(normalizedTokens.join('+'));
+        const mode = inferElectrolysisMode(normalizedTokens, rawInput);
+        const electrolyte = normalizedTokens.find((t) => t && t !== 'H2O') || 'H2O';
+
+        if (electrolyte === 'H2O') {
             return '2H2O \u2192 2H2\u2191 + O2\u2191';
         }
+
+        if (mode === 'aq') {
+            if (electrolyte === 'NaCl') return '2NaCl + 2H2O \u2192 2NaOH + H2\u2191 + Cl2\u2191';
+            if (electrolyte === 'AgNO3') return '4AgNO3 + 2H2O \u2192 4Ag + O2\u2191 + 4HNO3';
+            if (electrolyte === 'KBr') return '2KBr + 2H2O \u2192 2KOH + H2\u2191 + Br2\u2191';
+            if (electrolyte === 'CuSO4') return '2CuSO4 + 2H2O \u2192 2Cu + O2\u2191 + 2H2SO4';
+            if (electrolyte === 'Cu(NO3)2') return '2Cu(NO3)2 + 2H2O \u2192 2Cu + O2\u2191 + 4HNO3';
+            if (electrolyte === 'FeCl2') return 'FeCl2 \u2192 Fe + Cl2\u2191';
+            if (electrolyte === 'NiBr2') return 'NiBr2 \u2192 Ni + Br2\u2191';
+
+            const salt = detectSalt(electrolyte);
+            if (!salt) {
+                const base = parseBase(electrolyte);
+                if (base || parseAcid(electrolyte)) {
+                    return '2H2O \u2192 2H2\u2191 + O2\u2191';
+                }
+                return null;
+            }
+
+            const cation = salt.cationFormula;
+            const anion = salt.anionFormula;
+            const anionClass = classifyElectroAnion(anion);
+            const cathodeProduct = inferAqCathodeProduct(cation);
+            const cathodeIsMetal = cathodeProduct !== 'H2';
+            const anodeIsOxidizableAnion = anionClass === 'halide' || anionClass === 'sulfide';
+            const anodeProduct = anionClass === 'halide' ? `${anion}2`
+                : anionClass === 'sulfide' ? 'S'
+                    : 'O2';
+
+            if (anodeIsOxidizableAnion && cathodeIsMetal) {
+                return `${electrolyte} \u2192 ${cathodeProduct} + ${anodeProduct}\u2191`.replace('S↑', 'S↓');
+            }
+
+            if (anodeIsOxidizableAnion && !cathodeIsMetal) {
+                const hydroxide = buildSaltFormula(cation, salt.cationCharge, 'OH', -1);
+                const anodeTail = anionClass === 'sulfide' ? 'S↓' : `${anion}2\u2191`;
+                return `${electrolyte} + H2O \u2192 ${hydroxide} + H2\u2191 + ${anodeTail}`;
+            }
+
+            if (!anodeIsOxidizableAnion && cathodeIsMetal) {
+                const acid = buildAcidFormula(anion, salt.anionCharge);
+                return `${electrolyte} + H2O \u2192 ${cathodeProduct} + O2\u2191 + ${acid}`;
+            }
+
+            // Active cation + oxygen-containing anion / fluoride: water is discharged on both electrodes.
+            return '2H2O \u2192 2H2\u2191 + O2\u2191';
+        }
+
+        // Molten electrolysis
+        if (electrolyte === 'Al2O3') return '2Al2O3 \u2192 4Al + 3O2\u2191';
+        if (electrolyte === 'NaOH' || electrolyte === 'KOH' || parseBase(electrolyte)) {
+            return buildMoltenHydroxideElectrolysis(electrolyte);
+        }
+
+        const meltSalt = detectSalt(electrolyte);
+        if (meltSalt) {
+            const anionClass = classifyElectroAnion(meltSalt.anionFormula);
+            if (anionClass === 'halide' || anionClass === 'fluoride') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + ${meltSalt.anionFormula}2\u2191`;
+            }
+            if (anionClass === 'sulfide') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + S\u2193`;
+            }
+            if (meltSalt.anionFormula === 'NO3') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + NO2\u2191 + O2\u2191`;
+            }
+            if (meltSalt.anionFormula === 'SO4') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + SO3\u2191 + O2\u2191`;
+            }
+            if (meltSalt.anionFormula === 'CO3') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + CO2\u2191 + O2\u2191`;
+            }
+            if (anionClass === 'oxygen' || anionClass === 'hydroxide') {
+                return `${electrolyte} \u2192 ${meltSalt.cationFormula} + O2\u2191`;
+            }
+        }
+
+        if (joined.includes('H2O')) return '2H2O \u2192 2H2\u2191 + O2\u2191';
         return null;
     }
 
@@ -1386,6 +1630,19 @@
             }
             return '2SO2 + O2 \u2192 2SO3';
         }
+        if (hasAllReactants(tokens, ['SO2', 'NaOH'])) {
+            if (hasExcessOn(rawInput, 'SO2')) return 'SO2 + NaOH \u2192 NaHSO3';
+            if (hasExcessOn(rawInput, 'NaOH')) return 'SO2 + 2NaOH \u2192 Na2SO3 + H2O';
+            return 'SO2 + 2NaOH \u2192 Na2SO3 + H2O';
+        }
+        if (hasAllReactants(tokens, ['SO2', 'KOH'])) {
+            if (hasExcessOn(rawInput, 'SO2')) return 'SO2 + KOH \u2192 KHSO3';
+            if (hasExcessOn(rawInput, 'KOH')) return 'SO2 + 2KOH \u2192 K2SO3 + H2O';
+            return 'SO2 + 2KOH \u2192 K2SO3 + H2O';
+        }
+        if (hasAllReactants(tokens, ['SO2', 'H2S'])) {
+            return 'SO2 + 2H2S \u2192 3S\u2193 + 2H2O';
+        }
         if (hasAllReactants(tokens, ['SO2', 'Br2', 'H2O'])) {
             return 'SO2 + Br2 + 2H2O \u2192 H2SO4 + 2HBr';
         }
@@ -1447,15 +1704,25 @@
         if (tokens.length !== 2) return null;
         if (hasAllReactants(tokens, ['Cl2', 'H2O'])) return 'Cl2 + H2O \u21cc HCl + HClO';
         if (hasAllReactants(tokens, ['Br2', 'H2O'])) return 'Br2 + H2O \u21cc HBr + HBrO';
+        if (hasAllReactants(tokens, ['F2', 'H2O'])) return '2F2 + 2H2O \u2192 4HF + O2\u2191';
         return null;
     }
 
     function ruleThermalOxidizerDecomposition(tokens, rawInput) {
-        if (tokens.length !== 1) return null;
-        const single = normalizeToken(tokens[0], { stripConditions: true });
-        if (single === 'KClO3') return '2KClO3 \u2192 2KCl + 3O2\u2191';
-        if (single === 'KMnO4') return '2KMnO4 \u2192 K2MnO4 + MnO2 + O2\u2191';
-        if (single === 'NH4NO2') return 'NH4NO2 \u2192 N2\u2191 + 2H2O';
+        if (tokens.length === 1) {
+            const single = normalizeToken(tokens[0], { stripConditions: true });
+            if (single === 'KClO3') return '2KClO3 \u2192 2KCl + 3O2\u2191';
+            if (single === 'KMnO4') return '2KMnO4 \u2192 K2MnO4 + MnO2 + O2\u2191';
+            if (single === 'NH4NO2') return 'NH4NO2 \u2192 N2\u2191 + 2H2O';
+            if (single === 'FeSO4') return '2FeSO4 \u2192 Fe2O3 + SO2\u2191 + SO3\u2191';
+            if (single === 'KNO2') return '2KNO2 \u2192 K2O + NO\u2191 + NO2\u2191';
+            return null;
+        }
+        if (tokens.length === 2 && hasAllReactants(tokens, ['KClO3', 'MnO2'])) {
+            if (hasKeyword(rawInput, ['кат', 'catalyst', 'mnо2']) || hasHeatingCondition(rawInput)) {
+                return '2KClO3 \u2192 2KCl + 3O2\u2191';
+            }
+        }
         return null;
     }
 
@@ -1510,6 +1777,212 @@
         if (acid === 'H2SO3') return 'H2SO3 \u2192 SO2\u2191 + H2O';
         if (acid === 'HNO2') return '2HNO2 \u2192 NO\u2191 + NO2\u2191 + H2O';
         if (acid === 'H2SiO3') return 'H2SiO3 \u2192 SiO2 + H2O';
+        return null;
+    }
+
+    function ruleSiliconSpecific(tokens, rawInput) {
+        const hotFusion = hasKeyword(rawInput, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv']) || hasHeatingCondition(rawInput);
+        if (hasAllReactants(tokens, ['SiO2', 'NaOH'])) {
+            if (!hotFusion) return null;
+            return 'SiO2 + 2NaOH \u2192 Na2SiO3 + H2O';
+        }
+        if (hasAllReactants(tokens, ['SiO2', 'KOH'])) {
+            if (!hotFusion) return null;
+            return 'SiO2 + 2KOH \u2192 K2SiO3 + H2O';
+        }
+        if (hasAllReactants(tokens, ['SiO2', 'Na2CO3'])) {
+            if (!hotFusion) return null;
+            return 'SiO2 + Na2CO3 \u2192 Na2SiO3 + CO2\u2191';
+        }
+        if (hasAllReactants(tokens, ['SiO2', 'CaO'])) {
+            if (!hotFusion) return null;
+            return 'SiO2 + CaO \u2192 CaSiO3';
+        }
+        if (hasAllReactants(tokens, ['SiO2', 'HF'])) {
+            return 'SiO2 + 4HF \u2192 SiF4\u2191 + 2H2O';
+        }
+        if (hasAllReactants(tokens, ['Si', 'NaOH', 'H2O'])) {
+            return 'Si + 2NaOH + H2O \u2192 Na2SiO3 + 2H2\u2191';
+        }
+        if (hasAllReactants(tokens, ['Si', 'KOH', 'H2O'])) {
+            return 'Si + 2KOH + H2O \u2192 K2SiO3 + 2H2\u2191';
+        }
+        if (hasAllReactants(tokens, ['Na2SiO3', 'CO2', 'H2O'])) {
+            return 'Na2SiO3 + CO2 + H2O \u2192 Na2CO3 + H2SiO3\u2193';
+        }
+        return null;
+    }
+
+    function rulePhosphorusSpecific(tokens, rawInput) {
+        if (hasAllReactants(tokens, ['P', 'O2'])) {
+            if (hasDeficitCondition(rawInput)) return '4P + 3O2 \u2192 2P2O3';
+            return '4P + 5O2 \u2192 2P2O5';
+        }
+        if (hasAllReactants(tokens, ['P', 'Cl2'])) {
+            if (hasExcessOn(rawInput, 'Cl2')) return '2P + 5Cl2 \u2192 2PCl5';
+            if (hasDeficitCondition(rawInput)) return '2P + 3Cl2 \u2192 2PCl3';
+            return '2P + 3Cl2 \u2192 2PCl3';
+        }
+        if (hasAllReactants(tokens, ['P', 'Ca'])) return '3Ca + 2P \u2192 Ca3P2';
+        if (hasAllReactants(tokens, ['P', 'Na'])) return '3Na + P \u2192 Na3P';
+        if (hasAllReactants(tokens, ['PCl3', 'H2O'])) return 'PCl3 + 3H2O \u2192 H3PO3 + 3HCl';
+        if (hasAllReactants(tokens, ['PCl5', 'H2O'])) return 'PCl5 + 4H2O \u2192 H3PO4 + 5HCl';
+        return null;
+    }
+
+    function ruleCarbonSpecific(tokens, rawInput) {
+        if (hasAllReactants(tokens, ['C', 'H2O'])) {
+            if (hasKeyword(rawInput, ['пар', 'steam']) || hasHeatingCondition(rawInput)) {
+                return 'C + H2O \u2192 CO + H2\u2191';
+            }
+            return null;
+        }
+        if (hasAllReactants(tokens, ['CO2', 'C'])) {
+            if (hasHeatingCondition(rawInput) || hasKeyword(rawInput, ['t', 'нагрев', 'кокс'])) {
+                return 'CO2 + C \u2192 2CO';
+            }
+            return null;
+        }
+        if (hasAllReactants(tokens, ['CO2', 'Mg'])) {
+            return '2Mg + CO2 \u2192 2MgO + C';
+        }
+        if (hasAllReactants(tokens, ['CO', 'NaOH'])) {
+            if (hasKeyword(rawInput, ['конц', 'давл', 'pressure', 'highp'])) {
+                return 'CO + NaOH \u2192 HCOONa';
+            }
+            return null;
+        }
+        if (hasAllReactants(tokens, ['CO', 'KOH'])) {
+            if (hasKeyword(rawInput, ['конц', 'давл', 'pressure', 'highp'])) {
+                return 'CO + KOH \u2192 HCOOK';
+            }
+            return null;
+        }
+        return null;
+    }
+
+    function ruleSulfidesSpecific(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        if (hasAllReactants(tokens, ['FeS2', 'O2'])) {
+            return '4FeS2 + 11O2 \u2192 2Fe2O3 + 8SO2\u2191';
+        }
+        if (hasAllReactants(tokens, ['CuS', 'HNO3'])) {
+            return '3CuS + 8HNO3 \u2192 3Cu(NO3)2 + 3S\u2193 + 2NO\u2191 + 4H2O';
+        }
+        if (hasAllReactants(tokens, ['PbS', 'HNO3'])) {
+            return '3PbS + 8HNO3 \u2192 3Pb(NO3)2 + 3S\u2193 + 2NO\u2191 + 4H2O';
+        }
+        return null;
+    }
+
+    function ruleIodineStarch(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        const normalized = tokens.map((t) => normalizeToken(t, { stripConditions: true }).toLowerCase());
+        const hasIodine = normalized.includes('i2');
+        const hasStarch = normalized.some((t) =>
+            t === 'starch'
+            || t.includes('крахмал')
+            || t.includes('krakhmal')
+            || t.includes('krahmal')
+        );
+        if (!hasIodine || !hasStarch) return null;
+        return 'I2 + starch \u2192 I2·starch (синий комплекс)';
+    }
+
+    function ruleAmmoniaReducing(tokens, rawInput) {
+        if (hasAllReactants(tokens, ['NH3', 'CuO'])) {
+            return '2NH3 + 3CuO \u2192 3Cu + N2\u2191 + 3H2O';
+        }
+        return null;
+    }
+
+    function ruleHalogenLabPreparation(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        if (hasAllReactants(tokens, ['HCl', 'MnO2'])) {
+            if (!hasHeatingCondition(rawInput) && !hasKeyword(rawInput, ['конц', 'conc'])) return null;
+            return 'MnO2 + 4HCl \u2192 MnCl2 + Cl2\u2191 + 2H2O';
+        }
+        return null;
+    }
+
+    function ruleComplexQualitative(tokens, rawInput) {
+        if (hasAllReactants(tokens, ['FeCl3', 'KSCN'])) return 'FeCl3 + 3KSCN \u2192 Fe(SCN)3 + 3KCl';
+        if (hasAllReactants(tokens, ['FeCl3', 'K4[Fe(CN)6]'])) return 'FeCl3 + K4[Fe(CN)6] \u2192 KFe[Fe(CN)6]\u2193 + 3KCl';
+        if (hasAllReactants(tokens, ['FeCl2', 'K3[Fe(CN)6]'])) return 'FeCl2 + K3[Fe(CN)6] \u2192 KFe[Fe(CN)6]\u2193 + 2KCl';
+        if (hasAllReactants(tokens, ['AgNO3', 'NH3'])) return 'AgNO3 + 2NH3 \u2192 [Ag(NH3)2]NO3';
+        if (hasAllReactants(tokens, ['Zn(OH)2', 'NH3'])) return 'Zn(OH)2 + 4NH3 \u2192 [Zn(NH3)4](OH)2';
+        return null;
+    }
+
+    function ruleAmphotericSaltExcessAlkali(tokens, rawInput) {
+        if (!(hasKeyword(rawInput, ['изб', 'excess']) || hasExcessOn(rawInput))) return null;
+        if (hasAllReactants(tokens, ['AlCl3', 'NaOH'])) return 'AlCl3 + 4NaOH \u2192 Na[Al(OH)4] + 3NaCl';
+        if (hasAllReactants(tokens, ['AlCl3', 'KOH'])) return 'AlCl3 + 4KOH \u2192 K[Al(OH)4] + 3KCl';
+        return null;
+    }
+
+    function ruleAmmoniumDecomposition(tokens, rawInput) {
+        if (tokens.length !== 1) return null;
+        const single = normalizeToken(tokens[0], { stripConditions: true });
+        if (single === 'NH4Cl') return 'NH4Cl \u2192 NH3\u2191 + HCl\u2191';
+        if (single === 'NH4HCO3') return 'NH4HCO3 \u2192 NH3\u2191 + CO2\u2191 + H2O';
+        if (single === '(NH4)2Cr2O7') return '(NH4)2Cr2O7 \u2192 Cr2O3 + N2\u2191 + 4H2O';
+        return null;
+    }
+
+    function ruleReductionByHydrogen(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        if (hasAllReactants(tokens, ['Fe2O3', 'H2'])) return 'Fe2O3 + 3H2 \u2192 2Fe + 3H2O';
+        if (hasAllReactants(tokens, ['CuO', 'H2'])) return 'CuO + H2 \u2192 Cu + H2O';
+        if (hasAllReactants(tokens, ['WO3', 'H2'])) return 'WO3 + 3H2 \u2192 W + 3H2O';
+        return null;
+    }
+
+    function ruleMetalNonmetalSynthesis(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        if (hasAllReactants(tokens, ['Fe', 'S'])) return 'Fe + S \u2192 FeS';
+        if (hasAllReactants(tokens, ['Cu', 'S'])) return 'Cu + S \u2192 CuS';
+        if (hasAllReactants(tokens, ['Na', 'S'])) return '2Na + S \u2192 Na2S';
+        if (hasAllReactants(tokens, ['Ca', 'N2'])) return '3Ca + N2 \u2192 Ca3N2';
+        if (hasAllReactants(tokens, ['Mg', 'N2'])) return '3Mg + N2 \u2192 Mg3N2';
+        if (hasAllReactants(tokens, ['Li', 'N2'])) return '6Li + N2 \u2192 2Li3N';
+        return null;
+    }
+
+    function ruleNonmetalNonmetalSynthesis(tokens, rawInput) {
+        if (tokens.length !== 2) return null;
+        if (hasAllReactants(tokens, ['H2', 'Cl2'])) return 'H2 + Cl2 \u2192 2HCl';
+        if (hasAllReactants(tokens, ['H2', 'S'])) return 'H2 + S \u2192 H2S';
+        if (hasAllReactants(tokens, ['N2', 'H2'])) return 'N2 + 3H2 \u21cc 2NH3';
+        return null;
+    }
+
+    function ruleFe2ToFe3Oxidation(tokens, rawInput) {
+        if (hasAllReactants(tokens, ['Fe(OH)2', 'O2', 'H2O'])) {
+            return '4Fe(OH)2 + O2 + 2H2O \u2192 4Fe(OH)3';
+        }
+        if (hasAllReactants(tokens, ['FeCl2', 'Cl2'])) {
+            return '2FeCl2 + Cl2 \u2192 2FeCl3';
+        }
+        return null;
+    }
+
+    function ruleLimewaterCO2(tokens, rawInput) {
+        if (!hasAllReactants(tokens, ['Ca(OH)2', 'CO2'])) return null;
+        if (hasKeyword(rawInput, ['изб', 'excess'])) {
+            return 'Ca(OH)2 + 2CO2 \u2192 Ca(HCO3)2';
+        }
+        return 'Ca(OH)2 + CO2 \u2192 CaCO3\u2193 + H2O';
+    }
+
+    function ruleLabAcidGeneration(tokens, rawInput) {
+        if (!hasKeyword(rawInput, ['конц', 'conc'])) return null;
+        if (hasAllReactants(tokens, ['H2SO4', 'NaCl'])) {
+            return 'NaCl + H2SO4(конц) \u2192 NaHSO4 + HCl\u2191';
+        }
+        if (hasAllReactants(tokens, ['H2SO4', 'NaNO3'])) {
+            return 'NaNO3 + H2SO4(конц) \u2192 NaHSO4 + HNO3\u2191';
+        }
         return null;
     }
 
@@ -1689,8 +2162,9 @@
         const clean = stripPhaseMarkers(String(formula || ''));
         const gasSet = new Set([
             'H2', 'O2', 'N2', 'Cl2', 'Br2', 'I2', 'F2',
-            'CO2', 'CO', 'SO2', 'NO', 'NO2', 'N2O',
-            'NH3', 'H2S', 'PH3', 'CH4', 'C2H2'
+            'CO2', 'CO', 'SO2', 'SO3', 'NO', 'NO2', 'N2O',
+            'NH3', 'H2S', 'PH3', 'CH4', 'C2H2',
+            'HCl', 'HBr', 'HI', 'HNO3'
         ]);
         return gasSet.has(clean);
     }
@@ -1701,7 +2175,7 @@
             'AgCl', 'AgBr', 'AgI', 'BaSO4', 'PbSO4',
             'CaCO3', 'MgCO3', 'BaCO3',
             'Cu(OH)2', 'Fe(OH)2', 'Fe(OH)3', 'Al(OH)3', 'Zn(OH)2', 'Mg(OH)2',
-            'H2SiO3'
+            'H2SiO3', 'S'
         ]);
         if (knownPrecipitates.has(clean)) return true;
 
@@ -1789,6 +2263,22 @@
     function applyRules(tokens, rawTokens) {
         const handlers = [
             { id: 'R00', fn: ruleSpecialCombination, status: 'Подставлено по специальному шаблону реакции.' },
+            { id: 'R78', fn: (t, r) => ruleIodineStarch(t, r), status: 'Подставлено по качественной реакции I2 с крахмалом.' },
+            { id: 'R77', fn: (t, r) => ruleSulfidesSpecific(t, r), status: 'Подставлено по специальному правилу химии сульфидов.' },
+            { id: 'R76', fn: (t, r) => rulePhosphorusSpecific(t, r), status: 'Подставлено по специальному правилу химии фосфора.' },
+            { id: 'R75', fn: (t, r) => ruleCarbonSpecific(t, r), status: 'Подставлено по специальному правилу химии углерода.' },
+            { id: 'R74', fn: (t, r) => ruleHalogenLabPreparation(t, r), status: 'Подставлено по лабораторному способу получения хлора.' },
+            { id: 'R73', fn: (t, r) => ruleAmmoniaReducing(t, r), status: 'Подставлено по правилу восстановительных свойств аммиака.' },
+            { id: 'R72', fn: (t, r) => ruleComplexQualitative(t, r), status: 'Подставлено по правилу качественных/комплексных реакций.' },
+            { id: 'R71', fn: (t, r) => ruleAmphotericSaltExcessAlkali(t, r), status: 'Подставлено по правилу растворения амфотерного гидроксида в избытке щёлочи.' },
+            { id: 'R68', fn: (t, r) => ruleSiliconSpecific(t, r), status: 'Подставлено по специальному правилу химии кремния.' },
+            { id: 'R67', fn: (t, r) => ruleAmmoniumDecomposition(t, r), status: 'Подставлено по правилу разложения солей аммония.' },
+            { id: 'R66', fn: (t, r) => ruleReductionByHydrogen(t, r), status: 'Подставлено по правилу восстановления оксидов водородом.' },
+            { id: 'R65', fn: (t, r) => ruleMetalNonmetalSynthesis(t, r), status: 'Подставлено по правилу: металл + неметалл.' },
+            { id: 'R64', fn: (t, r) => ruleNonmetalNonmetalSynthesis(t, r), status: 'Подставлено по правилу: неметалл + неметалл.' },
+            { id: 'R63', fn: (t, r) => ruleFe2ToFe3Oxidation(t, r), status: 'Подставлено по правилу окисления Fe²⁺ до Fe³⁺.' },
+            { id: 'R62', fn: (t, r) => ruleLimewaterCO2(t, r), status: 'Подставлено по качественной реакции с CO2 и Ca(OH)2.' },
+            { id: 'R61', fn: (t, r) => ruleLabAcidGeneration(t, r), status: 'Подставлено по лабораторному способу получения летучих кислот.' },
             { id: 'R59', fn: (t, r) => ruleReductionByCarbon(t, r), status: 'Подставлено по правилу восстановления углеродом.' },
             { id: 'R58', fn: (t, r) => ruleReductionByCO(t, r), status: 'Подставлено по правилу восстановления CO.' },
             { id: 'R57', fn: (t, r) => ruleThermalOxidizerDecomposition(t, r), status: 'Подставлено по правилу термолиза окислителей.' },
@@ -1817,9 +2307,6 @@
             { id: 'R36', fn: ruleKMnO4, status: 'Подставлено по правилу ОВР с KMnO4 (кислая/нейтр. среда).' },
             { id: 'R37', fn: ruleK2Cr2O7FeSO4, status: 'Подставлено по правилу для K2Cr2O7 + FeSO4.' },
             { id: 'R38', fn: ruleK2Cr2O7, status: 'Подставлено по правилу ОВР с K2Cr2O7.' },
-            { id: 'R28', fn: ruleKMnO4, status: 'Подставлено по правилу для KMnO4.' },
-            { id: 'R29B', fn: ruleK2Cr2O7FeSO4, status: 'Подставлено по правилу для K2Cr2O7 + FeSO4.' },
-            { id: 'R29', fn: ruleK2Cr2O7, status: 'Подставлено по правилу для K2Cr2O7.' },
             { id: 'R20', fn: (t, r) => ruleDecompositionNitrates(t, r), status: 'Подставлено по правилу разложения нитратов.' },
             { id: 'R21', fn: (t, r) => ruleDecompositionCarbonates(t, r), status: 'Подставлено по правилу разложения карбонатов.' },
             { id: 'R22', fn: (t, r) => ruleDecompositionHydroxides(t, r), status: 'Подставлено по правилу разложения гидроксидов.' },
@@ -2135,6 +2622,16 @@
     }
 
     async function loadReactionsDB() {
+        if (window.REACTIONS_DB && window.REACTIONS_DB.reaction_examples) {
+            reactionsIndex = buildIndex(window.REACTIONS_DB.reaction_examples || []);
+            ionMaps = buildIonMaps(window.REACTIONS_DB);
+            dataMaps = buildDataMaps(window.REACTIONS_DB);
+            ruleMap = new Map((window.REACTIONS_DB.reaction_rules || []).map((r) => [r.rule_id, r]));
+            dbLoaded = true;
+            dbError = null;
+            return;
+        }
+
         try {
             const res = await fetch(DB_URL, { cache: 'force-cache' });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -2200,6 +2697,57 @@
         return suggestions;
     }
 
+    function formatExampleEquation(example) {
+        if (!example) return '';
+        if (example.equation) return String(example.equation);
+        if (example.reactants && example.products) {
+            return `${example.reactants} → ${example.products}`;
+        }
+        return '';
+    }
+
+    function isCorruptedDbText(text) {
+        const t = String(text || '');
+        if (!t) return false;
+        if (/\?{2,}/.test(t)) return true;
+        if (/\s\?\s/.test(t)) return true;
+        if (/[A-Za-zА-Яа-я0-9\])]\?(?=\s|$|\+|\))/u.test(t)) return true;
+        return false;
+    }
+
+    function pickBestExampleMatch(matches) {
+        for (const example of (matches || [])) {
+            const equation = formatExampleEquation(example);
+            if (!equation) continue;
+            if (isCorruptedDbText(equation)) continue;
+            return { example, equation };
+        }
+        return null;
+    }
+
+    function appendFusionVariantIfRelevant(equation, statusText, tokens, rawInput) {
+        const raw = rawInput || '';
+        if (!equation) return { equation: '', status: statusText || '' };
+        if (hasConditionHint(raw)) return { equation, status: statusText };
+        if (hasKeyword(equation, ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv'])) {
+            return { equation, status: statusText };
+        }
+
+        const fusionVariantRaw = ruleAmphotericFusion(tokens, 'расплав');
+        if (!fusionVariantRaw) return { equation, status: statusText };
+
+        const fusionVariant = postProcessRuleEquation(fusionVariantRaw, 'R17');
+        if (!fusionVariant || fusionVariant === equation) {
+            return { equation, status: statusText };
+        }
+
+        const mergedEquation = `${equation}\n(расплав): ${fusionVariant}`;
+        const mergedStatus = statusText
+            ? `${statusText} Добавлен вариант для расплава.`
+            : 'Подставлено по правилу. Добавлен вариант для расплава.';
+        return { equation: mergedEquation, status: mergedStatus };
+    }
+
     function renderOutput(outputEl, statusEl, tokens, rawInput) {
         if (!outputEl) return;
         if (!tokens.length) {
@@ -2224,11 +2772,77 @@
             return;
         }
 
+        if (hasKeyword(rawInput || '', ['элект', 'электролиз', 'electrolysis', 'electro'])) {
+            const electroRuleHit = applyRules(tokens, rawInput || '');
+            if (electroRuleHit) {
+                outputEl.value = electroRuleHit.equation;
+                if (statusEl) {
+                    statusEl.textContent = electroRuleHit.status || 'Подставлено по правилу.';
+                }
+                return;
+            }
+        }
+
+        if (hasKeyword(rawInput || '', ['сплав', 'сплавл', 'расплав', 'melt', 'molten', 'fusion', 'splav', 'spalv'])) {
+            const fusionRuleHit = applyRules(tokens, rawInput || '');
+            if (fusionRuleHit) {
+                outputEl.value = fusionRuleHit.equation;
+                if (statusEl) {
+                    statusEl.textContent = fusionRuleHit.status || 'Подставлено по правилу.';
+                }
+                return;
+            }
+        }
+
+        const strictKey = buildKey(tokens, { stripConditions: false });
+        const strictMatches = strictKey ? (reactionsIndex.strict.get(strictKey) || []) : [];
+        const strictBest = pickBestExampleMatch(strictMatches);
+        if (strictBest) {
+            const bestMatch = strictBest.example;
+            const statusText = bestMatch.notes && !isCorruptedDbText(bestMatch.notes)
+                ? `Найдено в базе: ${bestMatch.notes}`
+                : 'Найдено точное совпадение в базе реакций.';
+            const withFusion = appendFusionVariantIfRelevant(strictBest.equation, statusText, tokens, rawInput);
+            outputEl.value = withFusion.equation;
+            if (statusEl) {
+                statusEl.textContent = withFusion.status;
+            }
+            return;
+        }
+
+        if (hasConditionHint(rawInput || '')) {
+            const conditionedRuleHit = applyRules(tokens, rawInput || '');
+            if (conditionedRuleHit) {
+                outputEl.value = conditionedRuleHit.equation;
+                if (statusEl) {
+                    statusEl.textContent = conditionedRuleHit.status || 'Подставлено по правилу.';
+                }
+                return;
+            }
+        }
+
+        const relaxedKey = buildKey(tokens, { stripConditions: true });
+        const relaxedMatches = relaxedKey ? (reactionsIndex.relaxed.get(relaxedKey) || []) : [];
+        const relaxedBest = pickBestExampleMatch(relaxedMatches);
+        if (relaxedBest) {
+            const bestMatch = relaxedBest.example;
+            const statusText = bestMatch.notes && !isCorruptedDbText(bestMatch.notes)
+                ? `Найдено в базе: ${bestMatch.notes}`
+                : 'Найдено совпадение в базе реакций.';
+            const withFusion = appendFusionVariantIfRelevant(relaxedBest.equation, statusText, tokens, rawInput);
+            outputEl.value = withFusion.equation;
+            if (statusEl) {
+                statusEl.textContent = withFusion.status;
+            }
+            return;
+        }
+
         const ruleHit = applyRules(tokens, rawInput || '');
         if (ruleHit) {
-            outputEl.value = ruleHit.equation;
+            const withFusion = appendFusionVariantIfRelevant(ruleHit.equation, ruleHit.status || 'Подставлено по правилу.', tokens, rawInput);
+            outputEl.value = withFusion.equation;
             if (statusEl) {
-                statusEl.textContent = ruleHit.status || 'Подставлено по правилу.';
+                statusEl.textContent = withFusion.status;
             }
             return;
         }
@@ -2239,6 +2853,18 @@
             outputEl.value = `${reactantsText} \u21cf\nПричина: ${noRx.reason}`;
             if (statusEl) {
                 statusEl.textContent = 'Реакция не идёт.';
+            }
+            return;
+        }
+
+        const suggestions = findSuggestions(tokens);
+        if (suggestions.length > 0) {
+            const suggestionLines = suggestions
+                .map((example, idx) => `${idx + 1}. ${formatExampleEquation(example) || (example.reactants || '')}`)
+                .join('\n');
+            outputEl.value = `Точной реакции не найдено. Похожие примеры:\n${suggestionLines}`;
+            if (statusEl) {
+                statusEl.textContent = 'Показаны похожие примеры из базы реакций.';
             }
             return;
         }

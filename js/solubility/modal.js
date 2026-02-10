@@ -40,25 +40,18 @@ window.openSolubility = async function () {
     modal.style.display = 'flex';
     document.body.classList.add('solubility-open');
 
-    // 4. Управление интерфейсом (АДАПТИВНОЕ)
+    // 4. Управление интерфейсом
     const fabContainer = document.getElementById('fab-container');
     const themeToggle = document.getElementById('theme-toggle');
+    const isMobile = window.innerWidth <= 1024;
+    if (fabContainer) fabContainer.style.display = isMobile ? 'none' : '';
+    if (themeToggle) themeToggle.style.display = '';
 
-    if (window.innerWidth <= 1024) {
-        // МОБИЛЬНЫЕ: Скрываем всё лишнее, чтобы освободить место
-        if (fabContainer) fabContainer.style.display = 'none';
-        if (themeToggle) themeToggle.style.display = 'none';
-    } else {
-        // ПК: Убеждаемся, что всё видно (на случай, если было скрыто ранее)
-        if (fabContainer) fabContainer.style.display = '';
-        if (themeToggle) themeToggle.style.display = '';
-
-        // Явно восстанавливаем видимость кнопок внутри FAB (если они были скрыты)
-        const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
-        const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
-        if (calcButton) calcButton.style.display = '';
-        if (particlesButton) particlesButton.style.display = '';
-    }
+    // Явно восстанавливаем видимость кнопок внутри FAB (если они были скрыты ранее)
+    const calcButton = document.querySelector('.fab-option[onclick="toggleCalc()"]');
+    const particlesButton = document.querySelector('.fab-option[onclick="toggleParticles()"]');
+    if (calcButton) calcButton.style.display = '';
+    if (particlesButton) particlesButton.style.display = '';
 
     // 5. Инициализация подмодулей (продвинутый режим, ряд активности, поиск)
     if (typeof initAdvancedModeButton === 'function') initAdvancedModeButton();

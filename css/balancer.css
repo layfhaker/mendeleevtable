@@ -10,23 +10,28 @@
     width: 320px;
     min-height: 180px;
     max-height: 400px;
-    background: white;
-    border: 2px solid #2196F3;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    max-height: 400px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(33, 150, 243, 0.5);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     display: none;
     flex-direction: column;
     z-index: 1000;
     opacity: 0;
     transform: translateY(16px) scale(0.985);
     will-change: transform, opacity;
-    pointer-events: none; /* Fixes zombie hitbox issue */
+    pointer-events: none;
+    /* Fixes zombie hitbox issue */
 }
 
 .balancer-panel.active {
     display: flex;
     animation: balancerOpen var(--flip-move-ms) var(--flip-ease) forwards;
-    pointer-events: auto; /* Enable pointer events when active */
+    pointer-events: auto;
+    /* Enable pointer events when active */
 }
 
 .balancer-panel.active.closing {
@@ -93,7 +98,8 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
 
 /* 1. Контейнер */
 .balancer-content {
-    flex: 1 1 auto; /* Занимает всё место, которое даст JS */
+    flex: 1 1 auto;
+    /* Занимает всё место, которое даст JS */
     display: flex;
     flex-direction: column;
     padding: 10px 12px;
@@ -104,8 +110,10 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
     overflow-y: auto;
     overflow-x: hidden;
 
-    -ms-overflow-style: auto;  /* IE and Edge */
-    scrollbar-width: thin;  /* Firefox */
+    -ms-overflow-style: auto;
+    /* IE and Edge */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 /* 2. Поле ввода */
@@ -121,7 +129,8 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
     padding: 10px 12px;
     border: 1px solid #ddd;
     border-radius: 6px;
-    font-size: 15px; /* Чуть крупнее для удобства */
+    font-size: 15px;
+    /* Чуть крупнее для удобства */
     background: #fff;
     color: #333;
     outline: none;
@@ -133,18 +142,35 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
 }
 
 #balance-btn {
-    padding: 0 16px;
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #2196F3;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 14px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 }
 
-#balance-btn:hover { background: #1976D2; }
+#balance-btn svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+#balance-btn:hover {
+    background: #1976D2;
+    transform: scale(1.05);
+}
+
+#balance-btn:active {
+    transform: scale(0.95);
+}
 
 /* 3. Результат */
 .balancer-result {
@@ -158,7 +184,8 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
     border-radius: 6px;
     padding: 12px;
     text-align: center;
-    font-size: 18px; /* Крупный шрифт результата */
+    font-size: 18px;
+    /* Крупный шрифт результата */
     line-height: 1.4;
     color: #37474f;
     word-break: break-word;
@@ -173,11 +200,15 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
 
 /* Исправление отображения индексов (маленьких цифр) */
 .balancer-result sub {
-    font-size: 0.6em;       /* Уменьшаем размер шрифта до 60% */
-    vertical-align: sub;    /* Стандартное выравнивание */
-    line-height: 0;         /* Чтобы индекс не раздвигал высоту строки */
+    font-size: 0.6em;
+    /* Уменьшаем размер шрифта до 60% */
+    vertical-align: sub;
+    /* Стандартное выравнивание */
+    line-height: 0;
+    /* Чтобы индекс не раздвигал высоту строки */
     position: relative;
-    bottom: -0.1em;         /* Небольшая корректировка позиции, если нужно */
+    bottom: -0.1em;
+    /* Небольшая корректировка позиции, если нужно */
 }
 
 .placeholder-text {
@@ -205,8 +236,10 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
     margin-top: 5px;
     padding-top: 10px;
     border-top: 1px solid #eee;
-    max-height: 80px; /* Ограничиваем высоту примеров */
-    overflow-y: auto; /* Добавляем скролл при необходимости */
+    max-height: 80px;
+    /* Ограничиваем высоту примеров */
+    overflow-y: auto;
+    /* Добавляем скролл при необходимости */
 }
 
 .balancer-examples span {
@@ -241,35 +274,50 @@ body.dark-theme .balancer-content::-webkit-scrollbar-thumb:hover {
 
 /* --- ТЕМНАЯ ТЕМА --- */
 body.dark-theme #balancer-panel {
-    background: #2d2d44;
-    border-color: #444;
+    background: rgba(45, 45, 68, 0.85);
+    border-color: rgba(68, 68, 68, 0.5);
 }
+
 body.dark-theme #balancer-input {
     background: #393952;
     border-color: #4a4a6a;
     color: #fff;
 }
+
 body.dark-theme .balancer-result {
     background: #252535;
     border-color: #4a4a6a;
     color: #eceff1;
 }
-body.dark-theme .balancer-result .coeff { color: #ff8a80; }
-body.dark-theme .placeholder-text { color: #607d8b; }
-body.dark-theme .balancer-examples { border-top-color: #444; }
+
+body.dark-theme .balancer-result .coeff {
+    color: #ff8a80;
+}
+
+body.dark-theme .placeholder-text {
+    color: #607d8b;
+}
+
+body.dark-theme .balancer-examples {
+    border-top-color: #444;
+}
+
 body.dark-theme .ex-chips button {
     background: #32324a;
     border-color: #4a4a6a;
     color: #9fa8da;
 }
+
 body.dark-theme .ex-chips button:hover {
     background: #3f3f5c;
     color: #fff;
 }
+
 /* Для темного режима используем общий стиль скроллбара */
 
 /* Стили для активного уравнивателя */
 @media (max-width: 1024px) {
+
     body.balancer-active #theme-toggle,
     body.balancer-active .fab-container {
         opacity: 0;
@@ -279,12 +327,16 @@ body.dark-theme .ex-chips button:hover {
 
     /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
     body.balancer-active {
-        overflow-y: hidden !important; /* Блокируем вертикальный скролл страницы */
-        overflow-x: auto !important;   /* Разрешаем горизонтальный */
-        position: fixed !important;    /* Фиксируем позицию body при открытии панели */
+        overflow-y: hidden !important;
+        /* Блокируем вертикальный скролл страницы */
+        overflow-x: auto !important;
+        /* Разрешаем горизонтальный */
+        position: fixed !important;
+        /* Фиксируем позицию body при открытии панели */
         height: 100% !important;
         width: 100% !important;
-        touch-action: pan-x;           /* Подсказка браузеру, что можно свайпать влево-вправо */
+        touch-action: pan-x;
+        /* Подсказка браузеру, что можно свайпать влево-вправо */
         left: 0;
         top: 0;
         right: 0;
@@ -309,11 +361,13 @@ body.dark-theme .ex-chips button:hover {
         height: 25vh !important;
         max-height: 40vh !important;
 
-        background: #ffffff;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border: 2px solid #2196F3;
         border-bottom: none;
         border-radius: 20px 20px 0 0;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
 
         display: none;
         flex-direction: column;
@@ -362,5 +416,3 @@ body.dark-theme .ex-chips button:hover {
         transform: translateY(100%);
     }
 }
-
-

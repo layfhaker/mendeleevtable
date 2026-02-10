@@ -15,13 +15,6 @@
     pointer-events: none;
 }
 
-@media (max-width: 1024px) {
-    body.reactions-open .fab-container {
-        opacity: 0;
-        pointer-events: none;
-    }
-}
-
 /* --- Главная кнопка --- */
 .fab-main {
     width: 60px;
@@ -292,13 +285,6 @@ body.dark-theme .fab-theme-btn .icon-sun { display: block; }
            min-height: 20px !important;
        }
    }
-
-   /* Скрываем FAB при открытых панелях */
-   body.calc-active .fab-container,
-   body.solubility-open .fab-container {
-        opacity: 0;
-        pointer-events: none;
-    }
 
     /* Дополнительные стили для iPhone - увеличиваем размер иконок */
     body.device-iphone .fab-main svg,

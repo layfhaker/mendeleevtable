@@ -19,9 +19,25 @@ function toggleMenu() {
 let particlesEnabled = true;
 function toggleParticles() {
     const canvas = document.getElementById('particles-canvas');
+    particlesEnabled = !particlesEnabled;
+
     if (canvas) {
-        particlesEnabled = !particlesEnabled;
         canvas.style.display = particlesEnabled ? 'block' : 'none';
+    }
+
+    updateParticlesToggleUI();
+}
+
+function updateParticlesToggleUI() {
+    const particlesBtn = document.querySelector('.fab-option[onclick="toggleParticles()"] .fab-btn');
+    const statusBadge = document.getElementById('particles-status');
+
+    if (particlesBtn) {
+        particlesBtn.classList.toggle('active', particlesEnabled);
+    }
+    if (statusBadge) {
+        statusBadge.textContent = particlesEnabled ? 'ON' : 'OFF';
+        statusBadge.classList.toggle('active', particlesEnabled);
     }
 }
 
@@ -108,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initPanHints();
+    updateParticlesToggleUI();
 });
 
 window.initSolubilityDrag = function() {
@@ -187,63 +204,71 @@ function setHintVisible(el, visible) {
 // =========================================
 
 // 1. Калькулятор
-window.toggleCalc = async function() {
+window.toggleCalc = async function(event) {
     const PANEL_ANIM_MS = 360;
-    const isElementModalOpen = document.body.classList.contains('modal-open');
-    // Проверяем, открыт ли уравниватель
-    const isBalancerOpen = document.body.classList.contains('balancer-active');
-    const isSolubilityOpen = document.body.classList.contains('solubility-open');
-    const filtersPanel = document.getElementById('filters-panel');
-    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
-
-    if (isElementModalOpen || isSolubilityOpen || isFiltersOpen || isBalancerOpen) {
-        return;
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
     }
-    // Загружаем модуль если ещё не загружен
-    if (window.loadCalculator) await window.loadCalculator();
 
     const panel = document.getElementById('calc-panel');
     const fab = document.getElementById('fab-container');
-    const wasFabActive = fab && fab.classList.contains('active'); // Сохраняем состояние FAB перед изменениями
+    const themeToggle = document.getElementById('theme-toggle');
 
-    if (!panel) return;
-
-    // Переключаем состояние
-    if (panel.classList.contains('active')) {
-        // Закрываем
+    // Закрытие всегда доступно, даже если одновременно активировались другие состояния UI.
+    if (panel && panel.classList.contains('active')) {
         if (panel.classList.contains('closing')) return;
         panel.classList.add('closing');
         document.body.classList.remove('calc-active');
+        if (themeToggle) themeToggle.style.display = '';
         resetFabPosition();
         if (window.mobileLayout && typeof window.mobileLayout.resetTransform === 'function') {
             window.mobileLayout.resetTransform();
         }
 
-        // Восстанавливаем состояние FAB если оно было активно до открытия калькулятора
-        if (wasFabActive && fab && window.innerWidth > 1024) {
-            fab.classList.add('active');
-        }
-
         setTimeout(() => {
             panel.classList.remove('active', 'closing');
+            if (window.innerWidth <= 1024 && fab) {
+                fab.classList.add('active');
+            }
         }, PANEL_ANIM_MS);
-    } else {
-        // Открываем
-        // Не скрываем FAB на ПК, только на мобильных
-        if (window.innerWidth <= 1024 && fab) {
-            fab.classList.remove('active');
-        }
-        panel.classList.remove('closing');
-        panel.classList.add('active');
-        document.body.classList.add('calc-active');
-        if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {
-            setTimeout(() => window.mobileLayout.applyTransform(), 50);
-        }
+        return;
+    }
 
-        // Позиционируем на ПК
-        if (window.innerWidth > 1024 && typeof positionCalculatorPC === 'function') {
-            positionCalculatorPC();
-        }
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const isReactionsOpen = document.body.classList.contains('reactions-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isElementModalOpen || isSolubilityOpen || isFiltersOpen || isBalancerOpen || isReactionsOpen) {
+        return;
+    }
+
+    // Загружаем модуль если ещё не загружен
+    if (window.loadCalculator) await window.loadCalculator();
+
+    const loadedPanel = document.getElementById('calc-panel');
+    if (!loadedPanel) return;
+
+    // Открываем
+    if (window.innerWidth <= 1024 && fab) {
+        fab.classList.remove('active');
+        if (themeToggle) themeToggle.style.display = 'none';
+    } else if (themeToggle) {
+        themeToggle.style.display = '';
+    }
+    loadedPanel.classList.remove('closing');
+    loadedPanel.classList.add('active');
+    document.body.classList.add('calc-active');
+    if (window.mobileLayout && typeof window.mobileLayout.applyTransform === 'function') {
+        setTimeout(() => window.mobileLayout.applyTransform(), 50);
+    }
+
+    // Позиционируем на ПК
+    if (window.innerWidth > 1024 && typeof positionCalculatorPC === 'function') {
+        positionCalculatorPC();
     }
 };
 
@@ -264,19 +289,10 @@ window.toggleSolubility = async function() {
     // Проверяем, мобильное ли это устройство (как в mobile-layout.js)
     const isMobile = window.innerWidth <= 1024;
 
-    // ШАГ 2: Если открываем И это мобилка -> СРАЗУ прячем лишний UI
-    if (isOpening && isMobile) {
-        const fab = document.getElementById('fab-container');
-        const themeBtn = document.getElementById('theme-toggle');
-
-        if (fab) fab.style.display = 'none';
-        if (themeBtn) themeBtn.style.display = 'none';
-    }
-
-    // ШАГ 3: Грузим скрипт
+    // ШАГ 2: Грузим скрипт
     if (window.loadSolubility) await window.loadSolubility();
 
-    // ШАГ 4: Логика открытия/закрытия
+    // ШАГ 3: Логика открытия/закрытия
     if (modal) {
         if (!isCurrentlyVisible) {
             // Открываем
@@ -285,6 +301,10 @@ window.toggleSolubility = async function() {
             } else {
                 modal.style.display = 'flex';
                 document.body.classList.add('solubility-open');
+                if (isMobile) {
+                    const fab = document.getElementById('fab-container');
+                    if (fab) fab.style.display = 'none';
+                }
             }
 
             // Если мы на ПК (isMobile === false), кнопки скрывать не нужно,
@@ -336,42 +356,21 @@ window.toggleSolubility = async function() {
 };
 
 // 3. Реакции (большая модалка)
-window.toggleReactionsModal = function() {
+window.toggleReactionsModal = function(event) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
     const modal = document.getElementById('reactions-modal');
     if (!modal) return;
     bindReactionsBackdrop();
 
-    const isElementModalOpen = document.body.classList.contains('modal-open');
-    const isCalcOpen = document.body.classList.contains('calc-active');
-    const isBalancerOpen = document.body.classList.contains('balancer-active');
-    const isSolubilityOpen = document.body.classList.contains('solubility-open');
-    const filtersPanel = document.getElementById('filters-panel');
-    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
-
-    if (isElementModalOpen || isCalcOpen || isBalancerOpen || isSolubilityOpen || isFiltersOpen) {
-        return;
-    }
-
     const isCurrentlyVisible = getComputedStyle(modal).display !== 'none';
     const isMobile = window.innerWidth <= 1024;
 
-    if (!isCurrentlyVisible) {
-        modal.style.display = 'flex';
-        const scrollY = window.scrollY || window.pageYOffset || 0;
-        document.body.dataset.reactionsScroll = String(scrollY);
-        document.body.classList.add('reactions-open');
-        document.documentElement.classList.add('reactions-open');
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.width = '100%';
-
-        if (isMobile) {
-            const fab = document.getElementById('fab-container');
-            const themeBtn = document.getElementById('theme-toggle');
-            if (fab) fab.style.display = 'none';
-            if (themeBtn) themeBtn.style.display = 'none';
-        }
-    } else {
+    // Закрытие всегда должно работать, даже если параллельно открыт другой UI.
+    if (isCurrentlyVisible) {
         if (modal.classList.contains('closing')) return;
         modal.classList.add('closing');
         setTimeout(() => {
@@ -391,6 +390,36 @@ window.toggleReactionsModal = function() {
             if (fab) fab.style.display = '';
             if (themeBtn) themeBtn.style.display = '';
         }, 360);
+        return;
+    }
+
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    const isCalcOpen = document.body.classList.contains('calc-active');
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+
+    if (isElementModalOpen || isCalcOpen || isBalancerOpen || isSolubilityOpen || isFiltersOpen) {
+        return;
+    }
+
+    modal.style.display = 'flex';
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.dataset.reactionsScroll = String(scrollY);
+    document.body.classList.add('reactions-open');
+    document.documentElement.classList.add('reactions-open');
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+
+    const fab = document.getElementById('fab-container');
+    const themeBtn = document.getElementById('theme-toggle');
+
+    // На мобильных скрываем FAB и кнопку темы
+    if (isMobile) {
+        if (fab) fab.style.display = 'none';
+        if (themeBtn) themeBtn.style.display = 'none';
     }
 };
 
@@ -406,7 +435,7 @@ function bindReactionsBackdrop() {
     modal.dataset.boundBackdrop = '1';
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {
-            window.toggleReactionsModal();
+            window.toggleReactionsModal(event);
         }
     });
 }

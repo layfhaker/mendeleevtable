@@ -385,7 +385,7 @@ function clearSearch() {
     input.value = '';
     results.innerHTML = '';
     currentSearchTerm = '';
-    clearBtn.classList.remove('visible');
+    if (clearBtn) clearBtn.classList.remove('visible');
     clearElementHighlight();
 }
 
@@ -406,9 +406,9 @@ function clearSearch() {
 
         searchInput.addEventListener('input', (e) => {
             if (e.target.value.length > 0) {
-                clearBtn.classList.add('visible');
+                if (clearBtn) clearBtn.classList.add('visible');
             } else {
-                clearBtn.classList.remove('visible');
+                if (clearBtn) clearBtn.classList.remove('visible');
             }
         });
 
@@ -423,16 +423,43 @@ function clearSearch() {
 // =========================================
 // ЛОГИКА ФИЛЬТРОВ
 // =========================================
+function closeFiltersPanel(panel, animMs) {
+    if (!panel || !panel.classList.contains('active')) return;
+    if (panel.classList.contains('closing')) return;
+    panel.classList.add('closing');
+
+    // Check if mobile to reopen FAB
+    const isMobile = window.innerWidth <= 1024;
+
+    setTimeout(() => {
+        panel.classList.remove('active', 'closing');
+
+        // Open FAB on mobile after filters close
+        if (isMobile) {
+            const fab = document.getElementById('fab-container');
+            if (fab) {
+                fab.classList.add('active');
+            }
+        }
+    }, animMs);
+}
+
 function toggleFilters() {
     const PANEL_ANIM_MS = 360;
-    const isElementModalOpen = document.body.classList.contains('modal-open');
-    if (isElementModalOpen) return;
-    // Проверяем, открыт ли уравниватель
-    const isBalancerOpen = document.body.classList.contains('balancer-active');
-    if (isBalancerOpen) return;
-
     const panel = document.getElementById('filters-panel');
     const fab = document.getElementById('fab-container');
+
+    // Закрытие панели всегда должно работать, даже если параллельно активен другой UI.
+    if (panel && panel.classList.contains('active')) {
+        closeFiltersPanel(panel, PANEL_ANIM_MS);
+        return;
+    }
+
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    const isCalcOpen = document.body.classList.contains('calc-active');
+    const isReactionsOpen = document.body.classList.contains('reactions-open');
+    if (isElementModalOpen || isBalancerOpen || isCalcOpen || isReactionsOpen) return;
 
     // Проверяем, открыта ли таблица растворимости
     const isSolubilityOpen = isSolubilityModalOpen();
@@ -452,16 +479,8 @@ function toggleFilters() {
     }
 
     if (panel) {
-        if (panel.classList.contains('active')) {
-            if (panel.classList.contains('closing')) return;
-            panel.classList.add('closing');
-            setTimeout(() => {
-                panel.classList.remove('active', 'closing');
-            }, PANEL_ANIM_MS);
-        } else {
-            panel.classList.remove('closing');
-            panel.classList.add('active');
-        }
+        panel.classList.remove('closing');
+        panel.classList.add('active');
     }
 
     // Скрываем FAB только на мобильных устройствах
@@ -513,6 +532,7 @@ function resetFilters() {
 
         resetTableDisplay();
     }
+
 }
 
 // Делегирование кликов для фильтров элементов (устойчиво к замене HTML и мобилкам)

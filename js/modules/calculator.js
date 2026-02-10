@@ -11,7 +11,11 @@ document.querySelectorAll('.element').forEach(el => {
 
     // Desktop: Drag & Drop
     el.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('symbol', el.dataset.symbol);
+        const symbol = el.dataset.symbol || '';
+        e.dataTransfer.setData('symbol', symbol);
+        // Safari/Chromium fallback: some engines reliably transfer only text/plain.
+        e.dataTransfer.setData('text/plain', symbol);
+        e.dataTransfer.effectAllowed = 'copy';
         el.style.opacity = '0.5';
     });
 
@@ -68,6 +72,7 @@ document.querySelectorAll('.element').forEach(el => {
         // Подсветка drop-zone только если это не скролл
         if (!touchData.isScrolling) {
             const dropZoneEl = document.getElementById('drop-zone');
+            if (!dropZoneEl) return;
             const dropZoneRect = dropZoneEl.getBoundingClientRect();
 
             if (
@@ -88,6 +93,7 @@ document.querySelectorAll('.element').forEach(el => {
 
         const calcPanel = document.getElementById('calc-panel');
         const dropZoneEl = document.getElementById('drop-zone');
+        if (!dropZoneEl) return;
 
         if (!calcPanel.classList.contains('active') || !touchData.symbol) {
             touchData.symbol = null;
@@ -128,24 +134,26 @@ document.querySelectorAll('.element').forEach(el => {
 });
 
 // Настройка зоны сброса
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('drag-over');
-});
+if (dropZone) {
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
 
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('drag-over');
-});
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
 
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('drag-over');
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
 
-    const symbol = e.dataTransfer.getData('symbol');
-    if (symbol) {
-        addAtomToCalculator(symbol);
-    }
-});
+        const symbol = e.dataTransfer.getData('symbol') || e.dataTransfer.getData('text/plain');
+        if (symbol) {
+            addAtomToCalculator(symbol);
+        }
+    });
+}
 
 // Добавление атома в список
 function addAtomToCalculator(symbol) {
@@ -319,45 +327,60 @@ function clearCalculator() {
 }
 
 // Переключение калькулятора
-function toggleCalc() {
+function toggleCalc(event) {
     const PANEL_ANIM_MS = 360;
-    const isSolubilityOpen = document.body.classList.contains('solubility-open');
-    const filtersPanel = document.getElementById('filters-panel');
-    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
-
-    if (isSolubilityOpen || isFiltersOpen) {
-        return;
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
     }
+
     const calcPanel = document.getElementById('calc-panel');
     const fab = document.getElementById('fab-container');
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!calcPanel) return;
 
+    // Закрытие панели всегда должно срабатывать.
     if (calcPanel.classList.contains('active')) {
-        // При закрытии калькулятора не закрываем FAB меню
         if (calcPanel.classList.contains('closing')) return;
         calcPanel.classList.add('closing');
         document.body.classList.remove('calc-active');
+        if (themeToggle) themeToggle.style.display = '';
         resetFabPosition();
         setTimeout(() => {
             calcPanel.classList.remove('active', 'closing');
+            if (window.innerWidth <= 1024 && fab) {
+                fab.classList.add('active');
+            }
         }, PANEL_ANIM_MS);
+        return;
+    }
+
+    const isElementModalOpen = document.body.classList.contains('modal-open');
+    const isBalancerOpen = document.body.classList.contains('balancer-active');
+    const isSolubilityOpen = document.body.classList.contains('solubility-open');
+    const isReactionsOpen = document.body.classList.contains('reactions-open');
+    const filtersPanel = document.getElementById('filters-panel');
+    const isFiltersOpen = filtersPanel && filtersPanel.classList.contains('active');
+    if (isElementModalOpen || isBalancerOpen || isSolubilityOpen || isReactionsOpen || isFiltersOpen) {
+        return;
+    }
+
+    // При открытии калькулятора скрываем FAB меню только на мобильных устройствах
+    if (window.innerWidth <= 1024 && fab) {
+        fab.classList.remove('active');
+        if (themeToggle) themeToggle.style.display = 'none';
+    } else if (themeToggle) {
+        themeToggle.style.display = '';
+    }
+
+    calcPanel.classList.remove('closing');
+    calcPanel.classList.add('active');
+    document.body.classList.add('calc-active');
+
+    if (window.innerWidth > 1024) {
+        positionCalculatorPC();
     } else {
-        // При открытии калькулятора скрываем FAB меню только на мобильных устройствах
-        if (window.innerWidth <= 1024 && fab) {
-            fab.classList.remove('active');
-        }
-
-        calcPanel.classList.remove('closing');
-        calcPanel.classList.add('active');
-        document.body.classList.add('calc-active');
-
-        if (window.innerWidth > 1024) {
-            positionCalculatorPC();
-        } else {
-            resetCalculatorPosition();
-        }
-        if (typeof modal !== 'undefined' && modal.style.display === 'flex') {
-            closeModal();
-        }
+        resetCalculatorPosition();
     }
 }
 

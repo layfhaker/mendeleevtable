@@ -309,8 +309,14 @@ function returnElements() {
 // =========================================
 document.querySelectorAll('.element').forEach(el => {
     el.addEventListener('click', () => {
-        // Проверяем, открыт ли уравниватель или калькулятор
-        if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
+        // Проверяем, открыт ли другой полноэкранный UI/панель.
+        if (
+            document.body.classList.contains('calc-active') ||
+            document.body.classList.contains('balancer-active') ||
+            document.body.classList.contains('modal-open') ||
+            document.body.classList.contains('reactions-open') ||
+            document.body.classList.contains('solubility-open')
+        ) {
             return;
         }
         lastClickedElement = el;
@@ -326,6 +332,11 @@ document.querySelectorAll('.element').forEach(el => {
             window.spawnAtom(mainData.atomicNumber, mainData.period);
         }
         createAllotropeTabs(mainData);
+
+        const fab = document.getElementById('fab-container');
+        if (fab && fab.classList.contains('active')) {
+            fab.classList.remove('active');
+        }
 
         // Открываем модалку
         modal.style.display = "flex";
@@ -393,8 +404,8 @@ window.closeModal = closeModal;
 
 closeBtn.onclick = closeModal;
 
-window.onclick = function (event) {
-    if (event.target == modal) {
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
         closeModal();
     }
-};
+});

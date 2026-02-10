@@ -831,9 +831,79 @@ body.dark-theme .element.search-highlight:hover {
    ========================================= */
 @media (max-width: 1024px) {
     .filters-panel {
-        bottom: 90px;
-        left: 20px;
-        right: 20px;
-        width: auto;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+        max-height: 85vh;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        margin: 0;
+        border: none;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+
+    .filters-panel.active {
+        animation: bottomSheetSlideUp 0.3s cubic-bezier(0.2, 0.0, 0.0, 1.0) forwards;
+        display: flex;
+        transform: translateY(0);
+    }
+
+    .filters-panel.active.closing {
+        animation: bottomSheetSlideDown 0.25s cubic-bezier(0.2, 0.0, 0.0, 1.0) forwards;
+    }
+
+    @keyframes bottomSheetSlideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 1;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes bottomSheetSlideDown {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        to {
+            transform: translateY(100%);
+            opacity: 1;
+        }
+    }
+
+    /* Увеличиваем элементы для пальца */
+    .filters-header {
+        padding: 16px 20px;
+    }
+
+    .close-filters {
+        font-size: 24px;
+        padding: 5px;
+    }
+
+    .filter-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+        flex-grow: 1;
+        /* Растягиваем кнопки */
+        text-align: center;
+    }
+
+    .filter-buttons {
+        gap: 10px;
+    }
+
+    .search-clear {
+        padding: 10px;
     }
 }

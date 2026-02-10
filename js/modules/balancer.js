@@ -22,6 +22,15 @@ window.closeBalancer = function (event) {
         document.body.classList.remove('balancer-active');
         setTimeout(() => {
             panel.classList.remove('active', 'closing');
+
+            // Open FAB on mobile after balancer closes
+            if (window.innerWidth <= 1024) {
+                const fab = document.getElementById('fab-container');
+                if (fab) {
+                    fab.style.display = ''; // Ensure visible
+                    fab.classList.add('active'); // Expand
+                }
+            }
         }, BALANCER_ANIM_MS);
     } else {
         panel.classList.remove('active', 'closing');
@@ -121,7 +130,7 @@ window.toggleBalancer = async function (event) {
     // Show loader initially
     const resultDiv = document.getElementById('balancer-result');
     if (resultDiv) {
-        resultDiv.innerHTML = '<span class="placeholder-text">Введите уравнение для уравнивания</span>';
+        resultDiv.innerHTML = '<span class="placeholder-text">Уравнение появится здесь</span>';
     }
 };
 
@@ -165,34 +174,6 @@ window.fillBalance = function (equation) {
         input.value = equation;
         performBalance();
     }
-};
-
-window.performBalance = function () {
-    const input = document.getElementById('balancer-input');
-    const resultDiv = document.getElementById('balancer-result');
-    const errorDiv = document.getElementById('balancer-error');
-
-    if (!input || !resultDiv) return;
-
-    errorDiv.style.display = 'none';
-    resultDiv.innerHTML = '<span class="placeholder-text">Вычисляю...</span>';
-
-    setTimeout(() => {
-        try {
-            const query = input.value;
-            if (!query.trim()) throw new Error("Введите уравнение");
-
-            const balanced = balanceEquation(query);
-
-            const formatted = formatChemicalHTML(balanced);
-            resultDiv.innerHTML = formatted;
-
-        } catch (e) {
-            resultDiv.innerHTML = '';
-            errorDiv.textContent = e.message.replace(/^Error:\s*/, '');
-            errorDiv.style.display = 'block';
-        }
-    }, 50);
 };
 
 function positionBalancerPC() {

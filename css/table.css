@@ -75,7 +75,8 @@
     position: absolute;
     top: 2px;
     left: 2px;
-    font-size: clamp(7px, 0.65vw, 10px);
+    font-size: clamp(8px, 0.75vw, 12px);
+    font-weight: 600;
 }
 
 .symbol {
@@ -85,6 +86,7 @@
 
 .name {
     font-size: clamp(7px, 0.65vw, 10px);
+    font-weight: 600;
 }
 
 /* --- Цвета категорий (светлая тема) --- */
@@ -665,7 +667,7 @@
         padding: 0 16px !important;
         align-items: center !important;
     }
-    
+
     body:not(.calc-active):not(.balancer-active) #mobile-table-wrapper {
         transform: none !important;
     }
@@ -698,7 +700,7 @@
         padding: 0 16px !important;
         align-items: center !important;
     }
-    
+
     body:not(.calc-active):not(.balancer-active) #mobile-table-wrapper {
         transform: none !important;
     }

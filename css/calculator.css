@@ -397,13 +397,6 @@ body.dark-theme #calc-result {
         transform: none !important;
     }
 
-    body.calc-active #theme-toggle,
-    body.calc-active .fab-container {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-    }
-
     /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */
     body.calc-active {
         overflow-y: hidden !important;
@@ -416,14 +409,6 @@ body.dark-theme #calc-result {
         width: 100% !important;
         touch-action: pan-x;
         /* Подсказка браузеру, что можно свайпать влево-вправо */
-    }
-
-    /* Применяем те же стили при активном уравнителе */
-    body.balancer-active #theme-toggle,
-    body.balancer-active .fab-container {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
     }
 
     /* ИСПРАВЛЕНИЕ СКРОЛЛА: Разрешаем горизонтальную прокрутку, блокируем вертикальную */

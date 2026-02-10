@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     const CONFIG = {
@@ -31,22 +31,22 @@
 
     function ensureWrapper() {
         if (!isMobile()) return null;
-        
+
         let wrapper = document.getElementById('mobile-table-wrapper');
         if (wrapper) {
             state.wrapperCreated = true;
             return wrapper;
         }
-        
+
         const container = document.querySelector('.container');
         const lanthanides = document.querySelector('.lanthanides');
         const actinides = document.querySelector('.actinides');
-        
+
         if (!container) return null;
-        
+
         wrapper = document.createElement('div');
         wrapper.id = 'mobile-table-wrapper';
-        
+
         // ВАЖНО:
         // 1. align-self: center — даем контейнеру центрироваться родителем.
         // 2. transform-origin: top left — масштабируем от левого края.
@@ -60,41 +60,41 @@
             will-change: transform; 
             backface-visibility: hidden;
         `;
-        
+
         const parent = container.parentNode;
         parent.insertBefore(wrapper, container);
-        
+
         wrapper.appendChild(container);
         if (lanthanides) wrapper.appendChild(lanthanides);
         if (actinides) wrapper.appendChild(actinides);
-        
+
         state.wrapperCreated = true;
         return wrapper;
     }
 
     function applyTableStyles() {
         if (!isMobile()) return;
-        
-        
+
+
         const container = document.querySelector('.container');
         const lanthanides = document.querySelector('.lanthanides');
         const actinides = document.querySelector('.actinides');
         const allElements = document.querySelectorAll('.element');
 
-        const availableHeight = window.innerHeight - 160; 
+        const availableHeight = window.innerHeight - 160;
         let CELL_H = Math.floor(availableHeight / 11);
         CELL_H = Math.min(55, Math.max(38, CELL_H));
 
         const CELL_W = 58;
         const LA_HEIGHT = Math.floor(CELL_H * 0.75);
         const GAP = 3;
-        
+
         const FONT_SYM = Math.floor(CELL_H * 0.4) + 'px';
         const FONT_NAME = Math.max(9, Math.floor(CELL_H * 0.18)) + 'px';
         const FONT_NUM = '10px';
 
         const tableWidth = (18 * CELL_W) + (17 * GAP);
-        
+
         if (container) {
             container.style.cssText = `
                 display: grid !important;
@@ -110,7 +110,7 @@
         }
 
         const subTableWidth = (15 * CELL_W) + (14 * GAP);
-        
+
         [lanthanides, actinides].forEach(el => {
             if (!el) return;
             el.style.cssText = `
@@ -125,9 +125,9 @@
         });
 
         allElements.forEach(el => {
-            const isLaOrAc = el.parentElement?.classList.contains('lanthanides') || 
-                             el.parentElement?.classList.contains('actinides');
-            
+            const isLaOrAc = el.parentElement?.classList.contains('lanthanides') ||
+                el.parentElement?.classList.contains('actinides');
+
             el.style.cssText = `
                 position: relative !important;
                 display: flex !important;
@@ -209,15 +209,28 @@
         const panelHeight = activePanel.offsetHeight || (window.innerHeight * 0.25);
 
         // Масштаб
+        // Оставляем небольшие отступы, чтобы таблица не прилипала
         const availableHeight = window.innerHeight - panelHeight - CONFIG.TOP_MARGIN - CONFIG.BOTTOM_GAP;
         let scale = availableHeight / wrapperHeight;
         scale = Math.max(CONFIG.MIN_SCALE, Math.min(CONFIG.MAX_SCALE, scale));
 
-        // Вертикаль (плавная)
+        // Вертикаль (Центрирование)
         const naturalTopDocument = getAbsoluteTop(wrapper);
         const currentScroll = window.scrollY;
         const naturalTopViewport = naturalTopDocument - currentScroll;
-        const translateY = CONFIG.TOP_MARGIN - naturalTopViewport;
+
+        // Высота таблицы после масштабирования
+        const scaledHeight = wrapperHeight * scale;
+
+        // Свободное пространство над панелью
+        const freeSpaceAbove = window.innerHeight - panelHeight;
+
+        // Целевая позиция (отступ сверху), чтобы таблица была по центру свободного места
+        // Но не выше TOP_MARGIN
+        let targetTop = (freeSpaceAbove - scaledHeight) / 2;
+        targetTop = Math.max(CONFIG.TOP_MARGIN, targetTop);
+
+        const translateY = targetTop - naturalTopViewport;
 
         // Горизонталь (умное центрирование)
         const scaledWidth = wrapperWidth * scale;
@@ -245,7 +258,7 @@
 
         ensureWrapper();
         applyTableStyles();
-        
+
         requestAnimationFrame(() => {
             if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
                 applyCalcActiveTransform();
@@ -253,53 +266,7 @@
         });
     }
 
-    // После строки с инициализацией (function init() {)
-if (isMobile()) {
-    centerTableVertically();
-}
-  
-  // После существующих функций добавить:
-function centerTableVertically() {
-    if (!isMobile()) return;
 
-    if (document.body.classList.contains('calc-active') || document.body.classList.contains('balancer-active')) {
-        applyCalcActiveTransform();
-        return;
-    }
-    
-    const wrapper = document.getElementById('mobile-table-wrapper');
-    if (!wrapper) return;
-    
-    const container = document.querySelector('.periodic-table-container');
-    if (!container) return;
-    
-    const wrapperHeight = wrapper.offsetHeight || 1;
-    const viewportHeight = window.innerHeight;
-    
-    const availableSpace = viewportHeight - (CONFIG.TOP_MARGIN + CONFIG.BOTTOM_GAP);
-    const scale = Math.min(1.0, availableSpace / wrapperHeight);
-    
-    wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-    container.style.transition = 'height 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-    
-    const translateY = (viewportHeight - wrapperHeight * scale) / 2;
-    wrapper.style.transform = `translateY(${translateY}px) scale(${scale})`;
-}
-  
-  // Найти обработчик resize и заменить:
-window.addEventListener('resize', () => {
-    if (isMobile()) {
-        applyTableStyles();
-        centerTableVertically();
-    }
-});
-  
-  // Добавить инициализацию после DOMContentLoaded:
-document.addEventListener('DOMContentLoaded', () => {
-    if (isMobile()) {
-        centerTableVertically();
-    }
-});
 
     const observer = new MutationObserver((mutations) => {
         for (const mutation of mutations) {
@@ -317,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             init();

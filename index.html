@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Интерактивная Таблица Менделеева</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- ЛОАДЕР — должен быть первым для мгновенного отображения -->
     <link rel="stylesheet" href="css/loader.css">
 
@@ -36,7 +40,8 @@
     <!-- Синхронная загрузка SVG иконок для Safari iOS -->
 
     <canvas id="particles-canvas"></canvas>
-    <div id="theme-toggle" class="chem-toggle" role="switch" aria-checked="false" aria-label="Переключить тему" tabindex="0" title="Сменить тему">
+    <div id="theme-toggle" class="chem-toggle" role="switch" aria-checked="false" aria-label="Переключить тему"
+        tabindex="0" title="Сменить тему">
         <div class="chem-toggle-track">
             <div class="chem-toggle-scene chem-toggle-scene-periodic" aria-hidden="true">
                 <div class="chem-toggle-scene-content">
@@ -763,9 +768,9 @@
 
             <!-- Новая кнопка скачивания для Linux -->
             <div class="download-card">
-                <a href="https://github.com/layfhaker/mendeleevtable/releases"
-                   class="download-btn-large" id="download-linux-btn" target="_blank" rel="noopener"
-                   aria-label="Скачать Linux версию Chemical Assistant">
+                <a href="https://github.com/layfhaker/mendeleevtable/releases" class="download-btn-large"
+                    id="download-linux-btn" target="_blank" rel="noopener"
+                    aria-label="Скачать Linux версию Chemical Assistant">
                     <div class="download-btn-large-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -784,14 +789,14 @@
                         <span>Все функции</span>
                     </div>
                     <div class="download-links">
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases"
-                           id="download-linux-appimage" data-asset-ext="appimage" target="_blank" rel="noopener">AppImage</a>
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases" id="download-linux-appimage"
+                            data-asset-ext="appimage" target="_blank" rel="noopener">AppImage</a>
                         <span>|</span>
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases"
-                           id="download-linux-deb" data-asset-ext="deb" target="_blank" rel="noopener">DEB</a>
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases" id="download-linux-deb"
+                            data-asset-ext="deb" target="_blank" rel="noopener">DEB</a>
                         <span>|</span>
-                        <a href="https://github.com/layfhaker/mendeleevtable/releases"
-                           target="_blank" rel="noopener">Все версии</a>
+                        <a href="https://github.com/layfhaker/mendeleevtable/releases" target="_blank"
+                            rel="noopener">Все версии</a>
                     </div>
                 </div>
             </div>
@@ -870,7 +875,7 @@
     <div id="calc-panel" class="calc-panel">
         <div class="calc-header">
             <h3>Калькулятор Массы</h3>
-            <span class="close-calc-panel" onclick="toggleCalc()">✕</span>
+            <span class="close-calc-panel" onclick="toggleCalc(event)">✕</span>
         </div>
 
         <div id="drop-zone" class="drop-zone">
@@ -892,11 +897,17 @@
         <div class="balancer-content">
             <div class="balancer-input-row">
                 <input type="text" id="balancer-input" placeholder="Например: H2 + O2 = H2O">
-                <button id="balance-btn" onclick="performBalance()">GO</button>
+                <button id="balance-btn" onclick="performBalance()" aria-label="Уравнять" title="Уравнять">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
             </div>
 
             <div id="balancer-result" class="balancer-result">
-                <span class="placeholder-text">Результат появится здесь</span>
+                <span class="placeholder-text">Уравнение появится здесь</span>
             </div>
 
             <div id="balancer-error" class="balancer-error"></div>
@@ -915,7 +926,8 @@
     <div class="fab-container" id="fab-container">
         <div class="fab-options">
             <div class="fab-option" onclick="toggleParticles()">
-                <span class="fab-label">Анимация фона</span>
+                <span class="fab-label">Анимация фона <span id="particles-status"
+                        class="wallpaper-status-badge active">ON</span></span>
                 <button class="fab-btn" aria-label="Включить анимацию частиц">
                     <svg>
                         <use href="#icon-particles"></use>
@@ -1119,18 +1131,20 @@
                     <h2>Подбор продуктов реакции</h2>
                     <p class="reactions-subtitle">Введите реагенты, а продукты подставятся автоматически.</p>
                 </div>
-                <span class="close-reactions" onclick="toggleReactionsModal()" role="button" aria-label="Закрыть">
-                    &times;
-                </span>
+                <!-- Unified Close Button with SVG -->
+                <button class="close-reactions" onclick="toggleReactionsModal(event)" aria-label="Закрыть">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
             <div class="reactions-body">
                 <div class="reactions-input-block reactions-input-primary">
                     <label for="reactions-input">Реагенты</label>
                     <div class="reactions-hint">Можно указать только исходные вещества. Пример: H2 + O2 → ?</div>
                     <textarea id="reactions-input" placeholder="H2 + O2 -> ?"></textarea>
-                    <div class="reactions-input-actions">
-                        <button type="button" class="reactions-go-btn" id="reactions-go">GO</button>
-                    </div>
                 </div>
                 <div class="reactions-output-block reactions-output-secondary">
                     <label for="reactions-output">Уравнение реакции</label>
@@ -1139,9 +1153,9 @@
                 <div class="reactions-examples">
                     <span>Примеры реагентов:</span>
                     <div class="reactions-chips">
-                        <button type="button">Fe + Cl2</button>
-                        <button type="button">Al + O2</button>
-                        <button type="button">CH4 + O2</button>
+                        <button type="button" onclick="fillReactionInput('Fe + Cl2')">Fe + Cl2</button>
+                        <button type="button" onclick="fillReactionInput('Al + O2')">Al + O2</button>
+                        <button type="button" onclick="fillReactionInput('CH4 + O2')">CH4 + O2</button>
                     </div>
                 </div>
             </div>
@@ -1233,5 +1247,3 @@
 </body>
 
 </html>
-
-
