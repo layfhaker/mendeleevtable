@@ -1058,50 +1058,7 @@ body.dark-theme #activity-mode-btn.active {
     cursor: pointer;
     transition: all 0.2s ease;
 }
-/* =========================================
- КНОПКА СБРОСА ВЫДЕЛЕНИЯ (КРЕСТИК В ТАБЛИЦЕ)
- ========================================= */
-#clear-selection-btn {
- width: 40px;
- height: 40px;
- border: none;
- border-radius: 8px;
- background: rgba(244, 67, 54, 0.15); /* Красноватый фон как у close-solubility */
- color: #f44336; /* Красный цвет крестика */
- font-size: 24px; /* Крупнее */
- font-weight: bold;
- cursor: pointer;
- transition: all 0.2s ease;
- display: flex;
- align-items: center;
- justify-content: center;
- padding: 0;
- line-height: 1;
- /* Убираем стандартные стили th */
- text-align: center;
- vertical-align: middle;
-}
 
-#clear-selection-btn:hover {
- background: rgba(244, 67, 54, 0.3);
- transform: scale(1.1);
- color: #d32f2f;
-}
-
-#clear-selection-btn:active {
- transform: scale(0.95);
-}
-
-/* Тёмная тема */
-body.dark-theme #clear-selection-btn {
- background: rgba(229, 115, 115, 0.2);
- color: #e57373;
-}
-
-body.dark-theme #clear-selection-btn:hover {
- background: rgba(229, 115, 115, 0.4);
- color: #ef5350;
-}
 #advanced-mode-info-btn:hover {
     background: rgba(103, 58, 183, 0.3);
     transform: scale(1.1);
@@ -2740,21 +2697,4 @@ body.dark-theme #solubility-modal .pan-hint--bottom {
 /* ������� �������������: ������ ������ ������ (���������� ���������) */
 #solubility-modal .pan-hints {
     display: none !important;
-}
-
-/* В блок @media (max-width: 1024px) добавить: */
-#clear-selection-btn {
- min-width: 44px !important;
- min-height: 44px !important;
- width: 44px !important;
- height: 44px !important;
- font-size: 24px;
-}
-
-/* Уменьшаем размер на iPhone */
-body.device-iphone #clear-selection-btn {
- min-width: 38px !important;
- min-height: 38px !important;
- width: 38px !important;
- height: 38px !important;
 }

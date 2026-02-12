@@ -14,10 +14,10 @@ function renderSolubilityTable() {
 
     // Пустой угол (кнопка сброса выделения)
     const corner = document.createElement('th');
-    corner.id = "clear-selection-btn"; // Добавляем ID для стилизации
-    corner.innerHTML = "×";
-    corner.title = "Сбросить выделение";
+    corner.innerText = "×";
+    corner.style.cursor = "pointer";
     corner.onclick = clearTableSelection;
+    corner.title = "Сбросить выделение";
     headerRow.appendChild(corner);
 
     // Цикл по катионам (ЗАГОЛОВКИ)
