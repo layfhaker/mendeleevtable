@@ -1,8 +1,8 @@
 // =========================================
-// SERVICE WORKER v10 - Complete Caching
+// SERVICE WORKER v11 - Complete Caching
 // =========================================
 
-const CACHE_NAME = 'chem-assistant-v10';
+const CACHE_NAME = 'chem-assistant-v11';
 
 // === CRITICAL FILES (cached on install) ===
 const PRECACHE_ASSETS = [
@@ -85,7 +85,7 @@ const RUNTIME_CACHE_PATTERNS = [
 
 // === INSTALL ===
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing Service Worker v10...');
+    console.log('[SW] Installing Service Worker v11...');
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -101,7 +101,7 @@ self.addEventListener('install', (event) => {
 
 // === ACTIVATE ===
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating Service Worker v10');
+    console.log('[SW] Activating Service Worker v11');
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
@@ -197,4 +197,4 @@ self.addEventListener('message', (event) => {
     }
 });
 
-console.log('[SW] Service Worker v10 loaded');
+console.log('[SW] Service Worker v11 loaded');

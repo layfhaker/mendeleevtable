@@ -22,7 +22,7 @@
 @import url('fab.css');
 @import url('calculator.css');
 @import url('filters.css');
-@import url('solubility.css');
+@import url('solubility.css?v=2');
 @import url('balancer.css');
 @import url('advanced-modal.css');
 @import url('nodemap.css');

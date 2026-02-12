@@ -137,6 +137,7 @@ window.closeSolubility = function () {
 
     const searchBtn = document.getElementById('solubility-search-btn');
     if (searchBtn) searchBtn.classList.remove('active');
+    if (typeof hideAdvancedModeHint === 'function') hideAdvancedModeHint(true);
 
     if (typeof clearTableSelection === 'function') clearTableSelection();
 
@@ -193,8 +194,16 @@ if (!window.__solubilityBackdropListener) {
         if (!modal) return;
         const isOpen = getComputedStyle(modal).display !== 'none';
         if (!isOpen) return;
+        // Не закрываем таблицу, если взаимодействие происходит с другой модалкой (например, advanced).
+        const otherModal = e.target.closest('.modal');
+        if (otherModal && otherModal.id !== 'solubility-modal') return;
         // Не закрываем модалку при взаимодействии с FAB или панелью фильтров
-        if (e.target.closest('.fab-container') || e.target.closest('#filters-panel')) return;
+        if (
+            e.target.closest('.fab-container') ||
+            e.target.closest('#theme-toggle') ||
+            e.target.closest('#filters-panel') ||
+            e.target.closest('#solubility-search-panel')
+        ) return;
         if (e.target.closest('.modal-content')) return;
         closeSolubility();
     }, true);

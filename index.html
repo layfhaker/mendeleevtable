@@ -23,7 +23,7 @@
     <!-- Критичный CSS для калькулятора — должен быть загружен ДО взаимодействия -->
 
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
-    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/style.css?v=6">
     <link rel="stylesheet" href="css/reactions.css?v=1">
 
     <!-- FLIP-анимации для модалок -->
@@ -1083,7 +1083,12 @@
                         </svg>
                     </button>
 
-                    <span class="close-solubility" onclick="closeSolubility()">&times;</span>
+                    <button id="solubility-close-btn" class="close-solubility" onclick="closeSolubility()"
+                        aria-label="Закрыть">
+                        <svg>
+                            <use href="#icon-close"></use>
+                        </svg>
+                    </button>
                 </div>
             </div>
 

@@ -7,24 +7,89 @@
 window.isAdvancedClickMode = false;
 const advancedModal = document.getElementById('advanced-substance-modal');
 const advancedModalContent = document.getElementById('advanced-substance-content');
+const ADVANCED_MODE_HINT_TEXT = 'нажмите на вещество для подробной информации';
+const ADVANCED_MODE_HINT_HIDE_DELAY_MS = 3200;
+let advancedModeHintTimerId = null;
+
+function ensureAdvancedModeHint() {
+    const container = document.querySelector('#solubility-modal .solubility-content');
+    if (!container) return null;
+
+    let hint = container.querySelector('.advanced-mode-hint');
+    if (!hint) {
+        hint = document.createElement('div');
+        hint.className = 'advanced-mode-hint';
+        hint.setAttribute('role', 'status');
+        hint.setAttribute('aria-live', 'polite');
+        hint.textContent = ADVANCED_MODE_HINT_TEXT;
+        container.appendChild(hint);
+    }
+
+    return hint;
+}
+
+function hideAdvancedModeHint(immediate = false) {
+    if (advancedModeHintTimerId) {
+        clearTimeout(advancedModeHintTimerId);
+        advancedModeHintTimerId = null;
+    }
+
+    const hint = document.querySelector('#solubility-modal .advanced-mode-hint');
+    if (!hint) return;
+
+    hint.classList.remove('is-visible');
+    if (immediate) {
+        hint.style.transition = 'none';
+        hint.offsetHeight;
+        hint.style.removeProperty('transition');
+    }
+}
+
+function showAdvancedModeHint() {
+    const hint = ensureAdvancedModeHint();
+    if (!hint) return;
+
+    hideAdvancedModeHint();
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            hint.classList.add('is-visible');
+        });
+    });
+
+    advancedModeHintTimerId = setTimeout(() => {
+        hint.classList.remove('is-visible');
+        advancedModeHintTimerId = null;
+    }, ADVANCED_MODE_HINT_HIDE_DELAY_MS);
+}
 
 // === ИНИЦИАЛИЗАЦИЯ ===
 function initAdvancedModeButton() {
     const btn = document.getElementById('advanced-mode-info-btn');
     if (!btn) return;
 
-    // Синхронизируем вид кнопки с текущим состоянием
-    btn.classList.toggle('active', window.isAdvancedClickMode);
-    btn.title = window.isAdvancedClickMode
-        ? '✅ Режим включён — кликните на ячейку для информации'
-        : '💡 Включить режим просмотра информации';
+    const activeTitle = '\u0420\u0435\u0436\u0438\u043c \u0432\u043a\u043b\u044e\u0447\u0451\u043d \u2014 \u043a\u043b\u0438\u043a\u043d\u0438\u0442\u0435 \u043d\u0430 \u044f\u0447\u0435\u0439\u043a\u0443 \u0434\u043b\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438';
+    const inactiveTitle = '\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0440\u0435\u0436\u0438\u043c \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u0438';
+
+    const syncButtonState = () => {
+        btn.classList.toggle('active', window.isAdvancedClickMode);
+        btn.title = window.isAdvancedClickMode ? activeTitle : inactiveTitle;
+    };
+
+    syncButtonState();
+    if (!window.isAdvancedClickMode) {
+        hideAdvancedModeHint(true);
+    }
 
     btn.onclick = () => {
         window.isAdvancedClickMode = !window.isAdvancedClickMode;
-        btn.classList.toggle('active', window.isAdvancedClickMode);
-        btn.title = window.isAdvancedClickMode
-            ? '✅ Режим включён — кликните на ячейку для информации'
-            : '💡 Включить режим просмотра информации';
+        syncButtonState();
+
+        if (window.isAdvancedClickMode) {
+            showAdvancedModeHint();
+        } else {
+            hideAdvancedModeHint();
+        }
     };
 }
 
@@ -341,15 +406,32 @@ function generateCrystalSVG(color, size = 120) {
     </svg>`;
 }
 
-function generateFlaskSVG(color, solubility, size = 120) {
+function isTransparentAppearanceColor(color) {
+    if (!color) return false;
+
+    const normalizedColor = String(color).trim().toLowerCase();
+    return normalizedColor === 'colorless' ||
+        normalizedColor === 'transparent' ||
+        normalizedColor === 'rgba(0,0,0,0)' ||
+        normalizedColor === 'rgba(0, 0, 0, 0)' ||
+        normalizedColor.includes('\u0431\u0435\u0441\u0446\u0432\u0435\u0442') ||
+        normalizedColor.includes('\u043f\u0440\u043e\u0437\u0440\u0430\u0447');
+}
+
+function generateFlaskSVG(color, solubility, size = 120, forceTransparent = false) {
     // Определяем цвет раствора
     let solutionColor;
     let solutionOpacity;
+    const isTransparentColor = forceTransparent ||
+        isTransparentAppearanceColor(color) ||
+        color === '#ffffff' ||
+        color === '#FFFFFF' ||
+        color === 'white';
 
-    if (!color || color === '#ffffff' || color === '#FFFFFF' || color === 'white' || color === 'colorless') {
-        // Бесцветный раствор — очень светло-голубой (как вода)
-        solutionColor = '#e0f4ff';
-        solutionOpacity = 0.3;
+    if (!color || isTransparentColor) {
+        // Transparent/colorless solutions are shown as light gray glass
+        solutionColor = '#dce2e9';
+        solutionOpacity = 0.42;
     } else {
         // Цветной раствор — используем цвет вещества
         solutionColor = color;
@@ -361,12 +443,25 @@ function generateFlaskSVG(color, solubility, size = 120) {
         solutionOpacity = 0.25; // Более прозрачный, но с осадком внизу
     }
 
+    const particleColor = isTransparentColor ? '#c5ced8' : (color || '#888');
+
     // Частицы осадка для малорастворимых
     const particles = (solubility === 'М' || solubility === 'M') ? `
-        <circle cx="35" cy="82" r="3" fill="${color || '#888'}" opacity="0.7"/>
-        <circle cx="50" cy="85" r="2" fill="${color || '#888'}" opacity="0.8"/>
-        <circle cx="62" cy="83" r="2.5" fill="${color || '#888'}" opacity="0.6"/>
-        <circle cx="42" cy="86" r="1.5" fill="${color || '#888'}" opacity="0.9"/>
+        <circle cx="35" cy="82" r="3" fill="${particleColor}" opacity="0.7"/>
+        <circle cx="50" cy="85" r="2" fill="${particleColor}" opacity="0.8"/>
+        <circle cx="62" cy="83" r="2.5" fill="${particleColor}" opacity="0.6"/>
+        <circle cx="42" cy="86" r="1.5" fill="${particleColor}" opacity="0.9"/>
+    ` : '';
+
+    const transparentLiquidEffects = isTransparentColor ? `
+        <path
+            d="M31,52 Q50,46 69,52"
+            fill="none"
+            stroke="rgba(255,255,255,0.6)"
+            stroke-width="2"
+            stroke-linecap="round"
+        />
+        <ellipse cx="50" cy="70" rx="20" ry="8" fill="rgba(255,255,255,0.2)"/>
     ` : '';
 
     return `
@@ -385,6 +480,8 @@ function generateFlaskSVG(color, solubility, size = 120) {
             fill="${solutionColor}"
             opacity="${solutionOpacity}"
         />
+
+        ${transparentLiquidEffects}
 
         <!-- Блик на стекле -->
         <path
@@ -419,6 +516,7 @@ function renderAdvancedContent(cationFormula, anionFormula) {
 
     const decompositionKey = `${normalizeFormula(cationFormula)}-${normalizeFormula(anionFormula)}`;
     const decomposition = window.decompositionReactions?.[decompositionKey];
+    const noDecompositionClass = decomposition ? '' : ' no-decomposition';
 
     advancedModalContent.innerHTML = `
         <!-- Заголовок -->
@@ -436,7 +534,7 @@ function renderAdvancedContent(cationFormula, anionFormula) {
         </div>
 
         <!-- Контент вкладок -->
-        <div class="advanced-content">
+        <div class="advanced-content${noDecompositionClass}">
             <div id="tab-info" class="tab-pane active">
                 ${renderInfoTab(formula, name, mass, solubility, color, decomposition)}
             </div>
@@ -506,14 +604,21 @@ function renderAppearanceTab(color, solubility, decomposition) {
         `;
     }
 
-    const displayColor = color || '#ffffff';
+    const isTransparentColor = isTransparentAppearanceColor(color);
+    const displayColor = isTransparentColor ? '#d6dce3' : (color || '#ffffff');
+    const appearanceContainerClass = isTransparentColor
+        ? 'appearance-container appearance-container-transparent'
+        : 'appearance-container';
+    const visualItemClass = isTransparentColor
+        ? 'visual-item visual-item-transparent'
+        : 'visual-item';
 
-    let content = '<div class="appearance-container">';
+    let content = `<div class="${appearanceContainerClass}">`;
 
     // Для нерастворимых — только кристалл
     if (solubility.symbol === 'Н' || solubility.symbol === 'N') {
         content += `
-            <div class="visual-item">
+            <div class="${visualItemClass}">
                 <h4>Твёрдое вещество</h4>
                 ${generateCrystalSVG(displayColor, 150)}
                 <p class="visual-caption">Кристаллы / Осадок</p>
@@ -522,14 +627,14 @@ function renderAppearanceTab(color, solubility, decomposition) {
     } else {
         // Для растворимых и малорастворимых — кристалл + колба
         content += `
-            <div class="visual-item">
+            <div class="${visualItemClass}">
                 <h4>Твёрдое вещество</h4>
                 ${generateCrystalSVG(displayColor, 120)}
                 <p class="visual-caption">Кристаллы</p>
             </div>
-            <div class="visual-item">
+            <div class="${visualItemClass}">
                 <h4>Раствор</h4>
-                ${generateFlaskSVG(displayColor, solubility.symbol, 120)}
+                ${generateFlaskSVG(displayColor, solubility.symbol, 120, isTransparentColor)}
                 <p class="visual-caption">${solubility.description}</p>
             </div>
         `;
@@ -591,3 +696,4 @@ if (document.readyState === 'loading') {
 } else {
     initAdvancedModeButton();
 }
+

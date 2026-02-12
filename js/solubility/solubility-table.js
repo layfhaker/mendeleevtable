@@ -14,7 +14,7 @@ function renderSolubilityTable() {
 
     // Пустой угол (кнопка сброса выделения)
     const corner = document.createElement('th');
-    corner.innerText = "×";
+    corner.innerText = "";
     corner.style.cursor = "pointer";
     corner.onclick = clearTableSelection;
     corner.title = "Сбросить выделение";
@@ -100,15 +100,19 @@ function renderSolubilityTable() {
                 }
                 else if (solubility === 'R') {
                     // Растворимо, но нет в базе → пробуем анионные цвета (MnO4-, CrO4(2-), Cr2O7(2-))
+                    let fallbackColor = null;
                     if (anionKey === 'MnO4-') {
-                        td.classList.add('chem-color-cell', 'light-bg');
-                        td.style.backgroundColor = '#8b008b';
+                        fallbackColor = '#8b008b';
                     } else if (anionKey === 'CrO42-') {
-                        td.classList.add('chem-color-cell', 'light-bg');
-                        td.style.backgroundColor = '#ffff00';
+                        fallbackColor = '#ffff00';
                     } else if (anionKey === 'Cr2O72-') {
-                        td.classList.add('chem-color-cell', 'light-bg');
-                        td.style.backgroundColor = '#ff8c00';
+                        fallbackColor = '#ff8c00';
+                    }
+
+                    if (fallbackColor) {
+                        td.classList.add('chem-color-cell');
+                        td.style.backgroundColor = fallbackColor;
+                        td.classList.add(isColorDark(fallbackColor) ? 'dark-bg' : 'light-bg');
                     } else {
                         // Растворимо, но нет в базе → бесцветный раствор
                         td.classList.add('chem-color-cell', 'colorless-solution', 'light-bg');
@@ -398,6 +402,42 @@ function getCellSubstanceKey(rowIndex, colIndex) {
 
 var isMetalsView = true;
 
+function updateActivitySeriesFlow(container) {
+    if (!container) return;
+
+    const grid = container.querySelector('.series-container.activity-grid');
+    if (!grid) return;
+
+    const items = Array.from(grid.querySelectorAll('.act-item'));
+    if (items.length < 2) return;
+
+    items.forEach(item => item.classList.remove('row-end-turn'));
+
+    const gridTemplateColumns = getComputedStyle(grid).gridTemplateColumns || '';
+    const columns = gridTemplateColumns
+        .split(' ')
+        .map(token => token.trim())
+        .filter(Boolean)
+        .length;
+
+    if (!Number.isFinite(columns) || columns < 1) return;
+
+    for (let i = 0; i < items.length - 1; i++) {
+        if ((i + 1) % columns === 0) {
+            items[i].classList.add('row-end-turn');
+        }
+    }
+}
+
+if (!window.__activitySeriesResizeBound) {
+    window.__activitySeriesResizeBound = true;
+    window.addEventListener('resize', () => {
+        const panel = document.getElementById('activity-series-panel');
+        if (!panel || !panel.classList.contains('active')) return;
+        requestAnimationFrame(() => updateActivitySeriesFlow(panel));
+    });
+}
+
 // 1. Функция отрисовки карточек
 window.renderActivitySeries = function () {
     const container = document.getElementById('activity-series-panel');
@@ -424,18 +464,20 @@ window.renderActivitySeries = function () {
         : "← Сильные окислители . . . Слабые окислители →";
 
     // Генерируем HTML карточек
+    const gridClass = isMetalsView ? 'activity-grid--metals' : 'activity-grid--nonmetals';
     let cardsHTML = '';
     currentList.forEach((symbol, idx) => {
         const isHydrogen = (symbol === 'H' && isMetalsView);
-        const className = isHydrogen ? 'act-item hydrogen' : 'act-item';
+        const isLast = idx === currentList.length - 1;
+        const className = [
+            'act-item',
+            isHydrogen ? 'hydrogen' : '',
+            isLast ? '' : 'has-next'
+        ].filter(Boolean).join(' ');
+        const order = idx + 1;
 
         // Клик открывает модалку элемента
-        cardsHTML += `<div class="${className}" onclick="if(window.openElementModal) window.openElementModal('${symbol}')">${symbol}</div>`;
-
-        // Стрелочка
-        if (idx < currentList.length - 1) {
-            cardsHTML += `<div class="act-arrow">→</div>`;
-        }
+        cardsHTML += `<button type="button" class="${className}" data-order="${order}" title="${order}. ${symbol}" onclick="if(window.openElementModal) window.openElementModal('${symbol}')">${symbol}</button>`;
     });
 
     // Вставляем в панель
@@ -443,12 +485,12 @@ window.renderActivitySeries = function () {
         <div class="activity-content-wrapper">
             <div class="activity-header">
                 <h4>${titleText}</h4>
-                <button id="toggle-series-type-btn" class="toggle-series-btn">
+                <button id="toggle-series-type-btn" class="toggle-series-btn" type="button">
                     ${btnText}
                 </button>
             </div>
 
-            <div class="series-container active" style="display: flex;">
+            <div class="series-container activity-grid ${gridClass} active">
                 ${cardsHTML}
             </div>
 
@@ -456,13 +498,18 @@ window.renderActivitySeries = function () {
         </div>
     `;
 
+    requestAnimationFrame(() => updateActivitySeriesFlow(container));
+
     // Вешаем обработчик на внутреннюю кнопку переключения
     const switchBtn = document.getElementById('toggle-series-type-btn');
     if (switchBtn) {
-        switchBtn.onclick = function () {
+        switchBtn.onclick = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
             isMetalsView = !isMetalsView;
             window.renderActivitySeries(); // Просто перерисовываем
         };
+        switchBtn.addEventListener('pointerdown', (event) => event.stopPropagation());
     }
 };
 
@@ -484,6 +531,7 @@ window.toggleActivitySeries = function () {
     if (isOpening) {
         btn.classList.add('active');
         panel.classList.add('active');
+        requestAnimationFrame(() => updateActivitySeriesFlow(panel));
     } else {
         btn.classList.remove('active');
         panel.classList.remove('active');

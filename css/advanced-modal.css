@@ -45,6 +45,12 @@
 /* Контент модального окна */
 .advanced-modal-content {
     background: var(--bg-color, #fff);
+    --advanced-text-primary: #1f2937;
+    --advanced-text-secondary: #334155;
+    --advanced-text-muted: #475569;
+    --advanced-label: #2f3f72;
+    --advanced-heading-secondary: #233667;
+    --advanced-caption: #2f3f72;
     /* Увеличили радиус для большей плавности */
     border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -99,7 +105,9 @@
 .substance-name {
     margin: 0;
     font-size: 16px;
-    opacity: 0.9;
+    opacity: 1;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Вкладки */
@@ -125,8 +133,8 @@
     border: none;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
-    color: #666;
+    font-weight: 600;
+    color: var(--advanced-text-muted);
     transition: all 0.2s;
     white-space: nowrap;
     position: relative;
@@ -163,6 +171,19 @@
     /* IE and Edge */
     scrollbar-width: thin;
     /* Firefox */
+}
+
+.advanced-content.no-decomposition {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.advanced-content.no-decomposition .tab-pane {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding-bottom: 0;
 }
 
 /* Кастомные скроллбары для контента продвинутого режима */
@@ -221,14 +242,16 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
     margin: 0 0 15px 0;
     color: #667eea;
     font-size: 20px;
+    font-weight: 700;
     border-bottom: 2px solid #667eea;
     padding-bottom: 8px;
 }
 
 .tab-pane h4 {
     margin: 20px 0 10px 0;
-    color: #555;
+    color: var(--advanced-heading-secondary);
     font-size: 16px;
+    font-weight: 700;
     text-align: center;
 }
 
@@ -247,16 +270,18 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 }
 
 .info-item .label {
-    font-size: 12px;
-    color: #888;
-    font-weight: 500;
+    font-size: 13px;
+    color: var(--advanced-label);
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .info-item .value {
-    font-size: 15px;
-    color: var(--text-color, #333);
-    font-weight: 500;
+    font-size: 16px;
+    color: var(--advanced-text-primary);
+    font-weight: 600;
+    line-height: 1.35;
 }
 
 /* Бейджи растворимости */
@@ -267,6 +292,7 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
     font-size: 14px;
     font-weight: bold;
     color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .solubility-R,
@@ -311,8 +337,9 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 }
 
 .reaction-description {
-    font-size: 14px;
-    color: #666;
+    font-size: 15px;
+    color: var(--advanced-text-secondary);
+    font-weight: 500;
     margin: 0;
 }
 
@@ -323,8 +350,15 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 }
 
 .decomposition-notice h3 {
-    color: #ff9800;
+    color: #d97706;
     margin-bottom: 15px;
+}
+
+.decomposition-notice p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--advanced-text-secondary);
+    font-weight: 500;
 }
 
 .decomposition-info {
@@ -334,6 +368,14 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
     margin-top: 20px;
     text-align: left;
     border-left: 4px solid #ff9800;
+    color: var(--advanced-text-secondary);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.decomposition-info strong {
+    color: #a84300;
+    font-weight: 700;
 }
 
 /* Контейнер внешнего вида */
@@ -354,9 +396,54 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
     min-width: 150px;
 }
 
+.visual-item-transparent {
+    position: relative;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid #cfd6df;
+    background: linear-gradient(145deg,
+            rgba(248, 250, 252, 0.94) 0%,
+            rgba(228, 233, 239, 0.88) 100%);
+    box-shadow:
+        0 10px 26px rgba(148, 163, 184, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    overflow: hidden;
+    animation: transparent-visual-pulse 3.5s ease-in-out infinite;
+}
+
+.visual-item-transparent::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 60%;
+    height: 180%;
+    background: linear-gradient(110deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.55) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+.visual-item-transparent svg {
+    filter: drop-shadow(0 4px 10px rgba(100, 116, 139, 0.28));
+}
+
+@keyframes transparent-visual-pulse {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
 .visual-caption {
-    font-size: 14px;
-    color: #666;
+    font-size: 15px;
+    color: var(--advanced-caption);
+    font-weight: 600;
     text-align: center;
     margin: 0;
 }
@@ -364,6 +451,12 @@ body.dark-theme .advanced-content::-webkit-scrollbar-thumb:hover {
 /* Тёмная тема */
 body.dark-theme .advanced-modal-content {
     background: #2d2d44;
+    --advanced-text-primary: #f4f7ff;
+    --advanced-text-secondary: #dbe3ff;
+    --advanced-text-muted: #c4d1f8;
+    --advanced-label: #b9c7ff;
+    --advanced-heading-secondary: #dfe6ff;
+    --advanced-caption: #d4dcff;
 }
 
 body.dark-theme .advanced-tabs {
@@ -371,8 +464,25 @@ body.dark-theme .advanced-tabs {
     border-bottom-color: #444;
 }
 
+body.dark-theme .visual-item-transparent {
+    border-color: #5f6b7a;
+    background: linear-gradient(145deg,
+            rgba(74, 82, 96, 0.45) 0%,
+            rgba(56, 64, 76, 0.55) 100%);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(196, 209, 248, 0.22);
+}
+
+body.dark-theme .visual-item-transparent::before {
+    background: linear-gradient(110deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(196, 209, 248, 0.3) 50%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
 body.dark-theme .tab-btn {
-    color: #aaa;
+    color: var(--advanced-text-muted);
 }
 
 body.dark-theme .tab-btn:hover {
@@ -386,7 +496,11 @@ body.dark-theme .tab-btn.active {
 }
 
 body.dark-theme .info-item .value {
-    color: #ddd;
+    color: var(--advanced-text-primary);
+}
+
+body.dark-theme .info-item .label {
+    color: var(--advanced-label);
 }
 
 body.dark-theme .decomposition-section {
@@ -395,6 +509,16 @@ body.dark-theme .decomposition-section {
 
 body.dark-theme .decomposition-info {
     background: rgba(255, 152, 0, 0.15);
+}
+
+body.dark-theme .decomposition-info strong {
+    color: #ffd7a6;
+}
+
+body.dark-theme .reaction-description,
+body.dark-theme .decomposition-notice p,
+body.dark-theme .visual-caption {
+    color: var(--advanced-text-secondary);
 }
 
 /* Мобильная адаптация */
