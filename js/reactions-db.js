@@ -2659,45 +2659,78 @@ window.REACTIONS_DB = {
     },
     {
       "rule_id": "R36",
-      "name": "??? ? KMnO4 (?? ?????)",
+      "name": "KMnO4 redox: medium-dependent rule",
       "class": "redox",
       "trigger": "KMnO4 + reductant + medium",
-      "products_pattern": "??????? ?? ????? ? ??????????????",
+      "products_pattern": "Products depend on medium and reductant class",
       "examples": [
-        "2KMnO4 + 10FeSO4 + 8H2SO4 ? K2SO4 + 2MnSO4 + 5Fe2(SO4)3 + 8H2O",
-        "2KMnO4 + 10KI + 8H2SO4 ? 2MnSO4 + 5I2 + 6K2SO4 + 8H2O",
-        "2KMnO4 + 5H2O2 + 3H2SO4 ? 2MnSO4 + 5O2? + K2SO4 + 8H2O"
+        "2KMnO4 + 10FeSO4 + 8H2SO4 -> K2SO4 + 2MnSO4 + 5Fe2(SO4)3 + 8H2O",
+        "2KMnO4 + 10KBr + 8H2SO4 -> 2MnSO4 + 5Br2 + 6K2SO4 + 8H2O",
+        "2KMnO4 + 5NaNO2 + 3H2SO4 -> K2SO4 + 2MnSO4 + 5NaNO3 + 3H2O",
+        "2KMnO4 + 3K2SO3 + H2O -> 2MnO2(s) + 3K2SO4 + 2KOH",
+        "2KMnO4 + K2SO3 + 2KOH -> 2K2MnO4 + K2SO4 + H2O"
       ],
       "conditions": [
-        "??????/???????????/???????? ?????"
+        "acidic medium",
+        "neutral medium",
+        "alkaline medium"
       ],
       "notes": [
-        "???????? ???????? ?????? ?????????"
+        "acidic: MnO4- -> Mn2+",
+        "neutral: MnO4- -> MnO2",
+        "alkaline: MnO4- -> MnO4(2-)"
+      ],
+      "constraints": [
+        "Acidic medium: Mn(VII) -> Mn(II)",
+        "Neutral medium: Mn(VII) -> MnO2",
+        "Alkaline medium: Mn(VII) -> Mn(VI)",
+        "Halides I-/Br- are oxidized to I2/Br2 in acidic medium",
+        "NO2- is oxidized to NO3- in acidic medium"
       ]
     },
     {
       "rule_id": "R37",
-      "name": "??? K2Cr2O7 + FeSO4 (?????? ?????)",
+      "name": "Dichromate oxidation of Fe(II) in acidic medium",
       "class": "redox",
-      "trigger": "K2Cr2O7 + FeSO4 + H2SO4",
-      "products_pattern": "Cr(III) + Fe(III) ???????? + H2O",
+      "trigger": "K2Cr2O7 + Fe(II) + acid",
+      "products_pattern": "Cr(VI) -> Cr(III), Fe(II) -> Fe(III)",
       "examples": [
-        "K2Cr2O7 + 6FeSO4 + 7H2SO4 ? Cr2(SO4)3 + 3Fe2(SO4)3 + K2SO4 + 7H2O"
+        "K2Cr2O7 + 6FeSO4 + 7H2SO4 -> Cr2(SO4)3 + 3Fe2(SO4)3 + K2SO4 + 7H2O",
+        "K2Cr2O7 + 6FeCl2 + 14HCl -> 2CrCl3 + 6FeCl3 + 2KCl + 7H2O"
       ],
       "notes": [
-        "???????? ????????? ???????? ??? ?????????? ??????????? ? H2S-??????"
+        "works in sulfate and chloride acidic systems"
+      ],
+      "conditions": [
+        "acidic medium"
       ]
     },
     {
       "rule_id": "R38",
-      "name": "??? ? K2Cr2O7 (?????? ?????)",
+      "name": "Cr(VI) system rule: redox + pH equilibrium + precipitation",
       "class": "redox",
-      "trigger": "K2Cr2O7 + reductant + H2SO4",
-      "products_pattern": "Cr(III) + ???????? ????????? ??????????????",
+      "trigger": "K2Cr2O7/K2CrO4/Na2CrO4 + reductant or acid/base or precipitating cation",
+      "products_pattern": "Cr(III) products for redox; chromate/dichromate conversion by pH; insoluble chromates in precipitation",
       "examples": [
-        "K2Cr2O7 + 3H2S + 4H2SO4 ? Cr2(SO4)3 + 3S? + K2SO4 + 7H2O",
-        "K2Cr2O7 + 3Na2SO3 + 4H2SO4 ? Cr2(SO4)3 + 3Na2SO4 + K2SO4 + 4H2O",
-        "K2Cr2O7 + 6KI + 7H2SO4 ? Cr2(SO4)3 + 3I2 + 4K2SO4 + 7H2O"
+        "K2Cr2O7 + 6KBr + 7H2SO4 -> Cr2(SO4)3 + 3Br2 + 4K2SO4 + 7H2O",
+        "K2Cr2O7 + 3K2SO3 + 4H2SO4 -> Cr2(SO4)3 + 4K2SO4 + 4H2O",
+        "2K2CrO4 + H2SO4 -> K2Cr2O7 + K2SO4 + H2O",
+        "K2Cr2O7 + 2NaOH -> K2CrO4 + Na2CrO4 + H2O",
+        "Na2CrO4 + Pb(NO3)2 -> PbCrO4(s) + 2NaNO3"
+      ],
+      "conditions": [
+        "acidic medium for reduction",
+        "alkaline medium for chromate shift",
+        "solution for precipitation"
+      ],
+      "notes": [
+        "2CrO4(2-) + 2H+ <-> Cr2O7(2-) + H2O"
+      ],
+      "constraints": [
+        "Acidic medium: Cr(VI) is reduced to Cr(III)",
+        "pH equilibrium: 2CrO4(2-) + 2H+ <-> Cr2O7(2-) + H2O",
+        "Alkaline shift: Cr2O7(2-) -> CrO4(2-)",
+        "Chromates precipitate with Ba2+, Pb2+, Ag+"
       ]
     },
     {
@@ -2909,6 +2942,60 @@ window.REACTIONS_DB = {
       "examples": [
         "2Fe2O3 + 3C ? 4Fe + 3CO2",
         "ZnO + C ? Zn + CO"
+      ]
+    },
+    {
+      "rule_id": "R79",
+      "name": "Amphoteric Cr(III) in alkali and oxidation to chromate",
+      "class": "amphoteric-redox",
+      "trigger": "Cr(OH)3 + alkali (with/without H2O2)",
+      "constraints": [
+        "Without oxidizer: complex hydroxo salts [Cr(OH)6]3- are formed",
+        "With H2O2 in alkali: Cr(III) is oxidized to chromate CrO4(2-)"
+      ],
+      "products_pattern": "complex chromite/chromate species in alkaline medium",
+      "conditions": [
+        "alkaline medium",
+        "H2O2 optional oxidizer"
+      ],
+      "examples": [
+        "Cr(OH)3 + 3NaOH -> Na3[Cr(OH)6]",
+        "2Cr(OH)3 + 3H2O2 + 4NaOH -> 2Na2CrO4 + 8H2O"
+      ]
+    },
+    {
+      "rule_id": "R80",
+      "name": "Oxidation of halides by strong oxidizers in acidic medium",
+      "class": "redox",
+      "trigger": "Mn(VII)/Cr(VI) oxidizer + I-/Br- + acid",
+      "constraints": [
+        "I- and Br- are oxidized to I2 and Br2",
+        "Requires acidic conditions"
+      ],
+      "products_pattern": "halogen (I2/Br2) + reduced oxidizer products",
+      "conditions": [
+        "acidic medium"
+      ],
+      "examples": [
+        "2KMnO4 + 10KI + 8H2SO4 -> 2MnSO4 + 5I2 + 6K2SO4 + 8H2O",
+        "K2Cr2O7 + 6KBr + 7H2SO4 -> Cr2(SO4)3 + 3Br2 + 4K2SO4 + 7H2O"
+      ]
+    },
+    {
+      "rule_id": "R81",
+      "name": "Nitrite as reductant in acidic redox systems",
+      "class": "redox",
+      "trigger": "NO2- + strong oxidizer + acid",
+      "constraints": [
+        "NO2- is oxidized to NO3-",
+        "Acidic medium required"
+      ],
+      "products_pattern": "nitrate + reduced oxidizer products",
+      "conditions": [
+        "acidic medium"
+      ],
+      "examples": [
+        "2KMnO4 + 5NaNO2 + 3H2SO4 -> K2SO4 + 2MnSO4 + 5NaNO3 + 3H2O"
       ]
     }
   ],
@@ -5131,6 +5218,230 @@ window.REACTIONS_DB = {
       "products": "4Fe + 3CO2",
       "equation": "2Fe2O3 + 3C ? 4Fe + 3CO2",
       "notes": "?????????????? ???????????? ????????"
+    },
+    {
+      "example_id": "EX196",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 10FeCl2 + 18H2SO4",
+      "products": "K2SO4 + 2MnSO4 + 5Fe2(SO4)3 + 20HCl + 8H2O",
+      "equation": "2KMnO4 + 10FeCl2 + 18H2SO4 -> K2SO4 + 2MnSO4 + 5Fe2(SO4)3 + 20HCl + 8H2O",
+      "notes": "acidic KMnO4 oxidation of Fe(II) chloride"
+    },
+    {
+      "example_id": "EX197",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 5H2C2O4 + 3H2SO4",
+      "products": "K2SO4 + 2MnSO4 + 10CO2(g) + 8H2O",
+      "equation": "2KMnO4 + 5H2C2O4 + 3H2SO4 -> K2SO4 + 2MnSO4 + 10CO2(g) + 8H2O",
+      "notes": "acidic KMnO4 oxidation of oxalic acid"
+    },
+    {
+      "example_id": "EX198",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 5KNO2 + 3H2SO4",
+      "products": "K2SO4 + 2MnSO4 + 5KNO3 + 3H2O",
+      "equation": "2KMnO4 + 5KNO2 + 3H2SO4 -> K2SO4 + 2MnSO4 + 5KNO3 + 3H2O",
+      "notes": "acidic KMnO4 oxidation of nitrite to nitrate"
+    },
+    {
+      "example_id": "EX199",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 16HCl",
+      "products": "2MnCl2 + 5Cl2(g) + 2KCl + 8H2O",
+      "equation": "2KMnO4 + 16HCl -> 2MnCl2 + 5Cl2(g) + 2KCl + 8H2O",
+      "notes": "KMnO4 oxidizes chloride in concentrated HCl"
+    },
+    {
+      "example_id": "EX200",
+      "rule_id": "R37",
+      "reactants": "K2Cr2O7 + 6FeCl2 + 14HCl",
+      "products": "2CrCl3 + 6FeCl3 + 2KCl + 7H2O",
+      "equation": "K2Cr2O7 + 6FeCl2 + 14HCl -> 2CrCl3 + 6FeCl3 + 2KCl + 7H2O",
+      "notes": "dichromate oxidation of Fe(II) chloride in acidic medium"
+    },
+    {
+      "example_id": "EX201",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 6KI + 7H2SO4",
+      "products": "Cr2(SO4)3 + 3I2 + 4K2SO4 + 7H2O",
+      "equation": "K2Cr2O7 + 6KI + 7H2SO4 -> Cr2(SO4)3 + 3I2 + 4K2SO4 + 7H2O",
+      "notes": "dichromate oxidation of iodide"
+    },
+    {
+      "example_id": "EX202",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 3H2O2 + 4H2SO4",
+      "products": "Cr2(SO4)3 + K2SO4 + 7H2O + 3O2(g)",
+      "equation": "K2Cr2O7 + 3H2O2 + 4H2SO4 -> Cr2(SO4)3 + K2SO4 + 7H2O + 3O2(g)",
+      "notes": "dichromate oxidation of hydrogen peroxide"
+    },
+    {
+      "example_id": "EX203",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 3SnCl2 + 14HCl",
+      "products": "2CrCl3 + 3SnCl4 + 2KCl + 7H2O",
+      "equation": "K2Cr2O7 + 3SnCl2 + 14HCl -> 2CrCl3 + 3SnCl4 + 2KCl + 7H2O",
+      "notes": "dichromate oxidation of Sn(II) chloride"
+    },
+    {
+      "example_id": "EX204",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 14HCl",
+      "products": "2CrCl3 + 3Cl2(g) + 2KCl + 7H2O",
+      "equation": "K2Cr2O7 + 14HCl -> 2CrCl3 + 3Cl2(g) + 2KCl + 7H2O",
+      "notes": "dichromate oxidizes chloride to chlorine"
+    },
+    {
+      "example_id": "EX205",
+      "rule_id": "R38",
+      "reactants": "2K2CrO4 + H2SO4",
+      "products": "K2Cr2O7 + K2SO4 + H2O",
+      "equation": "2K2CrO4 + H2SO4 -> K2Cr2O7 + K2SO4 + H2O",
+      "notes": "chromate to dichromate in acidic medium"
+    },
+    {
+      "example_id": "EX206",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 2KOH",
+      "products": "2K2CrO4 + H2O",
+      "equation": "K2Cr2O7 + 2KOH -> 2K2CrO4 + H2O",
+      "notes": "dichromate to chromate in alkaline medium"
+    },
+    {
+      "example_id": "EX207",
+      "rule_id": "R38",
+      "reactants": "2Na2CrO4 + H2SO4",
+      "products": "Na2Cr2O7 + Na2SO4 + H2O",
+      "equation": "2Na2CrO4 + H2SO4 -> Na2Cr2O7 + Na2SO4 + H2O",
+      "notes": "sodium chromate to sodium dichromate in acidic medium"
+    },
+    {
+      "example_id": "EX208",
+      "rule_id": "R38",
+      "reactants": "K2CrO4 + BaCl2",
+      "products": "BaCrO4(s) + 2KCl",
+      "equation": "K2CrO4 + BaCl2 -> BaCrO4(s) + 2KCl",
+      "notes": "qualitative precipitate of chromate with barium"
+    },
+    {
+      "example_id": "EX209",
+      "rule_id": "R38",
+      "reactants": "K2CrO4 + Pb(NO3)2",
+      "products": "PbCrO4(s) + 2KNO3",
+      "equation": "K2CrO4 + Pb(NO3)2 -> PbCrO4(s) + 2KNO3",
+      "notes": "yellow lead chromate precipitate"
+    },
+    {
+      "example_id": "EX210",
+      "rule_id": "R38",
+      "reactants": "K2CrO4 + 2AgNO3",
+      "products": "Ag2CrO4(s) + 2KNO3",
+      "equation": "K2CrO4 + 2AgNO3 -> Ag2CrO4(s) + 2KNO3",
+      "notes": "red-brown silver chromate precipitate"
+    },
+    {
+      "example_id": "EX211",
+      "rule_id": "R38",
+      "reactants": "Na2CrO4 + BaCl2",
+      "products": "BaCrO4(s) + 2NaCl",
+      "equation": "Na2CrO4 + BaCl2 -> BaCrO4(s) + 2NaCl",
+      "notes": "qualitative precipitate of chromate with barium"
+    },
+    {
+      "example_id": "EX212",
+      "rule_id": "R38",
+      "reactants": "Na2CrO4 + Pb(NO3)2",
+      "products": "PbCrO4(s) + 2NaNO3",
+      "equation": "Na2CrO4 + Pb(NO3)2 -> PbCrO4(s) + 2NaNO3",
+      "notes": "yellow lead chromate precipitate"
+    },
+    {
+      "example_id": "EX213",
+      "rule_id": "R38",
+      "reactants": "Na2CrO4 + 2AgNO3",
+      "products": "Ag2CrO4(s) + 2NaNO3",
+      "equation": "Na2CrO4 + 2AgNO3 -> Ag2CrO4(s) + 2NaNO3",
+      "notes": "red-brown silver chromate precipitate"
+    },
+    {
+      "example_id": "EX214",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 10KBr + 8H2SO4",
+      "products": "2MnSO4 + 5Br2 + 6K2SO4 + 8H2O",
+      "equation": "2KMnO4 + 10KBr + 8H2SO4 -> 2MnSO4 + 5Br2 + 6K2SO4 + 8H2O",
+      "notes": "acidic medium: Mn(VII) oxidizes bromide to bromine"
+    },
+    {
+      "example_id": "EX215",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 5NaNO2 + 3H2SO4",
+      "products": "K2SO4 + 2MnSO4 + 5NaNO3 + 3H2O",
+      "equation": "2KMnO4 + 5NaNO2 + 3H2SO4 -> K2SO4 + 2MnSO4 + 5NaNO3 + 3H2O",
+      "notes": "nitrite is oxidized to nitrate in acidic medium"
+    },
+    {
+      "example_id": "EX216",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 5K2SO3 + 3H2SO4",
+      "products": "2MnSO4 + 6K2SO4 + 3H2O",
+      "equation": "2KMnO4 + 5K2SO3 + 3H2SO4 -> 2MnSO4 + 6K2SO4 + 3H2O",
+      "notes": "acidic medium with sulfite as reductant"
+    },
+    {
+      "example_id": "EX217",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + 3K2SO3 + H2O",
+      "products": "2MnO2(s) + 3K2SO4 + 2KOH",
+      "equation": "2KMnO4 + 3K2SO3 + H2O -> 2MnO2(s) + 3K2SO4 + 2KOH",
+      "notes": "neutral medium: Mn(VII) to MnO2"
+    },
+    {
+      "example_id": "EX218",
+      "rule_id": "R36",
+      "reactants": "2KMnO4 + K2SO3 + 2KOH",
+      "products": "2K2MnO4 + K2SO4 + H2O",
+      "equation": "2KMnO4 + K2SO3 + 2KOH -> 2K2MnO4 + K2SO4 + H2O",
+      "notes": "alkaline medium: Mn(VII) to Mn(VI)"
+    },
+    {
+      "example_id": "EX219",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 6KBr + 7H2SO4",
+      "products": "Cr2(SO4)3 + 3Br2 + 4K2SO4 + 7H2O",
+      "equation": "K2Cr2O7 + 6KBr + 7H2SO4 -> Cr2(SO4)3 + 3Br2 + 4K2SO4 + 7H2O",
+      "notes": "dichromate oxidizes bromide in acidic medium"
+    },
+    {
+      "example_id": "EX220",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 3K2SO3 + 4H2SO4",
+      "products": "Cr2(SO4)3 + 4K2SO4 + 4H2O",
+      "equation": "K2Cr2O7 + 3K2SO3 + 4H2SO4 -> Cr2(SO4)3 + 4K2SO4 + 4H2O",
+      "notes": "sulfite reduces Cr(VI) to Cr(III) in acidic medium"
+    },
+    {
+      "example_id": "EX221",
+      "rule_id": "R38",
+      "reactants": "K2Cr2O7 + 2NaOH",
+      "products": "K2CrO4 + Na2CrO4 + H2O",
+      "equation": "K2Cr2O7 + 2NaOH -> K2CrO4 + Na2CrO4 + H2O",
+      "notes": "alkaline shift to chromate form"
+    },
+    {
+      "example_id": "EX222",
+      "rule_id": "R79",
+      "reactants": "Cr(OH)3 + 3NaOH",
+      "products": "Na3[Cr(OH)6]",
+      "equation": "Cr(OH)3 + 3NaOH -> Na3[Cr(OH)6]",
+      "notes": "amphoteric Cr(OH)3 dissolves in excess alkali"
+    },
+    {
+      "example_id": "EX223",
+      "rule_id": "R79",
+      "reactants": "2Cr(OH)3 + 3H2O2 + 4NaOH",
+      "products": "2Na2CrO4 + 8H2O",
+      "equation": "2Cr(OH)3 + 3H2O2 + 4NaOH -> 2Na2CrO4 + 8H2O",
+      "notes": "oxidation of Cr(III) to chromate in alkaline peroxide medium"
     }
   ],
   "substance_classes": [
@@ -6017,4 +6328,5 @@ window.REACTIONS_DB = {
       }
     ]
   }
-};
+}
+;

@@ -15,6 +15,8 @@
     backdrop-filter: blur(3px);
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
     overscroll-behavior: contain;
 }
 
@@ -54,10 +56,9 @@
     /* Увеличили радиус для большей плавности */
     border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    width: 90vw;
-    max-width: 95vw;
+    width: min(1100px, 95vw);
     max-height: 90vh;
-    height: 90vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -70,7 +71,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    flex: 1;
     min-height: 0;
     overflow: hidden;
 }
@@ -523,13 +524,14 @@ body.dark-theme .visual-caption {
 
 /* Мобильная адаптация */
 @media (max-width: 768px) {
+    #advanced-substance-modal {
+        padding: 10px;
+    }
+
     .advanced-modal-content {
         width: 100%;
-        max-width: 100%;
-        height: 100%;
         max-height: 100%;
-        /* ИСПРАВЛЕНИЕ: Ставим 16px вместо 0, чтобы углы были скруглены и на телефоне */
-        border-radius: 16px;
+        border-radius: 18px;
     }
 
     .advanced-header {
@@ -565,8 +567,7 @@ body.dark-theme .visual-caption {
    ========================================= */
 @media (min-width: 1400px) {
     .advanced-modal-content {
-        width: 85vw;
-        max-width: 1400px;
+        width: min(1100px, 95vw);
         max-height: 90vh;
         height: auto;
     }
@@ -653,9 +654,8 @@ body.dark-theme .visual-caption {
 
 @media (min-width: 1900px) {
     .advanced-modal-content {
-        width: 80vw;
-        max-width: 1800px;
-        max-height: 92vh;
+        width: min(1100px, 95vw);
+        max-height: 90vh;
         height: auto;
     }
 

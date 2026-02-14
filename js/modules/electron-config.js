@@ -15,6 +15,8 @@ const electronConfigOrbitals = document.getElementById('electron-config-orbitals
 const electronConfigValence = document.getElementById('electron-config-valence');
 const electronConfigShort = document.getElementById('electron-config-short');
 const electronConfigFull = document.getElementById('electron-config-full');
+const electronConfigOuterShell = document.getElementById('electron-config-outer-shell');
+const electronConfigValenceElectrons = document.getElementById('electron-config-valence-electrons');
 const ELECTRON_CONFIG_ANIM_MS = 360;
 
 const orbitalCapacityMap = {
@@ -253,12 +255,65 @@ function buildDerivedConfig(data) {
     };
 }
 
+function getOuterShellInfo(shellDistribution) {
+    if (!Array.isArray(shellDistribution) || shellDistribution.length === 0) {
+        return { count: '-', level: 0 };
+    }
+    const level = shellDistribution.length;
+    const count = shellDistribution[level - 1];
+    return { count, level };
+}
+
+function getValenceElectrons(data, derived) {
+    const block = data.block;
+    const orbitals = derived.orbitals;
+    if (!block || !Array.isArray(orbitals) || orbitals.length === 0) return '-';
+
+    const maxN = Math.max(...orbitals.map(o => o.n));
+
+    if (block === 's' || block === 'p') {
+        // Валентные = электроны на внешнем уровне
+        return orbitals
+            .filter(o => o.n === maxN)
+            .reduce((sum, o) => sum + o.electrons, 0);
+    }
+
+    if (block === 'd') {
+        // Внешние s + незавершённые d предпоследнего уровня
+        const outerS = orbitals
+            .filter(o => o.n === maxN && o.l === 's')
+            .reduce((sum, o) => sum + o.electrons, 0);
+        const innerD = orbitals
+            .filter(o => o.n === maxN - 1 && o.l === 'd')
+            .reduce((sum, o) => sum + o.electrons, 0);
+        return outerS + innerD;
+    }
+
+    if (block === 'f') {
+        // Внешние s + незавершённые f
+        const outerS = orbitals
+            .filter(o => o.n === maxN && o.l === 's')
+            .reduce((sum, o) => sum + o.electrons, 0);
+        const innerF = orbitals
+            .filter(o => o.l === 'f')
+            .reduce((sum, o) => sum + o.electrons, 0);
+        return outerS + innerF;
+    }
+
+    return '-';
+}
+
 function buildShells(shellDistribution) {
     if (!Array.isArray(shellDistribution) || shellDistribution.length === 0) {
         return '-';
     }
 
-    return shellDistribution.map(count => `<span>${count}e</span>`).join('');
+    return shellDistribution.map((count, index) =>
+        `<div class="shell-level">
+            <span class="shell-number">${index + 1}</span>
+            <span class="shell-electrons">${count}e⁻</span>
+        </div>`
+    ).join('');
 }
 
 function getOrbitalCapacity(type) {
@@ -340,6 +395,18 @@ function renderElectronConfigModal(data) {
 
     if (electronConfigValence) {
         electronConfigValence.textContent = data.valenceStates || '-';
+    }
+
+    const outerInfo = getOuterShellInfo(derived.shellDistribution);
+    if (electronConfigOuterShell) {
+        electronConfigOuterShell.textContent = outerInfo.count !== '-'
+            ? `${outerInfo.count}  (${outerInfo.level}-й уровень)`
+            : '-';
+    }
+
+    const valElectrons = getValenceElectrons(data, derived);
+    if (electronConfigValenceElectrons) {
+        electronConfigValenceElectrons.textContent = valElectrons;
     }
 
     if (electronConfigShort) {
@@ -424,7 +491,7 @@ function initElectronConfig() {
 window.openElectronConfigModal = openElectronConfigModal;
 window.closeElectronConfigModal = closeElectronConfigModal;
 window.initElectronConfig = initElectronConfig;
-window.getElectronConfigPreview = function(data) {
+window.getElectronConfigPreview = function (data) {
     if (!data) return '-';
     return buildDerivedConfig(data).shortConfig || '-';
 };

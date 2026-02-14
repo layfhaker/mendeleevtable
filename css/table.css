@@ -60,7 +60,11 @@
     /* Исправление для Chrome: явно задаем размеры */
     min-width: 0;
     min-height: 0;
+    padding: 14px 1px 2px 1px;
+    /* Top padding to clear atomic number */
     box-sizing: border-box;
+    overflow: hidden;
+    /* Ensure content doesn't spill out */
 }
 
 .element:hover {
@@ -74,19 +78,32 @@
 .atomic-number {
     position: absolute;
     top: 2px;
-    left: 2px;
-    font-size: clamp(8px, 0.75vw, 12px);
-    font-weight: 600;
+    left: 4px;
+    font-size: clamp(9px, 0.75vw, 12px);
+    font-weight: 400;
+    /* Regular weight for less emphasis */
+    opacity: 0.8;
 }
 
 .symbol {
-    font-size: clamp(14px, 1.4vw, 22px);
-    font-weight: bold;
+    font-size: clamp(14px, 1.5vw, 20px);
+    /* Reduced size */
+    font-weight: 600;
+    /* Semi-Bold instead of Bold */
+    margin-top: 0;
+    /* Remove top margin as padding handles it */
+    line-height: 1.1;
 }
 
 .name {
-    font-size: clamp(7px, 0.65vw, 10px);
-    font-weight: 600;
+    font-size: clamp(8px, 0.7vw, 11px);
+    font-weight: 500;
+    width: 98%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin-top: 1px;
 }
 
 /* --- Цвета категорий (светлая тема) --- */
@@ -748,7 +765,21 @@
 /* --- Увеличенные шрифты для больших экранов --- */
 @media (min-width: 1600px) {
     .atomic-number {
+        font-size: 0.6vw;
+    }
+
+    .symbol {
+        font-size: 1.5vw;
+    }
+
+    .name {
         font-size: 0.7vw;
+    }
+}
+
+@media (min-width: 1920px) {
+    .atomic-number {
+        font-size: 0.6vw;
     }
 
     .symbol {
@@ -756,34 +787,20 @@
     }
 
     .name {
-        font-size: 0.65vw;
-    }
-}
-
-@media (min-width: 1920px) {
-    .atomic-number {
         font-size: 0.7vw;
-    }
-
-    .symbol {
-        font-size: 1.3vw;
-    }
-
-    .name {
-        font-size: 0.65vw;
     }
 }
 
 @media (min-width: 2560px) {
     .atomic-number {
-        font-size: 0.6vw;
+        font-size: 0.5vw;
     }
 
     .symbol {
-        font-size: 1.1vw;
+        font-size: 1.2vw;
     }
 
     .name {
-        font-size: 0.55vw;
+        font-size: 0.6vw;
     }
 }

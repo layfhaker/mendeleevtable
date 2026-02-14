@@ -1,1 +1,360 @@
-/* Стили для модуля реакций — файл оставлен для возможных будущих расширений */
+/* Стили для модуля реакций */
+
+/* Контейнер для тегов */
+.reactions-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    min-height: 24px;
+}
+
+/* Базовый стиль тега */
+.reaction-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: #555;
+    /* Default */
+    transition: all 0.2s ease;
+    cursor: default;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.reaction-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Цвета категорий */
+.tag-special {
+    background-color: #FFD700;
+    color: #333;
+}
+
+/* Gold */
+.tag-redox {
+    background-color: #e57373;
+    color: #fff;
+}
+
+/* Red */
+.tag-displacement {
+    background-color: #ba68c8;
+}
+
+/* Purple */
+.tag-exchange {
+    background-color: #64b5f6;
+    color: #fff;
+}
+
+/* Blue */
+.tag-combination {
+    background-color: #81c784;
+    color: #333;
+}
+
+/* Green */
+.tag-decomposition {
+    background-color: #ffb74d;
+    color: #333;
+}
+
+/* Orange */
+.tag-neutralization {
+    background-color: #4db6ac;
+}
+
+/* Teal */
+.tag-precipitation {
+    background-color: #90a4ae;
+}
+
+/* Blue Grey */
+.tag-gas_evolution {
+    background-color: #4fc3f7;
+    color: #333;
+}
+
+/* Light Blue */
+.tag-complexation {
+    background-color: #7986cb;
+}
+
+/* Indigo */
+.tag-hydrolysis {
+    background-color: #a1887f;
+}
+
+/* Brown */
+.tag-eletrolysis,
+.tag-electrolysis {
+    background-color: #ff8a65;
+}
+
+/* Deep Orange */
+.tag-thermal {
+    background-color: #ffab91;
+    color: #333;
+}
+
+/* Light Red */
+.tag-qualitative {
+    background-color: #f06292;
+}
+
+/* Pink */
+.tag-specific {
+    background-color: #a1887f;
+}
+
+/* Brown */
+.tag-amphoterism {
+    background-color: #ce93d8;
+    color: #333;
+}
+
+/* Light Purple */
+.tag-fusion {
+    background-color: #ffcc80;
+    color: #333;
+}
+
+/* Light Orange */
+.tag-oxidizing_acid {
+    background-color: #ef5350;
+}
+
+/* Red */
+.tag-metal_acid {
+    background-color: #ba68c8;
+}
+
+/* Purple */
+.tag-combustion {
+    background-color: #ff7043;
+}
+
+/* Deep Orange */
+.tag-disproportionation {
+    background-color: #9575cd;
+}
+
+/* Deep Purple */
+.tag-exothermic {
+    background-color: #ff8a65;
+}
+
+/* Особые статусы */
+.tag-no_reaction {
+    background-color: #b0bec5;
+    color: #333;
+}
+
+.tag-suggestion {
+    background-color: #81d4fa;
+    color: #333;
+}
+
+.tag-db_match {
+    background-color: #4db6ac;
+}
+
+/* Reactions modal visual style aligned with solubility modal */
+#reactions-modal {
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#reactions-modal .modal-content.solubility-content.reactions-content {
+    max-width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter));
+    width: calc(100vw - var(--solubility-left-gutter) - var(--solubility-right-gutter));
+    margin-left: var(--solubility-left-gutter);
+    margin-right: auto;
+    max-height: 95vh;
+    height: auto;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+
+#reactions-modal .modal-header {
+    padding: 15px 20px;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+#reactions-modal .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    color: var(--text-color);
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+}
+
+#reactions-modal .reactions-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+#reactions-modal .reactions-subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted, #5c6470);
+    font-weight: 500;
+}
+
+#reactions-modal .modal-header-controls {
+    gap: 0;
+}
+
+#reactions-modal .close-reactions {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(33, 150, 243, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+#reactions-modal .close-reactions svg {
+    width: 20px;
+    height: 20px;
+    color: #2196f3;
+}
+
+@media (hover: hover) {
+    #reactions-modal .close-reactions:hover {
+        background: rgba(33, 150, 243, 0.3);
+        transform: scale(1.1);
+    }
+}
+
+body.dark-theme #reactions-modal .close-reactions {
+    background: rgba(100, 181, 246, 0.2);
+}
+
+body.dark-theme #reactions-modal .close-reactions svg {
+    color: #64b5f6;
+}
+
+@media (hover: hover) {
+    body.dark-theme #reactions-modal .close-reactions:hover {
+        background: rgba(100, 181, 246, 0.4);
+    }
+}
+
+#reactions-modal .reactions-body {
+    padding: 16px 20px 20px;
+    background-color: var(--bg-color);
+    gap: 12px;
+}
+
+#reactions-modal .reactions-input-block,
+#reactions-modal .reactions-output-block {
+    background: #f8f9fc;
+    border: 1px solid rgba(60, 80, 120, 0.2);
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+#reactions-modal .reactions-output-block {
+    background: #f2f6ff;
+}
+
+#reactions-modal .reactions-input-block textarea,
+#reactions-modal .reactions-output-block textarea {
+    background: #ffffff;
+    border: 1px solid rgba(60, 80, 120, 0.22);
+}
+
+#reactions-modal .reactions-examples {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #f8f9fc;
+    border: 1px solid rgba(60, 80, 120, 0.14);
+}
+
+#reactions-modal .reactions-chips button {
+    background: #ffffff;
+    border: 1px solid rgba(60, 80, 120, 0.22);
+}
+
+body.dark-theme #reactions-modal .reactions-subtitle {
+    color: rgba(220, 230, 255, 0.65);
+}
+
+body.dark-theme #reactions-modal .reactions-input-block,
+body.dark-theme #reactions-modal .reactions-output-block {
+    background: rgba(20, 24, 46, 0.55);
+    border-color: rgba(110, 130, 180, 0.25);
+}
+
+body.dark-theme #reactions-modal .reactions-output-block {
+    background: rgba(16, 22, 44, 0.9);
+}
+
+body.dark-theme #reactions-modal .reactions-input-block textarea,
+body.dark-theme #reactions-modal .reactions-output-block textarea {
+    background: rgba(12, 16, 34, 0.9);
+    border-color: rgba(140, 160, 200, 0.2);
+}
+
+body.dark-theme #reactions-modal .reactions-examples {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(140, 160, 200, 0.25);
+}
+
+body.dark-theme #reactions-modal .reactions-chips button {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(140, 160, 200, 0.25);
+}
+
+@media (max-width: 600px) {
+    #reactions-modal .modal-content.solubility-content.reactions-content {
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        background: var(--bg-color);
+    }
+
+    #reactions-modal .modal-header {
+        padding: 14px 16px;
+        position: sticky;
+        top: 0;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #reactions-modal .modal-header h2 {
+        font-size: 1.2rem;
+    }
+
+    #reactions-modal .reactions-subtitle {
+        font-size: 0.84rem;
+    }
+
+    #reactions-modal .reactions-body {
+        padding: 16px;
+    }
+}

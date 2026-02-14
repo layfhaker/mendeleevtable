@@ -264,23 +264,23 @@ function scatterElements() {
 
     requestAnimationFrame(() => {
         elements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const elCenterX = rect.left + rect.width / 2;
-        const elCenterY = rect.top + rect.height / 2;
+            const rect = el.getBoundingClientRect();
+            const elCenterX = rect.left + rect.width / 2;
+            const elCenterY = rect.top + rect.height / 2;
 
-        let dirX = elCenterX - modalCenterX;
-        let dirY = elCenterY - modalCenterY;
+            let dirX = elCenterX - modalCenterX;
+            let dirY = elCenterY - modalCenterY;
 
-        const distance = Math.sqrt(dirX * dirX + dirY * dirY) || 1;
-        dirX = dirX / distance;
-        dirY = dirY / distance;
+            const distance = Math.sqrt(dirX * dirX + dirY * dirY) || 1;
+            dirX = dirX / distance;
+            dirY = dirY / distance;
 
-        const randomOffset = 100 + Math.random() * 100;
+            const randomOffset = 100 + Math.random() * 100;
 
-        const moveX = dirX * randomOffset + (Math.random() - 0.5) * 50;
-        const moveY = dirY * randomOffset + (Math.random() - 0.5) * 50;
+            const moveX = dirX * randomOffset + (Math.random() - 0.5) * 50;
+            const moveY = dirY * randomOffset + (Math.random() - 0.5) * 50;
 
-        el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            el.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
     });
 }

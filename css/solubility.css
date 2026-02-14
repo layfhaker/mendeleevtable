@@ -118,7 +118,7 @@ body.dark-theme {
 }
 
 /* Кнопка рядов активности */
-#activity-series-btn {
+#activity-mode-btn {
     width: 40px;
     height: 40px;
     border: none;
@@ -129,25 +129,29 @@ body.dark-theme {
     transition: all 0.2s ease;
 }
 
-#activity-series-btn:hover {
-    background: rgba(255, 193, 7, 0.3);
-    transform: scale(1.1);
+@media (hover: hover) {
+    #activity-mode-btn:hover {
+        background: rgba(255, 193, 7, 0.3);
+        transform: scale(1.1);
+    }
 }
 
-#activity-series-btn.active {
+#activity-mode-btn.active {
     background: #FFC107;
     box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
-body.dark-theme #activity-series-btn {
+body.dark-theme #activity-mode-btn {
     background: rgba(255, 213, 79, 0.2);
 }
 
-body.dark-theme #activity-series-btn:hover {
-    background: rgba(255, 213, 79, 0.4);
+@media (hover: hover) {
+    body.dark-theme #activity-mode-btn:hover {
+        background: rgba(255, 213, 79, 0.4);
+    }
 }
 
-body.dark-theme #activity-series-btn.active {
+body.dark-theme #activity-mode-btn.active {
     background: #FFD54F;
 }
 
@@ -425,9 +429,11 @@ body.dark-theme .table-legend {
     transition: all 0.2s ease;
 }
 
-#color-mode-btn:hover {
-    background: rgba(33, 150, 243, 0.3);
-    transform: scale(1.1);
+@media (hover: hover) {
+    #color-mode-btn:hover {
+        background: rgba(33, 150, 243, 0.3);
+        transform: scale(1.1);
+    }
 }
 
 #color-mode-btn.active {
@@ -439,8 +445,10 @@ body.dark-theme #color-mode-btn {
     background: rgba(100, 181, 246, 0.2) !important;
 }
 
-body.dark-theme #color-mode-btn:hover {
-    background: rgba(100, 181, 246, 0.4) !important;
+@media (hover: hover) {
+    body.dark-theme #color-mode-btn:hover {
+        background: rgba(100, 181, 246, 0.4) !important;
+    }
 }
 
 body.dark-theme #color-mode-btn.active {
@@ -548,9 +556,9 @@ body.dark-theme #color-mode-btn.active {
     height: 42%;
     border-radius: 999px;
     background: linear-gradient(165deg,
-        rgba(255, 255, 255, 0.82) 0%,
-        rgba(255, 255, 255, 0.35) 55%,
-        rgba(255, 255, 255, 0) 100%);
+            rgba(255, 255, 255, 0.82) 0%,
+            rgba(255, 255, 255, 0.35) 55%,
+            rgba(255, 255, 255, 0) 100%);
     pointer-events: none;
 }
 
@@ -570,9 +578,9 @@ body.dark-theme .chem-color-cell.colorless-solution {
 
 body.dark-theme .chem-color-cell.colorless-solution::before {
     background: linear-gradient(165deg,
-        rgba(255, 255, 255, 0.58) 0%,
-        rgba(255, 255, 255, 0.2) 55%,
-        rgba(255, 255, 255, 0) 100%);
+            rgba(255, 255, 255, 0.58) 0%,
+            rgba(255, 255, 255, 0.2) 55%,
+            rgba(255, 255, 255, 0) 100%);
 }
 
 
@@ -635,7 +643,7 @@ body.dark-theme .chem-color-cell.colorless-solution::before {
     }
 
     /* Кнопка рядов активности */
-    #activity-series-btn {
+    #activity-mode-btn {
         width: 3vw;
         height: 3vw;
         min-width: 40px;
@@ -701,7 +709,7 @@ body.dark-theme .chem-color-cell.colorless-solution::before {
     }
 
     /* Кнопка рядов активности */
-    #activity-series-btn {
+    #activity-mode-btn {
         width: 3.5vw;
         height: 3.5vw;
         min-width: 50px;
@@ -783,6 +791,7 @@ body.dark-theme #solubility-search-btn.active {
 body.dark-theme #solubility-search-btn.active svg {
     color: #1a1a2e;
 }
+
 /* =========================================
    ПАНЕЛЬ ПОИСКА (только мобильные)
    ========================================= */
@@ -1982,8 +1991,32 @@ body.dark-theme .series-container.activity-grid .act-item.has-next::after {
 
 @media (max-width: 760px) {
     .series-container.activity-grid {
-        --activity-gap-x: 14px;
-        --activity-gap-y: 12px;
+        --activity-gap-x: 10px;
+        --activity-gap-y: 9px;
+    }
+
+    .series-container.activity-grid.activity-grid--metals {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+
+    .series-container.activity-grid.activity-grid--nonmetals {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .series-container.activity-grid .act-item {
+        min-height: 36px;
+        font-size: 13px;
+    }
+
+    .series-container.activity-grid .act-item.has-next::after {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 520px) {
+    .series-container.activity-grid {
+        --activity-gap-x: 7px;
+        --activity-gap-y: 7px;
     }
 
     .series-container.activity-grid.activity-grid--metals {
@@ -1991,22 +2024,16 @@ body.dark-theme .series-container.activity-grid .act-item.has-next::after {
     }
 
     .series-container.activity-grid.activity-grid--nonmetals {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 520px) {
-    .series-container.activity-grid {
-        --activity-gap-x: 10px;
-        --activity-gap-y: 10px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
-    .series-container.activity-grid.activity-grid--metals {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .series-container.activity-grid .act-item {
+        min-height: 31px;
+        font-size: 12px;
     }
 
-    .series-container.activity-grid.activity-grid--nonmetals {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+    .series-container.activity-grid .act-item.has-next::after {
+        font-size: 12px;
     }
 }
 
@@ -2017,6 +2044,18 @@ body.dark-theme .series-container.activity-grid .act-item.has-next::after {
     top: calc(100% + (var(--activity-gap-y) / 2));
     transform: translate(-50%, -50%);
     font-size: 17px;
+}
+
+@media (max-width: 760px) {
+    .series-container.activity-grid .act-item.row-end-turn::after {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 520px) {
+    .series-container.activity-grid .act-item.row-end-turn::after {
+        font-size: 13px;
+    }
 }
 
 /* На больших экранах сохраняем тот же масштаб, без увеличения */
@@ -2085,33 +2124,34 @@ body.reactions-open {
     background-color: var(--bg-color);
 }
 
-/* Кнопка закрытия (новая, унифицированная) */
+/* Кнопка закрытия (унифицированная со стилем таблицы растворимости) */
 .close-reactions {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 8px;
+    background: rgba(33, 150, 243, 0.15);
     cursor: pointer;
-    color: var(--text-color);
+    transition: all 0.2s ease;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(90, 110, 160, 0.12);
-    border: 1px solid rgba(90, 110, 160, 0.25);
-    padding: 0;
-    transition: all 0.2s ease;
 }
 
 .close-reactions svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.5px;
+    width: 22px;
+    height: 22px;
+    color: #2196F3;
 }
 
-.close-reactions:hover {
-    color: #f44336;
-    background: rgba(244, 67, 54, 0.12);
-    border-color: rgba(244, 67, 54, 0.35);
-    transform: rotate(90deg);
+@media (hover: hover) {
+    .close-reactions:hover {
+        background: rgba(33, 150, 243, 0.3);
+        transform: scale(1.1);
+    }
 }
 
 .reactions-placeholder {
@@ -2213,15 +2253,17 @@ body.dark-theme .reactions-output-block {
 }
 
 body.dark-theme .close-reactions {
-    color: rgba(230, 236, 255, 0.95);
-    background: rgba(120, 140, 190, 0.18);
-    border-color: rgba(130, 160, 220, 0.32);
+    background: rgba(100, 181, 246, 0.2);
 }
 
-body.dark-theme .close-reactions:hover {
-    color: #ff7b7b;
-    background: rgba(255, 123, 123, 0.18);
-    border-color: rgba(255, 123, 123, 0.45);
+body.dark-theme .close-reactions svg {
+    color: #64B5F6;
+}
+
+@media (hover: hover) {
+    body.dark-theme .close-reactions:hover {
+        background: rgba(100, 181, 246, 0.4);
+    }
 }
 
 body.dark-theme .reactions-output-secondary {
@@ -2451,26 +2493,12 @@ body.dark-theme #reactions-modal textarea::placeholder {
 
     /* Кнопка закрытия */
     .close-reactions {
-        width: 44px;
-        height: 44px;
-        font-size: 24px;
-        border-radius: 12px;
-        background: rgba(0, 0, 0, 0.05);
-        border: none;
-        transition: all 0.2s ease;
+        width: 40px;
+        height: 40px;
     }
 
     .close-reactions:active {
         transform: scale(0.92);
-        background: rgba(0, 0, 0, 0.1);
-    }
-
-    body.dark-theme .close-reactions {
-        background: rgba(255, 255, 255, 0.08);
-    }
-
-    body.dark-theme .close-reactions:active {
-        background: rgba(255, 255, 255, 0.15);
     }
 
     /* Тело модалки */
@@ -2640,10 +2668,8 @@ body.dark-theme #reactions-modal textarea::placeholder {
     }
 
     .close-reactions {
-        width: 40px;
-        height: 40px;
-        font-size: 22px;
-        border-radius: 10px;
+        width: 38px;
+        height: 38px;
     }
 
     .reactions-body {
@@ -2700,9 +2726,8 @@ body.dark-theme #reactions-modal textarea::placeholder {
     }
 
     .close-reactions {
-        width: 38px;
-        height: 38px;
-        font-size: 20px;
+        width: 36px;
+        height: 36px;
     }
 
     .reactions-body {
@@ -2924,4 +2949,3 @@ body.dark-theme #solubility-modal .advanced-mode-hint {
         font-size: 13px;
     }
 }
-

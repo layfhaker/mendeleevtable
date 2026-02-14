@@ -49,30 +49,54 @@ body.wallpaper-optimized .modal * {
     animation: none !important;
     transition: none !important;
 }
-/* --- РљРЅРѕРїРєР° Р·Р°РєСЂС‹С‚РёСЏ --- */
+
+/* --- Кнопка закрытия --- */
 .close {
     position: absolute;
     right: 15px;
     top: 10px;
-    width: 44px;
-    height: 44px;
-    color: #555;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
-    line-height: 44px;
-    text-align: center;
-    border-radius: 50%;
-    background: transparent;
+    width: 40px;
+    height: 40px;
     border: none;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 8px;
+    background: rgba(33, 150, 243, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2196F3;
+    z-index: 1001;
     box-shadow: none;
     outline: none;
 }
 
+.close svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .close:hover {
-    color: #222;
-    background: rgba(0, 0, 0, 0.06);
+    background: rgba(33, 150, 243, 0.3);
+    transform: scale(1.1);
+}
+
+/* Тёмная тема */
+body.dark-theme .close {
+    background: rgba(100, 181, 246, 0.2);
+    color: #64B5F6;
+}
+
+body.dark-theme .close:hover {
+    background: rgba(100, 181, 246, 0.4);
 }
 
 /* --- Р—Р°РіРѕР»РѕРІРѕРє СЌР»РµРјРµРЅС‚Р° --- */
@@ -510,14 +534,11 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         position: absolute;
         top: 12px;
         right: 15px;
-        font-size: 28px;
-        width: 32px;
-        height: 32px;
-        line-height: 32px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 50%;
-        color: #555;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: rgba(33, 150, 243, 0.15);
+        color: #2196F3;
         z-index: 20;
     }
 
@@ -664,7 +685,13 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     .close {
         right: 10px;
         top: 10px;
-        font-size: 28px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .close svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -714,7 +741,13 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     .close {
         top: 8px;
         right: 10px;
-        font-size: 24px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .close svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -722,6 +755,11 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
    Р‘РћР›Р¬РЁРР• Р­РљР РђРќР«
    ========================================= */
 @media (min-width: 1400px) {
+    .info-group.collapsed {
+        flex: 0 0 60px;
+        max-width: 60px;
+    }
+
     .modal-content {
         width: 80vw;
         max-width: 1400px;
@@ -746,6 +784,10 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 }
 
 @media (min-width: 1900px) {
+    .info-group.collapsed {
+        flex: 0 0 70px;
+        max-width: 70px;
+    }
 
     /* Р”Р»СЏ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёС… СЌРєСЂР°РЅРѕРІ */
     .modal-content {
@@ -775,4 +817,3 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         line-height: 1.6;
     }
 }
-

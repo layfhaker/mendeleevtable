@@ -22,6 +22,21 @@ console.log('Final value of window.isColorMode at script load:', window.isColorM
 window.isColorMode = window.isColorMode || false;
 console.log('Ensured window.isColorMode is set to:', window.isColorMode);
 
+function syncColorModeButtonState() {
+    const btn = document.getElementById('color-mode-btn');
+    if (!btn) return;
+
+    const isActive = Boolean(window.isColorMode);
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncColorModeButtonState);
+} else {
+    syncColorModeButtonState();
+}
+
 // Добавить в глобальную область видимости (например, в начало advanced-modal.js)
 function normalizeFormula(formula) {
     return formula
@@ -76,9 +91,8 @@ function toggleColorMode() {
     localStorage.setItem('solubilityColorMode', window.isColorMode);
     console.log('Saved window.isColorMode to localStorage:', window.isColorMode);
 
-    const btn = document.getElementById('color-mode-btn');
-    btn.classList.toggle('active', window.isColorMode);
-    console.log('Updated button active state');
+    syncColorModeButtonState();
+    console.log('Synchronized button active state');
 
     // Перерисовываем таблицу
     renderSolubilityTable();

@@ -25,6 +25,7 @@
     <!-- Полные стили загружаем сразу для корректного отображения в Chrome -->
     <link rel="stylesheet" href="css/style.css?v=6">
     <link rel="stylesheet" href="css/reactions.css?v=1">
+    <link rel="stylesheet" href="css/radioactive.css">
 
     <!-- FLIP-анимации для модалок -->
 
@@ -36,6 +37,7 @@
 <body>
     <!-- ЛОАДЕР — загружается первым -->
     <script src="js/loader.js"></script>
+    <script src="js/modules/radioactive.js"></script>
 
     <!-- Синхронная загрузка SVG иконок для Safari iOS -->
 
@@ -816,7 +818,13 @@
                     <line x1="9" y1="15" x2="15" y2="15"></line>
                 </svg>
             </button>
-            <span class="close">&times;</span>
+            <button class="close" aria-label="Закрыть">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
             <h2 id="element-title"></h2>
 
             <div id="allotrope-tabs-placeholder"></div>
@@ -831,7 +839,7 @@
             <div class="electron-config-header">
                 <div>
                     <div class="electron-config-title" id="electron-config-title">
-                        <span class="icon">&#9883;</span>
+
                         <span id="electron-config-heading">Строение атома</span>
                     </div>
                     <div class="electron-config-subtitle" id="electron-config-subtitle"></div>
@@ -855,6 +863,15 @@
                     </div>
                 </div>
                 <div class="electron-config-footer">
+                    <div class="electron-meta-row">
+                        <span class="label">Электроны внешнего уровня</span>
+                        <span class="value" id="electron-config-outer-shell"></span>
+                    </div>
+                    <div class="electron-meta-row">
+                        <span class="label">Валентные электроны</span>
+                        <span class="value" id="electron-config-valence-electrons"></span>
+                    </div>
+                    <div class="electron-config-footer-divider"></div>
                     <div class="electron-meta-row">
                         <span class="label">Валентные возможности</span>
                         <span class="value" id="electron-config-valence"></span>
@@ -1136,14 +1153,13 @@
                     <h2>Подбор продуктов реакции</h2>
                     <p class="reactions-subtitle">Введите реагенты, а продукты подставятся автоматически.</p>
                 </div>
-                <!-- Unified Close Button with SVG -->
-                <button class="close-reactions" onclick="toggleReactionsModal(event)" aria-label="Закрыть">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
+                <div class="modal-header-controls">
+                    <button class="close-reactions" onclick="toggleReactionsModal(event)" aria-label="Закрыть">
+                        <svg>
+                            <use href="#icon-close"></use>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="reactions-body">
                 <div class="reactions-input-block reactions-input-primary">
@@ -1154,6 +1170,7 @@
                 <div class="reactions-output-block reactions-output-secondary">
                     <label for="reactions-output">Уравнение реакции</label>
                     <textarea id="reactions-output" readonly placeholder="Здесь появится уравнение реакции"></textarea>
+                    <div id="reactions-tags" class="reactions-tags"></div>
                 </div>
                 <div class="reactions-examples">
                     <span>Примеры реагентов:</span>
@@ -1236,6 +1253,8 @@
         </div>
     </div>
 
+    <script src="data/bad-apple-payload.js"></script>
+    <script src="data/bad-apple-payload-solubility.js"></script>
     <script src="js/scrypt.js"></script>
 
 
@@ -1249,6 +1268,11 @@
     <!-- Основные данные и функции -->
 
     <!-- Модуль поиска и фильтров -->
+    <!-- Основные данные и функции -->
+    <script src="js/reactions-db.js"></script>
+    <script src="js/modules/reactions.js"></script>
+    <script src="js/modules/search-filters.js"></script>
+    <script src="js/modules/ui.js"></script>
 </body>
 
 </html>

@@ -1,17 +1,17 @@
 // =========================================
-// РњРћР”РЈР›Р¬: Р­РљРЎРџРћР Рў Р­Р›Р•РњР•РќРўРђ Р’ PDF Р LATEX
+// МОДУЛЬ: ЭКСПОРТ ЭЛЕМЕНТА В PDF И LATEX
 // =========================================
 
 /**
- * РќРѕСЂРјР°Р»РёР·Р°С†РёСЏ С„РѕСЂРјСѓР»С‹ (СѓР±РёСЂР°РµРј РёРЅРґРµРєСЃС‹ РґР»СЏ РїРѕРёСЃРєР°)
+ * Нормализация формулы (убираем индексы для поиска)
  */
 function normalizeFormula(formula) {
-    return formula.replace(/[вЃєвЃ»вЃ°В№ВІВівЃґвЃµвЃ¶вЃ·вЃёвЃ№в‚Ђв‚Ѓв‚‚в‚ѓв‚„в‚…в‚†в‚‡в‚€в‚‰]/g, (match) => {
+    return formula.replace(/[⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]/g, (match) => {
         const map = {
-            'вЃє': '+', 'вЃ»': '-', 'вЃ°': '0', 'В№': '1', 'ВІ': '2', 'Ві': '3', 'вЃґ': '4',
-            'вЃµ': '5', 'вЃ¶': '6', 'вЃ·': '7', 'вЃё': '8', 'вЃ№': '9',
-            'в‚Ђ': '0', 'в‚Ѓ': '1', 'в‚‚': '2', 'в‚ѓ': '3', 'в‚„': '4',
-            'в‚…': '5', 'в‚†': '6', 'в‚‡': '7', 'в‚€': '8', 'в‚‰': '9'
+            '⁺': '+', '⁻': '-', '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
+            '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+            '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
+            '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9'
         };
         return map[match] || match;
     });
@@ -19,7 +19,7 @@ function normalizeFormula(formula) {
 
 function getElementCompounds(symbol) {
     if (!window.solubilityData) {
-        console.error('Р”Р°РЅРЅС‹Рµ С‚Р°Р±Р»РёС†С‹ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РЅРµ Р·Р°РіСЂСѓР¶РµРЅС‹');
+        console.error('Данные таблицы растворимости не загружены');
         return [];
     }
 
@@ -59,8 +59,8 @@ function getElementCompounds(symbol) {
         const key = `${cationKey}-${anionKey}`;
         if (window.decompositionReactions && window.decompositionReactions[key]) {
             return {
-                equation: window.decompositionReactions[key].equation || 'вЂ”',
-                description: window.decompositionReactions[key].description || 'вЂ”'
+                equation: window.decompositionReactions[key].equation || '—',
+                description: window.decompositionReactions[key].description || '—'
             };
         }
         return null;
@@ -104,10 +104,10 @@ function getElementCompounds(symbol) {
 }
 
 /**
- * Р РµРЅРґРµСЂРёС‚ С„РѕСЂРјСѓР»Сѓ РІ РєСЂР°СЃРёРІС‹Р№ HTML СЃ РїРѕРјРѕС‰СЊСЋ KaTeX
+ * Рендерит формулу в красивый HTML с помощью KaTeX
  */
 function renderFormula(formula) {
-    if (!formula) return 'вЂ”';
+    if (!formula) return '—';
     try {
         return katex.renderToString(`\\ce{${formula}}`, {
             throwOnError: false,
@@ -118,7 +118,7 @@ function renderFormula(formula) {
     }
 }
 
-function safeValue(value, fallback = 'вЂ”') {
+function safeValue(value, fallback = '—') {
     if (value === null || value === undefined) return fallback;
     if (typeof value === 'number' && Number.isNaN(value)) return fallback;
     if (typeof value === 'string' && value.trim().toLowerCase() === 'null') return fallback;
@@ -128,28 +128,28 @@ function safeValue(value, fallback = 'вЂ”') {
 
 function toSuperscript(text) {
     const map = {
-        '0': 'вЃ°', '1': 'В№', '2': 'ВІ', '3': 'Ві', '4': 'вЃґ',
-        '5': 'вЃµ', '6': 'вЃ¶', '7': 'вЃ·', '8': 'вЃё', '9': 'вЃ№'
+        '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+        '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹'
     };
     return String(text).split('').map(ch => map[ch] || ch).join('');
 }
 
 function formatElectronConfigForPDF(config) {
-    if (!config) return 'вЂ”';
+    if (!config) return '—';
     let str = String(config);
     str = str.replace(/<sup>(\d+)<\/sup>/gi, (_, digits) => toSuperscript(digits));
     str = str.replace(/<[^>]*>/g, '');
-    return safeValue(str, 'вЂ”');
+    return safeValue(str, '—');
 }
 
 function getCategoryLabel(data) {
     const category = (data && data.category) ? String(data.category) : '';
     if (category) return category;
-    return 'вЂ”';
+    return '—';
 }
 
 /**
- * Р“РµРЅРµСЂРёСЂСѓРµС‚ HTML СЃРµРєС†РёСЋ РґР»СЏ Р°Р»Р»РѕС‚СЂРѕРїРѕРІ
+ * Генерирует HTML секцию для аллотропов
  */
 function generateAllotropesHTML(data) {
     if (!data.allotropes && !data.extraAllotropes) return '';
@@ -163,13 +163,13 @@ function generateAllotropesHTML(data) {
 
     return `
         <div class="pdf-section">
-            <h2 class="pdf-subtitle" style="color: #D36A8E;">РђР»Р»РѕС‚СЂРѕРїРЅС‹Рµ РјРѕРґРёС„РёРєР°С†РёРё</h2>
+            <h2 class="pdf-subtitle" style="color: #D36A8E;">Аллотропные модификации</h2>
             <table class="pdf-table">
                 <thead>
                         <tr style="background-color: #D36A8E;">
-                        <th>РќР°Р·РІР°РЅРёРµ</th>
-                        <th>РЎРІРѕР№СЃС‚РІР°</th>
-                        <th>РЎС‚СЂСѓРєС‚СѓСЂР°</th>
+                        <th>Название</th>
+                        <th>Свойства</th>
+                        <th>Структура</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -180,12 +180,12 @@ function generateAllotropesHTML(data) {
                                 <span style="font-size: smaller; color: #666;">${allo.alloDiscoveryYear || ''}</span>
                             </td>
                             <td>
-                                ${allo.density ? `<div>ПЃ: ${allo.density}</div>` : ''}
-                                ${allo.meltingPoint ? `<div>Tв‚: ${allo.meltingPoint}</div>` : ''}
+                                ${allo.density ? `<div>ρ: ${allo.density}</div>` : ''}
+                                ${allo.meltingPoint ? `<div>Tₘ: ${allo.meltingPoint}</div>` : ''}
                                 ${allo.color ? `<div>${allo.color}</div>` : ''}
                             </td>
                             <td>
-                                ${allo.structure || 'вЂ”'}<br>
+                                ${allo.structure || '—'}<br>
                                 <span style="font-size: smaller; font-style: italic;">${allo.alloFacts || ''}</span>
                             </td>
                         </tr>
@@ -197,16 +197,19 @@ function generateAllotropesHTML(data) {
 }
 
 /**
- * Р“РµРЅРµСЂРёСЂСѓРµС‚ HTML С€Р°Р±Р»РѕРЅ РґР»СЏ СЌРєСЃРїРѕСЂС‚Р°
+ * Генерирует HTML шаблон для экспорта
  */
-function generatePDFTemplate(data, compounds) {
-    const solubilityText = { 'R': 'Р Р°СЃС‚РІРѕСЂРёРј', 'M': 'РњР°Р»РѕСЂР°СЃС‚РІРѕСЂРёРј', 'N': 'РќРµСЂР°СЃС‚РІРѕСЂРёРј', 'D': 'Р Р°Р·Р»Р°РіР°РµС‚СЃСЏ', 'O': 'РќРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚' };
+function generatePDFTemplate(data, compounds, options = {}) {
+    const solubilityText = { 'R': 'Растворим', 'M': 'Малорастворим', 'N': 'Нерастворим', 'D': 'Разлагается', 'O': 'Не существует' };
+    const totalCompounds = Number(options.compoundsTotal) || compounds.length;
+    const shownCompounds = Number(options.compoundsShown) || compounds.length;
+    const isCompoundsTrimmed = totalCompounds > shownCompounds;
     const elementName = safeValue(data.name || data.symbol);
     const elementSymbol = safeValue(data.symbol);
     const elementNumber = safeValue(data.atomicNumber);
     const elementCategory = getCategoryLabel(data);
     const periodValue = safeValue(data.period);
-    const groupValue = safeValue(data.group, data && data.category && /Р°РєС‚РёРЅРѕРёРґ/i.test(data.category) ? 'Р°РєС‚РёРЅРѕРёРґС‹' : 'вЂ”');
+    const groupValue = safeValue(data.group, data && data.category && /актиноид/i.test(data.category) ? 'актиноиды' : '—');
     const electronConfigText = formatElectronConfigForPDF(data.electronConfigFull || data.electronConfig);
 
     const colorNameToHex = {
@@ -316,27 +319,34 @@ const renderColorSwatch = (value) => {
     if (compounds.length > 0) {
         compoundsHTML = `
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #7E57C2;">РЎРѕРµРґРёРЅРµРЅРёСЏ РёР· С‚Р°Р±Р»РёС†С‹ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё</h2>
+                <h2 class="pdf-subtitle" style="color: #7E57C2;">Соединения из таблицы растворимости</h2>
                 <table class="pdf-table compounds-table">
+                    <colgroup>
+                        <col style="width: 32%;">
+                        <col style="width: 25%;">
+                        <col style="width: 29%;">
+                        <col style="width: 14%;">
+                    </colgroup>
                     <thead>
                         <tr style="background-color: #7E57C2;">
-                            <th>Р¤РѕСЂРјСѓР»Р°</th>
-                            <th>Р Р°СЃС‚РІРѕСЂРёРјРѕСЃС‚СЊ</th>
-                            <th>Р¦РІРµС‚</th>
-                            <th>Р РµР°РєС†РёСЏ</th>
+                            <th>Формула</th>
+                            <th>Растворимость</th>
+                            <th>Цвет</th>
+                            <th>Реакция</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${compounds.map((c, i) => `
-                            <tr class="${i % 2 === 0 ? 'even' : 'odd'}">
+                            <tr class="pdf-row ${i % 2 === 0 ? 'even' : 'odd'}">
                                 <td>${renderFormula(c.cation)} + ${renderFormula(c.anion)}</td>
                                 <td>${solubilityText[c.solubility] || c.solubility}</td>
                                 <td>${renderColorSwatch(c.color)}</td>
-                                <td>${c.decomposition ? renderFormula(c.decomposition.equation) : 'вЂ”'}</td>
+                                <td>${c.decomposition ? renderFormula(c.decomposition.equation) : '—'}</td>
                             </tr>
                         `).join('')}
                     </tbody>
                 </table>
+                ${isCompoundsTrimmed ? `<p class="pdf-note">Показаны первые ${shownCompounds} соединений из ${totalCompounds} для стабильной генерации PDF.</p>` : ''}
             </div>
         `;
     }
@@ -344,51 +354,45 @@ const renderColorSwatch = (value) => {
     return `
         <div class="pdf-container">
             <div class="pdf-hero">
-                <div class="pdf-hero-symbol">${elementSymbol}</div>
-                <div class="pdf-hero-meta">
-                    <h1 class="pdf-title">${elementName} (${elementSymbol})</h1>
-                    <div class="pdf-hero-row">
-                        <span class="pdf-hero-badge">в„– ${elementNumber}</span>
-                        <span class="pdf-hero-type">${elementCategory}</span>
-                    </div>
-                </div>
+                <h1 class="pdf-title">${elementName} (${elementSymbol})</h1>
+                <p class="pdf-hero-line">№ ${elementNumber} • ${elementCategory}</p>
             </div>
-            <p class="pdf-meta">РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРѕ: ${new Date().toLocaleDateString('ru-RU')}</p>
+            <p class="pdf-meta">Сгенерировано: ${new Date().toLocaleDateString('ru-RU')}</p>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #4A90E2;">Р‘Р°Р·РѕРІР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ</h2>
+                <h2 class="pdf-subtitle" style="color: #4A90E2;">Базовая информация</h2>
                 <table class="pdf-table">
-                    <thead><tr style="background-color: #4A90E2;"><th>РЎРІРѕР№СЃС‚РІРѕ</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr></thead>
+                    <thead><tr style="background-color: #4A90E2;"><th>Свойство</th><th>Значение</th></tr></thead>
                     <tbody>
-                        <tr><td>РђС‚РѕРјРЅС‹Р№ РЅРѕРјРµСЂ</td><td>${elementNumber}</td></tr>
-                        <tr><td>РђС‚РѕРјРЅР°СЏ РјР°СЃСЃР°</td><td>${safeValue(data.atomicMass)}</td></tr>
-                        <tr><td>РџРµСЂРёРѕРґ/Р“СЂСѓРїРїР°</td><td>${periodValue} / ${groupValue}</td></tr>
-                        <tr><td>Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ</td><td>${electronConfigText}</td></tr>
-                        <tr><td>Р­Р»РµРєС‚СЂРѕРѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕСЃС‚СЊ</td><td>${safeValue(data.electronegativity)}</td></tr>
+                        <tr><td>Атомный номер</td><td>${elementNumber}</td></tr>
+                        <tr><td>Атомная масса</td><td>${safeValue(data.atomicMass)}</td></tr>
+                        <tr><td>Период/Группа</td><td>${periodValue} / ${groupValue}</td></tr>
+                        <tr><td>Электронная конфигурация</td><td>${electronConfigText}</td></tr>
+                        <tr><td>Электроотрицательность</td><td>${safeValue(data.electronegativity)}</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #4C9A74;">Р¤РёР·РёС‡РµСЃРєРёРµ СЃРІРѕР№СЃС‚РІР°</h2>
+                <h2 class="pdf-subtitle" style="color: #4C9A74;">Физические свойства</h2>
                 <table class="pdf-table">
-                    <thead><tr style="background-color: #4C9A74;"><th>РЎРІРѕР№СЃС‚РІРѕ</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr></thead>
+                    <thead><tr style="background-color: #4C9A74;"><th>Свойство</th><th>Значение</th></tr></thead>
                     <tbody>
-                        <tr><td>РџР»РѕС‚РЅРѕСЃС‚СЊ</td><td>${safeValue(data.density)}</td></tr>
-                        <tr><td>РўРµРјРїРµСЂР°С‚СѓСЂР° РїР»Р°РІР»РµРЅРёСЏ</td><td>${safeValue(data.meltingPoint)}</td></tr>
-                        <tr><td>РўРµРјРїРµСЂР°С‚СѓСЂР° РєРёРїРµРЅРёСЏ</td><td>${safeValue(data.boilingPoint)}</td></tr>
-                        <tr><td>РЎРѕСЃС‚РѕСЏРЅРёРµ (20В°C)</td><td>${safeValue(data.state)}</td></tr>
-                        <tr><td>Р¦РІРµС‚</td><td>${safeValue(data.color)}</td></tr>
+                        <tr><td>Плотность</td><td>${safeValue(data.density)}</td></tr>
+                        <tr><td>Температура плавления</td><td>${safeValue(data.meltingPoint)}</td></tr>
+                        <tr><td>Температура кипения</td><td>${safeValue(data.boilingPoint)}</td></tr>
+                        <tr><td>Состояние (20°C)</td><td>${safeValue(data.state)}</td></tr>
+                        <tr><td>Цвет</td><td>${safeValue(data.color)}</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="pdf-section">
-                <h2 class="pdf-subtitle" style="color: #C98A3A;">РСЃС‚РѕСЂРёСЏ Рё С„Р°РєС‚С‹</h2>
+                <h2 class="pdf-subtitle" style="color: #C98A3A;">История и факты</h2>
                 <div class="pdf-text-block">
-                    <p><strong>РћС‚РєСЂС‹С‚РёРµ:</strong> ${safeValue(data.discoveryYear)} (${safeValue(data.discoverer)})</p>
-                    <p><strong>РџСЂРѕРёСЃС…РѕР¶РґРµРЅРёРµ РЅР°Р·РІР°РЅРёСЏ:</strong> ${safeValue(data.nameOrigin)}</p>
-                    ${data.facts ? `<p><strong>Р¤Р°РєС‚С‹:</strong> ${Array.isArray(data.facts) ? data.facts.join(' ') : data.facts}</p>` : ''}
+                    <p><strong>Открытие:</strong> ${safeValue(data.discoveryYear)} (${safeValue(data.discoverer)})</p>
+                    <p><strong>Происхождение названия:</strong> ${safeValue(data.nameOrigin)}</p>
+                    ${data.facts ? `<p><strong>Факты:</strong> ${Array.isArray(data.facts) ? data.facts.join(' ') : data.facts}</p>` : ''}
                 </div>
             </div>
 
@@ -398,91 +402,279 @@ const renderColorSwatch = (value) => {
             ${compoundsHTML}
             
             <style>
-                .pdf-container { font-family: 'Helvetica', sans-serif; padding: 20px; color: #333; }
-                .pdf-hero { display: flex; align-items: center; gap: 16px; }
-                .pdf-hero-symbol { font-size: 46px; font-weight: bold; color: #2B5C91; border: 2px solid #2B5C91; border-radius: 12px; padding: 6px 12px; min-width: 72px; text-align: center; }
-                .pdf-hero-meta { flex: 1; }
-                .pdf-hero-row { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
-                .pdf-hero-badge { display: inline-block; padding: 3px 8px; border-radius: 10px; background: #e9f0f8; color: #2B5C91; font-size: 12px; font-weight: 600; }
-                .pdf-hero-type { color: #555; font-size: 12px; }
+                .pdf-container {
+                    font-family: "Noto Sans", "DejaVu Sans", "Segoe UI", "Arial Unicode MS", Arial, sans-serif;
+                    padding: 20px;
+                    color: #333;
+                    -webkit-font-smoothing: antialiased;
+                    text-rendering: optimizeLegibility;
+                }
+                .pdf-container, .pdf-container * { box-sizing: border-box; }
+                .pdf-hero { margin-bottom: 6px; }
                 .pdf-title { text-align: left; color: #2B5C91; border-bottom: 2px solid #2B5C91; padding-bottom: 6px; margin: 0; }
+                .pdf-hero-line { margin: 8px 0 0; color: #555; font-size: 12px; }
                 .pdf-meta { text-align: center; color: #666; font-size: 10px; margin-bottom: 30px; }
                 .pdf-subtitle { font-size: 16px; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
                 .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
                 .pdf-table th { color: white; padding: 8px; text-align: left; }
                 .pdf-table td { padding: 8px; border-bottom: 1px solid #eee; }
                 .pdf-table tr.even { background-color: #f9f9f9; }
+                .compounds-table { table-layout: fixed; width: 100%; font-size: 11px; }
+                .compounds-table th, .compounds-table td {
+                    white-space: normal;
+                    overflow-wrap: anywhere;
+                    word-break: break-word;
+                    vertical-align: top;
+                }
+                .compounds-table thead { display: table-header-group; }
+                .compounds-table tbody { display: table-row-group; }
+                .compounds-table tr { break-inside: avoid; page-break-inside: avoid; }
+                .compounds-table th:nth-child(4), .compounds-table td:nth-child(4) { text-align: center; }
+                .pdf-section { break-inside: avoid-page; page-break-inside: avoid; }
                 .katex { font-size: 1.1em; }
+                .pdf-note { margin-top: 8px; color: #666; font-size: 11px; }
             </style>
         </div>
     `;
 }
 
 /**
- * Р“Р›РђР’РќРђРЇ Р¤РЈРќРљР¦РРЇ: Р­РєСЃРїРѕСЂС‚ РІ PDF (Client-side)
+ * ГЛАВНАЯ ФУНКЦИЯ: Экспорт в PDF (Client-side)
+ */
+const PDF_MAX_COMPOUNDS = 180;
+const PDF_LIB_CANDIDATES = [
+    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',
+    'https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js',
+    'https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js'
+];
+
+function hasHtml2PdfSupport() {
+    return typeof window.html2pdf === 'function';
+}
+
+function hasCanvasPdfSupport() {
+    return typeof window.html2canvas === 'function' && !!(window.jspdf && window.jspdf.jsPDF);
+}
+
+function loadScriptWithTimeout(src, timeoutMs = 15000) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+
+        let settled = false;
+        const finish = (err) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timerId);
+            if (err) reject(err);
+            else resolve();
+        };
+
+        const timerId = setTimeout(() => {
+            finish(new Error(`Timeout loading ${src}`));
+        }, timeoutMs);
+
+        script.onload = () => finish(null);
+        script.onerror = () => finish(new Error(`Failed to load ${src}`));
+        (document.head || document.documentElement).appendChild(script);
+    });
+}
+
+async function ensurePdfLibrariesLoaded() {
+    if (hasHtml2PdfSupport() || hasCanvasPdfSupport()) {
+        return;
+    }
+
+    for (const src of PDF_LIB_CANDIDATES) {
+        try {
+            await loadScriptWithTimeout(src);
+        } catch (error) {
+            console.warn('[PDF export] library load failed:', src, error);
+        }
+
+        if (hasHtml2PdfSupport() || hasCanvasPdfSupport()) {
+            return;
+        }
+    }
+
+    throw new Error('PDF libraries are not loaded (html2pdf/html2canvas/jsPDF)');
+}
+
+/**
+ * Экспорт элемента в PDF (client-side)
  */
 async function exportElementToPDF(elementData) {
+    let button = null;
+    let container = null;
     try {
-        // РџРѕРєР°Р·С‹РІР°РµРј РіР»РѕР±Р°Р»СЊРЅС‹Р№ Р»РѕР°РґРµСЂ
         if (window.ChemLoader && window.ChemLoader.show) {
             window.ChemLoader.show();
         }
 
-        const button = document.querySelector('.pdf-export-icon-btn');
+        button = document.querySelector('.pdf-export-icon-btn');
         if (button) {
             button.classList.add('loading');
         }
 
-        // Р“Р°СЂР°РЅС‚РёСЂСѓРµРј Р·Р°РіСЂСѓР·РєСѓ РґР°РЅРЅС‹С… СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РґР»СЏ СЃРїРёСЃРєР° СЃРѕРµРґРёРЅРµРЅРёР№
+        if (!elementData || !elementData.symbol) {
+            throw new Error('Element data is missing');
+        }
+
         if (typeof window.loadSolubility === 'function') {
             try {
                 await window.loadSolubility();
-            } catch (e) {
-                console.warn('РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ СЂР°СЃС‚РІРѕСЂРёРјРѕСЃС‚Рё РґР»СЏ PDF:', e);
+            } catch (error) {
+                console.warn('[PDF export] failed to load solubility data:', error);
             }
         }
 
-        const compounds = getElementCompounds(elementData.symbol);
-        const htmlContent = generatePDFTemplate(elementData, compounds);
+        await ensurePdfLibrariesLoaded();
 
-        // РЎРѕР·РґР°РµРј РІСЂРµРјРµРЅРЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ
-        const container = document.createElement('div');
+        const allCompounds = getElementCompounds(elementData.symbol);
+        const compounds = allCompounds.slice(0, PDF_MAX_COMPOUNDS);
+        const htmlContent = generatePDFTemplate(elementData, compounds, {
+            compoundsTotal: allCompounds.length,
+            compoundsShown: compounds.length
+        });
+
+        container = document.createElement('div');
         container.innerHTML = htmlContent;
+        container.style.position = 'fixed';
+        container.style.left = '0';
+        container.style.top = '0';
+        container.style.width = '794px';
+        container.style.minHeight = '1123px';
+        container.style.backgroundColor = '#ffffff';
+        container.style.pointerEvents = 'none';
+        container.style.zIndex = '-2147483647';
+        container.style.boxSizing = 'border-box';
+        container.setAttribute('aria-hidden', 'true');
         document.body.appendChild(container);
 
-        // РћРїС†РёРё РґР»СЏ html2pdf
-        const opt = {
-            margin: 10,
-            filename: `${elementData.symbol}_${elementData.name}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
 
-        // Р“РµРЅРµСЂР°С†РёСЏ
-        await html2pdf().set(opt).from(container).save();
+        await new Promise((resolve) => setTimeout(resolve, 60));
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
-        // РћС‡РёСЃС‚РєР°
-        document.body.removeChild(container);
+        const safeName = String(elementData.name || 'element')
+            .replace(/[\\/:*?"<>|]+/g, '_')
+            .trim();
+        const fileName = `${elementData.symbol}_${safeName}.pdf`;
+        const targetNode = container.firstElementChild || container;
+        const renderWidth = 760;
 
-        // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РєРЅРѕРїРєРё
-        // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РєРЅРѕРїРєРё
+        targetNode.style.width = `${renderWidth}px`;
+        targetNode.style.boxSizing = 'border-box';
+
+        let exported = false;
+
+        if (hasHtml2PdfSupport()) {
+            try {
+                await window.html2pdf().set({
+                    margin: [8, 8, 8, 8],
+                    filename: fileName,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 1.15,
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        scrollX: 0,
+                        scrollY: 0,
+                        x: 0,
+                        y: 0,
+                        windowWidth: renderWidth
+                    },
+                    jsPDF: {
+                        unit: 'mm',
+                        format: 'a4',
+                        orientation: 'portrait',
+                        putOnlyUsedFonts: true,
+                        compress: true
+                    },
+                    pagebreak: {
+                        mode: ['css', 'legacy'],
+                        avoid: ['tr', '.pdf-row', '.pdf-no-break']
+                    }
+                }).from(targetNode).save();
+                exported = true;
+            } catch (error) {
+                console.warn('[PDF export] html2pdf failed, trying html2canvas/jsPDF fallback:', error);
+            }
+        }
+
+        if (!exported && hasCanvasPdfSupport()) {
+            const canvas = await window.html2canvas(targetNode, {
+                scale: 1.15,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                scrollX: 0,
+                scrollY: 0,
+                x: 0,
+                y: 0,
+                windowWidth: renderWidth,
+                windowHeight: Math.max(targetNode.scrollHeight || 1123, 1123)
+            });
+
+            if (!canvas || !canvas.width || !canvas.height) {
+                throw new Error('Canvas render failed');
+            }
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'portrait',
+                putOnlyUsedFonts: true,
+                compress: true
+            });
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const imageWidth = pageWidth;
+            const imageHeight = (canvas.height * imageWidth) / canvas.width;
+            const imageData = canvas.toDataURL('image/jpeg', 0.98);
+
+            pdf.addImage(imageData, 'JPEG', 0, 0, imageWidth, imageHeight, undefined, 'FAST');
+            let renderedHeight = pageHeight;
+            while (renderedHeight < imageHeight) {
+                pdf.addPage();
+                pdf.addImage(imageData, 'JPEG', 0, -renderedHeight, imageWidth, imageHeight, undefined, 'FAST');
+                renderedHeight += pageHeight;
+            }
+
+            pdf.save(fileName);
+            exported = true;
+        }
+
+        if (!exported) {
+            throw new Error('PDF libraries are not loaded (html2pdf/html2canvas/jsPDF)');
+        }
+    } catch (error) {
+        console.error('Ошибка при генерации PDF:', error);
+        alert('Не удалось создать PDF. Открой консоль и пришли текст ошибки.');
+    } finally {
+        if (container && container.parentNode) {
+            container.parentNode.removeChild(container);
+        }
+
         if (button) {
             button.classList.remove('loading');
         }
-
-        if (document.querySelector('.pdf-export-icon-btn')) {
-            document.querySelector('.pdf-export-icon-btn').classList.remove('loading');
+        const activeBtn = document.querySelector('.pdf-export-icon-btn');
+        if (activeBtn) {
+            activeBtn.classList.remove('loading');
         }
-    } finally {
-        // РЎРєСЂС‹РІР°РµРј РіР»РѕР±Р°Р»СЊРЅС‹Р№ Р»РѕР°РґРµСЂ
+
         if (window.ChemLoader && window.ChemLoader.hide) {
             window.ChemLoader.hide();
         }
     }
 }
 
-// РЎРѕС…СЂР°РЅСЏРµРј СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚СЊ РёРјРµРЅ
-window.exportElementToLaTeX = exportElementToPDF; // РўРµРїРµСЂСЊ СЌС‚Рѕ PDF СЌРєСЃРїРѕСЂС‚
+// ��������� ������������� ����
+window.exportElementToLaTeX = exportElementToPDF;
 window.generateElementPDF = exportElementToPDF;
-
