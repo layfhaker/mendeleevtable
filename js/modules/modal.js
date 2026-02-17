@@ -126,8 +126,6 @@ function renderModalContent(data) {
                     ${data.alloFacts ? `<p><strong>Об этой форме:</strong> ${data.alloFacts}</p>` : ''}
                 </div>
             </section>
-                </div>
-            </section>
         </div>
     `;
 

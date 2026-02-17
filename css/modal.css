@@ -212,7 +212,10 @@ body.dark-theme .close:hover {
     background: #f9f9f9;
     border-radius: 8px;
     border-left: 5px solid #ddd;
-    transition: all 0.3s ease-in-out;
+    transition: flex-grow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-shrink 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-basis 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
@@ -237,12 +240,15 @@ body.dark-theme .close:hover {
     background: #F3E5F5;
 }
 
-/* РЎРІС‘СЂРЅСѓС‚Р°СЏ СЃРµРєС†РёСЏ */
+/* РЎРІС'СЂРЅСѓС‚Р°СЏ СЃРµРєС†РёСЏ */
 .info-group.collapsed {
     flex: 0 0 45px;
     max-width: 45px;
     max-height: 350px;
-    transition: all 0.2s ease-out;
+    transition: flex-grow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-shrink 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-basis 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Р—Р°РіРѕР»РѕРІРѕРє СЃРµРєС†РёРё */
@@ -279,7 +285,8 @@ body.dark-theme .close:hover {
     overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
-    transition: opacity 0.2s ease-out, padding 0.3s ease-in-out;
+    transition: opacity 0.2s ease-out,
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     -ms-overflow-style: auto;
     /* IE and Edge */
     scrollbar-width: thin;
@@ -292,7 +299,8 @@ body.dark-theme .close:hover {
     padding: 0 !important;
     opacity: 0;
     overflow: hidden;
-    transition: opacity 0.15s ease-out, padding 0.3s ease-in-out;
+    transition: opacity 0.15s ease-out,
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-group p {
@@ -768,7 +776,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     }
 
     .info-group {
-        max-width: none;
+        max-width: 800px;
         flex: 1 1 200px;
         max-height: 60vh;
         /* РЈРІРµР»РёС‡РёРІР°РµРј РІС‹СЃРѕС‚Сѓ СЃРµРєС†РёР№ (Р±С‹Р»Рѕ 350px) */
