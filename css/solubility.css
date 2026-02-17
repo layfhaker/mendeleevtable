@@ -2070,6 +2070,88 @@ body.dark-theme .series-container.activity-grid .act-item.has-next::after {
     }
 }
 
+/* =========================================
+   БОЛЬШИЕ ЭКРАНЫ: КОМПАКТНАЯ МОДАЛКА, КРУПНЫЙ РЯД АКТИВНОСТИ
+   ========================================= */
+@media (min-width: 1400px) {
+    /* Модалка — ограничиваем ширину и центрируем */
+    .solubility-content {
+        max-width: 1300px !important;
+        width: min(calc(100vw - 100px), 1300px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Ряд активности — увеличиваем контейнер и карточки */
+    .activity-content-wrapper {
+        max-width: 1200px;
+    }
+
+    .series-container.activity-grid .act-item {
+        min-height: 56px;
+        font-size: 18px;
+    }
+
+    .series-container.activity-grid .act-item.has-next::after {
+        font-size: 20px;
+    }
+
+    .series-container.activity-grid {
+        --activity-gap-x: 32px;
+        --activity-gap-y: 18px;
+    }
+
+    .activity-header h4 {
+        font-size: 22px;
+    }
+
+    .activity-note {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1921px) {
+    /* Модалка — на сверхбольших экранах чуть шире */
+    .solubility-content {
+        max-width: 1500px !important;
+        width: min(calc(100vw - 140px), 1500px) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Ряд активности — ещё крупнее */
+    .activity-content-wrapper {
+        max-width: 1400px;
+    }
+
+    .series-container.activity-grid .act-item {
+        min-height: 64px;
+        font-size: 20px;
+    }
+
+    .series-container.activity-grid .act-item.has-next::after {
+        font-size: 22px;
+    }
+
+    .series-container.activity-grid {
+        --activity-gap-x: 36px;
+        --activity-gap-y: 20px;
+    }
+
+    .activity-header h4 {
+        font-size: 24px;
+    }
+
+    .toggle-series-btn {
+        padding: 10px 22px;
+        font-size: 16px;
+    }
+
+    .activity-note {
+        font-size: 18px;
+    }
+}
+
 #reactions-modal {
     display: none;
     position: fixed;
