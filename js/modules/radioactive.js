@@ -1,12 +1,7 @@
 // Radioactive Easter Egg Module - Pro Shard-Based Disintegration
 
 document.addEventListener('DOMContentLoaded', () => {
-    const radioactiveElements = [
-        43, // Tc
-        61, // Pm
-        // Po (84) to Og (118)
-        ...Array.from({ length: 118 - 84 + 1 }, (_, i) => i + 84)
-    ];
+    const uraniumAtomicNumber = 92; // U
 
     const timeoutMap = new Map();
     const activationTime = 2000; // 2 seconds
@@ -19,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!atomicNumberSpan) return;
         const atomicNumber = parseInt(atomicNumberSpan.textContent);
 
-        if (radioactiveElements.includes(atomicNumber)) {
+        if (atomicNumber === uraniumAtomicNumber) {
             element.addEventListener('mouseenter', () => startRadioactiveTimer(element));
             element.addEventListener('mouseleave', () => stopRadioactiveTimer(element));
             element.addEventListener('touchstart', () => startRadioactiveTimer(element), { passive: true });
