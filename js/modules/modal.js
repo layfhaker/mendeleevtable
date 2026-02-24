@@ -13,34 +13,82 @@ function toggleSection(groupName) {
 
     if (!content || !section || !title) return;
 
-    // ИСПРАВЛЕНО: Не используем innerHTML.replace — это ломает HTML структуру!
-    // Вместо этого меняем только текстовый узел или используем textContent
-    
+    const container = section.closest('.groups-container');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canAnimateLayout = !!container && !reducedMotion && typeof section.animate === 'function';
+    const sections = canAnimateLayout ? Array.from(container.querySelectorAll('.info-group')) : [];
+    const firstRects = new Map();
+
+    if (canAnimateLayout) {
+        if (container.__layoutAnimTimer) {
+            window.clearTimeout(container.__layoutAnimTimer);
+        }
+        sections.forEach((item) => firstRects.set(item, item.getBoundingClientRect()));
+        container.classList.add('is-layout-animating');
+    }
+
     const isCollapsed = content.classList.contains('collapsed');
-    
+
     if (isCollapsed) {
-        // Разворачиваем
         content.classList.remove('collapsed');
         section.classList.remove('collapsed');
-        
-        // Безопасная замена стрелки — ищем текст "▼" и меняем на "▶"
-        // Используем firstChild чтобы не трогать HTML структуру
+
         if (title.firstChild && title.firstChild.nodeType === Node.TEXT_NODE) {
             title.firstChild.textContent = title.firstChild.textContent.replace('▼', '▶');
         } else {
-            // Fallback: если структура изменилась
             title.innerHTML = title.innerHTML.replace('▼', '▶');
         }
     } else {
-        // Сворачиваем
         content.classList.add('collapsed');
         section.classList.add('collapsed');
-        
+
         if (title.firstChild && title.firstChild.nodeType === Node.TEXT_NODE) {
             title.firstChild.textContent = title.firstChild.textContent.replace('▶', '▼');
         } else {
             title.innerHTML = title.innerHTML.replace('▶', '▼');
         }
+    }
+
+    if (canAnimateLayout) {
+        const duration = 320;
+        const easing = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+        sections.forEach((item) => {
+            const first = firstRects.get(item);
+            const last = item.getBoundingClientRect();
+            if (!first || !last || last.width === 0 || last.height === 0) return;
+
+            const deltaX = first.left - last.left;
+            const deltaY = first.top - last.top;
+
+            const hasVisibleDelta =
+                Math.abs(deltaX) > 0.5 ||
+                Math.abs(deltaY) > 0.5;
+
+            if (!hasVisibleDelta) return;
+
+            item.getAnimations().forEach((animation) => animation.cancel());
+            item.animate(
+                [
+                    {
+                        transform: `translate3d(${deltaX}px, ${deltaY}px, 0)`
+                    },
+                    {
+                        transform: 'none'
+                    }
+                ],
+                {
+                    duration,
+                    easing,
+                    fill: 'none'
+                }
+            );
+        });
+
+        container.__layoutAnimTimer = window.setTimeout(() => {
+            container.classList.remove('is-layout-animating');
+            container.__layoutAnimTimer = null;
+        }, duration);
     }
 }
 

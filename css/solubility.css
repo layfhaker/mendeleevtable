@@ -3031,3 +3031,114 @@ body.dark-theme #solubility-modal .advanced-mode-hint {
         font-size: 13px;
     }
 }
+
+/* Desktop ratio fix: make solubility modal wider and less "square" */
+@media (min-width: 1400px) {
+    #solubility-modal .modal-content.solubility-content {
+        width: min(calc(100vw - 72px), 1560px) !important;
+        max-width: 1560px !important;
+        max-height: 86vh !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    #solubility-modal #solubility-table thead th {
+        font-size: clamp(14px, 0.82vw, 18px) !important;
+    }
+
+    #solubility-modal #solubility-table tbody th {
+        font-size: clamp(14px, 0.86vw, 18px) !important;
+        min-width: clamp(90px, 5.2vw, 132px) !important;
+        padding: clamp(6px, 0.32vw, 9px) clamp(8px, 0.58vw, 13px) !important;
+    }
+
+    #solubility-modal #solubility-table th,
+    #solubility-modal #solubility-table td {
+        padding: clamp(6px, 0.36vw, 10px) !important;
+        min-width: clamp(52px, 3.1vw, 72px) !important;
+    }
+
+    #solubility-modal #solubility-table td {
+        font-size: clamp(17px, 0.95vw, 22px) !important;
+        line-height: 1.12;
+    }
+}
+
+@media (min-width: 1921px) {
+    #solubility-modal .modal-content.solubility-content {
+        width: min(calc(100vw - 96px), 1800px) !important;
+        max-width: 1800px !important;
+        max-height: 84vh !important;
+    }
+
+    #solubility-modal #solubility-table thead th {
+        font-size: clamp(15px, 0.76vw, 19px) !important;
+    }
+
+    #solubility-modal #solubility-table tbody th {
+        font-size: clamp(15px, 0.8vw, 20px) !important;
+        min-width: clamp(102px, 4.9vw, 148px) !important;
+    }
+
+    #solubility-modal #solubility-table td {
+        font-size: clamp(18px, 0.9vw, 24px) !important;
+    }
+}
+
+/* Dark theme: higher contrast for solubility header controls */
+body.dark-theme #solubility-modal .modal-header-controls {
+    background: rgba(9, 18, 34, 0.9);
+    border-color: rgba(122, 165, 214, 0.46);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme #solubility-modal .modal-header-controls button,
+body.dark-theme #solubility-modal #solubility-search-btn,
+body.dark-theme #solubility-modal #solubility-close-btn {
+    background: rgba(23, 52, 86, 0.9) !important;
+    border: 1px solid rgba(145, 187, 232, 0.58) !important;
+    color: #cfe3f7 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+body.dark-theme #solubility-modal .modal-header-controls button svg,
+body.dark-theme #solubility-modal #solubility-search-btn svg,
+body.dark-theme #solubility-modal #solubility-close-btn svg {
+    color: #cfe3f7 !important;
+}
+
+@media (hover: hover) {
+    body.dark-theme #solubility-modal .modal-header-controls button:hover,
+    body.dark-theme #solubility-modal #solubility-search-btn:hover,
+    body.dark-theme #solubility-modal #solubility-close-btn:hover {
+        background: rgba(33, 72, 113, 0.98) !important;
+        border-color: rgba(170, 206, 241, 0.84) !important;
+        color: #eaf4ff !important;
+        transform: translateY(-1px);
+    }
+}
+
+body.dark-theme #solubility-modal #color-mode-btn.active {
+    background: #35a8ff !important;
+    border-color: #8cd1ff !important;
+    color: #ecf6ff !important;
+}
+
+body.dark-theme #solubility-modal #activity-mode-btn {
+    background: rgba(93, 70, 18, 0.92) !important;
+    border-color: rgba(255, 213, 79, 0.7) !important;
+    color: #ffd95e !important;
+}
+
+body.dark-theme #solubility-modal #activity-mode-btn.active {
+    background: #ffd54f !important;
+    border-color: #ffe082 !important;
+    color: #2a2207 !important;
+}
+
+body.dark-theme #solubility-modal #advanced-mode-info-btn.active,
+body.dark-theme #solubility-modal #solubility-search-btn.active {
+    background: #64b5f6 !important;
+    border-color: #9fd7ff !important;
+    color: #0f2338 !important;
+}

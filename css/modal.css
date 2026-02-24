@@ -213,10 +213,10 @@ body.dark-theme .close:hover {
     border-radius: 8px;
     border-left: 5px solid #ddd;
     /* Убираем max-width из transition — вызывает баги */
-    transition: flex-grow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-shrink 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.2s ease;
+    transition: flex-grow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                flex-shrink 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                flex-basis 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.25s ease;
     overflow: hidden;
     position: relative;     /* ДОБАВИТЬ: для стабильности позиционирования */
 }
@@ -227,10 +227,10 @@ body.dark-theme .close:hover {
     max-width: 45px;
     max-height: 350px;
     /* Синхронизируем transition */
-    transition: flex-grow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-shrink 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.2s ease;
+    transition: flex-grow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                flex-shrink 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                flex-basis 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.25s ease;
 }
 
 /* Р¦РІРµС‚Р° СЃРµРєС†РёР№ */
@@ -289,24 +289,33 @@ body.dark-theme .close:hover {
     overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
-    /* Плавная анимация opacity и padding */
-    transition: opacity 0.25s ease-out 0.05s,  /* Задержка для синхронизации */
-                padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                width 0s linear 0.35s;          /* width меняется после анимации */
-    will-change: opacity, padding;              /* Оптимизация */
+    transform: translateX(0);
+    transition: opacity 0.28s ease-out,
+                transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform, padding;
+    position: relative;
 }
 
 .group-content.collapsed {
-    width: 0 !important;    /* Сначала padding, потом width */
-    min-width: 0 !important;
     padding: 0 !important;
     opacity: 0;
+    transform: translateX(-8px);
     overflow: hidden;
-    /* Убираем задержку при сворачивании */
-    transition: opacity 0.15s ease-in,
-                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                width 0s linear 0.3s;
+    position: absolute;
+    inset: 0;
+    width: 0;
+    min-width: 0;
+    transition: opacity 0.2s ease-in,
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;   /* ДОБАВИТЬ: отключаем взаимодействие */
+}
+
+.groups-container.is-layout-animating .info-group {
+    transition: none !important;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .info-group p {
@@ -773,6 +782,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         flex: 0 0 50px;
         max-width: 50px;
         min-width:50px;
+        max-height: 60vh;
     }
 
     .modal-content {
@@ -785,7 +795,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
     .info-group {
         max-width: none;
         flex: 1 1 0;
-        max-height: 5vh;
+        max-height: 60vh;
         min-width:180px;
         /* РЈРІРµР»РёС‡РёРІР°РµРј РІС‹СЃРѕС‚Сѓ СЃРµРєС†РёР№ (Р±С‹Р»Рѕ 350px) */
     }
@@ -798,6 +808,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         /* РЈРІРµР»РёС‡РёРІР°РµРј С€СЂРёС„С‚ Р·Р°РіРѕР»РѕРІРєР° */
         letter-spacing: 0.5px;
     }
+
     .groups-container {
         gap: 12px;            /* Увеличиваем gap для стабильности */
     }
@@ -808,13 +819,14 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
         flex: 0 0 60px;
         min-width: 60px;      /* Добавляем min-width */
         max-width: 60px;
+        max-height: 65vh;
     }
 
     /* Р”Р»СЏ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёС… СЌРєСЂР°РЅРѕРІ */
     .modal-content {
         width: 80vw;
         max-width: 1400px;
-        max-height: 85px;
+        max-height: 85vh;
     }
 
     .info-group {
@@ -831,7 +843,7 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
 
     #element-title {
         font-size: 32px;      /* Было 36px — уменьшаем */
-    
+    }
 
     .info-group p {
         font-size: 16px;      /* Было 18px — уменьшаем */
