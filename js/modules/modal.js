@@ -13,15 +13,34 @@ function toggleSection(groupName) {
 
     if (!content || !section || !title) return;
 
-    if (content.classList.contains('collapsed')) {
+    // ИСПРАВЛЕНО: Не используем innerHTML.replace — это ломает HTML структуру!
+    // Вместо этого меняем только текстовый узел или используем textContent
+    
+    const isCollapsed = content.classList.contains('collapsed');
+    
+    if (isCollapsed) {
+        // Разворачиваем
         content.classList.remove('collapsed');
         section.classList.remove('collapsed');
-        title.innerHTML = title.innerHTML.replace('▼', '▶ ');
-    }
-    else {
+        
+        // Безопасная замена стрелки — ищем текст "▼" и меняем на "▶"
+        // Используем firstChild чтобы не трогать HTML структуру
+        if (title.firstChild && title.firstChild.nodeType === Node.TEXT_NODE) {
+            title.firstChild.textContent = title.firstChild.textContent.replace('▼', '▶');
+        } else {
+            // Fallback: если структура изменилась
+            title.innerHTML = title.innerHTML.replace('▼', '▶');
+        }
+    } else {
+        // Сворачиваем
         content.classList.add('collapsed');
         section.classList.add('collapsed');
-        title.innerHTML = title.innerHTML.replace('▶ ', '▼ ');
+        
+        if (title.firstChild && title.firstChild.nodeType === Node.TEXT_NODE) {
+            title.firstChild.textContent = title.firstChild.textContent.replace('▶', '▼');
+        } else {
+            title.innerHTML = title.innerHTML.replace('▶', '▼');
+        }
     }
 }
 
@@ -129,7 +148,7 @@ function renderModalContent(data) {
         </div>
     `;
 
-    // 2. ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ
+    // 2. ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ — ИСПРАВЛЕННАЯ ВЕРСИЯ
     Object.keys(currentStates).forEach(type => {
         if (currentStates[type] === true) {
             const section = document.querySelector(`.info-group.${type}`);
@@ -139,7 +158,13 @@ function renderModalContent(data) {
             if (section && content && title) {
                 section.classList.add('collapsed');
                 content.classList.add('collapsed');
-                title.innerHTML = title.innerHTML.replace('▶ ', '▼ ');
+                
+                // ИСПРАВЛЕНО: Безопасная замена стрелки
+                if (title.firstChild && title.firstChild.nodeType === Node.TEXT_NODE) {
+                    title.firstChild.textContent = title.firstChild.textContent.replace('▶', '▼');
+                } else {
+                    title.innerHTML = title.innerHTML.replace('▶', '▼');
+                }
             }
         }
     });

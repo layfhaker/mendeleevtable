@@ -190,33 +190,47 @@ body.dark-theme .close:hover {
     box-shadow: 0 2px 5px rgba(233, 30, 99, 0.3);
 }
 
-/* =========================================
-   РЎР•РљР¦РР РРќР¤РћР РњРђР¦РР
-   ========================================= */
 .groups-container {
     display: flex;
     gap: 10px;
-    align-items: flex-start;
+    align-items: stretch;   /* ИЗМЕНИТЬ: было flex-start — вызывало скачки */
     height: 100%;
     justify-content: center;
     max-width: 100%;
+    /* ДОБАВИТЬ: предотвращаем проблемы с flex-контейнером */
+    min-height: 0;          /* Важно для Firefox */
+    overflow: hidden;       /* Скрываем возможный overflow */
 }
 
 .info-group {
     display: flex;
     flex-direction: row;
     flex: 1 1 0;
-    min-width: 45px;
+    min-width: 140px;       /* ДОБАВИТЬ: минимальная ширина развернутой */
     max-width: 265px;
     max-height: 350px;
     background: #f9f9f9;
     border-radius: 8px;
     border-left: 5px solid #ddd;
-    transition: flex-grow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-shrink 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-basis 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Убираем max-width из transition — вызывает баги */
+    transition: flex-grow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-shrink 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s ease;
     overflow: hidden;
+    position: relative;     /* ДОБАВИТЬ: для стабильности позиционирования */
+}
+
+.info-group.collapsed {
+    flex: 0 0 45px;         /* flex-grow, flex-shrink, flex-basis в одном */
+    min-width: 45px;        /* ДОБАВИТЬ: критически важно! */
+    max-width: 45px;
+    max-height: 350px;
+    /* Синхронизируем transition */
+    transition: flex-grow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-shrink 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                flex-basis 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s ease;
 }
 
 /* Р¦РІРµС‚Р° СЃРµРєС†РёР№ */
@@ -240,16 +254,6 @@ body.dark-theme .close:hover {
     background: #F3E5F5;
 }
 
-/* РЎРІС'СЂРЅСѓС‚Р°СЏ СЃРµРєС†РёСЏ */
-.info-group.collapsed {
-    flex: 0 0 45px;
-    max-width: 45px;
-    max-height: 350px;
-    transition: flex-grow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-shrink 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                flex-basis 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 /* Р—Р°РіРѕР»РѕРІРѕРє СЃРµРєС†РёРё */
 .group-title {
@@ -277,30 +281,32 @@ body.dark-theme .close:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* РљРѕРЅС‚РµРЅС‚ СЃРµРєС†РёРё */
 .group-content {
     flex: 1 1 auto;
-    min-width: 0;
+    min-width: 0;           /* Разрешаем сжатие до 0 */
+    width: 100%;            /* ДОБАВИТЬ: явная ширина */
     padding: 15px;
     overflow-y: auto;
     overflow-x: hidden;
     opacity: 1;
-    transition: opacity 0.2s ease-out,
-                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    -ms-overflow-style: auto;
-    /* IE and Edge */
-    scrollbar-width: thin;
-    /* Firefox */
+    /* Плавная анимация opacity и padding */
+    transition: opacity 0.25s ease-out 0.05s,  /* Задержка для синхронизации */
+                padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0s linear 0.35s;          /* width меняется после анимации */
+    will-change: opacity, padding;              /* Оптимизация */
 }
 
-
 .group-content.collapsed {
-    width: 0 !important;
+    width: 0 !important;    /* Сначала padding, потом width */
+    min-width: 0 !important;
     padding: 0 !important;
     opacity: 0;
     overflow: hidden;
-    transition: opacity 0.15s ease-out,
-                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Убираем задержку при сворачивании */
+    transition: opacity 0.15s ease-in,
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0s linear 0.3s;
+    pointer-events: none;   /* ДОБАВИТЬ: отключаем взаимодействие */
 }
 
 .info-group p {
@@ -764,64 +770,71 @@ body.dark-theme .group-content::-webkit-scrollbar-thumb:hover {
    ========================================= */
 @media (min-width: 1400px) {
     .info-group.collapsed {
-        flex: 0 0 60px;
-        max-width: 60px;
+        flex: 0 0 50px;
+        max-width: 50px;
+        min-width:50px;
     }
 
     .modal-content {
-        width: 80vw;
-        max-width: 1400px;
+        width: 85vw;
+        max-width: 1200px;
         max-height: 85vh;
         /* Р Р°Р·СЂРµС€Р°РµРј РјРѕРґР°Р»РєРµ Р±С‹С‚СЊ РІС‹С€Рµ */
     }
 
     .info-group {
-        max-width: 800px;
-        flex: 1 1 200px;
-        max-height: 60vh;
+        max-width: none;
+        flex: 1 1 0;
+        max-height: 5vh;
+        min-width:180px;
         /* РЈРІРµР»РёС‡РёРІР°РµРј РІС‹СЃРѕС‚Сѓ СЃРµРєС†РёР№ (Р±С‹Р»Рѕ 350px) */
     }
 
     .group-title {
-        width: 60px;
+        width: 50px;
         /* Р Р°СЃС€РёСЂСЏРµРј РїРѕР»РѕСЃРєСѓ Р·Р°РіРѕР»РѕРІРєР° */
-        min-width: 60px;
-        font-size: 16px;
+        min-width: 50px;
+        font-size: 15px;
         /* РЈРІРµР»РёС‡РёРІР°РµРј С€СЂРёС„С‚ Р·Р°РіРѕР»РѕРІРєР° */
+        letter-spacing: 0.5px;
+    }
+    .groups-container {
+        gap: 12px;            /* Увеличиваем gap для стабильности */
     }
 }
 
 @media (min-width: 1900px) {
     .info-group.collapsed {
-        flex: 0 0 70px;
-        max-width: 70px;
+        flex: 0 0 60px;
+        min-width: 60px;      /* Добавляем min-width */
+        max-width: 60px;
     }
 
     /* Р”Р»СЏ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёС… СЌРєСЂР°РЅРѕРІ */
     .modal-content {
-        width: 75vw;
-        max-width: 1800px;
-        max-height: 90vh;
+        width: 80vw;
+        max-width: 1400px;
+        max-height: 85px;
     }
 
     .info-group {
-        max-height: 70vh;
+        max-height: 65vh;
         /* Р•С‰С‘ РІС‹С€Рµ РґР»СЏ РѕРіСЂРѕРјРЅС‹С… СЌРєСЂР°РЅРѕРІ */
+        min-width: 220px;
     }
 
     .group-title {
-        width: 70px;
-        /* Р•С‰С‘ С€РёСЂРµ */
-        min-width: 70px;
-        font-size: 18px;
+        width: 60px;
+        min-width: 60px;
+        font-size: 17px;
     }
 
     #element-title {
-        font-size: 36px;
-    }
+        font-size: 32px;      /* Было 36px — уменьшаем */
+    
 
     .info-group p {
-        font-size: 18px;
-        line-height: 1.6;
+        font-size: 16px;      /* Было 18px — уменьшаем */
+        line-height: 1.5;
     }
 }
