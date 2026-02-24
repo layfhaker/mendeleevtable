@@ -1,5 +1,12 @@
 # Qwen Code Context File
 
+<!-- DOC_SYNC_START -->
+> Doc sync: `2026-02-24`
+> Full technical audit references:
+> - [`COMMIT_HISTORY_FULL.md`](md/COMMIT_HISTORY_FULL.md)
+> - [`FUNCTION_INDEX_FULL.md`](md/FUNCTION_INDEX_FULL.md)
+> - [`LANGUAGE_STACK_FULL.md`](md/LANGUAGE_STACK_FULL.md)
+<!-- DOC_SYNC_END -->
 ## Project Overview
 
 **Chemical Assistant** is an interactive periodic table of elements application built with pure HTML, CSS, and JavaScript. It features an extensive database of chemical elements with detailed information, including physical properties, history, applications, and interesting facts. The project also includes advanced features like a solubility table, molecular mass calculator, and a unique "nodemap" visualization system for code architecture.

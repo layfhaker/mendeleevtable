@@ -1,5 +1,13 @@
 # AI_CONTEXT.md — Контекст проекта для AI-ассистента
 
+
+<!-- DOC_SYNC_START -->
+> Doc sync: `2026-02-24`
+> Full technical audit references:
+> - [`COMMIT_HISTORY_FULL.md`](COMMIT_HISTORY_FULL.md)
+> - [`FUNCTION_INDEX_FULL.md`](FUNCTION_INDEX_FULL.md)
+> - [`LANGUAGE_STACK_FULL.md`](LANGUAGE_STACK_FULL.md)
+<!-- DOC_SYNC_END -->
 > **Версия:** 1.0.0  
 > **Обновлено:** Январь 2026  
 > **Назначение:** Быстрое погружение AI в проект без повторных объяснений

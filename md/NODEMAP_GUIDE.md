@@ -1,5 +1,13 @@
 # 🗺️ NodeMap - Руководство пользователя
 
+
+<!-- DOC_SYNC_START -->
+> Doc sync: `2026-02-24`
+> Full technical audit references:
+> - [`COMMIT_HISTORY_FULL.md`](COMMIT_HISTORY_FULL.md)
+> - [`FUNCTION_INDEX_FULL.md`](FUNCTION_INDEX_FULL.md)
+> - [`LANGUAGE_STACK_FULL.md`](LANGUAGE_STACK_FULL.md)
+<!-- DOC_SYNC_END -->
 ## Что это такое?
 
 NodeMap - это **автоматический анализатор архитектуры** вашего JavaScript проекта. Он сканирует все функции, находит зависимости между ними и строит **интерактивный граф**.

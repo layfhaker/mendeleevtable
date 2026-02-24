@@ -1,5 +1,13 @@
 # Модуль таблицы растворимости
 
+
+<!-- DOC_SYNC_START -->
+> Doc sync: `2026-02-24`
+> Full technical audit references:
+> - [`COMMIT_HISTORY_FULL.md`](../../md/COMMIT_HISTORY_FULL.md)
+> - [`FUNCTION_INDEX_FULL.md`](../../md/FUNCTION_INDEX_FULL.md)
+> - [`LANGUAGE_STACK_FULL.md`](../../md/LANGUAGE_STACK_FULL.md)
+<!-- DOC_SYNC_END -->
 Этот модуль содержит функционал продвинутого режима для таблицы растворимости.
 
 ## Структура файлов
