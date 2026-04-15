@@ -107,14 +107,76 @@ body.dark-theme {
 
 /* --- ЛЕГЕНДА --- */
 .table-legend {
-    padding: 10px 20px;
+    padding: 6px 14px;
     background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     display: flex;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 6px 14px;
     align-items: center;
     flex-shrink: 0;
-    font-size: 0.9em;
+    font-size: 0.84em;
+}
+
+.table-legend:empty {
+    display: none;
+}
+
+.table-legend-title {
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 0.02em;
+    font-size: 0.95em;
+}
+
+.table-legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    align-items: center;
+    flex: 1 1 600px;
+    min-width: 0;
+}
+
+.table-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 26px;
+    color: var(--text-color);
+}
+
+.legend-swatch {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: inset 0 0 0 1px rgba(128, 128, 128, 0.28);
+}
+
+.legend-swatch.type-r,
+.legend-swatch.type-m,
+.legend-swatch.type-n,
+.legend-swatch.type-d {
+    border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.legend-swatch.is-real-color {
+    background: linear-gradient(135deg, #8b008b 0%, #48d1cc 34%, #ffd700 68%, #228b22 100%) !important;
+    color: #ffffff !important;
+    text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.75),
+        0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+.legend-label {
+    line-height: 1.2;
 }
 
 /* Кнопка рядов активности */
@@ -401,6 +463,11 @@ body.dark-theme .modal-header,
 body.dark-theme .table-legend {
     background-color: #1a1a2e;
     border-color: #444;
+}
+
+body.dark-theme .table-legend-title,
+body.dark-theme .table-legend-item {
+    color: #eeeeee;
 }
 
 /* Для темного режима используем общий стиль скроллбара */
@@ -1255,13 +1322,29 @@ body.dark-theme #advanced-mode-info-btn.active {
     /* 4. ЛЕГЕНДА */
     .table-legend {
         flex-shrink: 0;
-        padding: 10px 20px;
-        padding-left: max(20px, env(safe-area-inset-left)) !important;
-        padding-right: max(20px, env(safe-area-inset-right)) !important;
-        font-size: 0.85em;
+        padding: 6px 12px;
+        padding-left: max(12px, env(safe-area-inset-left)) !important;
+        padding-right: max(12px, env(safe-area-inset-right)) !important;
+        font-size: 0.8em;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 5px 10px;
         box-sizing: border-box;
+    }
+
+    .table-legend-items {
+        gap: 5px 10px;
+    }
+
+    .table-legend-item {
+        gap: 6px;
+        min-height: 24px;
+    }
+
+    .legend-swatch {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        border-radius: 6px;
     }
 
     /* 5. СКРОЛЛ - ТОЛЬКО внутри таблицы, БЕЗ лишних отступов */
@@ -1889,7 +1972,8 @@ body.dark-theme .toggle-series-btn:hover {
 
     /* 2. Когда панель активна, СКРЫВАЕМ таблицу, идущую следом */
     /* Знак "+" означает "соседний элемент сразу после" */
-    .activity-series-panel.active+.solubility-wrapper {
+    .activity-series-panel.active+.table-legend,
+    .activity-series-panel.active+.table-legend+.solubility-wrapper {
         display: none !important;
     }
 }

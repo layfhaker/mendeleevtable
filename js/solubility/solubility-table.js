@@ -6,6 +6,11 @@
 function renderSolubilityTable() {
     const table = document.getElementById('solubility-table');
     if (!table) return;
+
+    if (typeof renderSolubilityLegend === 'function') {
+        renderSolubilityLegend();
+    }
+
     table.innerHTML = '';
 
     // 1. HEADER (Катионы)

@@ -31,10 +31,68 @@ function syncColorModeButtonState() {
     btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
 }
 
+function renderSolubilityLegend() {
+    const legend = document.getElementById('solubility-legend');
+    if (!legend) return;
+
+    if (window.isColorMode) {
+        legend.innerHTML = `
+            <div class="table-legend-title">Легенда</div>
+            <div class="table-legend-items">
+                <div class="table-legend-item">
+                    <span class="legend-swatch chem-color-cell light-bg is-real-color">Ц</span>
+                    <span class="legend-label">Цветное вещество / раствор</span>
+                </div>
+                <div class="table-legend-item">
+                    <span class="legend-swatch chem-color-cell colorless-solution light-bg">Р</span>
+                    <span class="legend-label">Бесцветный раствор</span>
+                </div>
+                <div class="table-legend-item">
+                    <span class="legend-swatch chem-color-cell white-precipitate light-bg">Н</span>
+                    <span class="legend-label">Белый осадок</span>
+                </div>
+                <div class="table-legend-item">
+                    <span class="legend-swatch type-d">-</span>
+                    <span class="legend-label">Не существует / разлагается</span>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    legend.innerHTML = `
+        <div class="table-legend-title">Легенда</div>
+        <div class="table-legend-items">
+            <div class="table-legend-item">
+                <span class="legend-swatch type-r">Р</span>
+                <span class="legend-label">Растворимо</span>
+            </div>
+            <div class="table-legend-item">
+                <span class="legend-swatch type-m">М</span>
+                <span class="legend-label">Малорастворимо</span>
+            </div>
+            <div class="table-legend-item">
+                <span class="legend-swatch type-n">Н</span>
+                <span class="legend-label">Нерастворимо</span>
+            </div>
+            <div class="table-legend-item">
+                <span class="legend-swatch type-d">-</span>
+                <span class="legend-label">Разлагается водой или не существует</span>
+            </div>
+        </div>
+    `;
+}
+
+window.renderSolubilityLegend = renderSolubilityLegend;
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', syncColorModeButtonState);
+    document.addEventListener('DOMContentLoaded', () => {
+        syncColorModeButtonState();
+        renderSolubilityLegend();
+    });
 } else {
     syncColorModeButtonState();
+    renderSolubilityLegend();
 }
 
 // Добавить в глобальную область видимости (например, в начало advanced-modal.js)
@@ -92,6 +150,7 @@ function toggleColorMode() {
     console.log('Saved window.isColorMode to localStorage:', window.isColorMode);
 
     syncColorModeButtonState();
+    renderSolubilityLegend();
     console.log('Synchronized button active state');
 
     // Перерисовываем таблицу
